@@ -1,0 +1,18 @@
+export const Routes = {
+        Presentation: { path: "/" },
+        DashboardOverview: { path: "/dashboard/overview" },
+        Transactions: { path: "/transactions" },
+        Settings: { path: "/settings" },
+        Upgrade: { path: "/upgrade" },
+        BootstrapTables: { path: "/tables/bootstrap-tables" },
+        ManageProducts: { path: "/dashboard/manage-products" },
+        ManageCategory: { path: "/dashboard/manage-categories" },
+    ManageCustomField: { path: "/dashboard/manage-custom-fields" },
+    ManageCommands: { path: "/dashboard/manage-commands" },
+        NotFound: { path: "/notfound" },
+        ServerError: { path: "/server-error" },
+        Login: { path: "/login" },
+        Register: { path: "/register" },
+        AdminRegister: { path: "/admin-register" },
+        AdminLogin: { path: "/admin-login" },
+    };
