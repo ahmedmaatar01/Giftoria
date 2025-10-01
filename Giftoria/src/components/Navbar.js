@@ -14,7 +14,7 @@ import Profile3 from "../assets/img/team/profile-picture-3.jpg";
 export default (props) => {
   const [notifications, setNotifications] = useState(NOTIFICATIONS_DATA);
   const history = useHistory();
-  const { logout } = useContext(AuthContext);
+  const { logout, user } = useContext(AuthContext);
   const areNotificationsRead = notifications.reduce((acc, notif) => acc && notif.read, true);
 
   const markNotificationsAsRead = () => {
@@ -55,14 +55,7 @@ export default (props) => {
       <Container fluid className="px-0">
         <div className="d-flex justify-content-between w-100">
           <div className="d-flex align-items-center">
-            <Form className="navbar-search">
-              <Form.Group id="topbarSearch">
-                <InputGroup className="input-group-merge search-bar">
-                  <InputGroup.Text><FontAwesomeIcon icon={faSearch} /></InputGroup.Text>
-                  <Form.Control type="text" placeholder="Search" />
-                </InputGroup>
-              </Form.Group>
-            </Form>
+      
           </div>
           <Nav className="align-items-center">
             <Dropdown as={Nav.Item} onToggle={markNotificationsAsRead} >
@@ -92,7 +85,7 @@ export default (props) => {
                 <div className="media d-flex align-items-center">
                   <Image src={Profile3} className="user-avatar md-avatar rounded-circle" />
                   <div className="media-body ms-2 text-dark align-items-center d-none d-lg-block">
-                    <span className="mb-0 font-small fw-bold">Bonnie Green</span>
+                    <span className="mb-0 font-small fw-bold">{user?.name || "Admin"}</span>
                   </div>
                 </div>
               </Dropdown.Toggle>
@@ -100,16 +93,7 @@ export default (props) => {
                 <Dropdown.Item className="fw-bold">
                   <FontAwesomeIcon icon={faUserCircle} className="me-2" /> My Profile
                 </Dropdown.Item>
-                <Dropdown.Item className="fw-bold">
-                  <FontAwesomeIcon icon={faCog} className="me-2" /> Settings
-                </Dropdown.Item>
-                <Dropdown.Item className="fw-bold">
-                  <FontAwesomeIcon icon={faEnvelopeOpen} className="me-2" /> Messages
-                </Dropdown.Item>
-                <Dropdown.Item className="fw-bold">
-                  <FontAwesomeIcon icon={faUserShield} className="me-2" /> Support
-                </Dropdown.Item>
-
+      
                 <Dropdown.Divider />
 
                 <Dropdown.Item className="fw-bold" onClick={() => { logout(); history.push('/login'); }}>

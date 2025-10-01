@@ -19,6 +19,7 @@ import ManageProducts from './dashboard/ManageProducts';
 import ManageCategory from './dashboard/ManageCategory';
 import ManageCustomField from './dashboard/ManageCustomField';
 import ManageCommands from './dashboard/ManageCommands';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const RouteWithLoader = ({ component: Component, ...rest }) => {
   const [loaded, setLoaded] = useState(false);

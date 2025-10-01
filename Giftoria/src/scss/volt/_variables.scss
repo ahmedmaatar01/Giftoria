@@ -36,6 +36,12 @@ $grays: (
 // fusv-enable
 
 // Generic colors
+// Custom Giftoria theme colors
+$bronze: #967740;
+$dark-brown: #492e11;
+$warm-beige: #E8DBC8;
+$ivory-beige: #F1ECE4;
+
 $blue:    #0948B3;
 $indigo:  #4c5680;
 $purple:  #8965e0;
@@ -145,6 +151,10 @@ $theme-colors: map-merge((
   "secondary":     $secondary,
   "tertiary":      $tertiary,
   "quaternary":    $quaternary,
+  "bronze":        $bronze,
+  "dark-brown":    $dark-brown,
+  "warm-beige":    $warm-beige,
+  "ivory-beige":   $ivory-beige,
   "primary-app":   $primary-app,
   "secondary-app": $secondary-app,
   "light":         $light,

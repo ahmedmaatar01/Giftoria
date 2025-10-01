@@ -15,7 +15,7 @@ const AdminLogin = () => {
         setError('');
         try {
             const response = await axios.post('http://localhost:8000/api/admin/login', { email, password });
-            console.log('Login response:', response.data.user);
+            console.log('Login response:', response.data);
             setUser(response.data.user);
             localStorage.setItem('user', JSON.stringify(response.data.user));
             // Store access_token separately for API requests
@@ -24,6 +24,12 @@ const AdminLogin = () => {
             }
             history.push('/admin-dashboard');
         } catch (err) {
+            // Improved error logging
+            if (err.response) {
+                console.error('Admin login error response:', err.response.data);
+            } else {
+                console.error('Admin login error:', err);
+            }
             if (err.response && err.response.data && err.response.data.error) {
                 setError(err.response.data.error);
             } else {

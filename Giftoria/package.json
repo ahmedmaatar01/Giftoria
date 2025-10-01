@@ -15,15 +15,15 @@
   ],
   "license": "MIT",
   "bugs": {
-  "url": "https://github.com/themesberg/Giftoria/issues"
+    "url": "https://github.com/themesberg/Giftoria/issues"
   },
   "repository": {
     "type": "git",
-  "url": "https://github.com/themewagon/Giftoria/"
+    "url": "https://github.com/themewagon/Giftoria/"
   },
   "version": "1.0.1",
   "dependencies": {
-    "axios": "^0.21.1",
+    "@fortawesome/fontawesome-free": "^7.0.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
     "@fortawesome/free-regular-svg-icons": "^5.15.4",
@@ -33,6 +33,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "@themesberg/react-bootstrap": "^1.4.1",
+    "axios": "^0.21.1",
     "bootstrap": "5.3",
     "chartist-plugin-tooltips-updated": "^1.0.0",
     "moment-timezone": "^0.5.31",

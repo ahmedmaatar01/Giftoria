@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Card, Table, Button, Image, Dropdown, ButtonGroup,Col, Row, Form, Breadcrumb, InputGroup  } from '@themesberg/react-bootstrap';
+import { Card, Table, Button, Image, Dropdown, ButtonGroup, Col, Row, Form, Breadcrumb, InputGroup } from '@themesberg/react-bootstrap';
 import { faEdit, faTrashAlt, faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faCog, faHome, faSearch,faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faCog, faHome, faSearch, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 
 import axios from 'axios';
 import ProductModal from './ProductModal';
@@ -11,8 +11,10 @@ const API_URL = 'http://localhost:8000/api';
 
 const ManageProducts = () => {
     const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("");
     const [showModal, setShowModal] = useState(false);
     const [modalForm, setModalForm] = useState({ name: '', description: '', price: '', stock: '', category_id: '', featured_image: null, images: [] });
     const [isEdit, setIsEdit] = useState(false);
@@ -28,7 +30,16 @@ const ManageProducts = () => {
                 setLoading(false);
             }
         };
+        const fetchCategories = async () => {
+            try {
+                const res = await axios.get(`${API_URL}/categories`);
+                setCategories(res.data);
+            } catch (err) {
+                // handle error
+            }
+        };
         fetchProducts();
+        fetchCategories();
     }, []);
 
     const handleCreate = () => {
@@ -113,35 +124,37 @@ const ManageProducts = () => {
     };
 
     // Filter products by search, guard against non-array
-    const filteredProducts = Array.isArray(products) ? products.filter(prod =>
-        prod.name.toLowerCase().includes(search.toLowerCase()) ||
-        (prod.category && prod.category.name.toLowerCase().includes(search.toLowerCase()))
-    ) : [];
+    const filteredProducts = Array.isArray(products) ? products.filter(prod => {
+        const matchesSearch = prod.name.toLowerCase().includes(search.toLowerCase()) ||
+            (prod.category && prod.category.name.toLowerCase().includes(search.toLowerCase()));
+        const matchesCategory = selectedCategory === "" || (prod.category && prod.category.id === selectedCategory);
+        return matchesSearch && matchesCategory;
+    }) : [];
 
     return (
-        <>      
-        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-            <div className="d-block mb-4 mb-md-0">
-                <Breadcrumb className="d-none d-md-inline-block" listProps={{ className: "breadcrumb-dark breadcrumb-transparent" }}>
-                    <Breadcrumb.Item><FontAwesomeIcon icon={faHome} /></Breadcrumb.Item>
-                    <Breadcrumb.Item>Volt</Breadcrumb.Item>
-                    <Breadcrumb.Item active>Products</Breadcrumb.Item>
-                </Breadcrumb>
-                <h4>Products</h4>
-                <p className="mb-0">Your Products.</p>
+        <>
+            <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+                <div className="d-block mb-4 mb-md-0">
+                    <Breadcrumb className="d-none d-md-inline-block" listProps={{ className: "breadcrumb-dark breadcrumb-transparent" }}>
+                        <Breadcrumb.Item><FontAwesomeIcon icon={faHome} /></Breadcrumb.Item>
+                        <Breadcrumb.Item>Volt</Breadcrumb.Item>
+                        <Breadcrumb.Item active>Products</Breadcrumb.Item>
+                    </Breadcrumb>
+                    <h4>Products</h4>
+                    <p className="mb-0">Your Products.</p>
+                </div>
+                <div className="btn-toolbar mb-2 mb-md-0">
+                    <ButtonGroup>
+                        <Button variant="primary" size="sm" onClick={handleCreate}>+ New Product</Button>
+                        <Button variant="outline-primary" size="sm">Share</Button>
+                        <Button variant="outline-primary" size="sm">Export</Button>
+                    </ButtonGroup>
+                </div>
             </div>
-            <div className="btn-toolbar mb-2 mb-md-0">
-                <ButtonGroup>
-                    <Button variant="primary" size="sm" onClick={handleCreate}>+ New Product</Button>
-                    <Button variant="outline-primary" size="sm">Share</Button>
-                    <Button variant="outline-primary" size="sm">Export</Button>
-                </ButtonGroup>
-            </div>
-        </div>
 
             <div className="table-settings mb-4">
                 <Row className="justify-content-between align-items-center">
-                    <Col xs={8} md={6} lg={3} xl={4}>
+                    <Col xs={8} md={6} lg={4} xl={5}>
                         <InputGroup>
                             <InputGroup.Text>
                                 <FontAwesomeIcon icon={faSearch} />
@@ -149,9 +162,16 @@ const ManageProducts = () => {
                             <Form.Control type="text" placeholder="Search" value={search} onChange={e => setSearch(e.target.value)} />
                         </InputGroup>
                     </Col>
-                    <Col xs={4} md={2} xl={1} className="ps-md-0 text-end">
+
+                    <Col xs={12} md={4} xl={3} className="ps-md-0 text-end mt-2 mt-md-0 align-items-center d-flex gap-2">
+                        <Form.Select value={selectedCategory} onChange={e => setSelectedCategory(e.target.value === "" ? "" : Number(e.target.value))}>
+                            <option value="">All Categories</option>
+                            {categories.map(cat => (
+                                <option key={cat.id} value={cat.id}>{cat.name}</option>
+                            ))}
+                        </Form.Select>
                         <Dropdown as={ButtonGroup}>
-                            <Dropdown.Toggle split as={Button} variant="link" className="text-dark m-0 p-0">
+                            <Dropdown.Toggle split as={Button} variant="link" className="text-dark m-0 p-0 mt-1">
                                 <span className="icon icon-sm icon-gray">
                                     <FontAwesomeIcon icon={faCog} />
                                 </span>
@@ -218,7 +238,7 @@ const ManageProducts = () => {
                     {loading && <div>Loading...</div>}
                 </Card.Body>
             </Card>
-            <ProductModal show={showModal} onHide={()=>setShowModal(false)} onSubmit={handleModalSubmit} form={modalForm} setForm={setModalForm} isEdit={isEdit} />
+            <ProductModal show={showModal} onHide={() => setShowModal(false)} onSubmit={handleModalSubmit} form={modalForm} setForm={setModalForm} isEdit={isEdit} />
         </>
     );
 };

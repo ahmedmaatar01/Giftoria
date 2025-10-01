@@ -31,11 +31,17 @@ export const AuthProvider = ({ children }) => {
         fetchUser();
     }, []);
 
+
     const login = async (credentials) => {
         try {
             const data = await apiLogin(credentials);
-            setUser(data.user);
-            localStorage.setItem('user', JSON.stringify(data.user));
+            // Save the full response (user + token) for admin/user
+            const userWithToken = { ...data.user, access_token: data.access_token };
+            setUser(userWithToken);
+            localStorage.setItem('user', JSON.stringify(userWithToken));
+            if (data.access_token) {
+                localStorage.setItem('access_token', data.access_token);
+            }
             return data;
         } catch (error) {
             throw error;
@@ -52,10 +58,16 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+
     const register = async (userData) => {
         try {
             const data = await apiRegister(userData);
-            setUser(data.user);
+            const userWithToken = { ...data.user, access_token: data.access_token };
+            setUser(userWithToken);
+            localStorage.setItem('user', JSON.stringify(userWithToken));
+            if (data.access_token) {
+                localStorage.setItem('access_token', data.access_token);
+            }
             return data;
         } catch (error) {
             throw error;

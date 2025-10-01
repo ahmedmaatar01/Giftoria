@@ -1,7 +1,8 @@
+
+<?php
+
 use App\Http\Controllers\Api\CommandController;
 // Command management
-Route::apiResource('commands', CommandController::class);
-<?php
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +50,7 @@ Route::apiResource('products', ProductController::class);
 Route::apiResource('product-images', ProductImageController::class);
 Route::apiResource('custom-fields', CustomFieldController::class);
 Route::apiResource('product-custom-values', ProductCustomValueController::class);
+Route::apiResource('commands', CommandController::class);
 
 // Route for uploading images to a product
 Route::post('products/{product}/images', [ProductImageController::class, 'storeMultiple']);

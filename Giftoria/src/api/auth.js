@@ -65,7 +65,29 @@ export const getAdminData = async () => {
 };
 
 export const getCurrentUser = async () => {
-    return getUser();
+    // Try to get user from localStorage to determine role and token
+    const storedUser = localStorage.getItem('user');
+    let role = null;
+    let token = null;
+    if (storedUser) {
+        try {
+            const userObj = JSON.parse(storedUser);
+            role = userObj.role;
+            token = userObj.access_token || userObj.token || userObj.accessToken;
+        } catch {}
+    }
+    if (!token) {
+        token = localStorage.getItem('access_token');
+    }
+    if (!token) throw new Error('No access token found.');
+    let url = `${API_URL}/user/me`;
+    if (role === 'admin') {
+        url = `${API_URL}/admin/me`;
+    }
+    const response = await axios.get(url, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
 };
 
 export const registerAdmin = async (adminData) => {
