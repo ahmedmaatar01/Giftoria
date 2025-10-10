@@ -1,28 +1,10 @@
 export const products1 = [
   {
     id: 1,
-    imgSrc: "/images/products/orange-1.jpg",
-    imgHoverSrc: "/images/products/white-1.jpg",
-    title: "Ribbed Tank Top",
+    imgSrc: "/images/products/white-1.jpg",
+    imgHoverSrc: "/images/products/orange-1.jpg",
+    title: "Hydrangea",
     price: 16.95,
-    colors: [
-      {
-        name: "Orange",
-        colorClass: "bg_orange-3",
-        imgSrc: "/images/products/orange-1.jpg",
-      },
-      {
-        name: "Black",
-        colorClass: "bg_dark",
-        imgSrc: "/images/products/black-1.jpg",
-      },
-      {
-        name: "White",
-        colorClass: "bg_white",
-        imgSrc: "/images/products/white-1.jpg",
-      },
-    ],
-    sizes: ["S", "M", "L", "XL"],
     filterCategories: ["Best seller", "On Sale"],
     brand: "Ecomus",
     isAvailable: true,
@@ -31,38 +13,18 @@ export const products1 = [
     id: 2,
     imgSrc: "/images/products/brown.jpg",
     imgHoverSrc: "/images/products/purple.jpg",
-    title: "Ribbed Modal T-shirt",
+    title: "Lily",
     price: 18.95,
-    colors: [
-      {
-        name: "Brown",
-        colorClass: "bg_brown",
-        imgSrc: "/images/products/brown.jpg",
-      },
-      {
-        name: "Light Purple",
-        colorClass: "bg_purple",
-        imgSrc: "/images/products/purple.jpg",
-      },
-      {
-        name: "Light Green",
-        colorClass: "bg_light-green",
-        imgSrc: "/images/products/green.jpg",
-      },
-    ],
-    sizes: ["M", "L", "XL"],
-    countdown: { time: 1007500, labels: "d :,h :,m :,s" },
     filterCategories: ["Best seller", "New arrivals"],
     brand: "M&H",
-    isAvailable: false,
+    isAvailable: true,
   },
   {
     id: 3,
     imgSrc: "/images/products/white-3.jpg",
     imgHoverSrc: "/images/products/white-4.jpg",
-    title: "Oversized Printed T-shirt",
+    title: "Rose",
     price: 10.0,
-    sizes: ["S", "M", "L", "XL"],
     filterCategories: ["Best seller", "On Sale"],
     brand: "M&H",
     isAvailable: true,
@@ -71,238 +33,14 @@ export const products1 = [
     id: 4,
     imgSrc: "/images/products/white-2.jpg",
     imgHoverSrc: "/images/products/pink-1.jpg",
-    title: "Oversized Printed T-shirt",
+    title: "Peony",
     price: 16.95,
-    colors: [
-      {
-        name: "White",
-        colorClass: "bg_white",
-        imgSrc: "/images/products/white-2.jpg",
-      },
-      {
-        name: "Pink",
-        colorClass: "bg_purple",
-        imgSrc: "/images/products/pink-1.jpg",
-      },
-      {
-        name: "Black",
-        colorClass: "bg_dark",
-        imgSrc: "/images/products/black-2.jpg",
-      },
-    ],
-    sizes: ["S", "M", "L", "XL"],
+
     filterCategories: ["Best seller", "On Sale"],
     brand: "M&H",
     isAvailable: true,
   },
-  {
-    id: 5,
-    imgSrc: "/images/products/brown-2.jpg",
-    imgHoverSrc: "/images/products/brown-3.jpg",
-    title: "V-neck Linen T-shirt",
-    price: 14.95,
-    colors: [
-      {
-        name: "Brown",
-        colorClass: "bg_brown",
-        imgSrc: "/images/products/brown-2.jpg",
-      },
-      {
-        name: "White",
-        colorClass: "bg_white",
-        imgSrc: "/images/products/white-5.jpg",
-      },
-    ],
-    sizes: ["S", "M", "L", "XL"],
-    filterCategories: ["Best seller", "New arrivals"],
-    brand: "Ecomus",
-    isAvailable: true,
-  },
-  {
-    id: 6,
-    imgSrc: "/images/products/light-green-1.jpg",
-    imgHoverSrc: "/images/products/light-green-2.jpg",
-    title: "Loose Fit Sweatshirt",
-    price: 10.0,
-    colors: [
-      {
-        name: "Light Green",
-        colorClass: "bg_light-green",
-        imgSrc: "/images/products/light-green-1.jpg",
-      },
-      {
-        name: "Black",
-        colorClass: "bg_dark",
-        imgSrc: "/images/products/black-3.jpg",
-      },
-      {
-        name: "Blue",
-        colorClass: "bg_blue-2",
-        imgSrc: "/images/products/blue.jpg",
-      },
-      {
-        name: "Dark Blue",
-        colorClass: "bg_dark-blue",
-        imgSrc: "/images/products/dark-blue.jpg",
-      },
-      {
-        name: "White",
-        colorClass: "bg_white",
-        imgSrc: "/images/products/white-6.jpg",
-      },
-      {
-        name: "Light Grey",
-        colorClass: "bg_light-grey",
-        imgSrc: "/images/products/light-grey.jpg",
-      },
-    ],
-    filterCategories: ["Best seller", "New arrivals"],
-    brand: "Ecomus",
-    isAvailable: true,
-  },
-  {
-    id: 7,
-    imgSrc: "/images/products/black-4.jpg",
-    imgHoverSrc: "/images/products/black-5.jpg",
-    title: "Regular Fit Oxford Shirt",
-    price: 10.0,
-    colors: [
-      {
-        name: "Black",
-        colorClass: "bg_dark",
-        imgSrc: "/images/products/black-4.jpg",
-      },
-      {
-        name: "Dark Blue",
-        colorClass: "bg_dark-blue",
-        imgSrc: "/images/products/dark-blue-2.jpg",
-      },
-      {
-        name: "Beige",
-        colorClass: "bg_beige",
-        imgSrc: "/images/products/beige.jpg",
-      },
-      {
-        name: "Light Blue",
-        colorClass: "bg_light-blue",
-        imgSrc: "/images/products/light-blue.jpg",
-      },
-      {
-        name: "White",
-        colorClass: "bg_white",
-        imgSrc: "/images/products/white-7.jpg",
-      },
-    ],
-    sizes: ["S", "M", "L"],
-    filterCategories: ["Best seller", "New arrivals", "On Sale"],
-    brand: "Ecomus",
-    isAvailable: false,
-  },
-  {
-    id: 8,
-    imgSrc: "/images/products/white-8.jpg",
-    imgHoverSrc: "/images/products/black-6.jpg",
-    title: "Stylish T-shirt",
-    price: 12.0,
-
-    sizes: ["S", "M", "L", "XL"],
-    filterCategories: ["Best seller", "New arrivals", "On Sale"],
-    brand: "Ecomus",
-    isAvailable: false,
-  },
-  {
-    id: 9,
-    price: 14.95,
-    sizes: ["M", "L", "XL"],
-    colors: [
-      {
-        name: "Brown",
-        colorClass: "bg_brown",
-        imgSrc: "/images/products/brown-4.jpg",
-      },
-      {
-        name: "Black",
-        colorClass: "bg_dark",
-        imgSrc: "/images/products/black-8.jpg",
-      },
-    ],
-
-    imgSrc: "/images/products/brown-4.jpg",
-    imgHoverSrc: "/images/products/black-8.jpg",
-
-    title: "Patterned scarf",
-    filterCategories: ["Best seller", "New arrivals", "On Sale"],
-    brand: "Ecomus",
-    isAvailable: true,
-  },
-  {
-    id: 10,
-    price: 18.95,
-    sizes: ["S", "M", "L"],
-    colors: [
-      {
-        name: "Black",
-        colorClass: "bg_dark",
-        imgSrc: "/images/products/black-9.jpg",
-      },
-      {
-        name: "White",
-        colorClass: "bg_white",
-        imgSrc: "/images/products/white-9.jpg",
-      },
-    ],
-
-    imgSrc: "/images/products/black-9.jpg",
-    imgHoverSrc: "/images/products/black-10.jpg",
-
-    title: "Slim Fit Fine-knit Turtleneck Sweater",
-    filterCategories: ["Best seller", "New arrivals", "On Sale"],
-    brand: "Ecomus",
-    isAvailable: true,
-  },
-  {
-    id: 11,
-    price: 18.95,
-    sizes: ["S", "M", "L"],
-    colors: [
-      {
-        name: "Grey",
-        colorClass: "bg_grey",
-        imgSrc: "/images/products/grey-2.jpg",
-      },
-      {
-        name: "Pink",
-        colorClass: "bg_pink",
-        imgSrc: "/images/products/pink-2.jpg",
-      },
-      {
-        name: "Light Pink",
-        colorClass: "bg_light-pink",
-        imgSrc: "/images/products/light-pink.jpg",
-      },
-    ],
-
-    imgSrc: "/images/products/grey-2.jpg",
-    imgHoverSrc: "/images/products/grey.jpg",
-
-    title: "Slim Fit Fine-knit Turtleneck Sweater",
-    filterCategories: ["Best seller", "New arrivals"],
-    brand: "Ecomus",
-    isAvailable: true,
-  },
-  {
-    id: 12,
-    price: 18.95,
-    sizes: ["S", "M", "L"],
-
-    imgSrc: "/images/products/black-11.jpg",
-    imgHoverSrc: "/images/products/black-12.jpg",
-
-    title: "Slim Fit Fine-knit Turtleneck Sweater",
-    filterCategories: ["Best seller", "On Sale"],
-    brand: "Ecomus",
-    isAvailable: true,
-  },
+ 
 ];
 export const products2 = [
   {
@@ -383,7 +121,6 @@ export const products2 = [
     title: "Cat Eye Sunglasses",
     price: 12.95,
     colors: [],
-    sizes: ["S", "M", "L", "XL"],
   },
   {
     id: 17,
@@ -420,7 +157,6 @@ export const products2 = [
     title: "Grace - Brown",
     price: 130.95,
     colors: [],
-    sizes: ["S", "M", "L"],
   },
   {
     id: 20,
@@ -450,7 +186,6 @@ export const products2 = [
         imgSrc: "/images/products/black-16.jpg",
       },
     ],
-    sizes: ["S", "M", "L", "XL"],
   },
 ];
 export const products3 = [
@@ -509,7 +244,6 @@ export const products3 = [
         imgSrc: "/images/products/white-12.jpg",
       },
     ],
-    sizes: ["S", "M", "L", "XL"],
     countdown: { time: 1007500, labels: "d :,h :,m :,s" },
   },
 ];
@@ -664,7 +398,6 @@ export const products5 = [
     imgHoverSrc: "/images/products/skincare-2.jpg",
     title: "Natural Moisturizing Factors",
     price: 32.0,
-    sizes: ["30ml", "60ml"],
     filterCategories: ["Essentials", "Gift Sets"],
   },
   {
@@ -673,7 +406,6 @@ export const products5 = [
     imgHoverSrc: "/images/products/skincare-4.jpg",
     title: "Anhydrous Solution Pore Serum",
     price: 65.0,
-    sizes: ["30ml", "60ml"],
     filterCategories: ["Essentials"],
   },
   {
@@ -682,7 +414,6 @@ export const products5 = [
     imgHoverSrc: "/images/products/skincare-6.jpg",
     title: "Serum for Hair Density",
     price: 65.0,
-    sizes: ["40ml", "50ml"],
     filterCategories: ["Essentials", "Gift Sets"],
   },
   {
@@ -691,7 +422,6 @@ export const products5 = [
     imgHoverSrc: "/images/products/skincare-8.jpg",
     title: "Mini Confidence in a Cleanser",
     price: 22.0,
-    sizes: ["50ml", "80ml"],
     filterCategories: ["Essentials"],
   },
   {
@@ -701,7 +431,6 @@ export const products5 = [
     title: "Natural Moisturizing Factors",
     price: 52.0,
     oldPrice: "$62.00",
-    sizes: ["50ml", "80ml"],
     filterCategories: ["Essentials"],
   },
   {
@@ -896,23 +625,7 @@ export const products6 = [
 
     vendorName: "Gaming X- Seri 1",
     title: "ECOMUS20 BAPE®",
-    colors: [
-      {
-        tooltip: "Light Green",
-        bgColor: "bg_light-green",
-        image: "/images/products/headphone-1.png",
-      },
-      {
-        tooltip: "Black",
-        bgColor: "bg_dark",
-        image: "/images/products/headphone-2.png",
-      },
-      {
-        tooltip: "White",
-        bgColor: "bg_white",
-        image: "/images/products/headphone-3.png",
-      },
-    ],
+
     onSale: "New !",
     colorbg: "colorbg-light-green",
   },
@@ -933,18 +646,7 @@ export const products6 = [
 
     vendorName: "Gaming X- Seri 1",
     title: "MG20 BAPE®",
-    colors: [
-      {
-        tooltip: "Blue",
-        bgColor: "bg_blue-2",
-        image: "/images/products/headphone-4.png",
-      },
-      {
-        tooltip: "Pink",
-        bgColor: "bg_purple",
-        image: "/images/products/headphone-5.png",
-      },
-    ],
+
     onSale: "Best Seller !",
     colorbg: "colorbg-black",
   },

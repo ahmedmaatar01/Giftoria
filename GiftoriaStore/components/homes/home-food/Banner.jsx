@@ -4,12 +4,11 @@ import React from "react";
 export default function Banner() {
   return (
     <>
-      {/* Banner Width Text */}
       <section className="flat-spacing-31">
         <div className="container">
           <div className="flat-title mb-lg text-center">
-            <span className="title">
-              Here’s what you’ll find in our nutritionist
+            <span className="title banner-title-montserrat">
+              Step Into the World of Giftoria
             </span>
           </div>
           <div className="tf-grid-layout lg-col-2 tf-img-with-text-2">
@@ -25,38 +24,11 @@ export default function Banner() {
             </div>
             <div className="tf-content-wrap wow fadeInUp" data-wow-delay="0s">
               <div className="item text-center text-md-start">
-                <h5>Plant protein</h5>
-                <p>
-                  Utilise a combination of protein-rich wholefoods like legumes,
-                  tempeh, nuts, and seeds to ensure your body is getting
-                  everything it needs to thrive.
-                </p>
-              </div>
-              <div className="item text-center text-md-start">
-                <h5>Natural flavours</h5>
-                <p>
-                  Be it by roasting or caramelising, soaking or seasoning, our
-                  experienced, plant-based chefs know how to bring out the
-                  natural flavours, textures, and aromas in plant-based
-                  ingredients, giving them the chance to shine.
-                </p>
-              </div>
-              <div className="item text-center text-md-start">
-                <h5>Superfoods</h5>
-                <p>
-                  Abundant in trending and ‘everyday’ superfoods with unique
-                  health-promoting properties, Soulara meals offer a myriad of
-                  vitamins, minerals, protective antioxidants, and polyphenols -
-                  plant compounds with countless health benefits.
-                </p>
-              </div>
-              <div className="item text-center text-md-start">
-                <h5>Local produce</h5>
-                <p>
-                  To make our meals as nutrient-dense as possible, we source
-                  fresh, seasonal fruits and vegetables from Australian farmers.
-                  We’re all for supporting local and shortening the supply
-                  chain.
+                <p className="bell-t-medium" style={{fontSize: '20px', lineHeight: '1.7', margin: 0}}>
+                  GIFTORIA.me is a luxury brand born from a desire to transform the art of gifting into an unforgettable, emotional experience. Every detail, from the design of our products to the personal touch behind each gift, is carefully crafted to reflect elegance, intention, and meaning.<br /><br />
+                  At GIFTORIA, we believe that a gift is never just a gift — it is a gesture, a story, a memory in the making. That’s why we offer a curated universe of personalized and refined creations, designed to celebrate life’s most precious moments in a deeply thoughtful way.<br /><br />
+                  Whether it’s a symbolic token of love, a timeless expression of gratitude, or a meaningful surprise, GIFTORIA turns each gift into an exceptional experience — one that’s tailored, elegant, and emotionally resonant. Our brand is dedicated to those who seek to offer more than an object: a lasting impression.<br /><br />
+                  Let your heart bloom, discover flowers that whisper stories of timeless love.
                 </p>
               </div>
             </div>
@@ -65,7 +37,7 @@ export default function Banner() {
       </section>
       {/* /Banner Width Text */}
       {/* Banner Width Text 2 */}
-      <section>
+      {/* <section>
         <div className="container">
           <div className="tf-grid-layout lg-col-2 tf-img-with-text-2 style-2 bg_green-8">
             <div className="tf-content-wrap wow fadeInUp" data-wow-delay=".1s">
@@ -142,7 +114,7 @@ export default function Banner() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </>
   );
 }

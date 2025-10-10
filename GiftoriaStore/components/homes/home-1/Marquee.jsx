@@ -17,7 +17,7 @@ export default function Marquee() {
                 <path d="M14.5833 8H8.61742L9.94318 0L0 12H5.96591L4.64015 20L14.5833 8" />
               </svg>
             </div>
-            <p className="text">{item}</p>
+            <p className="text bell-t-medium" dangerouslySetInnerHTML={{ __html: item }} />
           </div>
         ))}
       </div>

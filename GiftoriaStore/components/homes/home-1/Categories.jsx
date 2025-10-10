@@ -22,7 +22,7 @@ export default function Categories() {
             className="text-3 fw-7 text-uppercase title wow fadeInUp"
             data-wow-delay="0s"
           >
-            SHOP BY CATEGORIES
+            <span className="banner-title-montserrat">SHOP BY CATEGORIES</span>
           </span>
         </div>
         <div className="row">

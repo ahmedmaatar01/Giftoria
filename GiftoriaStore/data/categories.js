@@ -2,27 +2,27 @@ export const collections = [
   {
     imgSrc: "/images/collections/collection-17.jpg",
     altText: "collection-img",
-    title: "Clothing",
+    title: "Classic Romance",
   },
   {
     imgSrc: "/images/collections/collection-14.jpg",
     altText: "collection-img",
-    title: "Sunglasses",
+    title: "Whimsical Garden",
   },
   {
     imgSrc: "/images/collections/collection-18.jpg",
     altText: "collection-demo-1",
-    title: "Bags",
+    title: "Eternal Elegance",
   },
   {
     imgSrc: "/images/collections/collection-15.jpg",
     altText: "collection-demo-1",
-    title: "Fashion",
+    title: "Royal Blossoms",
   },
   {
     imgSrc: "/images/collections/collection-20.jpg",
     altText: "collection-demo-1",
-    title: "Accessories",
+    title: "Vintage Charm",
   },
 ];
 

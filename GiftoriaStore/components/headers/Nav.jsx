@@ -65,9 +65,8 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
       <li className="menu-item">
         <a
           href="#"
-          className={`item-link ${Linkfs} ${textColor} ${
-            isMenuActive(allHomepages) ? "activeMenu" : ""
-          } `}
+          className={`item-link ${Linkfs} ${textColor} ${isMenuActive(allHomepages) ? "activeMenu" : ""
+            } `}
         >
           Home
           {isArrow ? <i className="icon icon-arrow-down" /> : ""}
@@ -77,9 +76,8 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
             <div className="row-demo">
               {demoItems.map((item, index) => (
                 <div
-                  className={`demo-item ${
-                    isMenuActive(item) ? "activeMenu" : ""
-                  } `}
+                  className={`demo-item ${isMenuActive(item) ? "activeMenu" : ""
+                    } `}
                   key={index}
                 >
                   <Link href={item.href}>
@@ -123,12 +121,12 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
           </div>
         </div>
       </li>
+
       <li className="menu-item">
         <a
           href="#"
-          className={`item-link ${Linkfs} ${textColor} ${
-            isMenuActive(productsPages) ? "activeMenu" : ""
-          } `}
+          className={`item-link ${Linkfs} ${textColor} ${isMenuActive(productsPages) ? "activeMenu" : ""
+            } `}
         >
           Shop
           {isArrow ? <i className="icon icon-arrow-down" /> : ""}
@@ -145,9 +143,8 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
                         <li key={linkIndex}>
                           <Link
                             href={link.href}
-                            className={`menu-link-text link ${
-                              isMenuActive(link) ? "activeMenu" : ""
-                            }`}
+                            className={`menu-link-text link ${isMenuActive(link) ? "activeMenu" : ""
+                              }`}
                           >
                             {link.text}
                           </Link>
@@ -217,7 +214,7 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
           </div>
         </div>
       </li>
-      <li className="menu-item">
+      {/* <li className="menu-item">
         <a
           href="#"
           className={`item-link ${Linkfs} ${textColor}  ${
@@ -383,6 +380,15 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
             ))}
           </ul>
         </div>
+      </li> */}
+      <li className="menu-item">
+        <Link href="/about-us" className={`item-link ${Linkfs} ${textColor}`}>About Us</Link>
+      </li>
+      <li className="menu-item">
+        <Link href="/contact-1" className={`item-link ${Linkfs} ${textColor}`}>Contact</Link>
+      </li>
+      <li className="menu-item">
+        <Link href="/faq-1" className={`item-link ${Linkfs} ${textColor}`}>FAQ</Link>
       </li>
     </>
   );
