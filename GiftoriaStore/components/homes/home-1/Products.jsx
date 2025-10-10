@@ -1,17 +1,30 @@
 "use client";
 import { products1 } from "@/data/products";
-import React, { useState } from "react";
+import { useContextElement } from "@/context/Context";
+import React, { useState, useEffect } from "react";
 import { ProductCard } from "../../shopCards/ProductCard";
 
 export default function Products() {
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
-  const [allproducts, setAllproducts] = useState([...products1]);
+  const { apiProducts, loading: apiLoading } = useContextElement();
+  const [allproducts, setAllproducts] = useState([]);
+
+  // Initialize products when API products are loaded
+  useEffect(() => {
+    if (apiProducts && apiProducts.length > 0) {
+      setAllproducts([...apiProducts.slice(0, 8)]); // Show first 8 API products
+    } else {
+      setAllproducts([...products1.slice(0, 8)]); // Fallback to static
+    }
+  }, [apiProducts]);
+
   const handleLoad = () => {
     setLoading(true);
 
     setTimeout(() => {
-      setAllproducts((pre) => [...pre, ...products1.slice(0, 12)]);
+      const productsToAdd = apiProducts.length > 0 ? apiProducts : products1;
+      setAllproducts((pre) => [...pre, ...productsToAdd.slice(8, 20)]); // Load next 12 products
       setLoading(false);
       setLoaded(true);
     }, 1000);
@@ -29,6 +42,15 @@ export default function Products() {
             arrivals
           </p>
         </div>
+        {/* Show loading indicator when fetching API products */}
+        {apiLoading && allproducts.length === 0 && (
+          <div className="text-center py-5">
+            <div className="spinner-border" role="status">
+              <span className="visually-hidden">Loading products...</span>
+            </div>
+            <p className="mt-2">Loading products from server...</p>
+          </div>
+        )}
         <div
           className="grid-layout wow fadeInUp"
           data-wow-delay="0s"

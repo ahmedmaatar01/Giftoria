@@ -2,11 +2,24 @@
 
 import Productcart2 from "@/components/shopCards/Productcart2";
 import { products1 } from "@/data/products";
-import React from "react";
+import { useContextElement } from "@/context/Context";
+import React, { useState, useEffect } from "react";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 export default function Products() {
+  const { apiProducts, loading: apiLoading } = useContextElement();
+  const [displayProducts, setDisplayProducts] = useState([]);
+
+  // Initialize products when API products are loaded
+  useEffect(() => {
+    if (apiProducts && apiProducts.length > 0) {
+      setDisplayProducts([...apiProducts.slice(0, 12)]); // Show first 12 API products
+    } else {
+      setDisplayProducts([...products1.slice(0, 12)]); // Fallback to static
+    }
+  }, [apiProducts]);
+
   return (
     <section className="flat-spacing-2 pt_0">
       <div className="container">
@@ -23,6 +36,17 @@ export default function Products() {
             </div>
           </div>
         </div>
+        
+        {/* Show loading indicator when fetching API products */}
+        {apiLoading && displayProducts.length === 0 && (
+          <div className="text-center py-5">
+            <div className="spinner-border" role="status">
+              <span className="visually-hidden">Loading products...</span>
+            </div>
+            <p className="mt-2">Loading products from server...</p>
+          </div>
+        )}
+        
         <div className="hover-sw-nav hover-sw-2">
           <Swiper
             dir="ltr"
@@ -47,7 +71,7 @@ export default function Products() {
               nextEl: ".snbn114",
             }}
           >
-            {products1.map((product, i) => (
+            {displayProducts.map((product, i) => (
               <SwiperSlide key={i} className="swiper-slide">
                 <Productcart2 product={product} />
               </SwiperSlide>
