@@ -1,3 +1,42 @@
+// API Configuration
+const API_BASE_URL = 'http://localhost:8000/api';
+
+// Utility function to map backend product to frontend format
+const mapProductToFrontend = (backendProduct) => {
+  // Get the featured image
+  const featuredImage = backendProduct.images?.find(img => img.is_featured);
+  const otherImages = backendProduct.images?.filter(img => !img.is_featured) || [];
+  
+  return {
+    id: backendProduct.id,
+    imgSrc: featuredImage ? `http://localhost:8000${featuredImage.image_path}` : "/images/products/placeholder.jpg",
+    imgHoverSrc: otherImages.length > 0 ? `http://localhost:8000${otherImages[0].image_path}` : "/images/products/placeholder.jpg",
+    title: backendProduct.name,
+    price: parseFloat(backendProduct.price),
+    filterCategories: backendProduct.category ? [backendProduct.category.name] : [],
+    isAvailable: backendProduct.stock > 0,
+    stock: backendProduct.stock,
+    description: backendProduct.description,
+    category: backendProduct.category?.name || "Uncategorized",
+  };
+};
+
+// Function to fetch products from API
+export const fetchProducts = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/products`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch products');
+    }
+    const backendProducts = await response.json();
+    return backendProducts.map(mapProductToFrontend);
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    return products1Static; // Fallback to static data
+  }
+};
+
+// Static products for fallback
 export const products1 = [
   {
     id: 1,
@@ -7138,3 +7177,34 @@ export const allProducts = [
   ...products67,
   ...products68,
 ];
+
+// Export dynamic products1 that fetches from API
+let cachedProducts = null;
+let cacheTime = null;
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+export const fetchApiProducts = async () => {
+  // Check if we have cached data and it's still fresh
+  if (cachedProducts && cacheTime && (Date.now() - cacheTime < CACHE_DURATION)) {
+    return cachedProducts;
+  }
+  
+  try {
+    const apiProducts = await fetchProducts();
+    cachedProducts = apiProducts;
+    cacheTime = Date.now();
+    return apiProducts;
+  } catch (error) {
+    console.error('Error loading products:', error);
+    return products1; // Use the static products1
+  }
+};
+
+// Export utility functions for API products
+export const getProducts1WithAPI = async () => {
+  try {
+    return await fetchApiProducts();
+  } catch (error) {
+    return products1; // Fallback to static
+  }
+};

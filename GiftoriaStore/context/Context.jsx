@@ -1,5 +1,6 @@
 "use client";
 import { allProducts } from "@/data/products";
+import { fetchProducts, products1 } from "@/data/products";
 import { openCartModal } from "@/utlis/openCartModal";
 // import { openCart } from "@/utlis/toggleCart";
 import React, { useEffect } from "react";
@@ -16,6 +17,27 @@ export default function Context({ children }) {
   const [quickViewItem, setQuickViewItem] = useState(allProducts[0]);
   const [quickAddItem, setQuickAddItem] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [apiProducts, setApiProducts] = useState(products1); // Add API products state
+  const [loading, setLoading] = useState(false);
+
+  // Load products from API
+  useEffect(() => {
+    const loadApiProducts = async () => {
+      try {
+        setLoading(true);
+        const products = await fetchProducts();
+        setApiProducts(products);
+      } catch (error) {
+        console.error('Error loading API products:', error);
+        setApiProducts(products1); // Fallback to static
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadApiProducts();
+  }, []);
+
   useEffect(() => {
     const subtotal = cartProducts.reduce((accumulator, product) => {
       return accumulator + product.quantity * product.price;
@@ -24,9 +46,11 @@ export default function Context({ children }) {
   }, [cartProducts]);
 
   const addProductToCart = (id, qty) => {
+    // Use apiProducts instead of allProducts
+    const allAvailableProducts = [...allProducts, ...apiProducts];
     if (!cartProducts.filter((elm) => elm.id == id)[0]) {
       const item = {
-        ...allProducts.filter((elm) => elm.id == id)[0],
+        ...allAvailableProducts.filter((elm) => elm.id == id)[0],
         quantity: qty ? qty : 1,
       };
       setCartProducts((pre) => [...pre, item]);
@@ -132,6 +156,8 @@ export default function Context({ children }) {
     compareItem,
     setCompareItem,
     updateQuantity,
+    apiProducts, // Add API products to context
+    loading, // Add loading state
   };
   return (
     <dataContext.Provider value={contextElement}>
