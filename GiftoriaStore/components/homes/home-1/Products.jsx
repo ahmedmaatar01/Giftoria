@@ -35,7 +35,7 @@ export default function Products() {
       <div className="container">
         <div className="flat-title">
           <span className="title wow fadeInUp" data-wow-delay="0s">
-            Best Seller
+            <span className="banner-title-montserrat">Best Seller</span>
           </span>
           <p className="sub-title wow fadeInUp" data-wow-delay="0s">
             Shop the Latest Styles: Stay ahead of the curve with our newest

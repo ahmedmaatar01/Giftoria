@@ -1,20 +1,20 @@
 export const slides = [
   {
-    imgSrc: "/images/slider/fashion-slideshow-01.jpg",
-    title: "Glamorous\nGlam",
-    text: "From casual to formal, we've got you covered",
+    imgSrc: "/images/slider/slide1.jpg",
+    title: "Whispers\nof Bloom",
+    text: "Timeless petals, hand-picked with love and grace.",
     btnText: "Shop collection",
   },
   {
-    imgSrc: "/images/slider/fashion-slideshow-02.jpg",
-    title: "Simple\nStyle",
-    text: "From casual to formal, we've got you covered",
+    imgSrc: "/images/slider/slide2.jpg",
+    title: "The Old\nGarden Charm",
+    text: "Where every bouquet tells a story from another era.",
     btnText: "Shop collection",
   },
   {
-    imgSrc: "/images/slider/fashion-slideshow-03.jpg",
-    title: "Glamorous\nGlam",
-    text: "From casual to formal, we've got you covered",
+    imgSrc: "/images/slider/slide3.jpg",
+    title: "Petals\n& Poetry",
+    text: "Vintage florals that breathe romance into every moment.",
     btnText: "Shop collection",
   },
 ];

@@ -1,10 +1,11 @@
 import Footer1 from "@/components/footers/Footer1";
-import Header2 from "@/components/headers/Header2";
 import Faq1 from "@/components/othersPages/faq/Faq1";
 import Faq2 from "@/components/othersPages/faq/Faq2";
 import Faq3 from "@/components/othersPages/faq/Faq3";
 import React from "react";
 import Link from "next/link";
+import Header1 from "@/components/headers/Header1";
+import Topbar1 from "@/components/headers/Topbar1";
 export const metadata = {
   title: "Faq 1 || Ecomus - Ultimate Nextjs Ecommerce Template",
   description: "Ecomus - Ultimate Nextjs Ecommerce Template",
@@ -12,7 +13,8 @@ export const metadata = {
 export default function page() {
   return (
     <>
-      <Header2 />
+        <Topbar1 />
+        <Header1 />
       <>
         <div className="tf-page-title style-2">
           <div className="container-full">

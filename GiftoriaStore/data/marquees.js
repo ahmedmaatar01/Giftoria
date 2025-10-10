@@ -1,14 +1,14 @@
 export const marqueeItems = [
-  "Spring Clearance Event: Save Up to 70%",
-  "Spring Clearance Event: Save Up to 70%",
-  "Spring Clearance Event: Save Up to 70%",
-  "Spring Clearance Event: Save Up to 70%",
-  "Spring Clearance Event: Save Up to 70%",
-  "Spring Clearance Event: Save Up to 70%",
-  "Spring Clearance Event: Save Up to 70%",
-  "Spring Clearance Event: Save Up to 70%",
-  "Spring Clearance Event: Save Up to 70%",
-  "Spring Clearance Event: Save Up to 70%",
+  "Let your heart bloom, discover flowers that whisper stories of timeless love.",
+  "Let your heart bloom, discover flowers that whisper stories of timeless love.",
+  "Let your heart bloom, discover flowers that whisper stories of timeless love.",
+  "Let your heart bloom, discover flowers that whisper stories of timeless love.",
+  "Let your heart bloom, discover flowers that whisper stories of timeless love.",
+  "Let your heart bloom, discover flowers that whisper stories of timeless love.",
+  "Let your heart bloom, discover flowers that whisper stories of timeless love.",
+  "Let your heart bloom, discover flowers that whisper stories of timeless love.",
+  "Let your heart bloom, discover flowers that whisper stories of timeless love.",
+  "Let your heart bloom, discover flowers that whisper stories of timeless love.",
 ];
 
 export const marqueeItems2 = [

@@ -2,17 +2,17 @@ import Link from "next/link";
 export const iconBoxes = [
   {
     iconClass: "icon-shipping-1",
-    title: "Free Shipping",
+  title: <span className="banner-title-montserrat">Free Shipping</span>,
     description: "Free shipping over order $120",
   },
   {
     iconClass: "icon-payment-1",
-    title: "Flexible Payment",
+  title: <span className="banner-title-montserrat">Flexible Payment</span>,
     description: "Pay with Multiple Credit Cards",
   },
   {
     iconClass: "icon-return-1",
-    title: "14 Day Returns",
+  title: <span className="banner-title-montserrat">14 Day Returns</span>,
     description: "Within 30 days for an exchange",
   },
 ];
@@ -20,22 +20,22 @@ export const iconBoxes = [
 export const iconBoxData = [
   {
     iconClass: "icon-shipping",
-    title: "Free Shipping",
+    title: <span className="banner-title-montserrat">Free Shipping</span>,
     description: "Free shipping over order $120",
   },
   {
     iconClass: "icon-payment fs-22",
-    title: "Flexible Payment",
+    title: <span className="banner-title-montserrat">Flexible Payment</span>,
     description: "Pay with Multiple Credit Cards",
   },
   {
     iconClass: "icon-return fs-20",
-    title: "14 Day Returns",
+    title: <span className="banner-title-montserrat">14 Day Returns</span>,
     description: "Within 30 days for an exchange",
   },
   {
     iconClass: "icon-suport",
-    title: "Premium Support",
+  title: <span className="banner-title-montserrat">Premium Support</span>,
     description: "Outstanding premium support",
   },
   {

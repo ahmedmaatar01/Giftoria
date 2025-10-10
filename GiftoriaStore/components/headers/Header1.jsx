@@ -34,9 +34,9 @@ export default function Header1() {
               <Image
                 alt="logo"
                 className="logo"
-                src="/images/logo/logo.svg"
-                width="136"
-                height="21"
+                src="/images/logo/for site_Plan de travail 1 copie 2.svg"
+                width="200"
+                height="40"
               />
             </Link>
           </div>
@@ -44,14 +44,6 @@ export default function Header1() {
             <nav className="box-navigation text-center">
               <ul className="box-nav-ul d-flex align-items-center justify-content-center gap-30">
                 <Nav />
-                <li className="menu-item">
-                  <a
-                    href="https://themeforest.net/item/ecomus-ultimate-html5-template/53417990?s_rank=3"
-                    className="item-link"
-                  >
-                    Buy now
-                  </a>
-                </li>
               </ul>
             </nav>
           </div>

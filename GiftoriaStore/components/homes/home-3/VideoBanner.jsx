@@ -13,13 +13,12 @@ export default function VideoBanner() {
         />
         <div className="box-content text-center">
           <div className="container wow fadeInUp" data-wow-delay="0s">
-            <p className="subheading text-white fw-7">
-              FREE SHIPPING OVER ORDER $120
+            <p className="subheading text-white fw-7 banner-title-montserrat">
+              Come closer, darling
             </p>
-            <h1 className="heading text-white">Spring Collection</h1>
-            <p className="description text-white">
-              Here is your chance to upgrade your wardrobe with a variation of
-              styles
+            <h1 className="heading text-white bell-t-medium">A touch of charm awaits</h1>
+            <p className="description text-white banner-title-montserrat">
+              Don’t be shy, love
             </p>
             <Link
               href={`/shop-women`}

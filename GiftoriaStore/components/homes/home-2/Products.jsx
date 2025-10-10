@@ -24,7 +24,7 @@ export default function Products() {
     <section className="flat-spacing-2 pt_0">
       <div className="container">
         <div className="flat-title flex-row justify-content-between px-0">
-          <span className="title wow fadeInUp" data-wow-delay="0s">
+          <span className="title banner-title-montserrat wow fadeInUp" data-wow-delay="0s">
             Best Seller
           </span>
           <div className="box-sw-navigation">
