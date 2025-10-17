@@ -1,22 +1,12 @@
 export const slides = [
   {
-    imgSrc: "/images/slider/slide1.jpg",
-    title: "Whispers\nof Bloom",
-    text: "Timeless petals, hand-picked with love and grace.",
-    btnText: "Shop collection",
-  },
-  {
     imgSrc: "/images/slider/slide2.jpg",
-    title: "The Old\nGarden Charm",
-    text: "Where every bouquet tells a story from another era.",
-    btnText: "Shop collection",
+  title: <span className="montserrat-semi-bold">Whispers<br/>of Bloom</span>,
+  text: <span className="bell-t-medium">Timeless petals, hand-picked with love and grace.</span>,
+  btnText: <span className="montserrat-semi-bold">Shop collection</span>,
   },
-  {
-    imgSrc: "/images/slider/slide3.jpg",
-    title: "Petals\n& Poetry",
-    text: "Vintage florals that breathe romance into every moment.",
-    btnText: "Shop collection",
-  },
+
+  
 ];
 
 export const slidesData = [

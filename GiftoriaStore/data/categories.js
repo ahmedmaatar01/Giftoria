@@ -1328,7 +1328,7 @@ export const collectionItems3 = [
 export const collectionItems5 = [
   {
     itemClass: "item-1",
-    imgSrc: "/images/collections/collection-21.jpg",
+    imgSrc: "/images/collections/collection-18.jpg",
     imgAlt: "collection-img",
     width: 1000,
     height: 1379,
@@ -1337,7 +1337,7 @@ export const collectionItems5 = [
   },
   {
     itemClass: "item-2",
-    imgSrc: "/images/collections/collection-22.jpg",
+    imgSrc: "/images/collections/collection-14.jpg",
     imgAlt: "collection-img",
     width: 1000,
     height: 659,
@@ -1346,7 +1346,7 @@ export const collectionItems5 = [
   },
   {
     itemClass: "item-3",
-    imgSrc: "/images/collections/collection-23.jpg",
+    imgSrc: "/images/collections/collection-17.jpg",
     imgAlt: "collection-img",
     width: 400,
     height: 264,
@@ -2543,32 +2543,32 @@ export const slides22 = [
     src: "/images/item/health-improve.svg",
     width: 58,
     height: 51,
-    title: "Improved Health",
+    title: "Whispers of Elegance",
     description:
-      "Plant-based diets are associated with lower risks of heart disease, obesity, type 2 diabetes, and certain cancers.",
+      "Each creation is a love letter — elegant, heartfelt, and timeless. At GIFTORIA.me, every gift whispers grace that lingers beyond the moment.",
   },
   {
     src: "/images/item/energy.svg",
     width: 50,
     height: 50,
-    title: "Increased energy",
+    title: "Moments in Bloom",
     description:
-      "Studies show that plant-based diets can lower the risk of heart disease, obesity, type 2 diabetes, and various cancers.",
+      "Our chocolate boxes are more than treats — they’re stories of passion and elegance, crafted to awaken every sense with refined delight.",
   },
   {
     src: "/images/item/glowing-skin.svg",
     width: 43,
     height: 50,
-    title: "Glowing skin",
+    title: "Moments of Care",
     description:
-      "Choosing a plant-based diet may help reduce the risk of heart disease, obesity, type 2 diabetes, and certain cancers.",
+      "In a fast-moving world, timeless gifting is a quiet art. We create moments where elegance meets emotion, turning simplicity into something unforgettable.",
   },
   {
     src: "/images/item/better-sleep.svg",
     width: 48,
     height: 50,
-    title: "Better sleep",
+    title: "Indulgence Reimagined",
     description:
-      "Following a plant-based diet is linked to reduced risks of heart disease, obesity, type 2 diabetes, and certain cancers.",
+      "Our chocolate boxes are more than sweets — they’re crafted tales of passion and flavor, where every bite reveals pure sophistication and sensory delight.",
   },
 ];

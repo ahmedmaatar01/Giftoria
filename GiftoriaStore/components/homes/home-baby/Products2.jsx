@@ -41,7 +41,7 @@ export default function Products2() {
       <div className="container">
         <div className="flat-title flex-row justify-content-center">
           <span className="title fw-6 wow fadeInUp" data-wow-delay="0s">
-            June Top Picks
+            <span className="bell-t-medium">Best seller</span>
           </span>
         </div>
         <div className="wrap-carousel wrap-sw-2">
@@ -129,9 +129,7 @@ export default function Products2() {
                         <span className="tooltip">Quick View</span>
                       </a>
                     </div>
-                    <div className="on-sale-wrap text-end">
-                      <div className="on-sale-item">-18%</div>
-                    </div>
+                    {/* Sale badge removed */}
                   </div>
                   <div className="card-product-info">
                     <div className="inner-info">
@@ -142,9 +140,6 @@ export default function Products2() {
                         {product.title}
                       </Link>
                       <div>
-                        <span className="old-price">
-                          ${product.oldPrice.toFixed(2)}
-                        </span>
                         <span className="new-price price-primary">
                           ${product.price.toFixed(2)}
                         </span>
