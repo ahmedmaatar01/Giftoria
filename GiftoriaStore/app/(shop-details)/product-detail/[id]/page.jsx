@@ -1,25 +1,24 @@
 import Footer1 from "@/components/footers/Footer1";
-import Header2 from "@/components/headers/Header2";
-
-import Products from "@/components/shopDetails/Products";
+import Header1 from "@/components/headers/Header1";
+import Products from "@/components/homes/home-2/Products";
 import RecentProducts from "@/components/shopDetails/RecentProducts";
 import ShopDetailsTab from "@/components/shopDetails/ShopDetailsTab";
 import React from "react";
 import Link from "next/link";
-import DetailsOuterZoom from "@/components/shopDetails/DetailsOuterZoom";
+import ProductDetailClient from "@/components/shopDetails/ProductDetailClient";
 export const metadata = {
-  title: "Shop Details || Ecomus - Ultimate Nextjs Ecommerce Template",
-  description: "Ecomus - Ultimate Nextjs Ecommerce Template",
+  title: "Shop Details || Giftoria - Ultimate Nextjs Ecommerce Template",
+  description: "Giftoria - Ultimate Nextjs Ecommerce Template",
 };
-import { allProducts } from "@/data/products";
 import ProductSinglePrevNext from "@/components/common/ProductSinglePrevNext";
-export default async function page({ params }) {const { id } = await params
-  const product =
-    allProducts.filter((elm) => elm.id == id)[0] || allProducts[0];
+
+export default async function page({ params }) {
+  const { id } = await params;
+
   return (
     <>
-      <Header2 />
-      <div className="tf-breadcrumb">
+      <Header1 />
+      <div className="tf-breadcrumb" style={{marginTop:"80px"}}>
         <div className="container">
           <div className="tf-breadcrumb-wrap d-flex justify-content-between flex-wrap align-items-center">
             <div className="tf-breadcrumb-list">
@@ -27,20 +26,18 @@ export default async function page({ params }) {const { id } = await params
                 Home
               </Link>
               <i className="icon icon-arrow-right" />
-
-              <span className="text">
-                {product.title ? product.title : "Cotton jersey top"}
-              </span>
+              <span className="text">Product Details</span>
             </div>
-            <ProductSinglePrevNext currentId={product.id} />
+            <ProductSinglePrevNext currentId={id} />
           </div>
         </div>
       </div>
-      <DetailsOuterZoom product={product} />
-      <ShopDetailsTab />
+      <ProductDetailClient productId={id} />
+      <ShopDetailsTab productId={id} />
       <Products />
       <RecentProducts />
       <Footer1 />
     </>
   );
 }
+      

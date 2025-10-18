@@ -13,6 +13,9 @@ class Product extends Model
         'category_id', 'name', 'description', 'price', 'stock', 'featured_image'
     ];
 
+    // Append virtual attribute custom_fields to JSON output
+    protected $appends = ['custom_fields'];
+
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -26,5 +29,20 @@ class Product extends Model
     public function customValues()
     {
         return $this->hasMany(ProductCustomValue::class);
+    }
+
+    /**
+     * Accessor: expose category custom fields directly on product as custom_fields
+     */
+    public function getCustomFieldsAttribute()
+    {
+        // Ensure relation is loaded; if not, try loading category.customFields lazily
+        if (!$this->relationLoaded('category')) {
+            $this->load('category');
+        }
+        if ($this->category && !$this->category->relationLoaded('customFields')) {
+            $this->category->load('customFields');
+        }
+        return $this->category ? $this->category->customFields : collect();
     }
 }

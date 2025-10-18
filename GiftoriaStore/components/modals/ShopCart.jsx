@@ -9,6 +9,17 @@ import { Swiper, SwiperSlide } from "swiper/react";
 export default function ShopCart() {
   const { cartProducts, totalPrice, setCartProducts, setQuickViewItem } =
     useContextElement();
+  // Resolve product image from API or static data
+  const getItemImage = (elm) => {
+    if (elm?.images && elm.images.length > 0) {
+      const featured = elm.images.find((img) => img.is_featured);
+      const src = featured ? featured.image_path : elm.images[0].image_path;
+      return src ? `http://localhost:8000${src}` : "/images/no-image.png";
+    }
+    if (elm?.featured_image) return `http://localhost:8000${elm.featured_image}`;
+    return elm?.imgSrc || "/images/no-image.png";
+  };
+  const getItemName = (elm) => elm?.name || elm?.title || "Product";
   const setQuantity = (id, quantity) => {
     if (quantity >= 1) {
       const item = cartProducts.filter((elm) => elm.id == id)[0];
@@ -74,7 +85,7 @@ export default function ShopCart() {
                           <Link href={`/product-detail/${elm.id}`}>
                             <Image
                               alt="image"
-                              src={elm.imgSrc}
+                              src={getItemImage(elm)}
                               width={668}
                               height={932}
                               style={{ objectFit: "cover" }}
@@ -86,12 +97,26 @@ export default function ShopCart() {
                             className="title link"
                             href={`/product-detail/${elm.id}`}
                           >
-                            {elm.title}
+                            {getItemName(elm)}
                           </Link>
-                          <div className="meta-variant">Light gray</div>
                           <div className="price fw-6">
-                            ${elm.price?.toFixed(2)}
+                            ${parseFloat(elm.price || 0).toFixed(2)}
                           </div>
+                          {elm.customFieldValues && Object.keys(elm.customFieldValues).length > 0 && (
+                            <div className="mt-1 small text-muted">
+                              {Object.entries(elm.customFieldValues).map(([fieldId, value]) => {
+                                const fid = Number(fieldId);
+                                const label = Array.isArray(elm.custom_fields)
+                                  ? elm.custom_fields.find((f) => f.id === fid)?.name
+                                  : undefined;
+                                return (
+                                  <div key={fieldId}>
+                                    {label ? `${label}: ` : ""}{String(value)}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
                           <div className="tf-mini-cart-btns">
                             <div className="wg-quantity small">
                               <span

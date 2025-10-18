@@ -156,11 +156,24 @@ export default function Slider1ZoomOuter({
   handleColor = () => {},
   firstImage,
   images = imagesDefault,
+  productImages = []
 }) {
+  // Create images array from API data or use provided images
+  const apiImages = productImages.length > 0 
+    ? productImages.map((img, index) => ({
+        id: index + 1,
+        src: `http://localhost:8000${img.image_path}`,
+        alt: `Product image ${index + 1}`,
+        width: 770,
+        height: 1075,
+        dataValue: "default",
+      }))
+    : images;
+
   const [updatedImages, setfirst] = useState(
-    firstImage
-      ? [{ ...images[0], src: firstImage }, ...images.slice(1)]
-      : images
+    firstImage && productImages.length === 0
+      ? [{ ...apiImages[0], src: firstImage }, ...apiImages.slice(1)]
+      : apiImages
   );
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);

@@ -4,6 +4,16 @@ import Image from "next/image";
 import Link from "next/link";
 export default function Cart() {
   const { cartProducts, setCartProducts, totalPrice } = useContextElement();
+  const getItemImage = (elm) => {
+    if (elm?.images && elm.images.length > 0) {
+      const featured = elm.images.find((img) => img.is_featured);
+      const src = featured ? featured.image_path : elm.images[0].image_path;
+      return src ? `http://localhost:8000${src}` : "/images/no-image.png";
+    }
+    if (elm?.featured_image) return `http://localhost:8000${elm.featured_image}`;
+    return elm?.imgSrc || "/images/no-image.png";
+  };
+  const getItemName = (elm) => elm?.name || elm?.title || "Product";
   const setQuantity = (id, quantity) => {
     if (quantity >= 1) {
       const item = cartProducts.filter((elm) => elm.id == id)[0];
@@ -71,7 +81,7 @@ export default function Cart() {
                         >
                           <Image
                             alt="img-product"
-                            src={elm.imgSrc}
+                            src={getItemImage(elm)}
                             width={668}
                             height={932}
                           />
@@ -81,9 +91,23 @@ export default function Cart() {
                             href={`/product-detail/${elm.id}`}
                             className="cart-title link"
                           >
-                            {elm.title}
+                            {getItemName(elm)}
                           </Link>
-                          <div className="cart-meta-variant">White / M</div>
+                          {elm.customFieldValues && Object.keys(elm.customFieldValues).length > 0 && (
+                            <div className="cart-meta-variant small text-muted">
+                              {Object.entries(elm.customFieldValues).map(([fieldId, value]) => {
+                                const fid = Number(fieldId);
+                                const label = Array.isArray(elm.custom_fields)
+                                  ? elm.custom_fields.find((f) => f.id === fid)?.name
+                                  : undefined;
+                                return (
+                                  <div key={fieldId}>
+                                    {label ? `${label}: ` : ""}{String(value)}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
                           <span
                             className="remove-cart link remove"
                             onClick={() => removeItem(elm.id)}

@@ -54,3 +54,7 @@ Route::apiResource('commands', CommandController::class);
 
 // Route for uploading images to a product
 Route::post('products/{product}/images', [ProductImageController::class, 'storeMultiple']);
+
+// Routes for category image management
+Route::delete('categories/{category}/images/{image}', [CategoryController::class, 'deleteImage']);
+Route::patch('categories/{category}/images/{image}/featured', [CategoryController::class, 'setFeaturedImage']);

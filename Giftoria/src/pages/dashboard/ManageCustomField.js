@@ -71,7 +71,19 @@ const ManageCustomField = () => {
                 <td>{categories.find(c => c.id === field.category_id)?.name || ''}</td>
                 <td>{field.is_required ? 'Yes' : 'No'}</td>
                 <td>{field.affects_price ? 'Yes' : 'No'}</td>
-                <td><Button size="sm" onClick={() => handleShowModal(field)}>Edit</Button></td>
+                <td>
+                  <Button size="sm" onClick={() => handleShowModal(field)} className="me-2">Edit</Button>
+                  <Button size="sm" variant="danger" onClick={async () => {
+                    if(window.confirm('Are you sure you want to delete this custom field?')) {
+                      try {
+                        await axios.delete(`${API_URL}/custom-fields/${field.id}`);
+                        setFields(fields => fields.filter(f => f.id !== field.id));
+                      } catch (err) {
+                        alert('Failed to delete custom field.');
+                      }
+                    }
+                  }}>Delete</Button>
+                </td>
               </tr>
             ))}
           </tbody>

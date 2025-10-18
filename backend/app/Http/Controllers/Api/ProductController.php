@@ -9,7 +9,10 @@ class ProductController extends Controller
 {
     public function index()
     {
-        return response()->json(Product::with('category', 'images', 'customValues')->get());
+        // Eager load category.customFields so the Product accessor for custom_fields
+        // (which surfaces category custom fields) does not trigger N+1 queries.
+        $products = Product::with(['category.customFields', 'images', 'customValues'])->get();
+        return response()->json($products);
     }
 
     public function store(Request $request)
@@ -28,7 +31,8 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::with('category', 'images', 'customValues')->findOrFail($id);
+        // Include category.customFields for the appended custom_fields attribute
+        $product = Product::with(['category.customFields', 'images', 'customValues'])->findOrFail($id);
         return response()->json($product);
     }
 

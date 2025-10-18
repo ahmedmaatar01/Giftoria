@@ -10,7 +10,7 @@ class Category extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'slug', 'description', 'parent_id', 'show_menu'
+        'name', 'slug', 'description', 'parent_id', 'show_menu', 'featured_image'
     ];
 
     public function parent()
@@ -31,5 +31,10 @@ class Category extends Model
     public function customFields()
     {
         return $this->hasMany(CustomField::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(CategoryImage::class);
     }
 }

@@ -11,11 +11,18 @@ class Command extends Model
 
     protected $fillable = [
         'user_id',
+        'name',
+        'customer_first_name',
+        'customer_last_name',
+        'customer_email',
+        'customer_phone',
         'total',
         'status',
         'shipping_address',
         'billing_address',
         'placed_at',
+        'payment_method',
+        'source',
     ];
 
     public function user()
@@ -31,7 +38,7 @@ class Command extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class, 'command_products')
-            ->withPivot('quantity', 'price_at_order_time')
+            ->withPivot('quantity', 'price_at_order_time', 'custom_fields', 'unit_price', 'line_total')
             ->withTimestamps();
     }
 }

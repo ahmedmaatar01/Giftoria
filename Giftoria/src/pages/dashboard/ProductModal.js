@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Form, Row, Col } from '@themesberg/react-bootstrap';
 import axios from 'axios';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const API_URL = 'http://localhost:8000/api';
 
@@ -18,6 +20,32 @@ const ProductModal = ({ show, onHide, onSubmit, form, setForm, isEdit }) => {
     setForm(f => ({ ...f, [name]: value }));
   };
 
+  const handleDescriptionChange = (content) => {
+    setForm(f => ({ ...f, description: content }));
+  };
+
+  // Quill editor modules configuration
+  const modules = {
+    toolbar: [
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      [{ 'color': [] }, { 'background': [] }],
+      [{ 'align': [] }],
+      ['link', 'image'],
+      ['clean']
+    ],
+  };
+
+  const formats = [
+    'header',
+    'bold', 'italic', 'underline', 'strike',
+    'list', 'bullet',
+    'color', 'background',
+    'align',
+    'link', 'image'
+  ];
+
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
@@ -31,7 +59,14 @@ const ProductModal = ({ show, onHide, onSubmit, form, setForm, isEdit }) => {
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Description</Form.Label>
-            <Form.Control name="description" value={form.description || ''} onChange={handleChange} as="textarea" />
+            <ReactQuill 
+              theme="snow"
+              value={form.description || ''} 
+              onChange={handleDescriptionChange}
+              modules={modules}
+              formats={formats}
+              style={{ height: '200px', marginBottom: '50px' }}
+            />
           </Form.Group>
           <Row>
             <Col>
