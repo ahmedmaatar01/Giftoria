@@ -18,73 +18,43 @@ export default function About() {
             </div>
             <div className="tf-content-wrap px-0 d-flex justify-content-center w-100">
               <div>
-                <div className="heading">Established - 1995</div>
-                <div className="text">
-                  Ecomus was founded in 1995 by Jane Smith, a fashion lover with
-                  a <br className="d-xl-block d-none" />
-                  passion for timeless style. Jane had always been drawn to
-                  classic <br className="d-xl-block d-none" />
-                  pieces that could be worn season after season, and she
-                  believed that <br className="d-xl-block d-none" />
-                  there was a gap in the market for a store that focused solely
-                  on classic <br className="d-xl-block d-none" />
-                  women's clothing. She opened the first store in a small town
-                  in New <br className="d-xl-block d-none" />
-                  England, where it quickly became a local favorite.
+                <div className="heading bell-t-medium">Our mission</div>
+                <div className="text montserrat-medium" style={{textAlign: 'justify'}}>
+                  Our mission is to offer a unique and luxurious gifting experience,
+                  where every creation is designed with care, personalization,
+                   and a true sense of meaning making every moment memorable.
+                 Givtooria the go-to destination for exceptional, personalized luxury gifts
+                  crafted to leave a lasting impact.
+                </div>
+                {/* Duplicated 'Our vision' block */}
+                <div style={{marginTop: '24px'}}>
+                  <div className="heading bell-t-medium">Our vision</div>
+                  <div className="text montserrat-medium" style={{textAlign: 'justify'}}>
+                    We envision a world where gifting becomes an elevated art form, a celebration of connection and emotion. Our goal is to make Givtooria the go-to destination for exceptional, personalized luxury gifts crafted to leave a lasting impact.
+                  </div>
+                </div>
+                {/* Second duplicate of 'Our vision' block */}
+                <div style={{marginTop: '24px'}}>
+                  <div className="heading bell-t-medium">Our values</div>
+                  <div className="text montserrat-medium" style={{textAlign: 'justify'}}>
+                            <span className="montserrat-medium">
+                              <strong>Elegance :</strong> We design with timeless beauty and grace in mind.
+                            <br /><strong>Personalization :</strong> Every gift is a reflection of the giver’s heart and the
+                          recipient’s uniqueness.
+                          <br /><strong>Excellence :</strong> We hold ourselves to the highest standards in every
+                          detail, every time.
+                          <br /><strong>Emotion :</strong> Our gifts carry meaning — they tell stories and create memories.
+                          <br /><strong>Creativity :</strong> We explore endless ways to surprise and delight through
+                          thoughtful design.
+                            </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
-      <section className="flat-spacing-15">
-        <div className="container">
-          <div className="tf-grid-layout md-col-2 tf-img-with-text style-4">
-            <div className="tf-content-wrap px-0 d-flex justify-content-center w-100">
-              <div>
-                <div className="heading">Our mission</div>
-                <div className="text">
-                  Our mission is to empower people through sustainable fashion.
-                  <br className="d-xl-block d-none" />
-                  We want everyone to look and feel good, while also doing our
-                  part to <br className="d-xl-block d-none" />
-                  help the environment.We believe that fashion should be
-                  stylish, <br className="d-xl-block d-none" />
-                  affordable and accessible to everyone. Body positivity and
-                  inclusivity <br className="d-xl-block d-none" />
-                  are values that are at the heart of our brand.
-                </div>
-              </div>
-            </div>
-            <div className="grid-img-group">
-              <div className="tf-image-wrap box-img item-1">
-                <div className="img-style">
-                  <Image
-                    className="lazyload"
-                    src="/images/collections/collection-71.jpg"
-                    data-=""
-                    alt="img-slider"
-                    width={337}
-                    height={388}
-                  />
-                </div>
-              </div>
-              <div className="tf-image-wrap box-img item-2">
-                <div className="img-style">
-                  <Image
-                    className="lazyload"
-                    src="/images/collections/collection-70.jpg"
-                    data-=""
-                    alt="img-slider"
-                    width={400}
-                    height={438}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+
     </>
   );
 }

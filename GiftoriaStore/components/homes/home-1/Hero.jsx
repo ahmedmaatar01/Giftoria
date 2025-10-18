@@ -1,59 +1,38 @@
 "use client";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
-import { slides } from "@/data/heroslides";
-import Link from "next/link";
 import React from "react";
-import Image from "next/image";
+import Link from "next/link";
+
 export default function Hero() {
   return (
-    <div className="tf-slideshow slider-effect-fade position-relative">
-      <Swiper
-        dir="ltr"
-        className="swiper tf-sw-slideshow"
-        modules={[Pagination]}
-        pagination={{ clickable: true, el: ".sp1" }}
-        speed={1000}
-      >
-        {slides.map((slide, index) => (
-          <SwiperSlide className="swiper-slide" key={index}>
-            <div className="wrap-slider">
-              <Image
-                priority
-                alt="fashion-slideshow"
-                src={slide.imgSrc}
-                width="2000"
-                height="1125"
-              />
-              <div className="box-content">
-                <div className="container">
-                  <h1 className="fade-item fade-item-1">
-                    {slide.title.split("\n").map((line, i) => (
-                      <React.Fragment key={i}>
-                        {line}
-                        <br />
-                      </React.Fragment>
-                    ))}
-                  </h1>
-                  <p className="fade-item fade-item-2">{slide.text}</p>
-                  <Link
-                    href={`/shop-default`}
-                    className="fade-item fade-item-3 tf-btn btn-fill animate-hover-btn btn-xl radius-3"
-                  >
-                    <span>{slide.btnText}</span>
-                    <i className="icon icon-arrow-right" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-      <div className="wrap-pagination">
-        <div className="container">
-          <div className="sw-dots sp1 sw-pagination-slider justify-content-center" />
+    <section className="tf-slideshow slider-video position-relative">
+      <div className="banner-wrapper">
+        <video
+          src="/images/slider/slider-video-2.mp4"
+          autoPlay
+          muted
+          playsInline
+          loop
+          style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
+        />
+        <div className="box-content text-center">
+          <div className="container wow fadeInUp" data-wow-delay="0s">
+            <p className="subheading text-white fw-7 banner-title-montserrat">
+              Come closer, darling
+            </p>
+            <h1 className="heading text-white bell-t-medium">A touch of charm awaits</h1>
+            <p className="description text-white banner-title-montserrat">
+              Don’t be shy, love
+            </p>
+            <Link
+              href={`/shop-women`}
+              className="tf-btn btn-md btn-light-icon btn-icon radius-3 animate-hover-btn"
+            >
+              <span>Shop now</span>
+              <i className="icon icon-arrow-right" />
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

@@ -5,21 +5,13 @@ import React from "react";
 export default function Categories() {
   return (
     <section className="flat-spacing-4 section-cls-personalized-pod section-full-1">
-      <Image
-        className=""
-        data-src="/images/collections/bg-personalized-pod-3.png"
-        alt=""
-        src="/images/collections/bg-personalized-pod-3.png"
-        width={2000}
-        height={1101}
-      />
       <div className="container">
         <div className="flat-title gap-14">
           <span
             className="title wow fadeInUp fw-6 text-center"
             data-wow-delay="0s"
           >
-            Explore our product <br /> categories
+            <span className="bell-t-medium">Explore our flowers categories</span>
           </span>
         </div>
         <div className="masonry-layout style-3">
@@ -46,7 +38,7 @@ export default function Categories() {
                   href={`/shop-women`}
                   className="tf-btn collection-title hover-icon"
                 >
-                  <span>Ornaments</span>
+                  <span>Gift Boxes</span>
                   <i className="icon icon-arrow1-top-left" />
                 </Link>
               </div>
@@ -75,7 +67,7 @@ export default function Categories() {
                   href={`/shop-default`}
                   className="tf-btn collection-title hover-icon"
                 >
-                  <span>Decor</span>
+                  <span>Sweet Treats</span>
                   <i className="icon icon-arrow1-top-left" />
                 </Link>
               </div>
@@ -104,7 +96,7 @@ export default function Categories() {
                   href={`/shop-default`}
                   className="tf-btn collection-title hover-icon"
                 >
-                  <span>Christmas Deals</span>
+                  <span>Wellness Sets</span>
                   <i className="icon icon-arrow1-top-left" />
                 </Link>
               </div>
@@ -133,7 +125,7 @@ export default function Categories() {
                   href={`/shop-men`}
                   className="tf-btn collection-title hover-icon"
                 >
-                  <span>Crossword Puzzle</span>
+                  <span>Keepsake Gifts</span>
                   <i className="icon icon-arrow1-top-left" />
                 </Link>
               </div>

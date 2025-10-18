@@ -385,7 +385,7 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
         <Link href="/about-us" className={`item-link ${Linkfs} ${textColor}`}>About Us</Link>
       </li>
       <li className="menu-item">
-        <Link href="/contact-1" className={`item-link ${Linkfs} ${textColor}`}>Contact</Link>
+        <Link href="/contact-2" className={`item-link ${Linkfs} ${textColor}`}>Contact</Link>
       </li>
       <li className="menu-item">
         <Link href="/faq-1" className={`item-link ${Linkfs} ${textColor}`}>FAQ</Link>
