@@ -34,7 +34,7 @@ export default function Header1() {
               <Image
                 alt="logo"
                 className="logo"
-                src="/images/logo/for site_Plan de travail 1 copie 2.svg"
+                src="/images/logo/logo_Plan de travail 1 copie 2.svg"
                 width="200"
                 height="40"
               />

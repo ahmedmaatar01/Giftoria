@@ -1,3 +1,24 @@
+/* Custom background for quick-add button in Products2 */
+.box-icon.quick-add.tf-btn-loading {
+  background-color: #967740 !important;
+  box-shadow: none !important;
+}
+section.tf-slideshow.slider-video.position-relative {
+  margin-bottom: -10px;
+}
+/* Smaller font for hero subtitle */
+.hero-title-small {
+  font-family: 'Montserrat', Arial, Helvetica, sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 1.1rem;
+  display: block;
+  margin-top: 0.2em;
+}
+/* Custom class for Montserrat Medium font for hero title */
+.hero-title-montserrat-medium {
+  font-family: 'Montserrat', Arial, Helvetica, sans-serif !important;
+  font-weight: 500 !important;
+}
 /* Custom class for Bell T Medium font */
 .bell-t-medium {
   font-family: 'Bell T Medium', 'Times New Roman', Times, serif !important;

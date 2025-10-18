@@ -5,7 +5,7 @@ export default function Store() {
     <section className="flat-spacing-9 pb_0">
       <div className="container">
         <div className="flat-title wow fadeInUp" data-wow-delay="0s">
-          <span className="title banner-title-montserrat">Come Stroll Through Our Flower Parlour</span>
+          <span className="title bell-t-medium">Come Stroll Through Our Flower Parlour</span>
         </div>
         <div className="flat-tab-store flat-animate-tab">
 

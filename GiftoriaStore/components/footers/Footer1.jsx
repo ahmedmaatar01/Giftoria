@@ -70,13 +70,13 @@ export default function Footer1({ bgColor = "" }) {
 
   return (
     <footer id="footer" className={`footer md-pb-70 ${bgColor}`}>
-      <div className="footer-wrap">
+      <div className="footer-wrap" style={{backgroundColor:"#F1ECE4"}}>
         <div className="footer-body">
           <div className="container">
             <div className="row">
               <div className="col-xl-3 col-md-6 col-12">
                 <div className="footer-infor">
-                  <div className="footer-logo">
+                  {/* <div className="footer-logo">
                     <Link href={`/`}>
                       <Image
                         alt="image"
@@ -85,7 +85,7 @@ export default function Footer1({ bgColor = "" }) {
                         height="21"
                       />
                     </Link>
-                  </div>
+                  </div> */}
                   <ul>
                     <li>
                       <p>
@@ -200,9 +200,8 @@ export default function Footer1({ bgColor = "" }) {
                       exclusive content, events and more!
                     </div>
                     <div
-                      className={`tfSubscribeMsg ${
-                        showMessage ? "active" : ""
-                      }`}
+                      className={`tfSubscribeMsg ${showMessage ? "active" : ""
+                        }`}
                     >
                       {success ? (
                         <p style={{ color: "rgb(52, 168, 83)" }}>
@@ -260,26 +259,28 @@ export default function Footer1({ bgColor = "" }) {
             </div>
           </div>
         </div>
+        <div className="footer-log">
+          <div className="footer-logo d-flex justify-content-center">
+            <Link href={`/`}>
+              <Image
+                alt="image"
+                src="/images/logo/logo_Plan de travail 1 copie 2.svg"
+                width="300"
+                height="21"
+              />
+            </Link>
+          </div>
+        </div>
         <div className="footer-bottom">
           <div className="container">
             <div className="row">
               <div className="col-12">
-                <div className="footer-bottom-wrap d-flex gap-20 flex-wrap justify-content-between align-items-center">
+                <div className="footer-bottom-wrap d-flex gap-20 flex-wrap justify-content-center align-items-center">
                   <div className="footer-menu_item">
-                    © {new Date().getFullYear()} Ecomus Store. All Rights
+                    © {new Date().getFullYear()} Giftoria Store. All Rights
                     Reserved
                   </div>
-                  <div className="tf-payment">
-                    {paymentImages.map((image, index) => (
-                      <Image
-                        key={index}
-                        src={image.src}
-                        width={image.width}
-                        height={image.height}
-                        alt={image.alt}
-                      />
-                    ))}
-                  </div>
+
                 </div>
               </div>
             </div>

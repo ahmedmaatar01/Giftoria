@@ -2,170 +2,170 @@ import Link from "next/link";
 export const iconBoxes = [
   {
     iconClass: "icon-shipping-1",
-  title: <span className="banner-title-montserrat">Free Shipping</span>,
-    description: "Free shipping over order $120",
+  title: <span className="banner-title-montserrat montserrat-semi-bold">Free Shipping</span>,
+  description: <span className="bell-t-medium">Free shipping over order $120</span>,
   },
   {
     iconClass: "icon-payment-1",
-  title: <span className="banner-title-montserrat">Flexible Payment</span>,
-    description: "Pay with Multiple Credit Cards",
+  title: <span className="banner-title-montserrat montserrat-semi-bold">Flexible Payment</span>,
+  description: <span className="bell-t-medium">Pay with Multiple Credit Cards</span>,
   },
   {
     iconClass: "icon-return-1",
-  title: <span className="banner-title-montserrat">14 Day Returns</span>,
-    description: "Within 30 days for an exchange",
+  title: <span className="banner-title-montserrat montserrat-semi-bold">14 Day Returns</span>,
+  description: <span className="bell-t-medium">Within 30 days for an exchange</span>,
   },
 ];
 
 export const iconBoxData = [
   {
     iconClass: "icon-shipping",
-    title: <span className="banner-title-montserrat">Free Shipping</span>,
-    description: "Free shipping over order $120",
+  title: <span className="banner-title-montserrat montserrat-semi-bold">Free Shipping</span>,
+  description: <span className="bell-t-medium">Free shipping over order $120</span>,
   },
   {
     iconClass: "icon-payment fs-22",
-    title: <span className="banner-title-montserrat">Flexible Payment</span>,
-    description: "Pay with Multiple Credit Cards",
+  title: <span className="banner-title-montserrat montserrat-semi-bold">Flexible Payment</span>,
+  description: <span className="bell-t-medium">Pay with Multiple Credit Cards</span>,
   },
   {
     iconClass: "icon-return fs-20",
-    title: <span className="banner-title-montserrat">14 Day Returns</span>,
-    description: "Within 30 days for an exchange",
+  title: <span className="banner-title-montserrat montserrat-semi-bold">14 Day Returns</span>,
+  description: <span className="bell-t-medium">Within 30 days for an exchange</span>,
   },
   {
     iconClass: "icon-suport",
-  title: <span className="banner-title-montserrat">Premium Support</span>,
-    description: "Outstanding premium support",
+  title: <span className="banner-title-montserrat montserrat-semi-bold">Premium Support</span>,
+  description: <span className="bell-t-medium">Outstanding premium support</span>,
   },
   {
     iconClass: "icon-shipping",
     title: "Free Shipping",
-    description: "Free shipping over order $120",
+  description: <span className="bell-t-medium">Free shipping over order $120</span>,
   },
   {
     iconClass: "icon-payment fs-22",
     title: "Flexible Payment",
-    description: "Pay with Multiple Credit Cards",
+  description: <span className="bell-t-medium">Pay with Multiple Credit Cards</span>,
   },
   {
     iconClass: "icon-return fs-20",
     title: "14 Day Returns",
-    description: "Within 30 days for an exchange",
+  description: <span className="bell-t-medium">Within 30 days for an exchange</span>,
   },
   {
     iconClass: "icon-suport",
     title: "Premium Support",
-    description: "Outstanding premium support",
+  description: <span className="bell-t-medium">Outstanding premium support</span>,
   },
 ];
 export const iconBoxes7 = [
   {
     iconClass: "icon-shipping",
     iconStyle: "",
-    title: "Free Shipping",
-    description: "Free shipping over order $120",
+  title: <span className="montserrat-semi-bold">Free Shipping</span>,
+  description: <span className="bell-t-medium">Free shipping over order $120</span>,
   },
   {
     iconClass: "icon-payment",
     iconStyle: "fs-22",
-    title: "Flexible Payment",
-    description: "Pay with Multiple Credit Cards",
+  title: <span className="montserrat-semi-bold">Flexible Payment</span>,
+  description: <span className="bell-t-medium">Pay with Multiple Credit Cards</span>,
   },
   {
     iconClass: "icon-return",
     iconStyle: "fs-20",
-    title: "14 Day Returns",
-    description: "Within 30 days for an exchange",
+  title: <span className="montserrat-semi-bold">14 Day Returns</span>,
+  description: <span className="bell-t-medium">Within 30 days for an exchange</span>,
   },
   {
     iconClass: "icon-suport",
     iconStyle: "",
-    title: "Premium Support",
-    description: "Outstanding premium support",
+  title: <span className="montserrat-semi-bold">Premium Support</span>,
+  description: <span className="bell-t-medium">Outstanding premium support</span>,
   },
 ];
 export const slides23 = [
   {
     iconClass: "icon-shipping",
-    title: "Free Shipping",
-    description: "Free shipping over order $120",
+  title: <span className="montserrat-semi-bold">Free Shipping</span>,
+  description: <span className="bell-t-medium">Free shipping over order $120</span>,
   },
   {
     iconClass: "icon-payment fs-22",
-    title: "Flexible Payment",
-    description: "Pay with Multiple Credit Cards",
+  title: <span className="montserrat-semi-bold">Flexible Payment</span>,
+  description: <span className="bell-t-medium">Pay with Multiple Credit Cards</span>,
   },
   {
     iconClass: "icon-return fs-20",
-    title: "14 Day Returns",
-    description: "Within 30 days for an exchange",
+  title: <span className="montserrat-semi-bold">14 Day Returns</span>,
+  description: <span className="bell-t-medium">Within 30 days for an exchange</span>,
   },
   {
     iconClass: "icon-suport",
-    title: "Premium Support",
-    description: "Outstanding premium support",
+  title: <span className="montserrat-semi-bold">Premium Support</span>,
+  description: <span className="bell-t-medium">Outstanding premium support</span>,
   },
 ];
 export const iconBoxes2 = [
   {
     iconClass: "icon-shipping-1",
-    title: "Fast & free shipping",
+  title: <span className="montserrat-semi-bold">Fast & free shipping</span>,
     description:
-      "Every single order ships for free. No minimums, no tiers, no fine print whatsoever.",
+      <span className="bell-t-medium">Every single order ships for free. No minimums, no tiers, no fine print whatsoever.</span>,
   },
   {
     iconClass: "icon-payment-1",
-    title: "Modular, easy-to-move design",
+  title: <span className="montserrat-semi-bold">Modular, easy-to-move design</span>,
     description:
-      "Our innovative modular design is driven by the belief that furniture should fit this home, and the next one.",
+      <span className="bell-t-medium">Our innovative modular design is driven by the belief that furniture should fit this home, and the next one.</span>,
   },
   {
     iconClass: "icon-return-1",
-    title: "Durable, premium materials",
+  title: <span className="montserrat-semi-bold">Durable, premium materials</span>,
     description:
-      "We use materials like sustainably-forested wood, strengthened steel hardware, and top-grain Italian leather.",
+      <span className="bell-t-medium">We use materials like sustainably-forested wood, strengthened steel hardware, and top-grain Italian leather.</span>,
   },
   {
     iconClass: "icon-shipping-1",
-    title: "Fast & free shipping",
+  title: <span className="montserrat-semi-bold">Fast & free shipping</span>,
     description:
-      "Every single order ships for free. No minimums, no tiers, no fine print whatsoever.",
+      <span className="bell-t-medium">Every single order ships for free. No minimums, no tiers, no fine print whatsoever.</span>,
   },
   {
     iconClass: "icon-payment-1",
-    title: "Modular, easy-to-move design",
+  title: <span className="montserrat-semi-bold">Modular, easy-to-move design</span>,
     description:
-      "Our innovative modular design is driven by the belief that furniture should fit this home, and the next one.",
+      <span className="bell-t-medium">Our innovative modular design is driven by the belief that furniture should fit this home, and the next one.</span>,
   },
   {
     iconClass: "icon-return-1",
-    title: "Durable, premium materials",
+  title: <span className="montserrat-semi-bold">Durable, premium materials</span>,
     description:
-      "We use materials like sustainably-forested wood, strengthened steel hardware, and top-grain Italian leather.",
+      <span className="bell-t-medium">We use materials like sustainably-forested wood, strengthened steel hardware, and top-grain Italian leather.</span>,
   },
 ];
 
 export const slides = [
   {
     iconClass: "icon-shipping",
-    title: "Free Shipping on Orders Over $120",
+  title: <span className="montserrat-semi-bold">Free Shipping on Orders Over $120</span>,
     justifyClass: "justify-content-end",
   },
   {
     iconClass: "icon-trial",
-    title: "100-days risk-free trial",
+  title: <span className="montserrat-semi-bold">100-days risk-free trial</span>,
     justifyClass: "justify-content-center",
   },
   {
     iconClass: "icon-warranty",
-    title: "Free 4-years warranty",
+  title: <span className="montserrat-semi-bold">Free 4-years warranty</span>,
     justifyClass: "",
   },
 
   {
     iconClass: "icon-trial",
-    title: "100-days risk-free trial",
+  title: <span className="montserrat-semi-bold">100-days risk-free trial</span>,
     justifyClass: "justify-content-center",
   },
 ];
@@ -173,35 +173,35 @@ export const slides = [
 export const iconBoxes3 = [
   {
     iconClass: "icon-shipping",
-    title: "Free Shipping",
-    description: "Free shipping over order $120",
+  title: <span className="montserrat-semi-bold">Free Shipping</span>,
+  description: <span className="bell-t-medium">Free shipping over order $120</span>,
   },
   {
     iconClass: "icon-payment fs-22",
-    title: "Flexible Payment",
-    description: "Pay with Multiple Credit Cards",
+  title: <span className="montserrat-semi-bold">Flexible Payment</span>,
+  description: <span className="bell-t-medium">Pay with Multiple Credit Cards</span>,
   },
   {
     iconClass: "icon-return fs-20",
-    title: "14 Day Returns",
-    description: "Within 30 days for an exchange",
+  title: <span className="montserrat-semi-bold">14 Day Returns</span>,
+  description: <span className="bell-t-medium">Within 30 days for an exchange</span>,
   },
   {
     iconClass: "icon-suport",
-    title: "Premium Support",
-    description: "Outstanding premium support",
+  title: <span className="montserrat-semi-bold">Premium Support</span>,
+  description: <span className="bell-t-medium">Outstanding premium support</span>,
   },
 
   {
     iconClass: "icon-return fs-20",
-    title: "14 Day Returns",
-    description: "Within 30 days for an exchange",
+  title: <span className="montserrat-semi-bold">14 Day Returns</span>,
+  description: <span className="bell-t-medium">Within 30 days for an exchange</span>,
   },
 ];
 
 export const iconBoxSlides = [
   {
-    title: "Huge Selection",
+  title: <span className="montserrat-semi-bold">Huge Selection</span>,
     desc: (
       <>
         With over 1,600 fun sock styles, our{" "}
@@ -217,7 +217,7 @@ export const iconBoxSlides = [
     ),
   },
   {
-    title: "Perfect Gift",
+  title: <span className="montserrat-semi-bold">Perfect Gift</span>,
     desc: (
       <>
         Every order arrives wrapped in a <br />
@@ -226,7 +226,7 @@ export const iconBoxSlides = [
     ),
   },
   {
-    title: "Pay Your Way",
+  title: <span className="montserrat-semi-bold">Pay Your Way</span>,
     desc: (
       <>
         We accept all major credit cards and offer
@@ -236,7 +236,7 @@ export const iconBoxSlides = [
     ),
   },
   {
-    title: "Perfect Gift",
+  title: <span className="montserrat-semi-bold">Perfect Gift</span>,
     desc: (
       <>
         Every order arrives wrapped in a <br />
@@ -254,7 +254,7 @@ export const recentCollectionSlides = [
     height: 792,
     wowDelay: "0s",
     subheading: "UP TO 30% OFF",
-    heading: "Beachwear on Sale",
+  heading: <span className="montserrat-semi-bold">Beachwear on Sale</span>,
     btnClass:
       "tf-btn btn-color-2 style-3 text-uppercase rounded-0 fw-6 animate-hover-btn letter-2",
   },
@@ -265,7 +265,7 @@ export const recentCollectionSlides = [
     height: 792,
     wowDelay: "0s",
     subheading: "UP TO 30% OFF",
-    heading: "Athleisure Wear",
+  heading: <span className="montserrat-semi-bold">Athleisure Wear</span>,
     btnClass:
       "tf-btn btn-color-3 text-uppercase style-3 rounded-0 fw-6 animate-hover-btn letter-2",
   },
@@ -276,7 +276,7 @@ export const recentCollectionSlides = [
     height: 792,
     wowDelay: "0s",
     subheading: "UP TO 30% OFF",
-    heading: "Beachwear on Sale",
+  heading: <span className="montserrat-semi-bold">Beachwear on Sale</span>,
     btnClass:
       "tf-btn btn-color-2 style-3 text-uppercase rounded-0 fw-6 animate-hover-btn letter-2",
   },
@@ -287,7 +287,7 @@ export const recentCollectionSlides = [
     height: 792,
     wowDelay: "0s",
     subheading: "UP TO 30% OFF",
-    heading: "Athleisure Wear",
+  heading: <span className="montserrat-semi-bold">Athleisure Wear</span>,
     btnClass:
       "tf-btn btn-color-3 text-uppercase style-3 rounded-0 fw-6 animate-hover-btn letter-2",
   },
@@ -296,41 +296,35 @@ export const recentCollectionSlides = [
 export const iconBoxes4 = [
   {
     iconClass: "icon-materials",
-    title: "High-Quality Materials",
+  title: <span className="montserrat-semi-bold">High-Quality Materials</span>,
     description:
-      "Crafted with precision and excellence, our activewear is meticulously engineered using premium materials to ensure unmatched comfort and durability.",
+      <span className="bell-t-medium">Crafted with precision and excellence, our activewear is meticulously engineered using premium materials to ensure unmatched comfort and durability.</span>,
   },
   {
     iconClass: "icon-design",
-    title: "Laconic Design",
+  title: <span className="montserrat-semi-bold">Laconic Design</span>,
     description:
-      "Simplicity refined. Our activewear embodies the essence of minimalistic design, delivering effortless style that speaks volumes.",
+      <span className="bell-t-medium">Simplicity refined. Our activewear embodies the essence of minimalistic design, delivering effortless style that speaks volumes.</span>,
   },
   {
     iconClass: "icon-sizes",
-    title: "Various Sizes",
+  title: <span className="montserrat-semi-bold">Various Sizes</span>,
     description:
-      "Designed for every body and anyone, our activewear embraces diversity with a wide range of sizes and shapes, celebrating the beauty of individuality.",
-  },
-  {
-    iconClass: "icon-design",
-    title: "Laconic Design",
-    description:
-      "Simplicity refined. Our activewear embodies the essence of minimalistic design, delivering effortless style that speaks volumes.",
+      <span className="bell-t-medium">Designed for every body and anyone, our activewear embraces diversity with a wide range of sizes and shapes, celebrating the beauty of individuality.</span>,
   },
 ];
 
 export const swiperData = [
   {
     iconClass: "icon-shipping",
-    title: "Free Shipping on Orders Over $120",
+  title: <span className="montserrat-semi-bold">Free Shipping on Orders Over $120</span>,
   },
   {
     iconClass: "icon-trial",
-    title: "100-days risk-free trial",
+  title: <span className="montserrat-semi-bold">100-days risk-free trial</span>,
   },
   {
     iconClass: "icon-warranty",
-    title: "Free 4-years warranty",
+  title: <span className="montserrat-semi-bold">Free 4-years warranty</span>,
   },
 ];
