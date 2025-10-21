@@ -174,7 +174,7 @@ export const collectionData3 = [
     imgAlt: "collection-img",
     imgWidth: 360,
     imgHeight: 360,
-    title: "New arrivals",
+    title: "Anniversary",
     itemCount: 31,
   },
 ];
@@ -1632,7 +1632,7 @@ export const collectionItemsStyle2 = [
     alt: "collection-img",
     imgWidth: 600,
     imgHeight: 399,
-    title: "New Arrivals",
+    title: "Anniversary",
   },
 ];
 
@@ -1890,7 +1890,7 @@ export const collectionItems14 = [
     alt: "banner-collection",
     width: 800,
     height: 541,
-    buttonText: "BEST SELLERS",
+    buttonText: "Valentine’s Day",
   },
   {
     id: "item-2",
@@ -1929,7 +1929,7 @@ export const collectionCircles = [
     alt: "collection-img",
     width: 160,
     height: 160,
-    title: "New Arrivals",
+    title: "Anniversary",
   },
   {
     id: "circle-2",
@@ -1938,7 +1938,7 @@ export const collectionCircles = [
     alt: "collection-img",
     width: 160,
     height: 160,
-    title: "Best Sellers",
+    title: "Valentine’s Day",
   },
   {
     id: "circle-3",
@@ -1947,7 +1947,7 @@ export const collectionCircles = [
     alt: "collection-img",
     width: 160,
     height: 162,
-    title: "Top Rated",
+    title: "Birthday",
   },
   {
     id: "circle-4",
@@ -1956,7 +1956,7 @@ export const collectionCircles = [
     alt: "collection-img",
     width: 160,
     height: 162,
-    title: "Brands We Love",
+    title: "Wedding",
   },
   {
     id: "circle-5",
@@ -1965,7 +1965,7 @@ export const collectionCircles = [
     alt: "collection-img",
     width: 160,
     height: 160,
-    title: "Trending",
+    title: "New Born",
   },
   {
     id: "circle-6",
@@ -1974,10 +1974,72 @@ export const collectionCircles = [
     alt: "collection-img",
     width: 160,
     height: 160,
-    title: "The Re-Imagined",
+    title: "Graduation",
     hasSale: true,
-    saleText: "30% off",
   },
+  
+];
+
+// Alternate set of collection circles: same titles/placement but different image filenames.
+// Update the imgSrc filenames to point to your new images placed in the same folder
+// (e.g. collection-circle-8-alt.jpg). If you have different filenames, replace them here.
+export const collectionCirclesAlt = [
+  {
+    id: "circle-alt-1",
+    href: "/shop-collection-sub",
+    imgSrc: "/images/collections/collection-circle-8-alt.jpg",
+    alt: "collection-img",
+    width: 160,
+    height: 160,
+    title: "Flowers & Bouquets",
+  },
+  {
+    id: "circle-alt-2",
+    href: "/shop-collection-sub",
+    imgSrc: "/images/collections/collection-circle-9-alt.jpg",
+    alt: "collection-img",
+    width: 160,
+    height: 160,
+    title: "Chocolates & Sweets",
+  },
+  {
+    id: "circle-alt-3",
+    href: "/shop-collection-sub",
+    imgSrc: "/images/collections/collection-circle-10-alt.jpg",
+    alt: "collection-img",
+    width: 160,
+    height: 162,
+    title: "Personalized Gifts",
+  },
+  {
+    id: "circle-alt-4",
+    href: "/shop-collection-sub",
+    imgSrc: "/images/collections/collection-circle-11-alt.jpg",
+    alt: "collection-img",
+    width: 160,
+    height: 162,
+    title: "Jewelry & Accessories",
+  },
+  {
+    id: "circle-alt-5",
+    href: "/shop-collection-sub",
+    imgSrc: "/images/collections/collection-circle-12-alt.jpg",
+    alt: "collection-img",
+    width: 160,
+    height: 160,
+    title: "Home & Fragrance",
+  },
+  {
+    id: "circle-alt-6",
+    href: "/shop-collection-sub",
+    imgSrc: "/images/collections/collection-circle-13-alt.jpg",
+    alt: "collection-img",
+    width: 160,
+    height: 160,
+    title: "Luxury Gift Boxes",
+    hasSale: true,
+  },
+  
 ];
 
 export const categories = [

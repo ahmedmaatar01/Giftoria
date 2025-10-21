@@ -2,61 +2,41 @@ import Link from "next/link";
 export const iconBoxes = [
   {
     iconClass: "icon-shipping-1",
-  title: <span className="banner-title-montserrat montserrat-semi-bold">Free Shipping</span>,
-  description: <span className="bell-t-medium">Free shipping over order $120</span>,
+  title: <span className="bell-t-medium">Free Shipping</span>,
+  description: <span className="montserrat-medium">Free shipping over order $120</span>,
   },
   {
     iconClass: "icon-payment-1",
-  title: <span className="banner-title-montserrat montserrat-semi-bold">Flexible Payment</span>,
-  description: <span className="bell-t-medium">Pay with Multiple Credit Cards</span>,
+  title: <span className="bell-t-medium">Flexible Payment</span>,
+  description: <span className="montserrat-medium">Pay with Multiple Credit Cards</span>,
   },
   {
     iconClass: "icon-return-1",
-  title: <span className="banner-title-montserrat montserrat-semi-bold">14 Day Returns</span>,
-  description: <span className="bell-t-medium">Within 30 days for an exchange</span>,
+  title: <span className="bell-t-medium">14 Day Returns</span>,
+  description: <span className="montserrat-medium">Within 30 days for an exchange</span>,
   },
 ];
 
 export const iconBoxData = [
   {
     iconClass: "icon-shipping",
-  title: <span className="banner-title-montserrat montserrat-semi-bold">Free Shipping</span>,
-  description: <span className="bell-t-medium">Free shipping over order $120</span>,
+    title: <span className="bell-t-medium">Free Shipping</span>,
+  description: <span className="montserrat-medium">Free shipping over order $120</span>,
   },
   {
     iconClass: "icon-payment fs-22",
-  title: <span className="banner-title-montserrat montserrat-semi-bold">Flexible Payment</span>,
-  description: <span className="bell-t-medium">Pay with Multiple Credit Cards</span>,
+    title: <span className="bell-t-medium">Flexible Payment</span>,
+  description: <span className="montserrat-medium">Pay with Multiple Credit Cards</span>,
   },
   {
     iconClass: "icon-return fs-20",
-  title: <span className="banner-title-montserrat montserrat-semi-bold">14 Day Returns</span>,
-  description: <span className="bell-t-medium">Within 30 days for an exchange</span>,
+    title: <span className="bell-t-medium">14 Day Returns</span>,
+  description: <span className="montserrat-medium">Within 30 days for an exchange</span>,
   },
   {
     iconClass: "icon-suport",
-  title: <span className="banner-title-montserrat montserrat-semi-bold">Premium Support</span>,
-  description: <span className="bell-t-medium">Outstanding premium support</span>,
-  },
-  {
-    iconClass: "icon-shipping",
-    title: "Free Shipping",
-  description: <span className="bell-t-medium">Free shipping over order $120</span>,
-  },
-  {
-    iconClass: "icon-payment fs-22",
-    title: "Flexible Payment",
-  description: <span className="bell-t-medium">Pay with Multiple Credit Cards</span>,
-  },
-  {
-    iconClass: "icon-return fs-20",
-    title: "14 Day Returns",
-  description: <span className="bell-t-medium">Within 30 days for an exchange</span>,
-  },
-  {
-    iconClass: "icon-suport",
-    title: "Premium Support",
-  description: <span className="bell-t-medium">Outstanding premium support</span>,
+    title: <span className="bell-t-medium">Premium Support</span>,
+  description: <span className="montserrat-medium">Outstanding premium support</span>,
   },
 ];
 export const iconBoxes7 = [
@@ -64,19 +44,19 @@ export const iconBoxes7 = [
     iconClass: "icon-shipping",
     iconStyle: "",
   title: <span className="montserrat-semi-bold">Free Shipping</span>,
-  description: <span className="bell-t-medium">Free shipping over order $120</span>,
+  description: <span className="montserrat-medium">Free shipping over order $120</span>,
   },
   {
     iconClass: "icon-payment",
     iconStyle: "fs-22",
   title: <span className="montserrat-semi-bold">Flexible Payment</span>,
-  description: <span className="bell-t-medium">Pay with Multiple Credit Cards</span>,
+  description: <span className="montserrat-medium">Pay with Multiple Credit Cards</span>,
   },
   {
     iconClass: "icon-return",
     iconStyle: "fs-20",
   title: <span className="montserrat-semi-bold">14 Day Returns</span>,
-  description: <span className="bell-t-medium">Within 30 days for an exchange</span>,
+  description: <span className="montserrat-medium">Within 30 days for an exchange</span>,
   },
   {
     iconClass: "icon-suport",
@@ -89,22 +69,22 @@ export const slides23 = [
   {
     iconClass: "icon-shipping",
   title: <span className="montserrat-semi-bold">Free Shipping</span>,
-  description: <span className="bell-t-medium">Free shipping over order $120</span>,
+  description: <span className="montserrat-medium">Free shipping over order $120</span>,
   },
   {
     iconClass: "icon-payment fs-22",
   title: <span className="montserrat-semi-bold">Flexible Payment</span>,
-  description: <span className="bell-t-medium">Pay with Multiple Credit Cards</span>,
+  description: <span className="montserrat-medium">Pay with Multiple Credit Cards</span>,
   },
   {
     iconClass: "icon-return fs-20",
   title: <span className="montserrat-semi-bold">14 Day Returns</span>,
-  description: <span className="bell-t-medium">Within 30 days for an exchange</span>,
+  description: <span className="montserrat-medium">Within 30 days for an exchange</span>,
   },
   {
     iconClass: "icon-suport",
   title: <span className="montserrat-semi-bold">Premium Support</span>,
-  description: <span className="bell-t-medium">Outstanding premium support</span>,
+  description: <span className="montserrat-medium">Outstanding premium support</span>,
   },
 ];
 export const iconBoxes2 = [
@@ -295,22 +275,22 @@ export const recentCollectionSlides = [
 
 export const iconBoxes4 = [
   {
-    iconClass: "icon-materials",
-  title: <span className="montserrat-semi-bold">High-Quality Materials</span>,
+    iconClass: "icon-star",
+  title: <span className="bell-t-medium">High-Quality Materials</span>,
     description:
-      <span className="bell-t-medium">Crafted with precision and excellence, our activewear is meticulously engineered using premium materials to ensure unmatched comfort and durability.</span>,
+      <span className="montserrat-medium">Crafted with precision and excellence, our activewear is meticulously engineered using premium materials to ensure unmatched comfort and durability.</span>,
   },
   {
     iconClass: "icon-design",
-  title: <span className="montserrat-semi-bold">Laconic Design</span>,
+  title: <span className="bell-t-medium">Laconic Design</span>,
     description:
-      <span className="bell-t-medium">Simplicity refined. Our activewear embodies the essence of minimalistic design, delivering effortless style that speaks volumes.</span>,
+      <span className="montserrat-medium">Simplicity refined. Our activewear embodies the essence of minimalistic design, delivering effortless style that speaks volumes.</span>,
   },
   {
     iconClass: "icon-sizes",
-  title: <span className="montserrat-semi-bold">Various Sizes</span>,
+  title: <span className="bell-t-medium">Various Sizes</span>,
     description:
-      <span className="bell-t-medium">Designed for every body and anyone, our activewear embraces diversity with a wide range of sizes and shapes, celebrating the beauty of individuality.</span>,
+      <span className="montserrat-medium">Designed for every body and anyone, our activewear embraces diversity with a wide range of sizes and shapes, celebrating the beauty of individuality.</span>,
   },
 ];
 

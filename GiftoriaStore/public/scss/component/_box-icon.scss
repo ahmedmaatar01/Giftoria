@@ -151,6 +151,11 @@
                 }
             }
         }
+            /* Slightly larger description for About features (small, subtle increase) */
+            .content .desc-lg {
+                font-size: 15px !important;
+                line-height: 1.7 !important;
+            }
     }
 }
 
@@ -212,4 +217,25 @@
         height: 100%;
     }
 }
+
+/* Override: remove icon visuals site-wide and reflow content
+   This hides icon circles and inline <i> elements without editing all components.
+   It also tightens spacing so title/description align nicely after removal. */
+.tf-icon-box .icon {
+    display: none !important;
+    margin: 0 !important;
+}
+.tf-icon-box .content {
+    padding-top: 0 !important;
+}
+.tf-icon-box .content .title {
+    margin-top: 0 !important;
+    margin-bottom: 8px !important;
+}
+/* For horizontal icon box variants, switch to stacked layout when icons are hidden */
+.tf-icon-box.style-row {
+    display: block !important;
+    text-align: left !important;
+}
+
 

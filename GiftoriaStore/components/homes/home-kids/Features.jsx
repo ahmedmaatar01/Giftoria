@@ -53,7 +53,7 @@ export default function Features() {
                 </div>
                 <div className="content">
                   <div className="title">Free Shipping</div>
-                  <p>Free shipping over order $120</p>
+                  <p><span className="montserrat-medium">Free shipping over order $120</span></p>
                 </div>
               </div>
             </SwiperSlide>
@@ -83,7 +83,7 @@ export default function Features() {
                 </div>
                 <div className="content">
                   <div className="title">Flexible Payment</div>
-                  <p>Pay with Multiple Credit Cards</p>
+                  <p><span className="montserrat-medium">Pay with Multiple Credit Cards</span></p>
                 </div>
               </div>
             </SwiperSlide>
@@ -116,7 +116,7 @@ export default function Features() {
                 </div>
                 <div className="content">
                   <div className="title">14 Day Returns</div>
-                  <p>Within 30 days for an exchange</p>
+                  <p><span className="montserrat-medium">Within 30 days for an exchange</span></p>
                 </div>
               </div>
             </SwiperSlide>
@@ -146,7 +146,7 @@ export default function Features() {
                 </div>
                 <div className="content">
                   <div className="title">Flexible Payment</div>
-                  <p>Pay with Multiple Credit Cards</p>
+                  <p><span className="montserrat-medium">Pay with Multiple Credit Cards</span></p>
                 </div>
               </div>
             </SwiperSlide>

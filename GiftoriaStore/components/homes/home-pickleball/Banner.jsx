@@ -6,26 +6,24 @@ export default function Banner() {
   return (
     <section className="flat-spacing-22">
       <div className="container">
-        <div className="tf-grid-layout md-col-2 tf-img-with-text style-5 bg_light-green-5">
+        <div
+          className="tf-grid-layout md-col-2 tf-img-with-text style-5"
+          style={{ background: '#ffffff', border: '1px solid #E8DBC8', borderRadius: '50px' }}
+        >
           <div
             className="tf-content-wrap w-100 pe-xl-5 wow fadeInUp"
             data-wow-delay="0s"
           >
             <div className="heading">
-              Pickleball <br /> Superstore™
+              <span className="bell-t-medium">Our Esteemed <br /> Partners</span>
             </div>
             <p className="description text_black-2">
-              From paddles and shoes to balls, grips, and more pickleball
-              accessories, we have you covered. Find high-quality pickleball
-              equipment and accessories at competitive prices, all from one
-              pickleball store.
+             In the timeless art of gifting, collaboration is our finest treasure.
+             We take pride in joining hands with distinguished artisans, chocolatiers,
+             florists, and creators who share our devotion to elegance and authenticity.
+             Together, we craft experiences that transcend mere presents —
+             weaving stories of craftsmanship, trust, and enduring grace.
             </p>
-            <Link
-              href={`/shop-collection-list`}
-              className="tf-btn btn-outline-dark radius-60 fw-6"
-            >
-              Shop collection
-            </Link>
           </div>
           <div className="tf-image-wrap">
             <Image
