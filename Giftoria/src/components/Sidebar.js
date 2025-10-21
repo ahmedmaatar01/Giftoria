@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { CSSTransition } from 'react-transition-group';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faBoxOpen, faChartPie, faCog, faHandHoldingUsd, faSignOutAlt, faTable, faTimes ,faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
 import { Nav, Badge, Image, Button, Dropdown, Accordion, Navbar } from '@themesberg/react-bootstrap';
 import { Link } from 'react-router-dom';
 
@@ -105,6 +106,7 @@ export default (props = {}) => {
               <NavItem title="Manage Products" icon={faBoxOpen} link={Routes.ManageProducts.path} />
               <NavItem title="Manage Categories" icon={faBook} link={Routes.ManageCategory.path} />
               <NavItem title="Manage Custom Fields" icon={faTable} link={Routes.ManageCustomField.path} />
+              <NavItem title="Manage Occasions" icon={faCalendarAlt} link={Routes.ManageOccasions.path} />
               <NavItem title="Commands" icon={faCartArrowDown} link={Routes.ManageCommands.path} />
             </Nav>
           </div>

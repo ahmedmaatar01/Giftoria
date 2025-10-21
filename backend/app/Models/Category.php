@@ -37,4 +37,9 @@ class Category extends Model
     {
         return $this->hasMany(CategoryImage::class);
     }
+
+    public function occasions()
+    {
+        return $this->belongsToMany(Occasion::class, 'occasion_category');
+    }
 }

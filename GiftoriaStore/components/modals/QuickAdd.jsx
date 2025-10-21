@@ -62,7 +62,6 @@ export default function QuickAdd() {
 
   // Get product name
   const getProductName = () => {
-    console.log('Item in QuickAdd:', item);
     return item.name || item.title || "Product";
   };
 

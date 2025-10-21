@@ -9,6 +9,7 @@ export const Routes = {
         ManageCategory: { path: "/dashboard/manage-categories" },
     ManageCustomField: { path: "/dashboard/manage-custom-fields" },
     ManageCommands: { path: "/dashboard/manage-commands" },
+    ManageOccasions: { path: "/dashboard/manage-occasions" },
         NotFound: { path: "/notfound" },
         ServerError: { path: "/server-error" },
         Login: { path: "/login" },

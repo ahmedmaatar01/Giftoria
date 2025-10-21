@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ProductImageController;
 use App\Http\Controllers\Api\CustomFieldController;
 use App\Http\Controllers\Api\ProductCustomValueController;
+use App\Http\Controllers\Api\OccasionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +52,7 @@ Route::apiResource('product-images', ProductImageController::class);
 Route::apiResource('custom-fields', CustomFieldController::class);
 Route::apiResource('product-custom-values', ProductCustomValueController::class);
 Route::apiResource('commands', CommandController::class);
+Route::apiResource('occasions', OccasionController::class);
 
 // Route for uploading images to a product
 Route::post('products/{product}/images', [ProductImageController::class, 'storeMultiple']);
@@ -58,3 +60,7 @@ Route::post('products/{product}/images', [ProductImageController::class, 'storeM
 // Routes for category image management
 Route::delete('categories/{category}/images/{image}', [CategoryController::class, 'deleteImage']);
 Route::patch('categories/{category}/images/{image}/featured', [CategoryController::class, 'setFeaturedImage']);
+
+// Routes for occasion image management
+Route::delete('occasions/{occasion}/images/{image}', [OccasionController::class, 'deleteImage']);
+Route::patch('occasions/{occasion}/images/{image}/featured', [OccasionController::class, 'setFeaturedImage']);
