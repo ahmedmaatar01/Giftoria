@@ -1,5 +1,5 @@
 "use client";
-import { allProducts } from "@/data/products";
+// import { allProducts } from "@/data/products";
 import { fetchProducts, products1 } from "@/data/products";
 import { openCartModal } from "@/utlis/openCartModal";
 // import { openCart } from "@/utlis/toggleCart";
@@ -14,10 +14,12 @@ export default function Context({ children }) {
   const [cartProducts, setCartProducts] = useState([]);
   const [wishList, setWishList] = useState([1, 2, 3]);
   const [compareItem, setCompareItem] = useState([1, 2, 3]);
-  const [quickViewItem, setQuickViewItem] = useState(allProducts[0]);
+  // Initialize quickViewItem to undefined to avoid property errors
+  const [quickViewItem, setQuickViewItem] = useState(undefined);
   const [quickAddItem, setQuickAddItem] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [apiProducts, setApiProducts] = useState(products1); // Add API products state
+  const [apiProducts, setApiProducts] = useState([]); // Changed to empty array
+    const [allProducts, setAllProducts] = useState([]); // allProducts always mirrors apiProducts
   const [loading, setLoading] = useState(false);
 
   // Load products from API
@@ -37,6 +39,16 @@ export default function Context({ children }) {
 
     loadApiProducts();
   }, []);
+  
+  // Keep allProducts always in sync with apiProducts and set quickViewItem
+  useEffect(() => {
+    setAllProducts(apiProducts);
+    if (apiProducts && apiProducts.length > 0) {
+      setQuickViewItem(apiProducts[0]);
+    } else {
+      setQuickViewItem(undefined);
+    }
+  }, [apiProducts]);
 
   useEffect(() => {
     const subtotal = cartProducts.reduce((accumulator, product) => {
@@ -45,19 +57,35 @@ export default function Context({ children }) {
     setTotalPrice(subtotal);
   }, [cartProducts]);
 
-  const addProductToCart = (id, qty) => {
+  // Accept customFieldValues in addProductToCart
+  const addProductToCart = (id, qty, customFieldValues = {}) => {
     // Use apiProducts instead of allProducts
-    const allAvailableProducts = [...allProducts, ...apiProducts];
-    if (!cartProducts.filter((elm) => elm.id == id)[0]) {
+      const allAvailableProducts = allProducts; // Use allProducts (which mirrors apiProducts)
+    const existing = cartProducts.find((elm) => elm.id == id);
+    if (!existing) {
+      const base = allAvailableProducts.find((elm) => elm.id == id);
+      if (!base) return; // safety guard
       const item = {
-        ...allAvailableProducts.filter((elm) => elm.id == id)[0],
+        ...base,
         quantity: qty ? qty : 1,
+        customFieldValues: { ...customFieldValues }, // Store custom fields in cart item
       };
       setCartProducts((pre) => [...pre, item]);
       openCartModal();
-
-      // openCart();
+      return;
     }
+
+    // If already in cart, update its custom fields and quantity
+    const items = [...cartProducts];
+    const idx = items.indexOf(existing);
+    const updated = {
+      ...existing,
+      customFieldValues: { ...customFieldValues },
+      quantity: (existing.quantity || 1) + (qty ? qty : 1),
+    };
+    items[idx] = updated;
+    setCartProducts(items);
+    openCartModal();
   };
   const isAddedToCartProducts = (id) => {
     if (cartProducts.filter((elm) => elm.id == id)[0]) {

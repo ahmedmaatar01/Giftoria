@@ -1,13 +1,47 @@
-import { products1 } from "@/data/products";
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import { ProductCard } from "../shopCards/ProductCard";
 import Productcard23 from "../shopCards/Productcard23";
+import { useContextElement } from "@/context/Context";
 
 export default function ProductGrid({
   gridItems = 4,
-  allproducts = products1,
 }) {
+  const { apiProducts, loading: apiLoading } = useContextElement();
+  const [displayProducts, setDisplayProducts] = useState([]);
+
+  useEffect(() => {
+    if (apiProducts && apiProducts.length > 0) {
+      setDisplayProducts(apiProducts);
+    } else {
+      setDisplayProducts([]);
+    }
+  }, [apiProducts]);
+
+  if (apiLoading) {
+    return (
+      <div className="text-center py-5">
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading products...</span>
+        </div>
+        <p className="mt-2">Loading products from server...</p>
+      </div>
+    );
+  }
+
+  if (!displayProducts || displayProducts.length === 0) {
+    return (
+      <div className="text-center py-5">
+        <div className="alert alert-warning">
+          <h5>No Products Found</h5>
+          <p>There are currently no products available in the shop.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
+    console.log("Display Products:", displayProducts),
     <>
       <div
         style={{
@@ -17,12 +51,12 @@ export default function ProductGrid({
           marginBottom: "24px",
         }}
       >
-        {allproducts.length} product(s) found
+        {displayProducts.length} product(s) found
       </div>
       {gridItems == 1 ? (
         <div className="grid-layout" data-grid="grid-list">
           {/* card product 1 */}
-          {allproducts.map((elm, i) => (
+          {displayProducts.map((elm, i) => (
             <Productcard23 product={elm} key={i} />
           ))}
           {/* card product 2 */}
@@ -33,7 +67,7 @@ export default function ProductGrid({
           data-grid={`grid-${gridItems}`}
         >
           {/* card product 1 */}
-          {allproducts.map((elm, i) => (
+          {displayProducts.map((elm, i) => (
             <ProductCard product={elm} key={i} />
           ))}
         </div>

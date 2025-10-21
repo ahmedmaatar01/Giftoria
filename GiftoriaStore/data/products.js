@@ -4,9 +4,9 @@ const API_BASE_URL = 'http://localhost:8000/api';
 // Utility function to map backend product to frontend format
 const mapProductToFrontend = (backendProduct) => {
   // Get the featured image
-  const featuredImage = backendProduct.images?.find(img => img.is_featured);
-  const otherImages = backendProduct.images?.filter(img => !img.is_featured) || [];
-  
+  const featuredImage = backendProduct.images?.find(img => img.is_featured == 1);
+  const otherImages = backendProduct.images?.filter(img => !img.is_featured == 0) || [];
+
   return {
     id: backendProduct.id,
     imgSrc: featuredImage ? `http://localhost:8000${featuredImage.image_path}` : "/images/products/placeholder.jpg",
@@ -18,6 +18,7 @@ const mapProductToFrontend = (backendProduct) => {
     stock: backendProduct.stock,
     description: backendProduct.description,
     category: backendProduct.category?.name || "Uncategorized",
+    custom_fields: backendProduct.custom_fields || [],
   };
 };
 

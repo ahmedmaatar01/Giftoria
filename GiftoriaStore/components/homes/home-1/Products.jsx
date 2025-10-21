@@ -1,5 +1,4 @@
 "use client";
-import { products1 } from "@/data/products";
 import { useContextElement } from "@/context/Context";
 import React, { useState, useEffect } from "react";
 import { ProductCard } from "../../shopCards/ProductCard";
@@ -10,24 +9,25 @@ export default function Products() {
   const { apiProducts, loading: apiLoading } = useContextElement();
   const [allproducts, setAllproducts] = useState([]);
 
-  // Initialize products when API products are loaded
+  // Only use API products, no fallback to static
   useEffect(() => {
     if (apiProducts && apiProducts.length > 0) {
-      setAllproducts([...apiProducts.slice(0, 8)]); // Show first 8 API products
-    } else {
-      setAllproducts([...products1.slice(0, 8)]); // Fallback to static
+      setAllproducts([...apiProducts.slice(0, 8)]); // Show first 8 API products only
     }
   }, [apiProducts]);
 
   const handleLoad = () => {
-    setLoading(true);
+    if (apiProducts && apiProducts.length > allproducts.length) {
+      setLoading(true);
 
-    setTimeout(() => {
-      const productsToAdd = apiProducts.length > 0 ? apiProducts : products1;
-      setAllproducts((pre) => [...pre, ...productsToAdd.slice(8, 20)]); // Load next 12 products
-      setLoading(false);
-      setLoaded(true);
-    }, 1000);
+      setTimeout(() => {
+        const currentLength = allproducts.length;
+        const nextProducts = apiProducts.slice(currentLength, currentLength + 12);
+        setAllproducts((pre) => [...pre, ...nextProducts]);
+        setLoading(false);
+        setLoaded(currentLength + nextProducts.length >= apiProducts.length);
+      }, 1000);
+    }
   };
 
   return (
@@ -43,7 +43,7 @@ export default function Products() {
           </p>
         </div>
         {/* Show loading indicator when fetching API products */}
-        {apiLoading && allproducts.length === 0 && (
+        {apiLoading && (
           <div className="text-center py-5">
             <div className="spinner-border" role="status">
               <span className="visually-hidden">Loading products...</span>
@@ -51,16 +51,33 @@ export default function Products() {
             <p className="mt-2">Loading products from server...</p>
           </div>
         )}
-        <div
-          className="grid-layout wow fadeInUp"
-          data-wow-delay="0s"
-          data-grid="grid-4"
-        >
-          {allproducts.map((product, i) => (
-            <ProductCard product={product} key={i} />
-          ))}
-        </div>
-        {!loaded && (
+        
+        {/* Show message when no API products available */}
+        {!apiLoading && (!apiProducts || apiProducts.length === 0) && (
+          <div className="text-center py-5">
+            <div className="alert alert-info">
+              <h5>No Products Available</h5>
+              <p>Please make sure your backend API is running at <code>http://localhost:8000/api</code></p>
+              <p>Or add some products through your admin dashboard.</p>
+            </div>
+          </div>
+        )}
+        
+        {/* Show products grid only when we have API products */}
+        {allproducts.length > 0 && (
+          <div
+            className="grid-layout wow fadeInUp"
+            data-wow-delay="0s"
+            data-grid="grid-4"
+          >
+            {allproducts.map((product, i) => (
+              <ProductCard product={product} key={i} />
+            ))}
+          </div>
+        )}
+        
+        {/* Load more button - only show if there are more API products to load */}
+        {allproducts.length > 0 && !loaded && apiProducts && allproducts.length < apiProducts.length && (
           <div className="tf-pagination-wrap view-more-button text-center">
             <button
               className={`tf-btn-loading tf-loading-default style-2 btn-loadmore ${

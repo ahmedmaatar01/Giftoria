@@ -6,24 +6,64 @@ import Quantity from "../shopDetails/Quantity";
 import { useContextElement } from "@/context/Context";
 
 import { allProducts } from "@/data/products";
-import { colors, sizeOptions } from "@/data/singleProductOptions";
 export default function QuickAdd() {
   const {
     quickAddItem,
     addProductToCart,
     isAddedToCartProducts,
-    addToCompareItem,
-    isAddedtoCompareItem,
+    apiProducts,
   } = useContextElement();
   const [item, setItem] = useState(allProducts[0]);
+  const [quantity, setQuantity] = useState(1);
+  
+  // State for custom field values
+  const [customFieldValues, setCustomFieldValues] = useState({});
+  
   useEffect(() => {
-    const filtered = allProducts.filter((el) => el.id == quickAddItem);
-    if (filtered) {
+    // Try to find in API products first, fallback to static products
+    const allAvailableProducts = [...allProducts, ...(Array.isArray(apiProducts) ? apiProducts : [])];
+    const filtered = allAvailableProducts.filter((el) => el.id == quickAddItem);
+    if (filtered && filtered.length > 0) {
       setItem(filtered[0]);
+      
+      // Initialize custom field values
+      const initial = {};
+      if (filtered[0].custom_fields && filtered[0].custom_fields.length > 0) {
+        filtered[0].custom_fields.forEach(field => {
+          const val = filtered[0].customValues && filtered[0].customValues.length > 0
+            ? filtered[0].customValues.find(v => v.custom_field_id === field.id)?.value || ''
+            : '';
+          initial[field.id] = val;
+        });
+      }
+      setCustomFieldValues(initial);
     }
-  }, [quickAddItem]);
-  const [currentColor, setCurrentColor] = useState(colors[0]);
-  const [currentSize, setCurrentSize] = useState(sizeOptions[0]);
+  }, [quickAddItem, apiProducts]);
+
+  // Handler for custom field input changes
+  const handleCustomFieldChange = (fieldId, value) => {
+    setCustomFieldValues(prev => ({ ...prev, [fieldId]: value }));
+  };
+
+  // Helper function to get product image
+  const getProductImage = () => {
+    if (item.images && item.images.length > 0) {
+      const featuredImage = item.images.find(img => img.is_featured);
+      return featuredImage ? 
+        `http://localhost:8000${featuredImage.image_path}` : 
+        `http://localhost:8000${item.images[0].image_path}`;
+    }
+    if (item.featured_image) {
+      return `http://localhost:8000${item.featured_image}`;
+    }
+    // Fallback to static imgSrc if exists
+    return item.imgSrc || "/images/no-image.png";
+  };
+
+  // Get product name
+  const getProductName = () => {
+    return item.name || item.title || "Product";
+  };
 
   return (
     <div className="modal fade modalDemo" id="quick_add">
@@ -41,121 +81,106 @@ export default function QuickAdd() {
                 <Image
                   alt="image"
                   style={{ objectFit: "contain" }}
-                  src={item.imgSrc}
+                  src={getProductImage()}
                   width={720}
                   height={1005}
                 />
               </div>
               <div className="content">
-                <Link href={`/product-detail/${item.id}`}>{item.title}</Link>
+                <Link href={`/product-detail/${item.id}`}>{getProductName()}</Link>
                 <div className="tf-product-info-price">
-                  <div className="price">${item.price.toFixed(2)}</div>
+                  <div className="price">${parseFloat(item.price || 0).toFixed(2)}</div>
                 </div>
               </div>
             </div>
-            <div className="tf-product-info-variant-picker mb_15">
-              <div className="variant-picker-item">
-                <div className="variant-picker-label">
-                  Color:
-                  <span className="fw-6 variant-picker-label-value">
-                    {currentColor.value}
-                  </span>
-                </div>
-                <form className="variant-picker-values">
-                  {colors.map((color) => (
-                    <React.Fragment key={color.id}>
-                      <input
-                        type="radio"
-                        name="color1"
-                        readOnly
-                        checked={currentColor == color}
-                      />
-                      <label
-                        onClick={() => setCurrentColor(color)}
-                        className="hover-tooltip radius-60"
-                        data-value={color.value}
+            {/* Render custom fields as input fields if present */}
+            {item.custom_fields && item.custom_fields.length > 0 && (
+              <div className="tf-product-custom-fields mb_15">
+                {item.custom_fields.map((field) => {
+                  const value = customFieldValues[field.id] || '';
+                  let inputEl = null;
+                  if (field.type === 'select') {
+                    let opts = [];
+                    try {
+                      opts = JSON.parse(field.options);
+                    } catch { opts = []; }
+                    inputEl = (
+                      <select
+                        id={`custom-field-${field.id}`}
+                        name={`custom-field-${field.id}`}
+                        className="form-control"
+                        value={value}
+                        style={{ paddingTop: "0.75rem", paddingBottom: "0.75rem" }}
+                        onChange={e => handleCustomFieldChange(field.id, e.target.value)}
+                        required={field.is_required}
                       >
-                        <span className={`btn-checkbox ${color.className}`} />
-                        <span className="tooltip">{color.value}</span>
-                      </label>
-                    </React.Fragment>
-                  ))}
-                </form>
-              </div>
-              <div className="variant-picker-item">
-                <div className="variant-picker-label">
-                  Size:{" "}
-                  <span className="fw-6 variant-picker-label-value">
-                    {" "}
-                    {currentSize.value}
-                  </span>
-                </div>
-                <form className="variant-picker-values">
-                  {sizeOptions.map((size) => (
-                    <React.Fragment key={size.id}>
+                        <option value="">Select {field.name}</option>
+                        {opts.map(opt => (
+                          <option key={opt} value={opt}>{opt}</option>
+                        ))}
+                      </select>
+                    );
+                  } else if (field.type === 'text') {
+                    inputEl = (
                       <input
-                        type="radio"
-                        name="size1"
-                        readOnly
-                        checked={currentSize == size}
+                        id={`custom-field-${field.id}`}
+                        name={`custom-field-${field.id}`}
+                        type="text"
+                        className="form-control"
+                        value={value}
+                        onChange={e => handleCustomFieldChange(field.id, e.target.value)}
+                        required={field.is_required}
                       />
-                      <label
-                        onClick={() => setCurrentSize(size)}
-                        className="style-text"
-                        data-value={size.value}
-                      >
-                        <p>{size.value}</p>
+                    );
+                  } else {
+                    inputEl = (
+                      <input
+                        id={`custom-field-${field.id}`}
+                        name={`custom-field-${field.id}`}
+                        type="text"
+                        className="form-control"
+                        value={value}
+                        onChange={e => handleCustomFieldChange(field.id, e.target.value)}
+                        required={field.is_required}
+                      />
+                    );
+                  }
+                  return (
+                    <div key={field.id} className="mb-2">
+                      <label className="fw-6 mb-1" htmlFor={`custom-field-${field.id}`}>
+                        {field.name}{field.is_required ? ' *' : ''}:
                       </label>
-                    </React.Fragment>
-                  ))}
-                </form>
+                      {inputEl}
+                    </div>
+                  );
+                })}
               </div>
-            </div>
+            )}
             <div className="tf-product-info-quantity mb_15">
               <div className="quantity-title fw-6">Quantity</div>
-              <Quantity />
+              <Quantity setQuantity={setQuantity} />
             </div>
             <div className="tf-product-info-buy-button">
               <form onSubmit={(e) => e.preventDefault()} className="">
                 <a
                   className="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn"
-                  onClick={() => addProductToCart(item.id)}
+                  onClick={() => {
+                    addProductToCart(item.id, quantity ? quantity : 1, customFieldValues);
+                  }}
                 >
                   <span>
                     {isAddedToCartProducts(item.id)
                       ? "Already Added - "
                       : "Add to cart - "}
                   </span>
-                  <span className="tf-qty-price">${item.price.toFixed(2)}</span>
+                  <span className="tf-qty-price">${(parseFloat(item.price || 0)* quantity).toFixed(2)} </span>
                 </a>
                 <div className="tf-product-btn-wishlist btn-icon-action">
                   <i className="icon-heart" />
                   <i className="icon-delete" />
                 </div>
-                <a
-                  href="#compare"
-                  data-bs-toggle="offcanvas"
-                  aria-controls="offcanvasLeft"
-                  onClick={() => addToCompareItem(item.id)}
-                  className="tf-product-btn-wishlist box-icon bg_white compare btn-icon-action"
-                >
-                  <span className="icon icon-compare" />
-                  <span className="icon icon-check" />
-                </a>
-                <div className="w-100">
-                  <a href="#" className="btns-full">
-                    Buy with
-                    <Image
-                      alt="image"
-                      src="/images/payments/paypal.png"
-                      width={64}
-                      height={18}
-                    />
-                  </a>
-                  <a href="#" className="payment-more-option">
-                    More payment options
-                  </a>
-                </div>
+                {/* Compare feature removed */}
+ 
               </form>
             </div>
           </div>

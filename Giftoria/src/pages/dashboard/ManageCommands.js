@@ -10,6 +10,8 @@ const ManageCommands = () => {
     const [commands, setCommands] = useState([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
+    const [showModal, setShowModal] = useState(false);
+    const [selectedCommand, setSelectedCommand] = useState(null);
 
     useEffect(() => {
         const fetchCommands = async () => {
@@ -27,7 +29,7 @@ const ManageCommands = () => {
 
     // Filter commands by search
     const filteredCommands = commands.filter(cmd =>
-        cmd.name.toLowerCase().includes(search.toLowerCase()) ||
+        cmd.name?.toLowerCase().includes(search.toLowerCase()) ||
         (cmd.description && cmd.description.toLowerCase().includes(search.toLowerCase()))
     );
 
@@ -65,16 +67,26 @@ const ManageCommands = () => {
                     <thead className="thead-light">
                         <tr>
                             <th>Name</th>
-                            <th>Description</th>
                             <th>Status</th>
+                            <th>Total</th>
+                            <th>Placed At</th>
+                            <th>Customer</th>
+                            <th>Note</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {filteredCommands.map(cmd => (
                             <tr key={cmd.id}>
                                 <td>{cmd.name}</td>
-                                <td>{cmd.description}</td>
                                 <td>{cmd.status}</td>
+                                <td>{cmd.total}</td>
+                                <td>{cmd.placed_at}</td>
+                                <td>{cmd.customer_first_name} {cmd.customer_last_name}</td>
+                                <td>{cmd.description}</td>
+                                <td>
+                                    <Button variant="primary" size="sm" onClick={() => { setSelectedCommand(cmd); setShowModal(true); }}>Details</Button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
@@ -82,6 +94,64 @@ const ManageCommands = () => {
                 {loading && <div>Loading...</div>}
             </Card.Body>
         </Card>
+
+        {/* Modal for command details */}
+        {showModal && selectedCommand && (
+            <div className="modal show" style={{ display: 'block', background: 'rgba(0,0,0,0.5)' }} tabIndex="-1">
+                <div className="modal-dialog modal-lg">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title">Command Details</h5>
+                            <Button variant="close" onClick={() => setShowModal(false)}>&times;</Button>
+                        </div>
+                        <div className="modal-body">
+                            <h6>General Info</h6>
+                            <ul>
+                                <li><b>Name:</b> {selectedCommand.name}</li>
+                                <li><b>Status:</b> {selectedCommand.status}</li>
+                                <li><b>Total:</b> {selectedCommand.total}</li>
+                                <li><b>Placed At:</b> {selectedCommand.placed_at}</li>
+                                <li><b>Source:</b> {selectedCommand.source}</li>
+                                <li><b>Note:</b> {selectedCommand.description}</li>
+                            </ul>
+                            <h6>Customer Info</h6>
+                            <ul>
+                                <li><b>First Name:</b> {selectedCommand.customer_first_name}</li>
+                                <li><b>Last Name:</b> {selectedCommand.customer_last_name}</li>
+                                <li><b>Email:</b> {selectedCommand.customer_email}</li>
+                                <li><b>Phone:</b> {selectedCommand.customer_phone}</li>
+                                <li><b>Shipping Address:</b> {selectedCommand.shipping_address}</li>
+                                <li><b>Billing Address:</b> {selectedCommand.billing_address}</li>
+                            </ul>
+                            <h6>Products</h6>
+                            <ul>
+                                {selectedCommand.command_products && selectedCommand.command_products.length > 0 ? (
+                                    selectedCommand.command_products.map((cp, idx) => (
+                                        <li key={idx} style={{ marginBottom: '1em' }}>
+                                            <b>Product:</b> {cp.product?.name || cp.product_id}<br />
+                                            <b>Quantity:</b> {cp.quantity}<br />
+                                            <b>Unit Price:</b> {cp.unit_price}<br />
+                                            <b>Line Total:</b> {cp.line_total}<br />
+                                            <b>Custom Fields:</b>
+                                            <ul>
+                                                {Array.isArray(cp.custom_fields) && cp.custom_fields.length > 0 ? (
+                                                    cp.custom_fields.map((cf, i) => (
+                                                        <li key={i}><b>{cf.name}:</b> {cf.value}</li>
+                                                    ))
+                                                ) : (<li>None</li>)}
+                                            </ul>
+                                        </li>
+                                    ))
+                                ) : (<li>No products</li>)}
+                            </ul>
+                        </div>
+                        <div className="modal-footer">
+                            <Button variant="secondary" onClick={() => setShowModal(false)}>Close</Button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )}
         </>
     );
 };

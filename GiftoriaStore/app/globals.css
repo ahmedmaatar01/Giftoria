@@ -1,0 +1,76 @@
+/* Add to your existing globals.css or create this section */
+
+/* Rich text editor content styling */
+.product-description-html {
+  line-height: 1.6;
+  color: #333;
+}
+
+.product-description-html h1,
+.product-description-html h2,
+.product-description-html h3,
+.product-description-html h4,
+.product-description-html h5,
+.product-description-html h6 {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.product-description-html h1 { font-size: 2rem; }
+.product-description-html h2 { font-size: 1.75rem; }
+.product-description-html h3 { font-size: 1.5rem; }
+.product-description-html h4 { font-size: 1.25rem; }
+.product-description-html h5 { font-size: 1.1rem; }
+.product-description-html h6 { font-size: 1rem; }
+
+.product-description-html p {
+  margin-bottom: 1rem;
+}
+
+.product-description-html ul,
+.product-description-html ol {
+  margin-bottom: 1rem;
+  padding-left: 2rem;
+}
+
+.product-description-html li {
+  margin-bottom: 0.5rem;
+}
+
+.product-description-html strong {
+  font-weight: 600;
+}
+
+.product-description-html em {
+  font-style: italic;
+}
+
+.product-description-html u {
+  text-decoration: underline;
+}
+
+.product-description-html a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.product-description-html a:hover {
+  text-decoration: underline;
+}
+
+.product-description-html img {
+  max-width: 100%;
+  height: auto;
+  margin: 1rem 0;
+  border-radius: 8px;
+}
+
+.product-description-html blockquote {
+  border-left: 4px solid #ddd;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: #666;
+  font-style: italic;
+}
