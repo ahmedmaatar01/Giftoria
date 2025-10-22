@@ -2,6 +2,7 @@ import Footer1 from "@/components/footers/Footer1";
 import About from "@/components/othersPages/about/About";
 import Features from "@/components/othersPages/about/Features";
 import FeaturesAbout from "@/components/othersPages/about/FeaturesAbout";
+import Banner from "@/components/homes/home-pickleball/Banner";
 import Hero from "@/components/othersPages/about/Hero";
 import Link from "next/link";
 import Image from "next/image";
@@ -70,16 +71,21 @@ export default function page() {
 />
 
 
+          ]}
+          subtitle={`In the timeless art of gifting, collaboration is our finest treasure. We take pride in joining hands with distinguished artisans, chocolatiers, florists, and creators who share our devotion to elegance and authenticity. Together, we craft experiences that transcend mere presents — weaving stories of craftsmanship, trust, and enduring grace.`}
       </div>
       <About />
       <div style={{ marginBottom: '80px' }}>
         <Products2 />
       </div>
-      <Features />
+  <Features />
+  <div style={{ marginTop: '60px' }} />
+  <Banner />
       <section className="flat-spacing-10">
         <div className="container">
           <div className="tf-grid-layout md-col-2">
             <div className="tf-ourstore-img">
+              
               <Image
                 className="lazyload"
                 data-src="/images/shop/store/ourstore4.png"

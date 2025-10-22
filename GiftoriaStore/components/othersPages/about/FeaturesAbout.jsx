@@ -36,12 +36,10 @@ export default function FeaturesAbout({ title, subtitle, items }) {
                 {items.map((box, index) => (
                   <SwiperSlide key={index}>
                     <div className="tf-icon-box text-center">
-                      <div className="icon">
-                        <i className={box.iconClass} />
-                      </div>
                       <div className="content">
                         <div className="title bell-t-medium">{t(box.title)}</div> {/* Translate item title */}
                         <p className="text_black-2">{t(box.description)}</p> {/* Translate item description */}
+
                       </div>
                     </div>
                   </SwiperSlide>

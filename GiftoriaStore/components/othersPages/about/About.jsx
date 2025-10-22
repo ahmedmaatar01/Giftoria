@@ -48,6 +48,7 @@ export default function About() {
                       <br /><strong>{t("about.emotion_title")} :</strong> {t("about.emotion_text")}
                       <br /><strong>{t("about.creativity_title")} :</strong> {t("about.creativity_text")}
                     </span>
+
                   </div>
                 </div>
               </div>

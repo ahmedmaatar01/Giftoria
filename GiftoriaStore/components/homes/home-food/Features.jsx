@@ -1,7 +1,6 @@
 "use client";
 
 import { slides22 } from "@/data/categories";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { Pagination } from "swiper/modules";
@@ -28,6 +27,7 @@ export default function Features() {
                 <div className="content">
                   <Link href="/shop-default" className="title link fw-normal">
                     {t(`features_slide_${idx + 1}_title`)}
+
                   </Link>
                   <p>{t(`features_slide_${idx + 1}_description`)}</p>
                 </div>

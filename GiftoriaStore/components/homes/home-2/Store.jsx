@@ -23,6 +23,7 @@ export default function Store() {
               <div className="widget-card-store align-items-center tf-grid-layout md-col-2">
                 <div className="store-item-info">
                   <h5 className="store-heading">{t("qatar_store_title")}</h5>
+
                   <div className="description">
                     <p>
                       {t("store_address")} <br />

@@ -18,6 +18,7 @@ export default function Features() {
               <p className="sub-title text_black-2 bell-t-medium">
                 {t("productFeatures.subtitle")}
               </p> {/* Translate subtitle */}
+
             </div>
           </div>
           <div className="flat-iconbox-v3 lg">

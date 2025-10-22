@@ -2,18 +2,18 @@ import Link from "next/link";
 export const iconBoxes = [
   {
     iconClass: "icon-shipping-1",
-  title: <span className="banner-title-montserrat montserrat-semi-bold">Free Shipping</span>,
-  description: <span className="bell-t-medium">Free shipping over order $120</span>,
+  title: <span className="bell-t-medium">Free Shipping</span>,
+  description: <span className="montserrat-medium">Free shipping over order $120</span>,
   },
   {
     iconClass: "icon-payment-1",
-  title: <span className="banner-title-montserrat montserrat-semi-bold">Flexible Payment</span>,
-  description: <span className="bell-t-medium">Pay with Multiple Credit Cards</span>,
+  title: <span className="bell-t-medium">Flexible Payment</span>,
+  description: <span className="montserrat-medium">Pay with Multiple Credit Cards</span>,
   },
   {
     iconClass: "icon-return-1",
-  title: <span className="banner-title-montserrat montserrat-semi-bold">14 Day Returns</span>,
-  description: <span className="bell-t-medium">Within 30 days for an exchange</span>,
+  title: <span className="bell-t-medium">14 Day Returns</span>,
+  description: <span className="montserrat-medium">Within 30 days for an exchange</span>,
   },
 ];
 
@@ -38,6 +38,7 @@ export const iconBoxData = [
     titleKey: "features.support.title",
     descriptionKey: "features.support.description",
   }
+
 ];
 
 export const iconBoxes7 = [
@@ -45,19 +46,19 @@ export const iconBoxes7 = [
     iconClass: "icon-shipping",
     iconStyle: "",
   title: <span className="montserrat-semi-bold">Free Shipping</span>,
-  description: <span className="bell-t-medium">Free shipping over order $120</span>,
+  description: <span className="montserrat-medium">Free shipping over order $120</span>,
   },
   {
     iconClass: "icon-payment",
     iconStyle: "fs-22",
   title: <span className="montserrat-semi-bold">Flexible Payment</span>,
-  description: <span className="bell-t-medium">Pay with Multiple Credit Cards</span>,
+  description: <span className="montserrat-medium">Pay with Multiple Credit Cards</span>,
   },
   {
     iconClass: "icon-return",
     iconStyle: "fs-20",
   title: <span className="montserrat-semi-bold">14 Day Returns</span>,
-  description: <span className="bell-t-medium">Within 30 days for an exchange</span>,
+  description: <span className="montserrat-medium">Within 30 days for an exchange</span>,
   },
   {
     iconClass: "icon-suport",
@@ -70,22 +71,22 @@ export const slides23 = [
   {
     iconClass: "icon-shipping",
   title: <span className="montserrat-semi-bold">Free Shipping</span>,
-  description: <span className="bell-t-medium">Free shipping over order $120</span>,
+  description: <span className="montserrat-medium">Free shipping over order $120</span>,
   },
   {
     iconClass: "icon-payment fs-22",
   title: <span className="montserrat-semi-bold">Flexible Payment</span>,
-  description: <span className="bell-t-medium">Pay with Multiple Credit Cards</span>,
+  description: <span className="montserrat-medium">Pay with Multiple Credit Cards</span>,
   },
   {
     iconClass: "icon-return fs-20",
   title: <span className="montserrat-semi-bold">14 Day Returns</span>,
-  description: <span className="bell-t-medium">Within 30 days for an exchange</span>,
+  description: <span className="montserrat-medium">Within 30 days for an exchange</span>,
   },
   {
     iconClass: "icon-suport",
   title: <span className="montserrat-semi-bold">Premium Support</span>,
-  description: <span className="bell-t-medium">Outstanding premium support</span>,
+  description: <span className="montserrat-medium">Outstanding premium support</span>,
   },
 ];
 export const iconBoxes2 = [
@@ -289,6 +290,7 @@ export const iconBoxes4 = [
     iconClass: "icon-sizes",
     title: "productFeatures.various_sizes_title",  // Translation key
     description: "productFeatures.various_sizes_description",  // Translation key
+
   },
 ];
 

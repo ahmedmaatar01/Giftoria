@@ -25,7 +25,6 @@ export default function Map2() {
           <div className="tf-content-left has-mt">
             <div className="sticky-top">
               <h5 className="mb_20">{t("contact.visit_store")}</h5>
-
               <div className="mb_20">
                 <p className="mb_15"><strong>{t("store_info.address")}</strong></p>
                 <p>{t("contact.store_address")}</p>
