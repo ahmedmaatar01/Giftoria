@@ -13,7 +13,7 @@ export default function Topbar1() {
   return (
     <div className="tf-top-bar bg_white line">
       <div className="px_15 lg-px_40">
-        <div className="tf-top-bar_wrap grid-3 gap-30 align-items-center">
+        <div className="tf-top-bar_wrap grid-2 gap-30 align-items-center">
           {/* Social Icons */}
           <ul className="tf-top-bar_item tf-social-icon d-flex gap-10">
             <li>
@@ -43,34 +43,7 @@ export default function Topbar1() {
             </li>
           </ul>
 
-          {/* Swiper Promotions */}
-          <div className="text-center overflow-hidden">
-            <Swiper
-              dir={i18n.dir()}
-              className="swiper tf-sw-top_bar"
-              slidesPerView={1}
-              modules={[Autoplay]}
-              speed={1000}
-              autoplay={{ delay: 2000 }}
-              loop
-            >
-              <SwiperSlide className="swiper-slide">
-                <p className="top-bar-text fw-5">
-                  {t("topbar.spring_sale")}{" "}
-                  <Link href={`/shop-default`} className="tf-btn btn-line" title={t("topbar.all_collection")}>
-                    {t("topbar.shop_now")}
-                    <i className="icon icon-arrow1-top-left" />
-                  </Link>
-                </p>
-              </SwiperSlide>
-              <SwiperSlide className="swiper-slide">
-                <p className="top-bar-text fw-5">{t("topbar.summer_discount")}</p>
-              </SwiperSlide>
-              <SwiperSlide className="swiper-slide">
-                <p className="top-bar-text fw-5">{t("topbar.refresh_wardrobe")}</p>
-              </SwiperSlide>
-            </Swiper>
-          </div>
+   
 
           {/* Currency and Language */}
           <div className="top-bar-language tf-cur justify-content-end">
