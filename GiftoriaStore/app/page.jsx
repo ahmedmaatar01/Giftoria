@@ -25,22 +25,10 @@ export default function Home() {
       <Header10 />
       <Hero />
       <Marquee />
-      <div className="container" style={{ marginTop: '45px' }}>
-        <div className="flat-title flex-row justify-content-center mb-1">
-          <span className="title fw-6 wow fadeInUp" data-wow-delay="0s">
-            <span className="bell-t-medium">A Symphony of Gifts</span>
-          </span>
-        </div>
-      </div>
+
       <Categories />
       {/* Duplicate categories carousel with alternate images */}
-      <div className="container" style={{ marginTop: '45px' }}>
-        <div className="flat-title flex-row justify-content-center mb-1">
-          <span className="title fw-6 wow fadeInUp" data-wow-delay="0s">
-            <span className="bell-t-medium">The Art of Giving</span>
-          </span>
-        </div>
-      </div>
+      
   <CategoriesAlt />
   <div style={{ marginTop: '60px' }} />
   <Banner2 />

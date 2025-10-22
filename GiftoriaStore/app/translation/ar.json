@@ -181,6 +181,21 @@
     "send_button": "إرسال",
     "success": "تم إرسال الرسالة بنجاح.",
     "error": "حدث خطأ ما"
+  },
+  "categories": {
+    "sectionTitle": "سيمفونية الهدايا"
+  },
+  "categoriesAlt": {
+    "sectionTitle": "فن العطاء"
+  },
+  "menu": {
+    "home": "الرئيسية",
+    "shop": "المتجر",
+    "about": "من نحن",
+    "contact": "اتصل بنا",
+    "faq": "الأسئلة الشائعة",
+    "men": "رجال",
+    "women": "نساء"
   }
   
   }

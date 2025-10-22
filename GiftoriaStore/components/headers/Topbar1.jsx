@@ -74,9 +74,7 @@ export default function Topbar1() {
 
           {/* Currency and Language */}
           <div className="top-bar-language tf-cur justify-content-end">
-            <div className="tf-currencies">
-              <CurrencySelect topStart />
-            </div>
+          
             <div className="tf-languages">
               <LanguageSelect
                 parentClassName={"image-select center style-default type-languages"}

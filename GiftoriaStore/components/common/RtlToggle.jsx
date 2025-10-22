@@ -27,19 +27,4 @@ export default function LanguageToggle() {
     });
   };
 
-  return (
-    <a
-      id="toggle-rtl"
-      onClick={toggleLang}
-      className="tf-btn animate-hover-btn btn-fill"
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') toggleLang(); }}
-      style={{ cursor: "pointer" }}
-      aria-label={`Switch language and direction to ${currentLang === "ar" ? "English LTR" : "Arabic RTL"}`}
-    >
-      <span>{currentLang === "ar" ? "ltr" : "rtl"}</span>
-      <span>{currentLang === "ar" ? "rtl" : "ltr"}</span>
-    </a>
-  );
 }

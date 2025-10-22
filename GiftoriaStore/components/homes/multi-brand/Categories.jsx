@@ -5,9 +5,22 @@ import Link from "next/link";
 import { collectionCircles } from "@/data/categories";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
+import { useTranslation } from "react-i18next"; // ✅ i18n hook
+
 export default function Categories() {
+  const { t } = useTranslation(); // ✅ translation hook
+
   return (
     <section className="flat-spacing-20">
+      {/* ✅ Add translated title */}
+      <div className="container" style={{ marginTop: "45px" }}>
+        <div className="flat-title flex-row justify-content-center mb-1">
+          <span className="title fw-6 wow fadeInUp" data-wow-delay="0s">
+            <span className="bell-t-medium">{t("categories.sectionTitle")}</span>
+          </span>
+        </div>
+      </div>
+
       <div className="container">
         <div className="row">
           <div className="col-12">
@@ -32,7 +45,10 @@ export default function Categories() {
                   {collectionCircles.map((item) => (
                     <SwiperSlide key={item.id} className="swiper-slide">
                       <div className="collection-item-circle hover-img position-relative">
-                        <Link href={item.href} className="collection-image img-style">
+                        <Link
+                          href={item.href}
+                          className="collection-image img-style"
+                        >
                           <Image
                             className="lazyload"
                             data-src={item.imgSrc}
@@ -43,8 +59,13 @@ export default function Categories() {
                           />
                         </Link>
                         {item.hasSale && (
-                          <div className="has-saleoff-wrap " style={{ position: "absolute", top: 0 }}>
-                            <div className="sale-off fw-5">{item.saleText}</div>
+                          <div
+                            className="has-saleoff-wrap"
+                            style={{ position: "absolute", top: 0 }}
+                          >
+                            <div className="sale-off fw-5">
+                              {item.saleText}
+                            </div>
                           </div>
                         )}
                         <div className="collection-content text-center">
@@ -56,8 +77,8 @@ export default function Categories() {
                     </SwiperSlide>
                   ))}
                 </Swiper>
-     
               </div>
+
               <div className="tf-shopall-wrap">
                 <div className="collection-item-circle tf-shopall">
                   <Link
@@ -71,7 +92,7 @@ export default function Categories() {
                       href={`/shop-collection-sub`}
                       className="link title fw-6"
                     >
-                      Shop all
+                      {t("common.shopAll", "Shop all")} {/* optional fallback */}
                     </Link>
                   </div>
                 </div>

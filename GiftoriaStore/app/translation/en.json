@@ -181,6 +181,21 @@
     "send_button": "Send",
     "success": "Message has been sent successfully.",
     "error": "Something went wrong"
+  },
+  "categories": {
+    "sectionTitle": "A Symphony of Gifts"
+  },
+  "categoriesAlt": {
+    "sectionTitle": "The Art of Giving"
+  },
+  "menu": {
+    "home": "Home",
+    "shop": "Shop",
+    "about": "About Us",
+    "contact": "Contact",
+    "faq": "FAQ",
+    "men": "Men",
+    "women": "Women"
   }
   }
 

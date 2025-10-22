@@ -74,3 +74,18 @@
   color: #666;
   font-style: italic;
 }
+@font-face {
+  font-family: 'Muslimah Thin';
+  src: url('/fonts/alfont_com_Muslimah-Thin.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+
+
+
+html[dir="rtl"] {
+  font-family: "Muslimah Thin", sans-serif;
+}

@@ -5,10 +5,23 @@ import Link from "next/link";
 import { collectionCirclesAlt } from "@/data/categories";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
+import { useTranslation } from "react-i18next"; // ✅ Import i18n hook
 
 export default function CategoriesAlt() {
+  const { t } = useTranslation(); // ✅ use translation
+
   return (
     <section className="flat-spacing-20">
+      {/* ✅ Section Title */}
+      <div className="container" style={{ marginTop: "45px" }}>
+        <div className="flat-title flex-row justify-content-center mb-1">
+          <span className="title fw-6 wow fadeInUp" data-wow-delay="0s">
+            <span className="bell-t-medium">{t("categoriesAlt.sectionTitle")}</span>
+          </span>
+        </div>
+      </div>
+
+      {/* ✅ Swiper Categories */}
       <div className="container">
         <div className="row">
           <div className="col-12">
@@ -45,7 +58,10 @@ export default function CategoriesAlt() {
                           />
                         </Link>
                         {item.hasSale && (
-                          <div className="has-saleoff-wrap " style={{ position: "absolute", top: 0 }}>
+                          <div
+                            className="has-saleoff-wrap"
+                            style={{ position: "absolute", top: 0 }}
+                          >
                             <div className="sale-off fw-5">{item.saleText}</div>
                           </div>
                         )}
@@ -59,6 +75,8 @@ export default function CategoriesAlt() {
                   ))}
                 </Swiper>
               </div>
+
+              {/* ✅ Shop all */}
               <div className="tf-shopall-wrap">
                 <div className="collection-item-circle tf-shopall">
                   <Link
@@ -72,11 +90,12 @@ export default function CategoriesAlt() {
                       href={`/shop-collection-sub`}
                       className="link title fw-6"
                     >
-                      Shop all
+                      {t("common.shopAll", "Shop all")} {/* optional fallback */}
                     </Link>
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
