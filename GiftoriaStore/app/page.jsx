@@ -4,9 +4,10 @@ import Header10 from "@/components/headers/Header10";
 import Topbar1 from "@/components/headers/Topbar1";
 import Products2 from "@/components/homes/home-baby/Products2";
 import Store from "@/components/homes/home-2/Store";
+import Categories from "@/components/homes/multi-brand/Categories";
+import CategoriesAlt from "@/components/homes/multi-brand/CategoriesAlt";
 
-import Categories from "@/components/homes/home-personalized-pod/Categories";
-import Categories2 from "@/components/homes/home-personalized-pod/Categories2";
+
 import Banner2 from "@/components/homes/home-food/Banner2";
 import FeaturesHomeFood from "@/components/homes/home-food/Features";
 
@@ -24,9 +25,25 @@ export default function Home() {
       <Header10 />
       <Hero />
       <Marquee />
+      <div className="container" style={{ marginTop: '45px' }}>
+        <div className="flat-title flex-row justify-content-center mb-1">
+          <span className="title fw-6 wow fadeInUp" data-wow-delay="0s">
+            <span className="bell-t-medium">A Symphony of Gifts</span>
+          </span>
+        </div>
+      </div>
       <Categories />
-      <Categories2 />
-      <Banner2 />
+      {/* Duplicate categories carousel with alternate images */}
+      <div className="container" style={{ marginTop: '45px' }}>
+        <div className="flat-title flex-row justify-content-center mb-1">
+          <span className="title fw-6 wow fadeInUp" data-wow-delay="0s">
+            <span className="bell-t-medium">The Art of Giving</span>
+          </span>
+        </div>
+      </div>
+  <CategoriesAlt />
+  <div style={{ marginTop: '60px' }} />
+  <Banner2 />
       <div style={{ marginTop: '60px' }} />
       <Products2 />
       <div style={{ marginTop: '60px' }} />

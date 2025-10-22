@@ -18,7 +18,7 @@ export default function About() {
             </div>
             <div className="tf-content-wrap px-0 d-flex justify-content-center w-100">
               <div>
-                <div className="heading bell-t-medium">Our mission</div>
+                <div className="heading bell-t-medium">Our Mission</div>
                 <div className="text montserrat-medium" style={{textAlign: 'justify'}}>
                   Our mission is to offer a unique and luxurious gifting experience,
                   where every creation is designed with care, personalization,
@@ -26,16 +26,16 @@ export default function About() {
                  Givtooria the go-to destination for exceptional, personalized luxury gifts
                   crafted to leave a lasting impact.
                 </div>
-                {/* Duplicated 'Our vision' block */}
+                {/* Duplicated 'Our Vision' block */}
                 <div style={{marginTop: '24px'}}>
-                  <div className="heading bell-t-medium">Our vision</div>
+                  <div className="heading bell-t-medium">Our Vision</div>
                   <div className="text montserrat-medium" style={{textAlign: 'justify'}}>
                     We envision a world where gifting becomes an elevated art form, a celebration of connection and emotion. Our goal is to make Givtooria the go-to destination for exceptional, personalized luxury gifts crafted to leave a lasting impact.
                   </div>
                 </div>
-                {/* Second duplicate of 'Our vision' block */}
+                {/* Second duplicate of 'Our Vision' block */}
                 <div style={{marginTop: '24px'}}>
-                  <div className="heading bell-t-medium">Our values</div>
+                  <div className="heading bell-t-medium">Our Values</div>
                   <div className="text montserrat-medium" style={{textAlign: 'justify'}}>
                             <span className="montserrat-medium">
                               <strong>Elegance :</strong> We design with timeless beauty and grace in mind.

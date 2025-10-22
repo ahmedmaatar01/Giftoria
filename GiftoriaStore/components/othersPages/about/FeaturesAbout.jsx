@@ -32,12 +32,9 @@ export default function FeaturesAbout({ title, subtitle, items }) {
                 {items.map((box, index) => (
                   <SwiperSlide key={index}>
                     <div className="tf-icon-box text-center">
-                      <div className="icon">
-                        <i className={box.iconClass} />
-                      </div>
                       <div className="content">
                         <div className="title bell-t-medium">{box.title}</div>
-                        <p className="text_black-2">{box.description}</p>
+                        <p className="text_black-2 desc-lg">{box.description}</p>
                       </div>
                     </div>
                   </SwiperSlide>

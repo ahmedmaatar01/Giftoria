@@ -18,7 +18,7 @@ export default function ContactForm2() {
     <section className="bg_grey-7 flat-spacing-9">
       <div className="container">
         <div className="flat-title">
-          <span className="title">Get in Touch</span>
+          <span className="title bell-t-medium">Get in Touch</span>
           <p className="sub-title text_black-2">
             If you’ve got great products your making or looking to work with us
             then drop us a line.

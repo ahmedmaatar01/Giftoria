@@ -2,10 +2,11 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { collectionCircles } from "@/data/categories";
+import { collectionCirclesAlt } from "@/data/categories";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-export default function Categories() {
+
+export default function CategoriesAlt() {
   return (
     <section className="flat-spacing-20">
       <div className="container">
@@ -23,13 +24,14 @@ export default function Categories() {
                     nextEl: ".snbn-multi",
                   }}
                   breakpoints={{
-                    1024: { slidesPerView: 6, spaceBetween: 30 },
+                    1200: { slidesPerView: 6, spaceBetween: 30 },
+                    1024: { slidesPerView: 4, spaceBetween: 30 },
                     768: { slidesPerView: 3, spaceBetween: 20 },
                     640: { slidesPerView: 2, spaceBetween: 15 },
                     0: { slidesPerView: 1, spaceBetween: 10 },
                   }}
                 >
-                  {collectionCircles.map((item) => (
+                  {collectionCirclesAlt.map((item) => (
                     <SwiperSlide key={item.id} className="swiper-slide">
                       <div className="collection-item-circle hover-img position-relative">
                         <Link href={item.href} className="collection-image img-style">
@@ -56,7 +58,6 @@ export default function Categories() {
                     </SwiperSlide>
                   ))}
                 </Swiper>
-     
               </div>
               <div className="tf-shopall-wrap">
                 <div className="collection-item-circle tf-shopall">
