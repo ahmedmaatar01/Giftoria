@@ -1,6 +1,12 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
+import { useTranslation } from "react-i18next";
+
 export default function About() {
+  const { t } = useTranslation(); // Initialize translation
+
   return (
     <>
       <section className="flat-spacing-23 flat-image-text-section">
@@ -10,7 +16,7 @@ export default function About() {
               <Image
                 className="lazyload w-100"
                 data-src="/images/collections/collection-69.jpg"
-                alt="collection-img"
+                alt={t("about.image_alt")}
                 src="/images/collections/collection-69.jpg"
                 width={600}
                 height={499}
@@ -18,35 +24,31 @@ export default function About() {
             </div>
             <div className="tf-content-wrap px-0 d-flex justify-content-center w-100">
               <div>
-                <div className="heading bell-t-medium">Our Mission</div>
-                <div className="text montserrat-medium" style={{textAlign: 'justify'}}>
-                  Our mission is to offer a unique and luxurious gifting experience,
-                  where every creation is designed with care, personalization,
-                   and a true sense of meaning making every moment memorable.
-                 Givtooria the go-to destination for exceptional, personalized luxury gifts
-                  crafted to leave a lasting impact.
+                <div className="heading bell-t-medium">{t("about.our_mission_title")}</div>
+                <div className="text montserrat-medium" style={{ textAlign: 'justify' }}>
+                  {t("about.our_mission_text")}
                 </div>
-                {/* Duplicated 'Our Vision' block */}
-                <div style={{marginTop: '24px'}}>
-                  <div className="heading bell-t-medium">Our Vision</div>
-                  <div className="text montserrat-medium" style={{textAlign: 'justify'}}>
-                    We envision a world where gifting becomes an elevated art form, a celebration of connection and emotion. Our goal is to make Givtooria the go-to destination for exceptional, personalized luxury gifts crafted to leave a lasting impact.
+
+                {/* 'Our Vision' Block */}
+                <div style={{ marginTop: '24px' }}>
+                  <div className="heading bell-t-medium">{t("about.our_vision_title")}</div>
+                  <div className="text montserrat-medium" style={{ textAlign: 'justify' }}>
+                    {t("about.our_vision_text")}
                   </div>
                 </div>
-                {/* Second duplicate of 'Our Vision' block */}
-                <div style={{marginTop: '24px'}}>
-                  <div className="heading bell-t-medium">Our Values</div>
-                  <div className="text montserrat-medium" style={{textAlign: 'justify'}}>
-                            <span className="montserrat-medium">
-                              <strong>Elegance :</strong> We design with timeless beauty and grace in mind.
-                            <br /><strong>Personalization :</strong> Every gift is a reflection of the giver’s heart and the
-                          recipient’s uniqueness.
-                          <br /><strong>Excellence :</strong> We hold ourselves to the highest standards in every
-                          detail, every time.
-                          <br /><strong>Emotion :</strong> Our gifts carry meaning — they tell stories and create memories.
-                          <br /><strong>Creativity :</strong> We explore endless ways to surprise and delight through
-                          thoughtful design.
-                            </span>
+
+                {/* 'Our Values' Block */}
+                <div style={{ marginTop: '24px' }}>
+                  <div className="heading bell-t-medium">{t("about.our_values_title")}</div>
+                  <div className="text montserrat-medium" style={{ textAlign: 'justify' }}>
+                    <span className="montserrat-medium">
+                      <strong>{t("about.elegance_title")} :</strong> {t("about.elegance_text")}
+                      <br /><strong>{t("about.personalization_title")} :</strong> {t("about.personalization_text")}
+                      <br /><strong>{t("about.excellence_title")} :</strong> {t("about.excellence_text")}
+                      <br /><strong>{t("about.emotion_title")} :</strong> {t("about.emotion_text")}
+                      <br /><strong>{t("about.creativity_title")} :</strong> {t("about.creativity_text")}
+                    </span>
+
                   </div>
                 </div>
               </div>
@@ -54,7 +56,6 @@ export default function About() {
           </div>
         </div>
       </section>
-
     </>
   );
 }

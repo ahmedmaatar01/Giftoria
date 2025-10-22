@@ -20,25 +20,27 @@ export const iconBoxes = [
 export const iconBoxData = [
   {
     iconClass: "icon-shipping",
-    title: <span className="bell-t-medium">Free Shipping</span>,
-  description: <span className="montserrat-medium">Free shipping over order $120</span>,
+    titleKey: "features.free_shipping.title",
+    descriptionKey: "features.free_shipping.description",
   },
   {
     iconClass: "icon-payment fs-22",
-    title: <span className="bell-t-medium">Flexible Payment</span>,
-  description: <span className="montserrat-medium">Pay with Multiple Credit Cards</span>,
+    titleKey: "features.flexible_payment.title",
+    descriptionKey: "features.flexible_payment.description",
   },
   {
     iconClass: "icon-return fs-20",
-    title: <span className="bell-t-medium">14 Day Returns</span>,
-  description: <span className="montserrat-medium">Within 30 days for an exchange</span>,
+    titleKey: "features.returns.title",
+    descriptionKey: "features.returns.description",
   },
   {
     iconClass: "icon-suport",
-    title: <span className="bell-t-medium">Premium Support</span>,
-  description: <span className="montserrat-medium">Outstanding premium support</span>,
-  },
+    titleKey: "features.support.title",
+    descriptionKey: "features.support.description",
+  }
+
 ];
+
 export const iconBoxes7 = [
   {
     iconClass: "icon-shipping",
@@ -275,24 +277,23 @@ export const recentCollectionSlides = [
 
 export const iconBoxes4 = [
   {
-    iconClass: "icon-star",
-  title: <span className="bell-t-medium">High-Quality Materials</span>,
-    description:
-      <span className="montserrat-medium">Crafted with precision and excellence, our activewear is meticulously engineered using premium materials to ensure unmatched comfort and durability.</span>,
+    iconClass: "icon-materials",
+    title: "productFeatures.high_quality_materials_title",  // Translation key
+    description: "productFeatures.high_quality_materials_description",  // Translation key
   },
   {
     iconClass: "icon-design",
-  title: <span className="bell-t-medium">Laconic Design</span>,
-    description:
-      <span className="montserrat-medium">Simplicity refined. Our activewear embodies the essence of minimalistic design, delivering effortless style that speaks volumes.</span>,
+    title: "productFeatures.laconic_design_title",  // Translation key
+    description: "productFeatures.laconic_design_description",  // Translation key
   },
   {
     iconClass: "icon-sizes",
-  title: <span className="bell-t-medium">Various Sizes</span>,
-    description:
-      <span className="montserrat-medium">Designed for every body and anyone, our activewear embraces diversity with a wide range of sizes and shapes, celebrating the beauty of individuality.</span>,
+    title: "productFeatures.various_sizes_title",  // Translation key
+    description: "productFeatures.various_sizes_description",  // Translation key
+
   },
 ];
+
 
 export const swiperData = [
   {

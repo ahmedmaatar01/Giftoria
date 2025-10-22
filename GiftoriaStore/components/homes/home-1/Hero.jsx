@@ -1,8 +1,11 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 export default function Hero() {
+  const { t, i18n } = useTranslation();
+
   return (
     <section className="tf-slideshow slider-video position-relative">
       <div className="banner-wrapper">
@@ -17,17 +20,19 @@ export default function Hero() {
         <div className="box-content text-center">
           <div className="container wow fadeInUp" data-wow-delay="0s">
             <p className="subheading text-white fw-7 banner-title-montserrat">
-              Come closer, darling
+              {t("hero_subheading")}
             </p>
-            <h1 className="heading text-white bell-t-medium">A touch of charm awaits</h1>
+            <h1 className="heading text-white bell-t-medium">
+              {t("hero_heading")}
+            </h1>
             <p className="description text-white banner-title-montserrat">
-              Don’t be shy, love
+              {t("hero_description")}
             </p>
             <Link
-              href={`/shop-women`}
+              href="/shop-women"
               className="tf-btn btn-md btn-light-icon btn-icon radius-3 animate-hover-btn"
             >
-              <span>Shop now</span>
+              <span>{t("hero_button")}</span>
               <i className="icon icon-arrow-right" />
             </Link>
           </div>

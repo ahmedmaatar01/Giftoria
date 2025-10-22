@@ -1,17 +1,21 @@
 "use client";
-
+import { useTranslation } from "react-i18next"; // Import useTranslation hook
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 export default function FeaturesAbout({ title, subtitle, items }) {
+  const { t } = useTranslation(); // Initialize translation hook
+
   return (
     <section>
       <div className="container">
         <div className="bg_grey-2 radius-10 flat-wrap-iconbox">
           <div className="flat-title lg">
-            <span className="title fw-5 bell-t-medium">{title}</span>
+            <span className="title fw-5 bell-t-medium">{t(title)}</span> {/* Translate title */}
             <div>
-              <p className="sub-title text_black-2 montserrat-medium" style={{ lineHeight: '2', textAlign: 'justify' }}>{subtitle}</p>
+              <p className="sub-title text_black-2 montserrat-medium" style={{ lineHeight: '2', textAlign: 'justify' }}>
+                {t(subtitle)} {/* Translate subtitle */}
+              </p>
             </div>
           </div>
           <div className="flat-iconbox-v3 lg">
@@ -33,8 +37,9 @@ export default function FeaturesAbout({ title, subtitle, items }) {
                   <SwiperSlide key={index}>
                     <div className="tf-icon-box text-center">
                       <div className="content">
-                        <div className="title bell-t-medium">{box.title}</div>
-                        <p className="text_black-2 desc-lg">{box.description}</p>
+                        <div className="title bell-t-medium">{t(box.title)}</div> {/* Translate item title */}
+                        <p className="text_black-2">{t(box.description)}</p> {/* Translate item description */}
+
                       </div>
                     </div>
                   </SwiperSlide>

@@ -10,10 +10,47 @@ import Products2 from "@/components/homes/home-baby/Products2";
 import React from "react";
 import Header10 from "@/components/headers/Header10";
 import Topbar1 from "@/components/headers/Topbar1";
+import StoreContent from "@/components/othersPages/about/StoreContent";
 export const metadata = {
   title: "About Us || Ecomus - Ultimate Nextjs Ecommerce Template",
   description: "Ecomus - Ultimate Nextjs Ecommerce Template",
 };
+const storeData = {
+  storeName: "Giftoria Qatar",
+  address: "66 Mott St, New York, New York, Zip Code: 10006, AS",
+  phone: "(623) 934-2400",
+  email: "EComposer@example.com",
+  openTime: "Our store has re-opened for shopping, exchange Every day 11am to 7pm",
+  socialLinks: [
+    {
+      url: "#",
+      className: "social-facebook border-line-black",
+      iconClass: "icon-fb",
+    },
+    {
+      url: "#",
+      className: "social-twiter border-line-black",
+      iconClass: "icon-Icon-x",
+    },
+    {
+      url: "#",
+      className: "social-instagram border-line-black",
+      iconClass: "icon-instagram",
+    },
+    {
+      url: "#",
+      className: "social-tiktok border-line-black",
+      iconClass: "icon-tiktok",
+    },
+    {
+      url: "#",
+      className: "social-pinterest border-line-black",
+      iconClass: "icon-pinterest-1",
+    },
+  ],
+  getDirectionsLink: "/contact-2",
+};
+
 export default function page() {
   return (
     <>
@@ -23,17 +60,16 @@ export default function page() {
       <Hero />
       {/* New FeaturesAbout component under the header */}
       <div style={{ marginTop: '60px' }}>
-        <FeaturesAbout
-          title="Brand Presentation"
-          items={[
-            { iconClass: "icon-star", title: "Premium Quality", description: "Only the finest materials and craftsmanship." },
-            { iconClass: "icon-heart", title: "Thoughtful Curation", description: "Handpicked gifts for every occasion." },
-            { iconClass: "icon-gift", title: "Personalized Touch", description: "Custom options for a unique experience." },
-
-          ]}
+      <FeaturesAbout
+  title="company.brand_presentation_title"
+  subtitle="company.brand_presentation_subtitle"
+  items={[
+    { iconClass: "icon-star", title: "company.premium_quality_title", description: "company.premium_quality_description" },
+    { iconClass: "icon-heart", title: "company.thoughtful_curation_title", description: "company.thoughtful_curation_description" },
+    { iconClass: "icon-gift", title: "company.personalized_touch_title", description: "company.personalized_touch_description" },
+  ]}
+/>
           subtitle={`In the timeless art of gifting, collaboration is our finest treasure. We take pride in joining hands with distinguished artisans, chocolatiers, florists, and creators who share our devotion to elegance and authenticity. Together, we craft experiences that transcend mere presents — weaving stories of craftsmanship, trust, and enduring grace.`}
-
-        />
       </div>
       <About />
       <div style={{ marginBottom: '80px' }}>
@@ -56,45 +92,7 @@ export default function page() {
                 height={420}
               />
             </div>
-            
-            <div className="tf-ourstore-content " style={{paddingLeft:"60px"}}>
-              <h5 className="mb_24 bell-t-medium">Giftoria Qatar</h5>
-              <div className="mb_20">
-                <p className="mb_15">
-                  <strong>Address</strong>
-                </p>
-                <p>66 Mott St, New York, New York, Zip Code: 10006, AS</p>
-              </div>
-              <div className="mb_20">
-                <p className="mb_15">
-                  <strong>Phone</strong>
-                </p>
-                <p>(623) 934-2400</p>
-              </div>
-              <div className="mb_20">
-                <p className="mb_15">
-                  <strong>Email</strong>
-                </p>
-                <p>EComposer@example.com</p>
-              </div>
-              <div className="mb_36">
-                <p className="mb_15">
-                  <strong>Open Time</strong>
-                </p>
-                <p className="mb_15">Our store has re-opened for shopping,</p>
-                <p>exchange Every day 11am to 7pm</p>
-              </div>
-              {/* social icons removed per request */}
-              <div>
-                <Link
-                  href={`/contact-2`}
-                  className="tf-btn btn-outline-dark radius-3"
-                >
-                  <span>Get Directions</span>
-                  <i className="icon icon-arrow-right" />
-                </Link>
-              </div>
-            </div>
+            <StoreContent {...storeData} />
 
           </div>
         </div>

@@ -6,27 +6,28 @@ import Image from "next/image";
 import Link from "next/link";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useTranslation } from "react-i18next";
 
 export default function Products2() {
+  const { t } = useTranslation(); // ✅ use translation hook
+
   const swiperOptions = {
-    slidesPerView: 4, // data-preview
-    spaceBetween: 30, // data-space-lg
+    slidesPerView: 4,
+    spaceBetween: 30,
     breakpoints: {
       768: {
-        // data-tablet
         slidesPerView: 4,
-        spaceBetween: 30, // data-space-md
+        spaceBetween: 30,
       },
       480: {
-        // data-mobile
         slidesPerView: 3,
       },
       0: {
-        // data-mobile
         slidesPerView: 2,
       },
     },
   };
+
   const { setQuickViewItem } = useContextElement();
   const {
     addToWishlist,
@@ -36,25 +37,22 @@ export default function Products2() {
     addProductToCart,
     isAddedToCartProducts,
   } = useContextElement();
+
   return (
     <section className="flat-spacing-13 pb_0">
       <div className="container">
         <div className="flat-title flex-row justify-content-center">
           <span className="title fw-6 wow fadeInUp" data-wow-delay="0s">
-            <span className="bell-t-medium">Best seller</span>
+            <span className="bell-t-medium">{t("products2_title")}</span>
           </span>
         </div>
+
         <div className="wrap-carousel wrap-sw-2">
           <Swiper
             dir="ltr"
             modules={[Pagination, Navigation]}
-            pagination={{
-              el: ".spdp21",
-            }}
-            navigation={{
-              prevEl: ".snbp21",
-              nextEl: ".snbn21",
-            }}
+            pagination={{ el: ".spdp21" }}
+            navigation={{ prevEl: ".snbp21", nextEl: ".snbn21" }}
             className="swiper tf-sw-product-sell-1"
             {...swiperOptions}
           >
@@ -62,10 +60,7 @@ export default function Products2() {
               <SwiperSlide className="swiper-slide" key={index}>
                 <div className="card-product style-9">
                   <div className="card-product-wrapper">
-                    <Link
-                      href={`/product-detail/${product.id}`}
-                      className="product-img"
-                    >
+                    <Link href={`/product-detail/${product.id}`} className="product-img">
                       <Image
                         className="lazyload img-product"
                         data-src={product.imgSrc}
@@ -83,23 +78,22 @@ export default function Products2() {
                         height={360}
                       />
                     </Link>
+
                     <div className="list-product-btn absolute-2">
                       <a
                         onClick={() => addToWishlist(product.id)}
                         className="box-icon bg_white wishlist btn-icon-action"
                       >
                         <span
-                          className={`icon icon-heart ${
-                            isAddedtoWishlist(product.id) ? "added" : ""
-                          }`}
+                          className={`icon icon-heart ${isAddedtoWishlist(product.id) ? "added" : ""}`}
                         />
                         <span className="tooltip">
-                          {" "}
                           {isAddedtoWishlist(product.id)
-                            ? "Already Wishlisted"
-                            : "Add to Wishlist"}
+                            ? t("already_wishlisted")
+                            : t("add_to_wishlist")}
                         </span>
                       </a>
+
                       <a
                         href="#compare"
                         data-bs-toggle="offcanvas"
@@ -108,17 +102,15 @@ export default function Products2() {
                         className="box-icon bg_white compare btn-icon-action"
                       >
                         <span
-                          className={`icon icon-compare ${
-                            isAddedtoCompareItem(product.id) ? "added" : ""
-                          }`}
+                          className={`icon icon-compare ${isAddedtoCompareItem(product.id) ? "added" : ""}`}
                         />
                         <span className="tooltip">
-                          {" "}
                           {isAddedtoCompareItem(product.id)
-                            ? "Already Compared"
-                            : "Add to Compare"}
+                            ? t("already_compared")
+                            : t("add_to_compare")}
                         </span>
                       </a>
+
                       <a
                         href="#quick_view"
                         data-bs-toggle="modal"
@@ -126,17 +118,14 @@ export default function Products2() {
                         className="box-icon bg_white quickview tf-btn-loading"
                       >
                         <span className="icon icon-view" />
-                        <span className="tooltip">Quick View</span>
+                        <span className="tooltip">{t("quick_view")}</span>
                       </a>
                     </div>
-                    {/* Sale badge removed */}
                   </div>
+
                   <div className="card-product-info">
                     <div className="inner-info">
-                      <Link
-                        href={`/product-detail/${product.id}`}
-                        className="title link fw-6"
-                      >
+                      <Link href={`/product-detail/${product.id}`} className="title link fw-6">
                         {product.title}
                       </Link>
                       <div>
@@ -145,6 +134,7 @@ export default function Products2() {
                         </span>
                       </div>
                     </div>
+
                     <div className="list-product-btn">
                       <a
                         href="#quick_add"
@@ -152,7 +142,7 @@ export default function Products2() {
                         className="box-icon quick-add tf-btn-loading"
                       >
                         <span className="icon icon-bag" />
-                        <span className="tooltip">Add to cart</span>
+                        <span className="tooltip">{t("add_to_cart")}</span>
                       </a>
                     </div>
                   </div>
@@ -160,6 +150,7 @@ export default function Products2() {
               </SwiperSlide>
             ))}
           </Swiper>
+
           <div className="nav-sw nav-next-slider style-white-line nav-next-sell-1 box-icon w_46 round snbp21">
             <span className="icon icon-arrow-left" />
           </div>
