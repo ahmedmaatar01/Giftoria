@@ -1,21 +1,23 @@
 "use client";
 
-import { iconBoxes4 } from "@/data/features";
+import { useTranslation } from "react-i18next"; // Import useTranslation hook
+import { iconBoxes4 } from "@/data/features"; // Assume this data has titles and descriptions to translate
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 export default function Features() {
+  const { t } = useTranslation(); // Initialize translation hook
+
   return (
     <section>
       <div className="container">
         <div className="bg_grey-2 radius-10 flat-wrap-iconbox">
           <div className="flat-title lg">
-            <span className="title fw-5 montserrat-semi-bold">Quality is our priority</span>
+            <span className="title fw-5 montserrat-semi-bold">{t("productFeatures.title")}</span> {/* Translate title */}
             <div>
               <p className="sub-title text_black-2 bell-t-medium">
-                Our gifted curators have gathered treasures perfect for every season.
-                <br />They’ve crafted a world of thoughtful delights to inspire your next heartfelt gesture.
-              </p>
+                {t("productFeatures.subtitle")}
+              </p> {/* Translate subtitle */}
             </div>
           </div>
           <div className="flat-iconbox-v3 lg">
@@ -40,8 +42,8 @@ export default function Features() {
                         <i className={box.iconClass} />
                       </div>
                       <div className="content">
-                        <div className="title">{box.title}</div>
-                        <p className="text_black-2">{box.description}</p>
+                        <div className="title">{t(box.title)}</div> {/* Translate item title */}
+                        <p className="text_black-2">{t(box.description)}</p> {/* Translate item description */}
                       </div>
                     </div>
                   </SwiperSlide>

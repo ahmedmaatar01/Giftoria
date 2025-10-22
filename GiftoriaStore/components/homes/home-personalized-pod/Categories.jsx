@@ -1,8 +1,12 @@
+"use client";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import { useTranslation } from "react-i18next";
 
 export default function Categories() {
+  const { t } = useTranslation();
+
   return (
     <section className="flat-spacing-4 section-cls-personalized-pod section-full-1">
       <div className="container">
@@ -11,7 +15,7 @@ export default function Categories() {
             className="title wow fadeInUp fw-6 text-center"
             data-wow-delay="0s"
           >
-            <span className="bell-t-medium">Explore our flowers categories</span>
+            <span className="bell-t-medium">{t("explore_flowers_categories")}</span>
           </span>
         </div>
         <div className="masonry-layout style-3">
@@ -38,7 +42,7 @@ export default function Categories() {
                   href={`/shop-women`}
                   className="tf-btn collection-title hover-icon"
                 >
-                  <span>Gift Boxes</span>
+                  <span>{t("gift_boxes")}</span>
                   <i className="icon icon-arrow1-top-left" />
                 </Link>
               </div>
@@ -67,7 +71,7 @@ export default function Categories() {
                   href={`/shop-default`}
                   className="tf-btn collection-title hover-icon"
                 >
-                  <span>Sweet Treats</span>
+                  <span>{t("sweet_treats")}</span>
                   <i className="icon icon-arrow1-top-left" />
                 </Link>
               </div>
@@ -96,7 +100,7 @@ export default function Categories() {
                   href={`/shop-default`}
                   className="tf-btn collection-title hover-icon"
                 >
-                  <span>Wellness Sets</span>
+                  <span>{t("wellness_sets")}</span>
                   <i className="icon icon-arrow1-top-left" />
                 </Link>
               </div>
@@ -125,7 +129,7 @@ export default function Categories() {
                   href={`/shop-men`}
                   className="tf-btn collection-title hover-icon"
                 >
-                  <span>Keepsake Gifts</span>
+                  <span>{t("keepsake_gifts")}</span>
                   <i className="icon icon-arrow1-top-left" />
                 </Link>
               </div>

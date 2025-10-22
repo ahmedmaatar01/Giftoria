@@ -1,20 +1,29 @@
+"use client";
+
 import React from "react";
 import Nav from "./Nav";
 import Image from "next/image";
 import Link from "next/link";
 import CartLength from "../common/CartLength";
 import WishlistLength from "../common/WishlistLength";
+import { useTranslation } from "react-i18next";
+
 export default function Header10() {
+  const { t } = useTranslation();
+
   return (
     <header id="header" className="header-default">
       <div className="px_15 lg-px_40">
         <div className="row wrapper-header align-items-center">
+          {/* Mobile Menu */}
           <div className="col-md-4 col-3 tf-lg-hidden">
             <a
               href="#mobileMenu"
               data-bs-toggle="offcanvas"
               aria-controls="offcanvasLeft"
+              aria-label={t("header.menu")}
             >
+              {/* Hamburger Icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={24}
@@ -29,18 +38,21 @@ export default function Header10() {
               </svg>
             </a>
           </div>
+
+          {/* Navigation */}
           <div className="col-xl-5 tf-md-hidden">
             <nav className="box-navigation text-center">
               <ul className="box-nav-ul d-flex align-items-center gap-30">
                 <Nav />
-                {/* Buy now removed */}
               </ul>
             </nav>
           </div>
+
+          {/* Logo */}
           <div className="col-xl-2 col-md-4 col-6 text-center">
-            <Link href={`/`} className="logo-header">
+            <Link href={`/`} className="logo-header" aria-label={t("header.logo_home")}>
               <Image
-                alt="logo"
+                alt={t("header.logo_alt")}
                 className="logo"
                 src="/images/logo/logo_Plan de travail 1 copie 2.svg"
                 width={136}
@@ -48,6 +60,8 @@ export default function Header10() {
               />
             </Link>
           </div>
+
+          {/* Icons (Search, Account, Wishlist, Cart) */}
           <div className="col-xl-5 col-md-4 col-3">
             <ul className="nav-icon d-flex justify-content-end align-items-center gap-20">
               <li className="nav-search">
@@ -56,6 +70,7 @@ export default function Header10() {
                   data-bs-toggle="offcanvas"
                   aria-controls="offcanvasLeft"
                   className="nav-icon-item"
+                  aria-label={t("header.search")}
                 >
                   <i className="icon icon-search" />
                 </a>
@@ -65,17 +80,18 @@ export default function Header10() {
                   href="#login"
                   data-bs-toggle="modal"
                   className="nav-icon-item"
+                  aria-label={t("header.account")}
                 >
                   <i className="icon icon-account" />
                 </a>
               </li>
               <li className="nav-compare">
-                <Link href={`/compare`} className="nav-icon-item">
+                <Link href={`/compare`} className="nav-icon-item" aria-label={t("header.compare")}>
                   <i className="icon icon-compare" />
                 </Link>
               </li>
               <li className="nav-wishlist">
-                <Link href={`/wishlist`} className="nav-icon-item">
+                <Link href={`/wishlist`} className="nav-icon-item" aria-label={t("header.wishlist")}>
                   <i className="icon icon-heart" />
                   <span className="count-box">
                     <WishlistLength />
@@ -87,6 +103,7 @@ export default function Header10() {
                   href="#shoppingCart"
                   data-bs-toggle="modal"
                   className="nav-icon-item"
+                  aria-label={t("header.cart")}
                 >
                   <i className="icon icon-bag" />
                   <span className="count-box">

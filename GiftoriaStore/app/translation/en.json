@@ -1,0 +1,187 @@
+{ "topbar": {
+    "spring_sale": "Spring Fashion Sale",
+    "shop_now": "Shop now",
+    "all_collection": "View all collections",
+    "summer_discount": "Summer sale discount off 70%",
+    "refresh_wardrobe": "Time to refresh your wardrobe."
+  }
+    ,
+
+    "hero_subheading": "Come closer, darling",
+    "hero_heading": "A touch of charm awaits",
+    "hero_description": "Don’t be shy, love",
+    "hero_button": "Shop now",
+
+    "explore_flowers_categories": "Explore our flowers categories",
+    "gift_boxes": "Gift Boxes",
+    "sweet_treats": "Sweet Treats",
+    "wellness_sets": "Wellness Sets",
+    "keepsake_gifts": "Keepsake Gifts",
+
+    "exploreChocolateCategories": "Explore our chocolate categories",
+    "chocolate1": "Chocolate 1",
+    "chocolate2": "Chocolate 2",
+    "chocolate3": "Chocolate 3",
+    "chocolate4": "Chocolate 4",
+
+    "banner2_heading": "Step Into the World of Giftoria",
+    "banner2_description": "GIFTORIA.me is a luxury brand born from a desire to transform the art of gifting into an unforgettable, emotional experience. Every detail, from the design of our products to the personal touch behind each gift, is carefully crafted to reflect elegance, intention, and meaning.",
+    "banner2_button": "Start shopping",
+
+    "products2_title": "Best seller",
+    "add_to_wishlist": "Add to Wishlist",
+    "already_wishlisted": "Already Wishlisted",
+    "add_to_compare": "Add to Compare",
+    "already_compared": "Already Compared",
+    "quick_view": "Quick View",
+    "add_to_cart": "Add to cart",
+
+    "features_title_line1": "Experience the elegance",
+  "features_title_line2": "of timeless gifts",
+
+  "features_slide_1_title": "Elegant Packaging",
+  "features_slide_1_description": "Our gifts are wrapped with premium materials to impress at first glance.",
+
+  "features_slide_2_title": "Personalized Touch",
+  "features_slide_2_description": "Customize your message or packaging for a truly unique gift.",
+
+  "features_slide_3_title": "Fast Delivery",
+  "features_slide_3_description": "Get your gifts delivered swiftly and safely to your doorstep.",
+
+  "features_slide_4_title": "Luxury Selection",
+  "features_slide_4_description": "Curated gifts chosen for their quality, style, and sentiment.",
+
+
+  "store_title": "Come Stroll Through Our Flower Parlour",
+  "qatar_store_title": "Qatar Store",
+  "london_store_title": "London Store",
+  "paris_store_title": "Paris Store",
+  "store_address": "301 Front St WToronto,",
+  "working_days": "Mon - Fri, 8:30am - 10:30pm",
+  "saturday_hours": "Saturday, 8:30am - 10:30pm",
+  "sunday_closed": "Sunday Closed",
+
+  "features": {
+    "free_shipping": {
+      "title": "Free Shipping",
+      "description": "Free shipping over order $120"
+    },
+    "flexible_payment": {
+      "title": "Flexible Payment",
+      "description": "Pay with Multiple Credit Cards"
+    },
+    "returns": {
+      "title": "14 Day Returns",
+      "description": "Within 30 days for an exchange"
+    },
+    "support": {
+      "title": "Premium Support",
+      "description": "Outstanding premium support"
+    }
+  }
+  ,
+
+  "footer_address_line1": "Address: 1234 Fashion Street, Suite 567,",
+  "footer_address_line2": "New York, NY 10001",
+  "footer_email_label": "Email:",
+  "footer_email": "info@fashionshop.com",
+  "footer_phone_label": "Phone:",
+  "footer_phone": "(212) 555‑1234",
+  "footer_get_direction": "Get direction",
+  "footer_help": "Help",
+  "footer_about_us": "About us",
+  "footer_sign_up_email": "Sign Up for Email",
+  "footer_newsletter_text": "Sign up to get first dibs on new arrivals, sales, exclusive content, events and more!",
+  "footer_subscribe_success": "You have successfully subscribed.",
+  "footer_subscribe_error": "Something went wrong",
+  "footer_enter_email_placeholder": "Enter your email....",
+  "footer_subscribe_button": "Subscribe",
+  "footer_copyright": "© {{year}} Giftoria Store. All Rights Reserved",
+
+  "header.menu": "Open menu",
+  "header.logo_home": "Go to homepage",
+  "header.logo_alt": "Giftoria Logo",
+  "header.search": "Search",
+  "header.account": "My Account",
+  "header.compare": "Compare Products",
+  "header.wishlist": "Wishlist",
+  "header.cart": "Shopping Cart",
+
+"hero": {
+    "_comment": "start about us ",
+    "title": "The Story of Giftoria",
+    "subtitle": "Where every gift is wrapped in timeless grace, a blend of elegance, emotion, and lasting charm."
+  }
+,
+"about": {
+    "image_alt": "collection image",
+    "our_mission_title": "Our mission",
+    "our_mission_text": "Our mission is to offer a unique and luxurious gifting experience, where every creation is designed with care, personalization, and a true sense of meaning making every moment memorable. Giftoria is the go-to destination for exceptional, personalized luxury gifts crafted to leave a lasting impact.",
+    "our_vision_title": "Our vision",
+    "our_vision_text": "We envision a world where gifting becomes an elevated art form, a celebration of connection and emotion. Our goal is to make Giftoria the go-to destination for exceptional, personalized luxury gifts crafted to leave a lasting impact.",
+    "our_values_title": "Our values",
+    "elegance_title": "Elegance",
+    "elegance_text": "We design with timeless beauty and grace in mind.",
+    "personalization_title": "Personalization",
+    "personalization_text": "Every gift is a reflection of the giver’s heart and the recipient’s uniqueness.",
+    "excellence_title": "Excellence",
+    "excellence_text": "We hold ourselves to the highest standards in every detail, every time.",
+    "emotion_title": "Emotion",
+    "emotion_text": "Our gifts carry meaning — they tell stories and create memories.",
+    "creativity_title": "Creativity",
+    "creativity_text": "We explore endless ways to surprise and delight through thoughtful design."
+  }
+  ,
+  "company": {
+    "brand_presentation_title": "Brand Presentation",
+    "premium_quality_title": "Premium Quality",
+    "premium_quality_description": "Only the finest materials and craftsmanship.",
+    "thoughtful_curation_title": "Thoughtful Curation",
+    "thoughtful_curation_description": "Handpicked gifts for every occasion.",
+    "personalized_touch_title": "Personalized Touch",
+    "personalized_touch_description": "Custom options for a unique experience.",
+    "brand_presentation_subtitle": "GIFTORIA.me is a luxury brand born from a desire to transform the art of gifting into an unforgettable, emotional experience."
+  },
+
+  "productFeatures": {
+    "title": "Quality is our priority",
+    "subtitle": "Our gifted curators have gathered treasures perfect for every season. They’ve crafted a world of thoughtful delights to inspire your next heartfelt gesture.",
+    "high_quality_materials_title": "High-Quality Materials",
+    "high_quality_materials_description": "Crafted with precision and excellence, our activewear is meticulously engineered using premium materials to ensure unmatched comfort and durability.",
+    "laconic_design_title": "Laconic Design",
+    "laconic_design_description": "Simplicity refined. Our activewear embodies the essence of minimalistic design, delivering effortless style that speaks volumes.",
+    "various_sizes_title": "Various Sizes",
+    "various_sizes_description": "Designed for every body and anyone, our activewear embraces diversity with a wide range of sizes and shapes, celebrating the beauty of individuality."
+  },
+  "store_info": {
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "open_time": "Open Time",
+    "get_directions": "Get Directions"
+  }
+  ,
+  "contact": {
+    "hero_title": "Contact Us",
+    "hero_description_line1": "We’d love to hear from you — questions, custom orders,",
+    "hero_description_line2": "and feedback are welcome.",
+    "visit_store": "Visit Our Store",
+  "store_address": "66 Mott St, New York, New York, Zip Code: 10006, AS",
+  "phone_number": "(623) 934-2400",
+  "email_address": "EComposer@example.com",
+  "store_status": "Our store has re-opened for shopping,",
+  "store_hours": "exchange Every day 11am to 7pm"
+  },
+  "contact_form": {
+    "title": "Get in Touch",
+    "subtitle": "If you’ve got great products you're making or looking to work with us then drop us a line.",
+    "name_placeholder": "Name *",
+    "email_placeholder": "Email *",
+    "message_placeholder": "Message",
+    "send_button": "Send",
+    "success": "Message has been sent successfully.",
+    "error": "Something went wrong"
+  }
+  }
+
+  

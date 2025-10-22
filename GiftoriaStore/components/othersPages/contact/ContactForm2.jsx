@@ -1,7 +1,10 @@
 "use client";
+
 import React, { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function ContactForm2() {
+  const { t } = useTranslation();
   const formRef = useRef();
   const [success, setSuccess] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
@@ -13,16 +16,17 @@ export default function ContactForm2() {
     }, 2000);
   };
 
-  const sendMail = (e) => {};
+  const sendMail = (e) => {
+    // TODO: Implement actual email sending logic
+    handleShowMessage();
+  };
+
   return (
     <section className="bg_grey-7 flat-spacing-9">
       <div className="container">
-        <div className="flat-title">
-          <span className="title">Get in Touch</span>
-          <p className="sub-title text_black-2">
-            If you’ve got great products your making or looking to work with us
-            then drop us a line.
-          </p>
+        <div className="flat-title text-center">
+          <span className="title">{t("contact_form.title")}</span>
+          <p className="sub-title text_black-2">{t("contact_form.subtitle")}</p>
         </div>
         <div>
           <form
@@ -43,7 +47,7 @@ export default function ContactForm2() {
                   name="name"
                   id="name"
                   required
-                  placeholder="Name *"
+                  placeholder={t("contact_form.name_placeholder")}
                 />
               </fieldset>
               <fieldset className="w-100">
@@ -53,36 +57,37 @@ export default function ContactForm2() {
                   name="email"
                   id="email"
                   required
-                  placeholder="Email *"
+                  placeholder={t("contact_form.email_placeholder")}
                 />
               </fieldset>
             </div>
             <div className="mb_15">
               <textarea
-                placeholder="Message"
+                placeholder={t("contact_form.message_placeholder")}
                 name="message"
                 id="message"
                 required
                 cols={30}
                 rows={10}
-                defaultValue={""}
               />
             </div>
             <div className="send-wrap">
               <div className={`tfSubscribeMsg ${showMessage ? "active" : ""}`}>
                 {success ? (
                   <p style={{ color: "rgb(52, 168, 83)" }}>
-                    Message has been sent successfully.
+                    {t("contact_form.success")}
                   </p>
                 ) : (
-                  <p style={{ color: "red" }}>Something went wrong</p>
+                  <p style={{ color: "red" }}>
+                    {t("contact_form.error")}
+                  </p>
                 )}
               </div>
               <button
                 type="submit"
                 className="tf-btn radius-3 btn-fill animate-hover-btn justify-content-center"
               >
-                Send
+                {t("contact_form.send_button")}
               </button>
             </div>
           </form>

@@ -20,45 +20,26 @@ export const iconBoxes = [
 export const iconBoxData = [
   {
     iconClass: "icon-shipping",
-  title: <span className="banner-title-montserrat montserrat-semi-bold">Free Shipping</span>,
-  description: <span className="bell-t-medium">Free shipping over order $120</span>,
+    titleKey: "features.free_shipping.title",
+    descriptionKey: "features.free_shipping.description",
   },
   {
     iconClass: "icon-payment fs-22",
-  title: <span className="banner-title-montserrat montserrat-semi-bold">Flexible Payment</span>,
-  description: <span className="bell-t-medium">Pay with Multiple Credit Cards</span>,
+    titleKey: "features.flexible_payment.title",
+    descriptionKey: "features.flexible_payment.description",
   },
   {
     iconClass: "icon-return fs-20",
-  title: <span className="banner-title-montserrat montserrat-semi-bold">14 Day Returns</span>,
-  description: <span className="bell-t-medium">Within 30 days for an exchange</span>,
+    titleKey: "features.returns.title",
+    descriptionKey: "features.returns.description",
   },
   {
     iconClass: "icon-suport",
-  title: <span className="banner-title-montserrat montserrat-semi-bold">Premium Support</span>,
-  description: <span className="bell-t-medium">Outstanding premium support</span>,
-  },
-  {
-    iconClass: "icon-shipping",
-    title: "Free Shipping",
-  description: <span className="bell-t-medium">Free shipping over order $120</span>,
-  },
-  {
-    iconClass: "icon-payment fs-22",
-    title: "Flexible Payment",
-  description: <span className="bell-t-medium">Pay with Multiple Credit Cards</span>,
-  },
-  {
-    iconClass: "icon-return fs-20",
-    title: "14 Day Returns",
-  description: <span className="bell-t-medium">Within 30 days for an exchange</span>,
-  },
-  {
-    iconClass: "icon-suport",
-    title: "Premium Support",
-  description: <span className="bell-t-medium">Outstanding premium support</span>,
-  },
+    titleKey: "features.support.title",
+    descriptionKey: "features.support.description",
+  }
 ];
+
 export const iconBoxes7 = [
   {
     iconClass: "icon-shipping",
@@ -296,23 +277,21 @@ export const recentCollectionSlides = [
 export const iconBoxes4 = [
   {
     iconClass: "icon-materials",
-  title: <span className="montserrat-semi-bold">High-Quality Materials</span>,
-    description:
-      <span className="bell-t-medium">Crafted with precision and excellence, our activewear is meticulously engineered using premium materials to ensure unmatched comfort and durability.</span>,
+    title: "productFeatures.high_quality_materials_title",  // Translation key
+    description: "productFeatures.high_quality_materials_description",  // Translation key
   },
   {
     iconClass: "icon-design",
-  title: <span className="montserrat-semi-bold">Laconic Design</span>,
-    description:
-      <span className="bell-t-medium">Simplicity refined. Our activewear embodies the essence of minimalistic design, delivering effortless style that speaks volumes.</span>,
+    title: "productFeatures.laconic_design_title",  // Translation key
+    description: "productFeatures.laconic_design_description",  // Translation key
   },
   {
     iconClass: "icon-sizes",
-  title: <span className="montserrat-semi-bold">Various Sizes</span>,
-    description:
-      <span className="bell-t-medium">Designed for every body and anyone, our activewear embraces diversity with a wide range of sizes and shapes, celebrating the beauty of individuality.</span>,
+    title: "productFeatures.various_sizes_title",  // Translation key
+    description: "productFeatures.various_sizes_description",  // Translation key
   },
 ];
+
 
 export const swiperData = [
   {

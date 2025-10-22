@@ -1,7 +1,12 @@
+"use client";
+
 import { socialLinksWithBorder } from "@/data/socials";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 export default function Map2() {
+  const { t } = useTranslation();
+
   return (
     <section className="flat-spacing-9">
       <div className="container">
@@ -19,32 +24,29 @@ export default function Map2() {
           </div>
           <div className="tf-content-left has-mt">
             <div className="sticky-top">
-              <h5 className="mb_20">Visit Our Store</h5>
+              <h5 className="mb_20">{t("contact.visit_store")}</h5>
+
               <div className="mb_20">
-                <p className="mb_15">
-                  <strong>Address</strong>
-                </p>
-                <p>66 Mott St, New York, New York, Zip Code: 10006, AS</p>
+                <p className="mb_15"><strong>{t("store_info.address")}</strong></p>
+                <p>{t("contact.store_address")}</p>
               </div>
+
               <div className="mb_20">
-                <p className="mb_15">
-                  <strong>Phone</strong>
-                </p>
-                <p>(623) 934-2400</p>
+                <p className="mb_15"><strong>{t("store_info.phone")}</strong></p>
+                <p>{t("contact.phone_number")}</p>
               </div>
+
               <div className="mb_20">
-                <p className="mb_15">
-                  <strong>Email</strong>
-                </p>
-                <p>EComposer@example.com</p>
+                <p className="mb_15"><strong>{t("store_info.email")}</strong></p>
+                <p>{t("contact.email_address")}</p>
               </div>
+
               <div className="mb_36">
-                <p className="mb_15">
-                  <strong>Open Time</strong>
-                </p>
-                <p className="mb_15">Our store has re-opened for shopping,</p>
-                <p>exchange Every day 11am to 7pm</p>
+                <p className="mb_15"><strong>{t("store_info.open_time")}</strong></p>
+                <p className="mb_15">{t("contact.store_status")}</p>
+                <p>{t("contact.store_hours")}</p>
               </div>
+
               <div>
                 <ul className="tf-social-icon d-flex gap-20 style-default">
                   {socialLinksWithBorder.map((link, index) => (
@@ -53,9 +55,7 @@ export default function Map2() {
                         href={link.href}
                         className={`box-icon link round ${link.className} ${link.borderClass}`}
                       >
-                        <i
-                          className={`icon ${link.iconSize} ${link.iconClass}`}
-                        />
+                        <i className={`icon ${link.iconSize} ${link.iconClass}`} />
                       </a>
                     </li>
                   ))}

@@ -1,0 +1,187 @@
+{
+    "topbar": {
+        "spring_sale": "تخفيضات الموضة الربيعية",
+        "shop_now": "تسوق الآن",
+        "all_collection": "عرض كل المجموعات",
+        "summer_discount": "خصم صيفي يصل إلى 70%",
+        "refresh_wardrobe": "حان وقت تجديد خزانة ملابسك."
+      }
+    ,
+    "hero_subheading": "اقترب أكثر يا عزيزي",
+    "hero_heading": "لمسة من السحر تنتظرك",
+    "hero_description": "لا تخجل، يا حب",
+    "hero_button": "تسوق الآن",
+
+    "explore_flowers_categories": "اكتشف فئات زهورنا",
+    "gift_boxes": "صناديق الهدايا",
+    "sweet_treats": "الحلويات اللذيذة",
+    "wellness_sets": "مجموعات العافية",
+    "keepsake_gifts": "هدايا تذكارية",
+
+    "exploreChocolateCategories": "استكشف فئات الشوكولاتة الخاصة بنا",
+    "chocolate1": "شوكولاتة 1",
+    "chocolate2": "شوكولاتة 2",
+    "chocolate3": "شوكولاتة 3",
+    "chocolate4": "شوكولاتة 4",
+
+
+    "banner2_heading": "ادخل إلى عالم جيفتوريا",
+    "banner2_description": "GIFTORIA.me هي علامة تجارية فاخرة وُلدت من رغبة في تحويل فن الإهداء إلى تجربة لا تُنسى ومليئة بالمشاعر. كل تفصيلة، من تصميم منتجاتنا إلى اللمسة الشخصية وراء كل هدية، تم إعدادها بعناية لتعكس الأناقة والنية والمعنى.",
+    "banner2_button": "ابدأ التسوق",
+
+     "products2_title": "الأكثر مبيعًا",
+     "add_to_wishlist": "أضف إلى المفضلة",
+     "already_wishlisted": "تمت إضافته للمفضلة",
+     "add_to_compare": "أضف للمقارنة",
+      "already_compared": "تمت إضافته للمقارنة",
+     "quick_view": "عرض سريع",
+     "add_to_cart": "أضف إلى السلة",
+
+    "features_title_line1": "اكتشف أناقة",
+  "features_title_line2": "الهدايا الخالدة",
+
+  "features_slide_1_title": "تغليف أنيق",
+  "features_slide_1_description": "نغلف الهدايا بأفضل الخامات لتترك انطباعاً أولياً رائعاً.",
+
+  "features_slide_2_title": "لمسة شخصية",
+  "features_slide_2_description": "خصص رسالتك أو التغليف لتجربة فريدة وخاصة.",
+
+  "features_slide_3_title": "توصيل سريع",
+  "features_slide_3_description": "نوصّل الهدايا بسرعة وأمان إلى باب منزلك.",
+
+  "features_slide_4_title": "تشكيلة فاخرة",
+  "features_slide_4_description": "هدايا مختارة بعناية تتميز بالجودة والأناقة والمعنى.",
+
+  "store_title": "تعال وتمشى في صالة الزهور الخاصة بنا",
+  "qatar_store_title": "فرع قطر",
+  "london_store_title": "فرع لندن",
+  "paris_store_title": "فرع باريس",
+  "store_address": "301 Front St W تورنتو،",
+  "working_days": "الاثنين - الجمعة، 8:30 صباحًا - 10:30 مساءً",
+  "saturday_hours": "السبت، 8:30 صباحًا - 10:30 مساءً",
+  "sunday_closed": "الأحد مغلق",
+
+  "features": {
+    "free_shipping": {
+      "title": "شحن مجاني",
+      "description": "شحن مجاني للطلبات فوق 120 دولارًا"
+    },
+    "flexible_payment": {
+      "title": "دفع مرن",
+      "description": "ادفع باستخدام عدة بطاقات ائتمانية"
+    },
+    "returns": {
+      "title": "14 يوم للإرجاع",
+      "description": "خلال 30 يومًا للاستبدال"
+    },
+    "support": {
+      "title": "دعم مميز",
+      "description": "دعم فني مميز ومتميز"
+    }
+  },
+
+
+  "footer_address_line1": "العنوان: شارع الأزياء 1234، جناح 567،",
+  "footer_address_line2": "نيويورك، نيويورك 10001",
+  "footer_email_label": "البريد الإلكتروني:",
+  "footer_email": "info@fashionshop.com",
+  "footer_phone_label": "رقم الهاتف:",
+  "footer_phone": "(212) 555‑1234",
+  "footer_get_direction": "الحصول على الاتجاه",
+  "footer_help": "مساعدة",
+  "footer_about_us": "من نحن",
+  "footer_sign_up_email": "اشترك بالبريد الإلكتروني",
+  "footer_newsletter_text": "اشترك لتحصل أولاً على الإصدارات الجديدة، التخفيضات، المحتوى الحصري، الفعاليات والمزيد!",
+  "footer_subscribe_success": "لقد اشتركت بنجاح.",
+  "footer_subscribe_error": "حدث خطأ ما",
+  "footer_enter_email_placeholder": "أدخل بريدك الإلكتروني....",
+  "footer_subscribe_button": "اشترك",
+  "footer_copyright": "© {{year}} متجر جيفتوريا. كل الحقوق محفوظة",
+
+  "header.menu": "افتح القائمة",
+  "header.logo_home": "الذهاب إلى الصفحة الرئيسية",
+  "header.logo_alt": "شعار جيفتوريا",
+  "header.search": "بحث",
+  "header.account": "حسابي",
+  "header.compare": "مقارنة المنتجات",
+  "header.wishlist": "المفضلة",
+  "header.cart": "عربة التسوق",
+
+
+  "hero": {
+    "_comment": "start about us ",
+    "title": "قصة جيفتوريا",
+    "subtitle": "حيث يتم لف كل هدية بأناقة دائمة، مزيج من الأناقة والعاطفة والسحر الذي يدوم."
+  },
+
+  "about": {
+    "image_alt": "صورة المجموعة",
+    "our_mission_title": "مهمتنا",
+    "our_mission_text": "مهمتنا هي تقديم تجربة هدايا فاخرة وفريدة من نوعها، حيث يتم تصميم كل هدية بعناية وتخصيص وبتفكير حقيقي في المعنى، مما يجعل كل لحظة لا تُنسى. جيفتوريا هي الوجهة المفضلة للهدايا الفاخرة المخصصة التي تترك أثراً دائماً.",
+    "our_vision_title": "رؤيتنا",
+    "our_vision_text": "نحن نتصور عالماً تصبح فيه الهدايا شكلاً فنياً رفيعاً، احتفالاً بالاتصال والعاطفة. هدفنا هو جعل جيفتوريا الوجهة المفضلة للهدايا الفاخرة المخصصة التي تترك أثراً دائماً.",
+    "our_values_title": "قيمنا",
+    "elegance_title": "الأناقة",
+    "elegance_text": "نحن نصمم مع الحفاظ على الجمال الدائم والنعمة في الاعتبار.",
+    "personalization_title": "التخصيص",
+    "personalization_text": "كل هدية هي انعكاس لقلب المانح وتفرد المتلقي.",
+    "excellence_title": "التميز",
+    "excellence_text": "نحن نلتزم بأعلى المعايير في كل تفاصيل، في كل مرة.",
+    "emotion_title": "العاطفة",
+    "emotion_text": "هدايانا تحمل المعنى — تروي القصص وتخلق الذكريات.",
+    "creativity_title": "الإبداع",
+    "creativity_text": "نحن نستكشف طرقاً لا حصر لها لمفاجأة وإسعاد من خلال التصميم المدروس."
+  }
+  ,
+  "company": {
+    "brand_presentation_title": "عرض العلامة التجارية",
+    "premium_quality_title": "جودة ممتازة",
+    "premium_quality_description": "أفضل المواد والحرفية فقط.",
+    "thoughtful_curation_title": "اختيار مدروس",
+    "thoughtful_curation_description": "هدايا مختارة لكل مناسبة.",
+    "personalized_touch_title": "لمسة شخصية",
+    "personalized_touch_description": "خيارات مخصصة لتجربة فريدة.",
+    "brand_presentation_subtitle": "GIFTORIA.me هي علامة تجارية فاخرة وُلدت من رغبة في تحويل فن الإهداء إلى تجربة لا تُنسى ومليئة بالمشاعر."
+  },
+
+  "productFeatures": {
+    "title": "الجودة هي أولويتنا",
+    "subtitle": "لقد جمع محررونا الموهوبون الكنوز المثالية لكل موسم. لقد أنشأوا عالمًا من اللذائذ المدروسة لإلهام لفتتك القادمة المليئة بالمشاعر.",
+    "high_quality_materials_title": "مواد عالية الجودة",
+    "high_quality_materials_description": "مصنوعة بدقة واهتمام، يتم تصنيع ملابسنا الرياضية بعناية باستخدام مواد فاخرة لضمان راحة استثنائية ودوام طويل.",
+    "laconic_design_title": "تصميم بسيط",
+    "laconic_design_description": "البساطة المصقولة. تمثل ملابسنا الرياضية جوهر التصميم البسيط، مما يوفر أسلوبًا عصريًا بلا عناء.",
+    "various_sizes_title": "أحجام متنوعة",
+    "various_sizes_description": "تم تصميم ملابسنا الرياضية لتناسب الجميع، حيث تحتفل بتنوع الأجسام والأشكال مع مجموعة واسعة من الأحجام، مما يعكس جمال الفردية."
+  },
+  "store_info": {
+    "address": "العنوان",
+    "phone": "الهاتف",
+    "email": "البريد الإلكتروني",
+    "open_time": "أوقات العمل",
+    "get_directions": "احصل على الاتجاهات"
+  },
+  "contact": {
+    "hero_title": "تواصل معنا",
+    "hero_description_line1": "يسعدنا التواصل معك — الأسئلة، الطلبات المخصصة،",
+    "hero_description_line2": "والتعليقات كلها محل ترحيب.",
+    "visit_store": "قم بزيارة متجرنا",
+    "store_address": "66 شارع موت، نيويورك، نيويورك، الرمز البريدي: 10006، الولايات المتحدة",
+    "phone_number": "(623) 934-2400",
+    "email_address": "EComposer@example.com",
+    "store_status": "لقد أعدنا فتح المتجر للتسوق،",
+    "store_hours": "كل يوم من الساعة 11 صباحًا حتى 7 مساءً"
+  },
+  "contact_form": {
+    "title": "ابقَ على تواصل",
+    "subtitle": "إذا كانت لديك منتجات رائعة أو ترغب في التعاون معنا، فلا تتردد في التواصل.",
+    "name_placeholder": "الاسم *",
+    "email_placeholder": "البريد الإلكتروني *",
+    "message_placeholder": "رسالتك",
+    "send_button": "إرسال",
+    "success": "تم إرسال الرسالة بنجاح.",
+    "error": "حدث خطأ ما"
+  }
+  
+  }
+  
