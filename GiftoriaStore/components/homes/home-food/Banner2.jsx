@@ -7,7 +7,8 @@ export default function Banner2({
   bgUrl = "/images/slider/food-banner-collection.jpg",
   buttonLink = "/shop-collection-sub",
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isArabic = i18n.language === "ar";
 
   return (
     <section
@@ -20,12 +21,20 @@ export default function Banner2({
             <h4 className="heading mb-3">
               <span className="bell-t-medium heading-30">{t("banner3_heading")}</span>
             </h4>
+
+            {/* ✅ Dynamic text alignment */}
             <p
               className="text mb-4"
-              style={{ maxWidth: "600px", margin: "0", textAlign: "left" }}
+              style={{
+                maxWidth: "600px",
+                margin: "0",
+                textAlign: isArabic ? "right" : "left",
+                direction: isArabic ? "rtl" : "ltr",
+              }}
             >
               <span className="montserrat-regular">{t("banner3_description")}</span>
             </p>
+
             <div className="wow fadeInUp" data-wow-delay="0s">
               <button className="tf-btn style-2 fw-6 btn-fill animate-hover-btn mt-2">
                 <span className="montserrat-semi-bold">{t("banner3_button")}</span>
