@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import "./translation/i18n";
 import "../public/scss/main.scss";
 import "photoswipe/dist/photoswipe.css";
+import "./globals.css";
 import "rc-slider/assets/index.css";
 import HomesModal from "@/components/modals/HomesModal";
 import Context from "@/context/Context";

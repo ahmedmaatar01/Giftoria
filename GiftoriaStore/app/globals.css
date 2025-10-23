@@ -75,17 +75,19 @@
   font-style: italic;
 }
 @font-face {
-  font-family: 'Muslimah Thin';
-  src: url('/fonts/alfont_com_Muslimah-Thin.otf') format('opentype');
-  font-weight: normal;
+  font-family: "Muslimah Thin";
+  src: url("/fonts/Muslimah-Thin.otf") format("opentype");
+  font-weight: 400;
   font-style: normal;
-  font-display: swap;
 }
 
-
-
-
-
-html[dir="rtl"] {
-  font-family: "Muslimah Thin", sans-serif;
+/* Apply Arabic font when html has the arabic-font class */
+html.arabic-font,
+html.arabic-font body {
+  font-family: "Muslimah Thin", sans-serif !important;
+}
+html.arabic-font,
+html.arabic-font body,
+html.arabic-font *:not(i):not(.icon):not([class*="icon-"]) {
+  font-family: "Muslimah Thin", sans-serif !important;
 }
