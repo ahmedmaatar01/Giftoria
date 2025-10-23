@@ -4,14 +4,12 @@ import Header10 from "@/components/headers/Header10";
 import Topbar1 from "@/components/headers/Topbar1";
 import Products2 from "@/components/homes/home-baby/Products2";
 import Store from "@/components/homes/home-2/Store";
-import Categories from "@/components/homes/multi-brand/Categories";
 import CategoriesAlt from "@/components/homes/multi-brand/CategoriesAlt";
-
-
+import HeroCamp from "@/components/homes/home-camp-and-hike/Hero";
 import Banner2 from "@/components/homes/home-food/Banner2";
+import BannerHome1 from "@/components/homes/home-1/BannerHome1";
 import FeaturesHomeFood from "@/components/homes/home-food/Features";
-
-import Hero from "@/components/homes/home-1/Hero";
+import HeroHome1 from "@/components/homes/home-1/Hero";
 import Marquee from "@/components/homes/home-1/Marquee";
 
 export const metadata = {
@@ -23,11 +21,10 @@ export default function Home() {
     <>
       <Topbar1 />
       <Header10 />
-      <Hero />
-      <Marquee />
-
-      <Categories />
-      {/* Duplicate categories carousel with alternate images */}
+  <HeroHome1 />
+  <Marquee />
+  <HeroCamp />
+ 
       
   <CategoriesAlt />
   <div style={{ marginTop: '60px' }} />
@@ -37,11 +34,10 @@ export default function Home() {
       <div style={{ marginTop: '60px' }} />
       <FeaturesHomeFood />
       
-      <Banner2
+      <BannerHome1
         bgUrl="images/slider/fashion-slideshow-01.jpg"
-        heading="Join the Giftoria Circle"
-        description={`GIFTORIA.me invites you into a realm where gifting becomes poetry.
-Born from a timeless passion for elegance and emotion, every creation carries a whisper of sophistication and care. From the graceful design of each piece to the tender thought behind every gesture, we craft not just gifts — but cherished moments, wrapped in meaning and beauty.`}
+        heading="JOIN THE GIFTORIA CIRCLE"
+        description={`Become a part of our exclusive community and enjoy special benefits, early access to new collections, and personalized offers.`}
         buttonLink="/shop-collection-sub"
         buttonLabel="Get in Touch"
       />

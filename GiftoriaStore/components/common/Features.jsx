@@ -35,10 +35,8 @@ export default function Features() {
                     <i className={elm.iconClass} />
                   </div>
                   <div className="content">
-                    <div className="title banner-title-montserrat montserrat-semi-bold">
-                      {t(elm.titleKey)}
-                    </div>
-                    <p className="bell-t-medium">{t(elm.descriptionKey)}</p>
+                    <div className="title bell-t-medium">{t(elm.titleKey)}</div>
+                    <p className="montserrat-regular">{t(elm.descriptionKey)}</p>
                   </div>
                 </div>
               </SwiperSlide>

@@ -8,7 +8,7 @@
     ,
 
     "hero_subheading": "Come closer, darling",
-    "hero_heading": "A touch of charm awaits",
+    "hero_heading": "A TOUCH OF CHARM AWAITS",
     "hero_description": "Don’t be shy, love",
     "hero_button": "Shop now",
 
@@ -24,11 +24,15 @@
     "chocolate3": "Chocolate 3",
     "chocolate4": "Chocolate 4",
 
-    "banner2_heading": "Step Into the World of Giftoria",
+    "banner2_heading": "STEP INTO THE WORLD OF GIFTORIA",
     "banner2_description": "GIFTORIA.me is a luxury brand born from a desire to transform the art of gifting into an unforgettable, emotional experience. Every detail, from the design of our products to the personal touch behind each gift, is carefully crafted to reflect elegance, intention, and meaning.",
     "banner2_button": "Start shopping",
+    "banner3_heading": "WELCOME TO THE WORLD OF GIFTORIA",
 
-    "products2_title": "Best seller",
+    "banner3_description": "GIFTORIA.me is a luxury brand born from a desire to transform the art of gifting into an unforgettable, emotional experience. Every detail, from the design of our products to the personal touch behind each gift, is carefully crafted to reflect elegance, intention, and meaning.",
+    "banner3_button": "Join Now",
+
+    "products2_title": "BEST SELLER",
     "add_to_wishlist": "Add to Wishlist",
     "already_wishlisted": "Already Wishlisted",
     "add_to_compare": "Add to Compare",
@@ -36,8 +40,8 @@
     "quick_view": "Quick View",
     "add_to_cart": "Add to cart",
 
-    "features_title_line1": "Experience the elegance",
-  "features_title_line2": "of timeless gifts",
+    "features_title_line1": "EXPERIENCE THE ELEGANCE",
+  "features_title_line2": "OF TIMESLESS GIFTING",
 
   "features_slide_1_title": "Elegant Packaging",
   "features_slide_1_description": "Our gifts are wrapped with premium materials to impress at first glance.",
@@ -52,7 +56,7 @@
   "features_slide_4_description": "Curated gifts chosen for their quality, style, and sentiment.",
 
 
-  "store_title": "Come Stroll Through Our Flower Parlour",
+  "store_title": "COME STROLL THROUGH OUR FLOWER PARLOUR",
   "qatar_store_title": "Qatar Store",
   "london_store_title": "London Store",
   "paris_store_title": "Paris Store",
@@ -109,7 +113,7 @@
 
 "hero": {
     "_comment": "start about us ",
-    "title": "The Story of Giftoria",
+    "title": "THE STORY OF GIFTORIA",
     "subtitle": "Where every gift is wrapped in timeless grace, a blend of elegance, emotion, and lasting charm."
   }
 ,
@@ -133,14 +137,14 @@
   }
   ,
   "company": {
-    "brand_presentation_title": "Brand Presentation",
+    "brand_presentation_title": "BRAND PRESENTATION",
     "premium_quality_title": "Premium Quality",
     "premium_quality_description": "Only the finest materials and craftsmanship.",
     "thoughtful_curation_title": "Thoughtful Curation",
     "thoughtful_curation_description": "Handpicked gifts for every occasion.",
     "personalized_touch_title": "Personalized Touch",
     "personalized_touch_description": "Custom options for a unique experience.",
-    "brand_presentation_subtitle": "GIFTORIA.me is a luxury brand born from a desire to transform the art of gifting into an unforgettable, emotional experience."
+"brand_presentation_subtitle": "GIFTORIA.me is a luxury brand born from a desire to transform the art of gifting into an unforgettable, emotional experience. Every detail, from the design of our products to the personal touch behind each gift, is carefully crafted to reflect elegance, intention, and meaning. At GIFTORIA, we believe that a gift is never just a gift — it is a gesture, a story, a memory in the making. That’s why we offer a curated universe of personalized and refined creations, designed to celebrate life’s most precious moments in a deeply thoughtful way. Whether it’s a symbolic token of love, a timeless expression of gratitude, or a meaningful surprise, GIFTORIA turns each gift into an exceptional experience — one that’s tailored, elegant, and emotionally resonant. Our brand is dedicated to those who seek to offer more than an object: a lasting impression."
   },
 
   "productFeatures": {
@@ -184,9 +188,10 @@
   },
   "categories": {
     "sectionTitle": "A Symphony of Gifts"
+    
   },
   "categoriesAlt": {
-    "sectionTitle": "The Art of Giving"
+    "sectionTitle": "THE ART OF GIVING"
   },
   "menu": {
     "home": "Home",

@@ -11,7 +11,7 @@ export default function Store() {
     <section className="flat-spacing-9 pb_0">
       <div className="container">
         <div className="flat-title wow fadeInUp" data-wow-delay="0s">
-          <span className="title bell-t-medium">
+          <span className="title bell-t-medium heading-30">
             {t("store_title")}
           </span>
         </div>
@@ -22,7 +22,7 @@ export default function Store() {
             <div className="tab-pane active show" id="Qatar" role="tabpanel">
               <div className="widget-card-store align-items-center tf-grid-layout md-col-2">
                 <div className="store-item-info">
-                  <h5 className="store-heading">{t("qatar_store_title")}</h5>
+                  <h5 className="store-heading bell-t-medium">{t("qatar_store_title")}</h5>
 
                   <div className="description">
                     <p>
@@ -54,7 +54,7 @@ export default function Store() {
             <div className="tab-pane" id="london" role="tabpanel">
               <div className="widget-card-store align-items-center tf-grid-layout md-col-2">
                 <div className="store-item-info">
-                  <h5 className="store-heading">{t("london_store_title")}</h5>
+                  <h5 className="store-heading bell-t-medium">{t("london_store_title")}</h5>
                   <div className="description">
                     <p>
                       {t("store_address")} <br />
@@ -85,7 +85,7 @@ export default function Store() {
             <div className="tab-pane" id="paris" role="tabpanel">
               <div className="widget-card-store align-items-center tf-grid-layout md-col-2">
                 <div className="store-item-info">
-                  <h5 className="store-heading">{t("paris_store_title")}</h5>
+                  <h5 className="store-heading bell-t-medium">{t("paris_store_title")}</h5>
                   <div className="description">
                     <p>
                       {t("store_address")} <br />

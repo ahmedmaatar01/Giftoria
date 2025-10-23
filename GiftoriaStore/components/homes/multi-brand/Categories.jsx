@@ -13,7 +13,7 @@ export default function Categories() {
   return (
     <section className="flat-spacing-20">
       {/* ✅ Add translated title */}
-      <div className="container" style={{ marginTop: "45px" }}>
+      <div className="container" style={{ marginTop: "45px", marginBottom: "45px" }}>
         <div className="flat-title flex-row justify-content-center mb-1">
           <span className="title fw-6 wow fadeInUp" data-wow-delay="0s">
             <span className="bell-t-medium">{t("categories.sectionTitle")}</span>

@@ -42,8 +42,8 @@ export default function Features() {
                     <i className={item.iconClass} />
                   </div>
                   <div className="content">
-                    <div className="title fw-4">{item.title}</div>
-                    <p>{item.description}</p>
+                    <div className="title bell-t-medium">{item.title}</div>
+                    <p className="montserrat-regular">{item.description}</p>
                   </div>
                 </div>
               </SwiperSlide>
