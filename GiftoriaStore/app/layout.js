@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import "./translation/i18n";
+import i18n from "./translation/i18n";
 import "../public/scss/main.scss";
 import "photoswipe/dist/photoswipe.css";
 import "./globals.css";
@@ -34,6 +35,18 @@ import RtlToggle from "@/components/common/RtlToggle";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
+  const [isClient, setIsClient] = useState(false);
+
+  // Handle client-side mounting and language initialization
+  useEffect(() => {
+    setIsClient(true);
+    // Restore saved language after hydration
+    const savedLang = localStorage.getItem("lang");
+    if (savedLang && savedLang !== i18n.language) {
+      i18n.changeLanguage(savedLang);
+    }
+  }, []);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       // Import the script only on the client side
@@ -153,8 +166,8 @@ export default function RootLayout({ children }) {
   }, []); // Only runs once on component mount
 
   return (
-    <html lang="en">
-      <body className="preload-wrapper">
+    <html lang="en" suppressHydrationWarning>
+      <body className="preload-wrapper" suppressHydrationWarning>
         <div className="preload preload-container" id="preloader">
           <div className="preload-logo">
             <div className="spinner"></div>

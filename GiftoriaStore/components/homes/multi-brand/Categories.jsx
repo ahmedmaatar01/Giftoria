@@ -13,6 +13,7 @@ export default function Categories() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log("testing");
     // Fetch occasions from API
     const fetchOccasions = async () => {
       try {
