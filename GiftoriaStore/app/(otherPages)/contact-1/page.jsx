@@ -4,6 +4,7 @@ import Map from "@/components/othersPages/contact/Map";
 import React from "react";
 import Header1 from "@/components/headers/Header1";
 import Topbar1 from "@/components/headers/Topbar1";
+import Header6 from "@/components/headers/Header6";
 export const metadata = {
   title: "Contact 1 || Ecomus - Ultimate Nextjs Ecommerce Template",
   description: "Ecomus - Ultimate Nextjs Ecommerce Template",
@@ -11,8 +12,7 @@ export const metadata = {
 export default function page() {
   return (
     <>
-      <Topbar1 />
-      <Header1 />
+       <Header6/>
       <div className="tf-page-title style-2">
         <div className="container-full">
           <div className="heading text-center">Contact Us</div>
