@@ -1,10 +1,45 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import Image from "next/image";
 import { useContextElement } from "@/context/Context";
 export default function Productcard23({ product }) {
-  const [currentImage, setCurrentImage] = useState(product.imgSrc);
+  // Helpers for description rendering
+  const stripHtml = (html) => {
+    if (!html) return "";
+    return String(html).replace(/<[^>]+>/g, " ");
+  };
+  const limitWords = (text, maxWords = 20) => {
+    const words = String(text).split(/\s+/).filter(Boolean);
+    if (words.length <= maxWords) return words.join(" ");
+    return words.slice(0, maxWords).join(" ") + "...";
+  };
+
+  const resolveImageUrl = (p) => {
+    if (!p) return "/images/no-image.png";
+    if (typeof p !== 'string') return "/images/no-image.png";
+    if (p.startsWith('http')) return p;
+    if (p.startsWith('/')) return `http://localhost:8000${p}`;
+    return `http://localhost:8000/storage/${p}`;
+  };
+  const getPrimaryImage = (prod) => {
+    const featured = prod?.images?.find((img) => img.is_featured);
+    if (featured?.image_path) return resolveImageUrl(featured.image_path);
+    if (Array.isArray(prod?.images) && prod.images.length > 0) {
+      return resolveImageUrl(prod.images[0].image_path);
+    }
+    if (prod?.featured_image) return resolveImageUrl(prod.featured_image);
+    return prod?.imgSrc || "/images/no-image.png";
+  };
+  const getHoverImage = (prod) => {
+    if (Array.isArray(prod?.images) && prod.images.length > 1) {
+      return resolveImageUrl(prod.images[1].image_path);
+    }
+    if (prod?.imgHoverSrc) return prod.imgHoverSrc;
+    return getPrimaryImage(prod);
+  };
+
+  const [currentImage, setCurrentImage] = useState(getPrimaryImage(product));
   const { setQuickViewItem } = useContextElement();
   const {
     setQuickAddItem,
@@ -13,6 +48,15 @@ export default function Productcard23({ product }) {
     addToCompareItem,
     isAddedtoCompareItem,
   } = useContextElement();
+  useEffect(() => {
+    const primary = getPrimaryImage(product);
+    setCurrentImage(primary);
+    console.log('[Productcard23] Resolved images for product', product?.id, {
+      primary,
+      hover: getHoverImage(product),
+    });
+  }, [product]);
+
   return (
     <div className="card-product list-layout">
       <div className="card-product-wrapper">
@@ -27,7 +71,7 @@ export default function Productcard23({ product }) {
           <Image
             className="lazyload img-hover"
             alt="image-product"
-            src={product.imgHoverSrc}
+            src={getHoverImage(product)}
             width={720}
             height={1005}
           />
@@ -35,14 +79,21 @@ export default function Productcard23({ product }) {
       </div>
       <div className="card-product-info">
         <a href="#" className="title link">
-          {product.title}
+          {product?.title || product?.name || 'Product'}
         </a>
-        <span className="price">${product.price.toFixed(2)}</span>
+        {(() => {
+          const n = parseFloat(product?.price ?? 0);
+          if (isNaN(n)) {
+            console.warn('[Productcard23] Non-numeric price for product id:', product?.id, 'value:', product?.price);
+            return <span className="price">—</span>;
+          }
+          return <span className="price">${n.toFixed(2)}</span>;
+        })()}
         <p className="description">
-          Button-up shirt sleeves and a relaxed silhouette. It’s tailored with
-          drapey, crinkle-texture fabric that’s made from LENZING™ ECOVERO™
-          Viscose — responsibly sourced wood-based fibres produced through a
-          process that reduces...
+          {(() => {
+            const clean = stripHtml(product?.description);
+            return clean ? limitWords(clean, 20) : "";
+          })()}
         </p>
         {product.colors && (
           <ul className="list-color-product">
@@ -76,6 +127,7 @@ export default function Productcard23({ product }) {
           </div>
         )}
         <div className="list-product-btn">
+          
           <a
             href="#quick_add"
             onClick={() => setQuickAddItem(product.id)}

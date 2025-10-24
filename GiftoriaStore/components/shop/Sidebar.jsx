@@ -1,11 +1,143 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { featuredProducts } from "@/data/products";
-import { galleryItems } from "@/data/gallery";
-import { categories } from "@/data/categories";
+import { useEffect, useState } from "react";
 import { socialLinks } from "@/data/socials";
-export default function Sidebar() {
+export default function Sidebar({ onCategorySelect }) {
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState(null);
+  const [randomProducts, setRandomProducts] = useState([]);
+  const [loadingProducts, setLoadingProducts] = useState(true);
+  const [occasions, setOccasions] = useState([]);
+  const [loadingOccasions, setLoadingOccasions] = useState(true);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch('http://localhost:8000/api/categories');
+        const data = await response.json();
+        // If API returns {data: [...]}, use data.data, else use data
+        const cats = Array.isArray(data) ? data : (data?.data || []);
+        setCategories(cats);
+      } catch (err) {
+        setCategories([]);
+        console.error('[Sidebar] Error fetching categories:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  const handleCategoryClick = (e, category) => {
+    e.preventDefault();
+    setActiveCategory(category.id);
+    if (onCategorySelect) {
+      onCategorySelect(category);
+    }
+  };
+
+  // Fetch products and pick 3 random ones for "You may also like"
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoadingProducts(true);
+      try {
+        const response = await fetch('http://localhost:8000/api/products');
+        const data = await response.json();
+        const items = Array.isArray(data) ? data : (data?.data || []);
+        const shuffled = items.slice().sort(() => 0.5 - Math.random());
+        setRandomProducts(shuffled.slice(0, 3));
+      } catch (err) {
+        console.error('[Sidebar] Error fetching products for suggestions:', err);
+        setRandomProducts([]);
+      } finally {
+        setLoadingProducts(false);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  const resolveProductImage = (p) => {
+    const featured = p?.images?.find?.((img) => img?.is_featured == 1);
+    console.log("p", p);
+    let candidate =
+      featured?.image_path ||
+      p?.images?.[0]?.image_path
+
+    if (!candidate || typeof candidate !== 'string') return null;
+
+    // If already an absolute URL, return as-is
+    if (/^https?:\/\//i.test(candidate)) return candidate;
+
+    // Normalize leading slashes
+    candidate = candidate.replace(/^\/+/, '');
+
+    // If API already returned a storage path, don't double-prefix
+    if (candidate.startsWith('storage/')) {
+      return `http://localhost:8000/${candidate}`;
+    }
+
+    // Convert common Laravel "public/" disk paths to the public storage symlink
+    if (candidate.startsWith('public/')) {
+      const normalized = candidate.replace(/^public\//, 'storage/');
+      return `http://localhost:8000/${normalized}`;
+    }
+
+    // Default: assume file lives under the storage symlink
+    return `http://localhost:8000/storage/${candidate}`;
+  };
+
+  // Fetch occasions for the Gallery section
+  useEffect(() => {
+    const fetchOccasions = async () => {
+      setLoadingOccasions(true);
+      try {
+        const response = await fetch('http://localhost:8000/api/occasions');
+        const data = await response.json();
+        const items = Array.isArray(data) ? data : (data?.data || []);
+        setOccasions(items);
+      } catch (err) {
+        console.error('[Sidebar] Error fetching occasions for gallery:', err);
+        setOccasions([]);
+      } finally {
+        setLoadingOccasions(false);
+      }
+    };
+    fetchOccasions();
+  }, []);
+
+  const resolveOccasionImage = (o) => {
+    const featured = o?.images?.find?.((img) => img?.is_featured == 1);
+    let candidate =
+      featured?.image_path ||
+      featured?.url ||
+      featured?.path ||
+      o?.featured_image ||
+      o?.image ||
+      o?.thumbnail;
+    if (!candidate || typeof candidate !== 'string') return null;
+
+    // If already an absolute URL
+    if (/^https?:\/\//i.test(candidate)) return candidate;
+
+    // Normalize leading slashes
+    candidate = candidate.replace(/^\/+/, '');
+
+    // If path already begins with storage/
+    if (candidate.startsWith('storage/')) {
+      return `http://localhost:8000/${candidate}`;
+    }
+
+    if (candidate.startsWith('public/')) {
+      const normalized = candidate.replace(/^public\//, 'storage/');
+      return `http://localhost:8000/${normalized}`;
+    }
+
+    return `http://localhost:8000/storage/${candidate}`;
+  };
+
   return (
     <aside className="tf-shop-sidebar wrap-sidebar-mobile">
       <div className="widget-facet wd-categories">
@@ -20,16 +152,27 @@ export default function Sidebar() {
           <span className="icon icon-arrow-up" />
         </div>
         <div id="categories" className="collapse show">
-          <ul className="list-categoris current-scrollbar mb_36">
-            {categories.map((category, index) => (
-              <li key={index} className={`cate-item ${category.className}`}>
-                <a href="#">
-                  <span>{category.name}</span>&nbsp;
-                  <span>({category.count})</span>
-                </a>
+          {loading ? (
+            <div className="text-secondary px-3 py-2">Loading categories...</div>
+          ) : (
+            <ul className="list-categoris current-scrollbar mb_36">
+              <li key="all" className={`cate-item ${activeCategory === null ? 'current' : ''}`}
+                  style={{ cursor: 'pointer' }}>
+                <a href="#" onClick={e => { e.preventDefault(); setActiveCategory(null); if (onCategorySelect) onCategorySelect(null); }}><span>All Categories</span></a>
               </li>
-            ))}
-          </ul>
+              {categories.map((category) => (
+                <li key={category.id || category.name} className={`cate-item ${activeCategory === category.id ? 'current' : ''}`}
+                    style={{ cursor: 'pointer' }}>
+                  <a href="#" onClick={e => handleCategoryClick(e, category)}>
+                    <span>{category.name}</span>
+                    {typeof category.count !== 'undefined' && (
+                      <span>&nbsp;({category.count})</span>
+                    )}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
       <div className="widget-facet">
@@ -40,36 +183,51 @@ export default function Sidebar() {
           aria-expanded="true"
           aria-controls="sale-products"
         >
-          <span>Sale products</span>
+          <span>You may also like</span>
           <span className="icon icon-arrow-up" />
         </div>
         <div id="sale-products" className="collapse show">
           <div className="widget-featured-products mb_36">
-            {featuredProducts.map((product, index) => (
-              <div className="featured-product-item" key={index}>
-                <Link
-                  href={`/product-detail/${product.id}`}
-                  className="card-product-wrapper"
-                >
-                  <Image
-                    className="lazyload img-product"
-                    alt="image-feature"
-                    src={product.imgSrc}
-                    width={product.width}
-                    height={product.height}
-                  />
-                </Link>
-                <div className="card-product-info">
-                  <Link
-                    href={`/product-detail/${product.id}`}
-                    className="title link"
-                  >
-                    {product.title}
-                  </Link>
-                  <span className="price">${product.price.toFixed(2)}</span>
-                </div>
-              </div>
-            ))}
+            {loadingProducts ? (
+              <div className="text-secondary px-3 py-2">Loading suggestions...</div>
+            ) : (
+              randomProducts.map((product, index) => {
+                const imgUrl = resolveProductImage(product);
+                const priceNum = parseFloat(product?.price);
+                const priceText = isNaN(priceNum) ? (product?.price ?? '') : `$${priceNum.toFixed(2)}`;
+                return (
+                  <div className="featured-product-item" key={product.id || index}>
+                    <Link
+                      href={`/product-detail/${product.id}`}
+                      className="card-product-wrapper"
+                    >
+                      {imgUrl ? (
+                        <Image
+                          className="lazyload img-product"
+                          alt={product?.name || 'product'}
+                          src={imgUrl}
+                          width={100}
+                          height={100}
+                        />
+                      ) : (
+                        <div style={{width:100,height:100,background:'#f3f3f3'}} />
+                      )}
+                    </Link>
+                    <div className="card-product-info">
+                      <Link
+                        href={`/product-detail/${product.id}`}
+                        className="title link"
+                      >
+                        {product?.name || product?.title || 'Product'}
+                      </Link>
+                      {priceText && (
+                        <span className="price">{priceText}</span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })
+            )}
           </div>
         </div>
       </div>
@@ -91,21 +249,23 @@ export default function Sidebar() {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={24}
-                  height={16}
-                  viewBox="0 0 24 16"
+                  height={24}
+                  viewBox="0 0 24 24"
                   fill="none"
                 >
                   <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M0 1C0 0.447715 0.447715 0 1 0H15.5C16.0523 0 16.5 0.447715 16.5 1V3.5H19.7857C20.099 3.5 20.3943 3.64687 20.5833 3.89679L23.7976 8.14679C23.9289 8.32046 24 8.53225 24 8.75V13C24 13.5523 23.5523 14 23 14H20.3293C19.9174 15.1652 18.8062 16 17.5 16C16.1938 16 15.0826 15.1652 14.6707 14H8.82929C8.41745 15.1652 7.3062 16 6 16C4.69378 16 3.58255 15.1652 3.17071 14H1C0.447715 14 0 13.5523 0 13V1ZM3.17071 12C3.58255 10.8348 4.69378 10 6 10C7.3062 10 8.41745 10.8348 8.82929 12H14.5V2H2V12H3.17071ZM16.5 10.1707V5.5H19.2882L22 9.08557V12H20.3293C19.9174 10.8348 18.8062 10 17.5 10C17.1494 10 16.8128 10.0602 16.5 10.1707ZM6 12C5.44772 12 5 12.4477 5 13C5 13.5523 5.44772 14 6 14C6.55227 14 7 13.5523 7 13C7 12.4477 6.55227 12 6 12ZM17.5 12C16.9477 12 16.5 12.4477 16.5 13C16.5 13.5523 16.9477 14 17.5 14C18.0523 14 18.5 13.5523 18.5 13C18.5 12.4477 18.0523 12 17.5 12Z"
+                    d="M3 17.25V21h3.75l11-11-3.75-3.75-11 11z"
+                    fill="black"
+                  />
+                  <path
+                    d="M20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
                     fill="black"
                   />
                 </svg>
               </div>
               <div className="iconbox-content">
-                <h4 className="iconbox-title">Free shipping</h4>
-                <p className="iconbox-desc">Free iconbox for all US order</p>
+                <h4 className="iconbox-title">Product customization</h4>
+                <p className="iconbox-desc">Personalize your gift with custom options</p>
               </div>
             </li>
             <li className="iconbox-item">
@@ -164,17 +324,31 @@ export default function Sidebar() {
         </div>
         <div id="gallery" className="collapse show">
           <div className="grid-3 gap-4 mb_36">
-            {galleryItems.map((item, index) => (
-              <a href="#" className="item-gallery" key={index}>
-                <Image
-                  className="lazyload"
-                  alt="img-gallery"
-                  src={item.imgSrc}
-                  width={item.width}
-                  height={item.height}
-                />
-              </a>
-            ))}
+            {loadingOccasions ? (
+              Array.from({ length: 6 }).map((_, idx) => (
+                <div key={`occ-loading-${idx}`} className="item-gallery" style={{width:100, height:100, background:'#f0f0f0', borderRadius:8}} />
+              ))
+            ) : (
+              occasions.slice(0, 9).map((occasion) => {
+                const imgUrl = resolveOccasionImage(occasion) || '/images/no-image.png';
+                const title = occasion?.arabic_name || occasion?.name || 'Occasion';
+                return (
+                  <Link
+                    href={`/shop-collection-sub?occasion=${occasion.id}`}
+                    className="item-gallery"
+                    key={occasion.id}
+                  >
+                    <Image
+                      className="lazyload"
+                      alt={title}
+                      src={imgUrl}
+                      width={100}
+                      height={100}
+                    />
+                  </Link>
+                );
+              })
+            )}
           </div>
         </div>
       </div>

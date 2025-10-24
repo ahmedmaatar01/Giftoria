@@ -19,8 +19,38 @@ export default function QuickView() {
   } = useContextElement();
   const qv = quickViewItem;
   const qvId = qv?.id;
-  const qvTitle = qv?.title ?? "";
-  const qvPrice = typeof qv?.price === "number" ? qv.price : null;
+  // Prefer name, then title, fallback to "Product"
+  const qvTitle = qv?.name || qv?.title || "Product";
+  // Normalize price to number if possible
+  const qvPrice = (() => {
+    const n = parseFloat(qv?.price);
+    return isNaN(n) ? null : n;
+  })();
+
+  // Robust image resolver (same as Productcard23)
+  const resolveImageUrl = (p) => {
+    if (!p) return "/images/no-image.png";
+    if (typeof p !== 'string') return "/images/no-image.png";
+    if (p.startsWith('http')) return p;
+    if (p.startsWith('/')) return `http://localhost:8000${p}`;
+    return `http://localhost:8000/storage/${p}`;
+  };
+  const getPrimaryImage = (prod) => {
+    const featured = prod?.images?.find((img) => img.is_featured);
+    if (featured?.image_path) return resolveImageUrl(featured.image_path);
+    if (Array.isArray(prod?.images) && prod.images.length > 0) {
+      return resolveImageUrl(prod.images[0].image_path);
+    }
+    if (prod?.featured_image) return resolveImageUrl(prod.featured_image);
+    return prod?.imgSrc || "/images/no-image.png";
+  };
+  const getHoverImage = (prod) => {
+    if (Array.isArray(prod?.images) && prod.images.length > 1) {
+      return resolveImageUrl(prod.images[1].image_path);
+    }
+    if (prod?.imgHoverSrc) return prod.imgHoverSrc;
+    return getPrimaryImage(prod);
+  };
   // Custom field values state
   const [customFieldValues, setCustomFieldValues] = useState({});
   // Quantity state
@@ -55,7 +85,7 @@ export default function QuickView() {
           </div>
           <div className="wrap">
             <div className="tf-product-media-wrap">
-              {quickViewItem && (
+              {qv && (
                 <Swiper
                   dir="ltr"
                   modules={[Navigation]}
@@ -65,21 +95,12 @@ export default function QuickView() {
                   }}
                   className="swiper tf-single-slide"
                 >
-                  {[
-                    quickViewItem.isLookBookProduct
-                      ? "/images/products/orange-1.jpg"
-                      : quickViewItem.imgSrc,
-                    quickViewItem.isLookBookProduct
-                      ? "/images/products/pink-1.jpg"
-                      : quickViewItem.imgHoverSrc
-                      ? quickViewItem.imgHoverSrc
-                      : quickViewItem.imgSrc,
-                  ].map((product, index) => (
+                  {[getPrimaryImage(qv), getHoverImage(qv)].map((img, index) => (
                     <SwiperSlide className="swiper-slide" key={index}>
                       <div className="item">
                         <Image
-                          alt={""}
-                          src={product}
+                          alt={qvTitle}
+                          src={img}
                           width={720}
                           height={1045}
                           style={{ objectFit: "contain" }}
@@ -87,7 +108,6 @@ export default function QuickView() {
                       </div>
                     </SwiperSlide>
                   ))}
-
                   <div className="swiper-button-next button-style-arrow single-slide-prev snbqvp" />
                   <div className="swiper-button-prev button-style-arrow single-slide-next snbqvn" />
                 </Swiper>
@@ -101,7 +121,7 @@ export default function QuickView() {
                       className="link"
                       href={qvId ? `/product-detail/${qvId}` : "#"}
                     >
-                      {qvTitle || "Loading..."}
+                      {qvTitle}
                     </Link>
                   </h5>
                 </div>

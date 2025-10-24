@@ -75,6 +75,7 @@ export default function ShopFilter({ setProducts, products = products1 }) {
   };
 
   useEffect(() => {
+    console.log('[ShopFilter] Running filters with base products:', products?.length);
     let filteredArrays = [];
 
     filteredArrays = [
@@ -85,6 +86,7 @@ export default function ShopFilter({ setProducts, products = products1 }) {
         ),
       ],
     ];
+    console.log('[ShopFilter] After price filter:', filteredArrays[filteredArrays.length - 1]?.length);
     // console.log(filteredByPrice, "filteredByPrice");
     if (selectedColors.length) {
       filteredArrays = [
@@ -97,6 +99,7 @@ export default function ShopFilter({ setProducts, products = products1 }) {
           ),
         ],
       ];
+      console.log('[ShopFilter] After colors filter:', filteredArrays[filteredArrays.length - 1]?.length, 'selected:', selectedColors);
     }
 
     // console.log(filteredByselectedColors, "filteredByselectedColors");
@@ -105,6 +108,7 @@ export default function ShopFilter({ setProducts, products = products1 }) {
         ...filteredArrays,
         [...products.filter((elm) => selectedBrands.includes(elm.brand))],
       ];
+      console.log('[ShopFilter] After brands filter:', filteredArrays[filteredArrays.length - 1]?.length, 'selected:', selectedBrands);
     }
 
     // console.log(filteredByselectedBrands, "filteredByselectedBrands");
@@ -117,6 +121,7 @@ export default function ShopFilter({ setProducts, products = products1 }) {
           ),
         ],
       ];
+      console.log('[ShopFilter] After sizes filter:', filteredArrays[filteredArrays.length - 1]?.length, 'selected:', selectedSizes);
     }
 
     // console.log(filteredByselectedSizes);
@@ -131,11 +136,13 @@ export default function ShopFilter({ setProducts, products = products1 }) {
           ),
         ],
       ];
+      console.log('[ShopFilter] After availability filter:', filteredArrays[filteredArrays.length - 1]?.length, 'selected:', selectedAvailabilities?.map(a=>a.text));
     }
 
     const commonItems = products.filter((item) =>
       filteredArrays.every((array) => array.includes(item))
     );
+    console.log('[ShopFilter] Final filtered common items:', commonItems?.length);
     setProducts(commonItems);
   }, [
     price,

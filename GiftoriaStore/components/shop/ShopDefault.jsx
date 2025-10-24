@@ -1,15 +1,33 @@
 "use client";
 import { layouts } from "@/data/shop";
 import ProductGrid from "./ProductGrid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Pagination from "../common/Pagination";
 import ShopFilter from "./ShopFilter";
 import Sorting from "./Sorting";
+import { useSearchParams } from "next/navigation";
+import ShopByCategory from "./ShopByCategory";
 
 export default function ShopDefault() {
+  const searchParams = useSearchParams();
+  const categoryId = searchParams.get('category');
+  // If a specific category is requested, delegate to ShopByCategory
+  if (categoryId) {
+    return <ShopByCategory />;
+  }
   const [gridItems, setGridItems] = useState(4);
   const [products, setProducts] = useState([]);
   const [finalSorted, setFinalSorted] = useState([]);
+  
+  // Keep finalSorted in sync with products until a sort is applied
+  useEffect(() => {
+    console.log('[ShopDefault] products updated:', products?.length);
+    setFinalSorted(products);
+  }, [products]);
+
+  useEffect(() => {
+    console.log('[ShopDefault] finalSorted updated:', finalSorted?.length);
+  }, [finalSorted]);
   return (
     <>
       <section className="flat-spacing-2">

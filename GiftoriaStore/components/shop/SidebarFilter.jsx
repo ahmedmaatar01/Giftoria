@@ -201,7 +201,6 @@ export default function SidebarFilter({ setProducts }) {
                   key={availability.id}
                   className="list-item d-flex gap-12 align-items-center"
                   onClick={() => {
-                    console.log("first");
                     handleSelectAvailabilities(availability);
                   }}
                 >

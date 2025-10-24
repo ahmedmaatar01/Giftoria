@@ -27,13 +27,16 @@ export default function Context({ children }) {
     const loadApiProducts = async () => {
       try {
         setLoading(true);
+        console.log('[Context] Fetching products from API...');
         const products = await fetchProducts();
+        console.log('[Context] API products loaded:', Array.isArray(products) ? products.length : products);
         setApiProducts(products);
       } catch (error) {
-        console.error('Error loading API products:', error);
+        console.error('[Context] Error loading API products:', error);
         setApiProducts(products1); // Fallback to static
       } finally {
         setLoading(false);
+        console.log('[Context] Loading state set to false');
       }
     };
 
@@ -42,10 +45,13 @@ export default function Context({ children }) {
   
   // Keep allProducts always in sync with apiProducts and set quickViewItem
   useEffect(() => {
+    console.log('[Context] Sync allProducts with apiProducts. Count:', Array.isArray(apiProducts) ? apiProducts.length : 0);
     setAllProducts(apiProducts);
     if (apiProducts && apiProducts.length > 0) {
+      console.log('[Context] quickViewItem set to first API product id:', apiProducts[0]?.id);
       setQuickViewItem(apiProducts[0]);
     } else {
+      console.log('[Context] quickViewItem cleared (no API products)');
       setQuickViewItem(undefined);
     }
   }, [apiProducts]);
@@ -59,17 +65,23 @@ export default function Context({ children }) {
 
   // Accept customFieldValues in addProductToCart
   const addProductToCart = (id, qty, customFieldValues = {}) => {
+    console.log('[Context] addProductToCart called:', { id, qty, customFieldValues });
     // Use apiProducts instead of allProducts
       const allAvailableProducts = allProducts; // Use allProducts (which mirrors apiProducts)
+    console.log('[Context] allAvailableProducts count:', Array.isArray(allAvailableProducts) ? allAvailableProducts.length : 0);
     const existing = cartProducts.find((elm) => elm.id == id);
     if (!existing) {
       const base = allAvailableProducts.find((elm) => elm.id == id);
-      if (!base) return; // safety guard
+      if (!base) {
+        console.warn('[Context] Base product not found for id:', id);
+        return; // safety guard
+      }
       const item = {
         ...base,
         quantity: qty ? qty : 1,
         customFieldValues: { ...customFieldValues }, // Store custom fields in cart item
       };
+      console.log('[Context] Adding new cart item:', { id: item.id, quantity: item.quantity, customFieldValues: item.customFieldValues });
       setCartProducts((pre) => [...pre, item]);
       openCartModal();
       return;
@@ -84,6 +96,7 @@ export default function Context({ children }) {
       quantity: (existing.quantity || 1) + (qty ? qty : 1),
     };
     items[idx] = updated;
+    console.log('[Context] Updating existing cart item:', { id: updated.id, quantity: updated.quantity, customFieldValues: updated.customFieldValues });
     setCartProducts(items);
     openCartModal();
   };
