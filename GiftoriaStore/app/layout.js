@@ -119,9 +119,7 @@ export default function RootLayout({ children }) {
     if (header) {
       if (scrollDirection == "up") {
         header.style.top = "0px";
-      } else {
-        header.style.top = "-185px";
-      }
+      } 
     }
   }, [scrollDirection]);
   useEffect(() => {
