@@ -15,15 +15,34 @@ export default function Banner() {
             data-wow-delay="0s"
           >
             <div className="heading">
-              <span className="bell-t-medium">Our Esteemed <br /> Partners</span>
+              <span className="bell-t-medium" style={{ fontSize: '30px', textTransform: 'uppercase' }}>OUR ESTEEMED PARTNERS</span>
             </div>
-            <p className="description text_black-2">
+            <p className="description text_black-2 montserrat-regular" style={{ fontSize: '15px' }}>
              In the timeless art of gifting, collaboration is our finest treasure.
              We take pride in joining hands with distinguished artisans, chocolatiers,
              florists, and creators who share our devotion to elegance and authenticity.
              Together, we craft experiences that transcend mere presents —
              weaving stories of craftsmanship, trust, and enduring grace.
             </p>
+
+            <div className="partners-logos d-flex justify-content-center gap-30 mb_30" style={{ marginTop: '50px' }}>
+              <div className="partner-logo">
+                <Image
+                  src="/images/logo/partner1.png"
+                  alt="Partner 1"
+                  width={179}
+                  height={64}
+                />
+              </div>
+              <div className="partner-logo">
+                <Image
+                  src="/images/logo/partner2.png"
+                  alt="Partner 2"
+                  width={179}
+                  height={64}
+                />
+              </div>
+            </div>
           </div>
           <div className="tf-image-wrap">
             <Image

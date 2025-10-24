@@ -822,39 +822,39 @@ export const slides21 = [
   {
     imgSrc: "/images/slider/camp-and-hike-1.jpg",
     alt: "fashion-slideshow",
-    heading: "Gear up for adventure",
-    description: "Discover top-quality camping gear for your next trip",
+    heading: <span className="bell-t-medium">Birthday Bliss</span>,
+    description: <span className="montserrat-regular">Make their day unforgettable Make their special day unforgettable with a personalized gift that captures their joy and individuality. a personalized gift that shows how much you care.</span>,
+    btnText: "Read more",
   },
-  {
+   {
     imgSrc: "/images/slider/camp-and-hike-2.jpg",
     alt: "fashion-slideshow",
-    heading: "Embrace the Thrill Ahead",
-    description: "Discover top-quality camping gear for your next trip",
+    heading: <span className="bell-t-medium">Anniversary Magic</span>,
+    description: <span className="montserrat-regular">Celebrate love and togetherness with a timeless keepsake that reflects their beautiful journey together.</span>,
+    btnText: "Read more",
   },
-  {
+     {
     imgSrc: "/images/slider/camp-and-hike-3.jpg",
     alt: "fashion-slideshow",
-    heading: "Ready for the Next Journey",
-    description: "Discover top-quality camping gear for your next trip",
+    heading: <span className="bell-t-medium">New Baby Joy</span>,
+    description: <span className="montserrat-regular">Celebrate the arrival of Welcome the newest arrival with a heartfelt, personalized treasure made to celebrate this precious beginning. life with a gift that expresses your heartfelt wishes and love.</span>,
+    btnText: "Read more",
   },
-  {
-    imgSrc: "/images/slider/camp-and-hike-1.jpg",
+     {
+    imgSrc: "/images/slider/camp-and-hike-4.jpg",
     alt: "fashion-slideshow",
-    heading: "Gear up for adventure",
-    description: "Discover top-quality camping gear for your next trip",
+    heading: <span className="bell-t-medium">Graduation Pride</span>,
+    description: <span className="montserrat-regular">Honor their hard work and success with a meaningful gift that inspires their next big adventure.</span>,
+    btnText: "Read more",
   },
-  {
-    imgSrc: "/images/slider/camp-and-hike-2.jpg",
+       {
+    imgSrc: "/images/slider/camp-and-hike-5.jpg",
     alt: "fashion-slideshow",
-    heading: "Embrace the Thrill Ahead",
-    description: "Discover top-quality camping gear for your next trip",
+    heading: <span className="bell-t-medium">Wedding Wishes</span>,
+    description: <span className="montserrat-regular">Celebrate their “happily ever after” with a thoughtful, customized gift that symbolizes lasting love.</span>,
+    btnText: "Read more",
   },
-  {
-    imgSrc: "/images/slider/camp-and-hike-3.jpg",
-    alt: "fashion-slideshow",
-    heading: "Ready for the Next Journey",
-    description: "Discover top-quality camping gear for your next trip",
-  },
+
 ];
 
 export const slides22 = [

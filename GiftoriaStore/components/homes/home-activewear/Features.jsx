@@ -35,13 +35,14 @@ export default function Features() {
         >
           {iconBoxData.map((elm, i) => (
             <SwiperSlide key={i} className="swiper-slide">
-              <div className="tf-icon-box-v2">
+                <div className="tf-icon-box-v2">
                 <span className="icon">
                   <i className={elm.iconClass} />
                 </span>
-                <div className="title font-young-serif fs-14">
-                  {elm.description}
+                <div className="title font-young-serif fs-14 bell-t-medium">
+                  {elm.title}
                 </div>
+                <p className="montserrat-regular">{elm.description}</p>
               </div>
             </SwiperSlide>
           ))}

@@ -69,7 +69,7 @@ export default function page() {
     { iconClass: "icon-gift", title: "company.personalized_touch_title", description: "company.personalized_touch_description" },
   ]}
 />
-          subtitle={`In the timeless art of gifting, collaboration is our finest treasure. We take pride in joining hands with distinguished artisans, chocolatiers, florists, and creators who share our devotion to elegance and authenticity. Together, we craft experiences that transcend mere presents — weaving stories of craftsmanship, trust, and enduring grace.`}
+      {/* subtitle={`In the timeless art of gifting, collaboration is our finest treasure. We take pride in joining hands with distinguished artisans, chocolatiers, florists, and creators who share our devotion to elegance and authenticity. Together, we craft experiences that transcend mere presents — weaving stories of craftsmanship, trust, and enduring grace.`} */}
       </div>
       <About />
       <div style={{ marginBottom: '80px' }}>

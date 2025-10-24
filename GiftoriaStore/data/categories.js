@@ -2039,6 +2039,36 @@ export const collectionCirclesAlt = [
     title: "Luxury Gift Boxes",
     hasSale: true,
   },
+    {
+    id: "circle-alt-6",
+    href: "/shop-collection-sub",
+    imgSrc: "/images/collections/collection-circle-13-alt.jpg",
+    alt: "collection-img",
+    width: 160,
+    height: 160,
+    title: "Luxury Gift Boxes",
+    hasSale: true,
+  },
+    {
+    id: "circle-alt-6",
+    href: "/shop-collection-sub",
+    imgSrc: "/images/collections/collection-circle-13-alt.jpg",
+    alt: "collection-img",
+    width: 160,
+    height: 160,
+    title: "Luxury Gift Boxes",
+    hasSale: true,
+  },
+    {
+    id: "circle-alt-6",
+    href: "/shop-collection-sub",
+    imgSrc: "/images/collections/collection-circle-13-alt.jpg",
+    alt: "collection-img",
+    width: 160,
+    height: 160,
+    title: "Luxury Gift Boxes",
+    hasSale: true,
+  },
   
 ];
 
