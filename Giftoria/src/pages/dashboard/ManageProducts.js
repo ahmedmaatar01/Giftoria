@@ -16,7 +16,7 @@ const ManageProducts = () => {
     const [search, setSearch] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
     const [showModal, setShowModal] = useState(false);
-    const [modalForm, setModalForm] = useState({ name: '', description: '', price: '', stock: '', category_id: '', featured_image: null, images: [] });
+    const [modalForm, setModalForm] = useState({ name: '', arabic_name: '', description: '', price: '', stock: '', category_id: '', featured_image: null, images: [] });
     const [isEdit, setIsEdit] = useState(false);
 
     useEffect(() => {
@@ -43,7 +43,7 @@ const ManageProducts = () => {
     }, []);
 
     const handleCreate = () => {
-        setModalForm({ name: '', description: '', price: '', stock: '', category_id: '', featured_image: null, images: [] });
+        setModalForm({ name: '', arabic_name: '', description: '', price: '', stock: '', category_id: '', featured_image: null, images: [], featured: false,     lead_time: '' });
         setIsEdit(false);
         setShowModal(true);
     };
@@ -52,12 +52,15 @@ const ManageProducts = () => {
         setModalForm({
             id: product.id,
             name: product.name || '',
+            arabic_name: product.arabic_name || '',
             description: product.description || '',
             price: product.price || '',
             stock: product.stock || '',
             category_id: product.category_id || '',
             featured_image: null,
             images: [],
+            featured: product.featured || false,     
+            lead_time: product.lead_time || '',  
             existing_featured_image: product.images && product.images.find(i => i.is_featured)?.image_path || '',
             existing_images: product.images ? product.images.filter(i => !i.is_featured).map(i => i.image_path) : []
         });
@@ -73,19 +76,25 @@ const ManageProducts = () => {
             if (isEdit) {
                 productRes = await axios.put(`${API_URL}/products/${modalForm.id}`, {
                     name: modalForm.name,
+                    arabic_name: modalForm.arabic_name,
                     description: modalForm.description,
                     price: modalForm.price,
                     stock: modalForm.stock,
-                    category_id: modalForm.category_id
+                    category_id: modalForm.category_id,
+                    featured: modalForm.featured,     
+                    lead_time: modalForm.lead_time 
                 });
                 productId = modalForm.id;
             } else {
                 productRes = await axios.post(`${API_URL}/products`, {
                     name: modalForm.name,
+                    arabic_name: modalForm.arabic_name,
                     description: modalForm.description,
                     price: modalForm.price,
                     stock: modalForm.stock,
-                    category_id: modalForm.category_id
+                    category_id: modalForm.category_id,
+                    featured: modalForm.featured,     
+                    lead_time: modalForm.lead_time  
                 });
                 productId = productRes.data.id;
             }
@@ -194,46 +203,77 @@ const ManageProducts = () => {
                 </Card.Header>
                 <Card.Body>
                     <Table responsive className="align-items-center table-flush">
-                        <thead className="thead-light">
-                            <tr>
-                                <th>Name</th>
-                                <th>Category</th>
-                                <th>Price</th>
-                                <th>Stock</th>
-                                <th>Image</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredProducts.map(prod => (
-                                <tr key={prod.id}>
-                                    <td>{prod.name}</td>
-                                    <td>{prod.category ? prod.category.name : ''}</td>
-                                    <td>{prod.price}</td>
-                                    <td>{prod.stock}</td>
-                                    <td>{prod.images && prod.images.length > 0 ? (
-                                        <Image src={`http://localhost:8000${prod.images.find(i => i.is_featured)?.image_path || prod.images[0].image_path}`} alt="img" width={40} rounded />
-                                    ) : ''}</td>
-                                    <td>
-                                        <Dropdown as={ButtonGroup}>
-                                            <Dropdown.Toggle as={Button} split variant="link" className="text-dark m-0 p-0">
-                                                <span className="icon icon-sm">
-                                                    <FontAwesomeIcon icon={faEllipsisV} className="icon-dark" />
-                                                </span>
-                                            </Dropdown.Toggle>
-                                            <Dropdown.Menu>
-                                                <Dropdown.Item onClick={() => handleEdit(prod)}>
-                                                    <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit
-                                                </Dropdown.Item>
-                                                <Dropdown.Item className="text-danger" onClick={() => handleDelete(prod.id)}>
-                                                    <FontAwesomeIcon icon={faTrashAlt} className="me-2" /> Delete
-                                                </Dropdown.Item>
-                                            </Dropdown.Menu>
-                                        </Dropdown>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
+                    <thead className="thead-light">
+  <tr>
+    <th>Name</th>
+    <th>Arabic Name</th>
+    <th>Category</th>
+    <th>Price</th>
+    <th>Lead Time</th> {/* 4 */}
+    <th>Featured</th> {/* 5 */}
+    <th>Stock</th>
+    <th>Image</th>
+    <th>Actions</th>
+  </tr>
+</thead>
+
+<tbody>
+  {filteredProducts.map(prod => (
+    <tr key={prod.id}>
+      <td>{prod.name}</td>
+      <td>{prod.arabic_name || ''}</td>
+      <td>{prod.category ? prod.category.name : ''}</td>
+      <td>{prod.price}</td>
+      <td>{prod.lead_time}</td> {/* Lead Time */}
+      <td>
+        {prod.featured ? (
+          <span className="badge bg-success">Featured</span>
+        ) : (
+          <span className="badge bg-secondary">Normal</span>
+        )}
+      </td> {/* Featured */}
+      <td>{prod.stock}</td>
+      <td>
+        {prod.images && prod.images.length > 0 ? (
+          <Image
+            src={`http://localhost:8000${prod.images.find(i => i.is_featured)?.image_path || prod.images[0].image_path}`}
+            alt="img"
+            width={40}
+            rounded
+          />
+        ) : (
+          ''
+        )}
+      </td>
+      <td>
+        <Dropdown as={ButtonGroup}>
+          <Dropdown.Toggle
+            as={Button}
+            split
+            variant="link"
+            className="text-dark m-0 p-0"
+          >
+            <span className="icon icon-sm">
+              <FontAwesomeIcon icon={faEllipsisV} className="icon-dark" />
+            </span>
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => handleEdit(prod)}>
+              <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit
+            </Dropdown.Item>
+            <Dropdown.Item
+              className="text-danger"
+              onClick={() => handleDelete(prod.id)}
+            >
+              <FontAwesomeIcon icon={faTrashAlt} className="me-2" /> Delete
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
                     </Table>
                     {loading && <div>Loading...</div>}
                 </Card.Body>

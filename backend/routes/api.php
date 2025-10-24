@@ -64,3 +64,8 @@ Route::patch('categories/{category}/images/{image}/featured', [CategoryControlle
 // Routes for occasion image management
 Route::delete('occasions/{occasion}/images/{image}', [OccasionController::class, 'deleteImage']);
 Route::patch('occasions/{occasion}/images/{image}/featured', [OccasionController::class, 'setFeaturedImage']);
+//featured product
+Route::get('/products/featured', [ProductController::class, 'featured']);
+//get commandes by user 
+Route::get('/users/{userId}/commands', [CommandController::class, 'getByUser']);
+

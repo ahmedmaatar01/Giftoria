@@ -20,10 +20,13 @@ class ProductController extends Controller
         $data = $request->validate([
             'category_id' => 'required|exists:categories,id',
             'name' => 'required|string',
+            'arabic_name' => 'nullable|string',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
             'stock' => 'required|integer',
             'featured_image' => 'nullable|string',
+            'featured' => 'boolean',
+            'lead_time' => 'nullable|string',
         ]);
         $product = Product::create($data);
         return response()->json($product, 201);
@@ -42,10 +45,13 @@ class ProductController extends Controller
         $data = $request->validate([
             'category_id' => 'sometimes|exists:categories,id',
             'name' => 'sometimes|string',
+            'arabic_name' => 'nullable|string',
             'description' => 'nullable|string',
             'price' => 'sometimes|numeric',
             'stock' => 'sometimes|integer',
             'featured_image' => 'nullable|string',
+            'featured' => 'boolean',
+            'lead_time' => 'nullable|string',
         ]);
         $product->update($data);
         return response()->json($product);
@@ -57,4 +63,13 @@ class ProductController extends Controller
         $product->delete();
         return response()->json(['message' => 'Product deleted']);
     }
+    public function featured()
+{
+    $featuredProducts = Product::where('featured', 1)
+        ->with(['category.customFields', 'images', 'customValues'])
+        ->get();
+
+    return response()->json($featuredProducts);
+}
+
 }
