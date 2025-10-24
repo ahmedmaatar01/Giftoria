@@ -5,7 +5,33 @@ import Link from "next/link";
 import { useContextElement } from "@/context/Context";
 import CountdownComponent from "../common/Countdown";
 export const ProductCard = ({ product }) => {
-  const [currentImage, setCurrentImage] = useState(product.imgSrc);
+  // Helpers to resolve API image paths
+  const resolveImageUrl = (p) => {
+    if (!p) return "/images/no-image.png";
+    if (typeof p !== 'string') return "/images/no-image.png";
+    if (p.startsWith('http')) return p;
+    if (p.startsWith('/')) return `http://localhost:8000${p}`;
+    // Assume storage path like "products/xxx.jpg"
+    return `http://localhost:8000/storage/${p}`;
+  };
+  const getPrimaryImage = (prod) => {
+    const featured = prod?.images?.find((img) => img.is_featured);
+    if (featured?.image_path) return resolveImageUrl(featured.image_path);
+    if (Array.isArray(prod?.images) && prod.images.length > 0) {
+      return resolveImageUrl(prod.images[0].image_path);
+    }
+    if (prod?.featured_image) return resolveImageUrl(prod.featured_image);
+    return prod?.imgSrc || "/images/no-image.png";
+  };
+  const getHoverImage = (prod) => {
+    if (Array.isArray(prod?.images) && prod.images.length > 1) {
+      return resolveImageUrl(prod.images[1].image_path);
+    }
+    if (prod?.imgHoverSrc) return prod.imgHoverSrc;
+    return getPrimaryImage(prod);
+  };
+
+  const [currentImage, setCurrentImage] = useState(getPrimaryImage(product));
   const { setQuickViewItem } = useContextElement();
   const {
     setQuickAddItem,
@@ -15,8 +41,21 @@ export const ProductCard = ({ product }) => {
     isAddedtoCompareItem,
   } = useContextElement();
   useEffect(() => {
-    setCurrentImage(product.imgSrc);
+    const primary = getPrimaryImage(product);
+    setCurrentImage(primary);
+    console.log('[ProductCard] Resolved images for product', product?.id, {
+      primary,
+      hover: getHoverImage(product),
+    });
   }, [product]);
+
+  // Safe name/price handling for API data (price may be string)
+  const displayName = product?.title || product?.name || "Product";
+  const priceNumber = parseFloat(product?.price ?? 0);
+  const priceDisplay = isNaN(priceNumber) ? null : priceNumber.toFixed(2);
+  if (isNaN(priceNumber)) {
+    console.warn('[ProductCard] Non-numeric price for product id:', product?.id, 'value:', product?.price);
+  }
 
   return (
     <div className="card-product fl-item" key={product.id}>
@@ -24,7 +63,7 @@ export const ProductCard = ({ product }) => {
         <Link href={`/product-detail/${product.id}`} className="product-img">
           <Image
             className="lazyload img-product"
-            data-src={product.imgSrc}
+            data-src={currentImage}
             src={currentImage}
             alt="image-product"
             width={720}
@@ -32,10 +71,8 @@ export const ProductCard = ({ product }) => {
           />
           <Image
             className="lazyload img-hover"
-            data-src={
-              product.imgHoverSrc ? product.imgHoverSrc : product.imgSrc
-            }
-            src={product.imgHoverSrc ? product.imgHoverSrc : product.imgSrc}
+            data-src={getHoverImage(product)}
+            src={getHoverImage(product)}
             alt="image-product"
             width={720}
             height={1005}
@@ -122,9 +159,9 @@ export const ProductCard = ({ product }) => {
       </div>
       <div className="card-product-info">
         <Link href={`/product-detail/${product.id}`} className="title link">
-          {product.title}
+          {displayName}
         </Link>
-        <span className="price">${product.price.toFixed(2)}</span>
+        <span className="price">{priceDisplay !== null ? `$${priceDisplay}` : '—'}</span>
         {product.colors && (
           <ul className="list-color-product">
             {product.colors.map((color, i) => (

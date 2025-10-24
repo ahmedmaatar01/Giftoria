@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { collectionCircles } from "@/data/categories";
@@ -8,7 +8,26 @@ import { Navigation } from "swiper/modules";
 import { useTranslation } from "react-i18next"; // ✅ i18n hook
 
 export default function Categories() {
-  const { t } = useTranslation(); // ✅ translation hook
+  const { t, i18n } = useTranslation(); // ✅ translation hook
+  const [occasions, setOccasions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Fetch occasions from API
+    const fetchOccasions = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/occasions');
+        const data = await response.json();
+        setOccasions(data);
+      } catch (error) {
+        console.error('Error fetching occasions:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOccasions();
+  }, []);
 
   return (
     <section className="flat-spacing-20">
@@ -35,6 +54,7 @@ export default function Categories() {
                     prevEl: ".snbp-multi",
                     nextEl: ".snbn-multi",
                   }}
+                  slidesPerView="auto"
                   breakpoints={{
                     1024: { slidesPerView: 6, spaceBetween: 30 },
                     768: { slidesPerView: 3, spaceBetween: 20 },
@@ -42,40 +62,74 @@ export default function Categories() {
                     0: { slidesPerView: 1, spaceBetween: 10 },
                   }}
                 >
-                  {collectionCircles.map((item) => (
-                    <SwiperSlide key={item.id} className="swiper-slide">
-                      <div className="collection-item-circle hover-img position-relative">
-                        <Link
-                          href={item.href}
-                          className="collection-image img-style"
-                        >
-                          <Image
-                            className="lazyload"
-                            data-src={item.imgSrc}
-                            alt={item.alt}
-                            src={item.imgSrc}
-                            width={item.width}
-                            height={item.height}
-                          />
-                        </Link>
-                        {item.hasSale && (
-                          <div
-                            className="has-saleoff-wrap"
-                            style={{ position: "absolute", top: 0 }}
-                          >
-                            <div className="sale-off fw-5">
-                              {item.saleText}
+                  {loading ? (
+                    // Loading placeholder - show multiple skeleton items
+                    Array.from({ length: 6 }).map((_, index) => (
+                      <SwiperSlide key={`loading-${index}`} className="swiper-slide">
+                        <div className="collection-item-circle hover-img position-relative">
+                          <div className="collection-image img-style" style={{ 
+                            width: '160px', 
+                            height: '160px', 
+                            background: '#f0f0f0',
+                            borderRadius: '50%',
+                            margin: '0 auto'
+                          }} />
+                          <div className="collection-content text-center">
+                            <div style={{ 
+                              height: '20px', 
+                              background: '#f0f0f0', 
+                              width: '100px',
+                              margin: '10px auto',
+                              borderRadius: '4px'
+                            }} />
+                          </div>
+                        </div>
+                      </SwiperSlide>
+                    ))
+                  ) : (
+                    occasions.map((occasion) => {
+                      // Get the featured image or first image
+                      const featuredImage = occasion.images?.find(img => img.is_featured);
+                      const imageUrl = featuredImage 
+                        ? `http://localhost:8000/storage/${featuredImage.image_path}`
+                        : occasion.featured_image 
+                        ? `http://localhost:8000/storage/${occasion.featured_image}`
+                        : '/images/no-image.png';
+
+                      // Use arabic name if current language is arabic, otherwise use regular name
+                      const displayName = i18n.language === 'ar' && occasion.arabic_name 
+                        ? occasion.arabic_name 
+                        : occasion.name;
+
+                      return (
+                        <SwiperSlide key={occasion.id} className="swiper-slide">
+                          <div className="collection-item-circle hover-img position-relative">
+                            <Link
+                              href={`/shop-collection-sub?occasion=${occasion.id}`}
+                              className="collection-image img-style"
+                            >
+                              <Image
+                                className="lazyload"
+                                data-src={imageUrl}
+                                alt={displayName}
+                                src={imageUrl}
+                                width={160}
+                                height={160}
+                              />
+                            </Link>
+                            <div className="collection-content text-center">
+                              <Link 
+                                href={`/shop-collection-sub?occasion=${occasion.id}`} 
+                                className="link title fw-6"
+                              >
+                                {displayName}
+                              </Link>
                             </div>
                           </div>
-                        )}
-                        <div className="collection-content text-center">
-                          <Link href={item.href} className="link title fw-6">
-                            {item.title}
-                          </Link>
-                        </div>
-                      </div>
-                    </SwiperSlide>
-                  ))}
+                        </SwiperSlide>
+                      );
+                    })
+                  )}
                 </Swiper>
               </div>
 

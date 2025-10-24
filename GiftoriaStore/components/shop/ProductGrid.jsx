@@ -6,17 +6,22 @@ import { useContextElement } from "@/context/Context";
 
 export default function ProductGrid({
   gridItems = 4,
+  allproducts,
 }) {
   const { apiProducts, loading: apiLoading } = useContextElement();
   const [displayProducts, setDisplayProducts] = useState([]);
 
   useEffect(() => {
-    if (apiProducts && apiProducts.length > 0) {
-      setDisplayProducts(apiProducts);
+    // Prefer explicitly provided products from props; fall back to context apiProducts
+    const source = typeof allproducts !== 'undefined' ? allproducts : apiProducts;
+    const count = Array.isArray(source) ? source.length : 0;
+    console.log('[ProductGrid] Source chosen:', typeof allproducts !== 'undefined' ? 'props.allproducts' : 'context.apiProducts', 'count:', count);
+    if (Array.isArray(source) && source.length > 0) {
+      setDisplayProducts(source);
     } else {
       setDisplayProducts([]);
     }
-  }, [apiProducts]);
+  }, [allproducts, apiProducts]);
 
   if (apiLoading) {
     return (
@@ -41,7 +46,7 @@ export default function ProductGrid({
   }
 
   return (
-    console.log("Display Products:", displayProducts),
+    console.log('[ProductGrid] Rendering products count:', displayProducts?.length, 'gridItems:', gridItems),
     <>
       <div
         style={{
