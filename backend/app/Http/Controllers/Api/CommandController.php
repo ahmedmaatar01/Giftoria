@@ -171,4 +171,21 @@ class CommandController extends Controller
         $command->delete();
         return response()->json(null, 204);
     }
+    // Add this method inside CommandController
+public function getByUser($userId)
+{
+    // Check if user exists
+    $user = User::findOrFail($userId);
+
+    // Retrieve all commands for that user, with related products and pivot data
+    $commands = Command::with(['products', 'commandProducts.product'])
+        ->where('user_id', $userId)
+        ->get();
+
+    return response()->json([
+        'user' => $user,
+        'commands' => $commands
+    ]);
+}
+
 }

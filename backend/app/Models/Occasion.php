@@ -14,6 +14,7 @@ class Occasion extends Model
         'arabic_name',
         'slug',
         'description',
+        'arabic_description',
         'show_menu',
         'featured_image',
     ];

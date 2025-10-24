@@ -10,7 +10,7 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
-        'category_id', 'name', 'description', 'price', 'stock', 'featured_image'
+        'category_id', 'name','arabic_name', 'description', 'price', 'stock', 'featured_image', 'featured', 'lead_time'
     ];
 
     // Append virtual attribute custom_fields to JSON output

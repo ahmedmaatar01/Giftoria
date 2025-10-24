@@ -46,7 +46,7 @@ class CategoryController extends Controller
             foreach ($request->file('images') as $index => $image) {
                 $imageName = time() . '_' . $index . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
                 $imagePath = $image->storeAs('categories', $imageName, 'public');
-                
+
                 CategoryImage::create([
                     'category_id' => $category->id,
                     'image_path' => $imagePath,
@@ -69,6 +69,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $data = $request->validate([
             'name' => 'sometimes|string',
+            'name_ar' => 'nullable|string',
             'slug' => 'sometimes|string|unique:categories,slug,' . $id,
             'description' => 'nullable|string',
             'parent_id' => 'nullable|exists:categories,id',
@@ -89,7 +90,7 @@ class CategoryController extends Controller
             if ($category->featured_image) {
                 Storage::disk('public')->delete($category->featured_image);
             }
-            
+
             $featuredImage = $request->file('featured_image');
             $featuredImageName = time() . '_featured_' . Str::random(10) . '.' . $featuredImage->getClientOriginalExtension();
             $featuredImagePath = $featuredImage->storeAs('categories', $featuredImageName, 'public');
@@ -103,7 +104,7 @@ class CategoryController extends Controller
             foreach ($request->file('images') as $index => $image) {
                 $imageName = time() . '_' . $index . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
                 $imagePath = $image->storeAs('categories', $imageName, 'public');
-                
+
                 CategoryImage::create([
                     'category_id' => $category->id,
                     'image_path' => $imagePath,
@@ -118,18 +119,18 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
-        
+
         // Delete featured image if exists
         if ($category->featured_image) {
             Storage::disk('public')->delete($category->featured_image);
         }
-        
+
         // Delete all associated images
         foreach ($category->images as $image) {
             Storage::disk('public')->delete($image->image_path);
             $image->delete();
         }
-        
+
         $category->delete();
         return response()->json(['message' => 'Category deleted']);
     }
@@ -141,13 +142,13 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($categoryId);
         $image = CategoryImage::where('category_id', $categoryId)->findOrFail($imageId);
-        
+
         // Delete the file from storage
         Storage::disk('public')->delete($image->image_path);
-        
+
         // Delete the database record
         $image->delete();
-        
+
         return response()->json(['message' => 'Image deleted successfully']);
     }
 
@@ -157,14 +158,14 @@ class CategoryController extends Controller
     public function setFeaturedImage($categoryId, $imageId)
     {
         $category = Category::findOrFail($categoryId);
-        
+
         // Remove featured status from all images
         CategoryImage::where('category_id', $categoryId)->update(['is_featured' => false]);
-        
+
         // Set the selected image as featured
         $image = CategoryImage::where('category_id', $categoryId)->findOrFail($imageId);
         $image->update(['is_featured' => true]);
-        
+
         return response()->json(['message' => 'Featured image updated successfully']);
     }
 }

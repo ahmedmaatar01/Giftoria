@@ -18,6 +18,7 @@ const ManageOccasions = () => {
     arabic_name: '',
     slug: '',
     description: '',
+    arabic_description: '',
     show_menu: false,
     featured_image: null,
     category_ids: [],
@@ -29,13 +30,14 @@ const ManageOccasions = () => {
     arabic_name: form.arabic_name ?? '',
     slug: form.slug ?? '',
     description: form.description ?? '',
+    arabic_description: form.arabic_description ?? '',
     show_menu: !!form.show_menu,
     featured_image: form.featured_image ?? null,
     category_ids: Array.isArray(form.category_ids) ? form.category_ids : [],
     existing_featured_image: form.existing_featured_image ?? '',
     id: form.id
   } : {
-    name: '', arabic_name: '', slug: '', description: '', show_menu: false, featured_image: null, category_ids: [], existing_featured_image: '', id: undefined
+    name: '', arabic_name: '', slug: '', description: '', arabic_description:'', show_menu: false, featured_image: null, category_ids: [], existing_featured_image: '', id: undefined
   };
 
   const handleChange = e => {
@@ -77,6 +79,7 @@ const ManageOccasions = () => {
         arabic_name: occ.arabic_name ?? '',
         slug: occ.slug ?? '',
         description: occ.description ?? '',
+        arabic_description: occ.arabic_description ?? '', 
         show_menu: !!occ.show_menu,
         featured_image: null,
         category_ids: Array.isArray(occ.categories) ? occ.categories.map(c => String(c.id)) : [],
@@ -98,6 +101,7 @@ const ManageOccasions = () => {
         arabic_name: safeForm.arabic_name,
         slug: safeForm.slug,
         description: safeForm.description,
+        arabic_description: safeForm.arabic_description,
         show_menu: Boolean(safeForm.show_menu),
         category_ids: safeForm.category_ids.map(id => Number(id))
       };
@@ -117,6 +121,7 @@ const ManageOccasions = () => {
         formData.append('arabic_name', safeForm.arabic_name);
         formData.append('slug', safeForm.slug);
         formData.append('description', safeForm.description);
+        formData.append('arabic_description', safeForm.arabic_description);
         formData.append('show_menu', Boolean(safeForm.show_menu) ? '1' : '0');
         // Keep categories as is (already synced in JSON step)
         await axios.post(`${API_URL}/occasions/${occasionId}?_method=PUT`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
@@ -282,7 +287,17 @@ const ManageOccasions = () => {
               <Form.Label>Description</Form.Label>
               <Form.Control as="textarea" rows={3} name="description" value={safeForm.description} onChange={handleChange} />
             </Form.Group>
-
+            <Form.Group className="mb-3">
+                <Form.Label>Arabic Description</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  name="arabic_description"
+                  value={safeForm.arabic_description}
+                  onChange={handleChange}
+                  placeholder="الوصف بالعربية"
+                />
+              </Form.Group>
             <Row>
               <Col md={12}>
                 <Form.Group className="mb-3">

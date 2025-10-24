@@ -58,6 +58,17 @@ const ProductModal = ({ show, onHide, onSubmit, form, setForm, isEdit }) => {
             <Form.Control name="name" value={form.name || ''} onChange={handleChange} required />
           </Form.Group>
           <Form.Group className="mb-3">
+            <Form.Label>Arabic Name</Form.Label>
+            <Form.Control
+              name="arabic_name"
+              value={form.arabic_name || ''}
+              onChange={handleChange}
+              placeholder="اسم المنتج بالعربية"
+              required
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
             <Form.Label>Description</Form.Label>
             <ReactQuill 
               theme="snow"
@@ -65,7 +76,7 @@ const ProductModal = ({ show, onHide, onSubmit, form, setForm, isEdit }) => {
               onChange={handleDescriptionChange}
               modules={modules}
               formats={formats}
-              style={{ height: '200px', marginBottom: '50px' }}
+              style={{ height: '200px', marginBottom: '100px' }}
             />
           </Form.Group>
           <Row>
@@ -91,6 +102,24 @@ const ProductModal = ({ show, onHide, onSubmit, form, setForm, isEdit }) => {
               ))}
             </Form.Select>
           </Form.Group>
+          <Form.Group className="mb-3" controlId="featured">
+          <Form.Check
+            type="checkbox"
+            label="Featured Product"
+            checked={form.featured}
+            onChange={(e) => setForm({ ...form, featured: e.target.checked })}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="lead_time">
+          <Form.Label>Lead Time</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="e.g. 2 days for preparation"
+            value={form.lead_time}
+            onChange={(e) => setForm({ ...form, lead_time: e.target.value })}
+          />
+        </Form.Group>
+
           <Form.Group className="mb-3">
             <Form.Label>Featured Image</Form.Label>
             <Form.Control name="featured_image" type="file" accept="image/*" onChange={e => {
