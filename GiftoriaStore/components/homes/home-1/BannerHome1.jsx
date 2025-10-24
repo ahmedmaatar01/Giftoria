@@ -3,12 +3,14 @@ import Link from "next/link";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-export default function Banner2({
+export default function BannerHome1({
   bgUrl = "/images/slider/food-banner-collection.jpg",
   buttonLink = "/shop-collection-sub",
+  heading,
+  description,
+  buttonLabel,
 }) {
-  const { t, i18n } = useTranslation();
-  const isArabic = i18n.language === "ar";
+  const { t } = useTranslation();
 
   return (
     <section
@@ -19,25 +21,17 @@ export default function Banner2({
         <div className="container">
           <Link href={buttonLink} className="text-md-start text-center">
             <h4 className="heading mb-3">
-              <span className="bell-t-medium heading-30">{t("banner3_heading")}</span>
+              <span className="bell-t-medium heading-30">{heading ? heading : t("banner3_heading")}</span>
             </h4>
-
-            {/* ✅ Dynamic text alignment */}
             <p
               className="text mb-4"
-              style={{
-                maxWidth: "600px",
-                margin: "0",
-                textAlign: isArabic ? "right" : "left",
-                direction: isArabic ? "rtl" : "ltr",
-              }}
+              style={{ maxWidth: "600px", margin: "0", textAlign: "left" }}
             >
-              <span className="montserrat-regular">{t("banner3_description")}</span>
+              <span className="montserrat-regular">{description ? description : t("banner3_description")}</span>
             </p>
-
             <div className="wow fadeInUp" data-wow-delay="0s">
               <button className="tf-btn style-2 fw-6 btn-fill animate-hover-btn mt-2">
-                <span className="montserrat-semi-bold">{t("banner3_button")}</span>
+                <span className="montserrat-semi-bold">{buttonLabel ? buttonLabel : t("banner3_button")}</span>
               </button>
             </div>
           </Link>

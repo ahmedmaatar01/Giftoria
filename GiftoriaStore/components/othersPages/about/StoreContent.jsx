@@ -17,7 +17,7 @@ export default function StoreContent({
 
   return (
     <div className="tf-ourstore-content" style={{ paddingLeft: "60px" }}>
-      <h5 className="mb_24">{storeName}</h5>
+  <h5 className="mb_24 bell-t-medium">{storeName}</h5>
       <div className="mb_20">
         <p className="mb_15">
           <strong>{t("store_info.address")}</strong>

@@ -19,6 +19,12 @@ section.tf-slideshow.slider-video.position-relative {
   font-family: 'Montserrat', Arial, Helvetica, sans-serif !important;
   font-weight: 500 !important;
 }
+
+/* Custom class for Montserrat Regular */
+.montserrat-regular {
+  font-family: 'Montserrat', Arial, Helvetica, sans-serif !important;
+  font-weight: 400 !important;
+}
 /* Custom class for Bell T Medium font */
 .bell-t-medium {
   font-family: 'Bell T Medium', 'Times New Roman', Times, serif !important;
@@ -133,6 +139,23 @@ section.tf-slideshow.slider-video.position-relative {
     display: block;
     width: fit-content;
   }
+}
+/* Smaller banner3 heading */
+.banner3-heading-sm {
+  font-size: 1.4rem; /* base smaller size */
+  line-height: 1.1;
+  display: inline-block;
+}
+@media (max-width: 767px) {
+  .banner3-heading-sm {
+    font-size: 1.1rem;
+  }
+}
+
+/* Generic heading 30px class for Home 1 elements requested */
+.heading-30 {
+  font-size: 30px !important;
+  line-height: 1.1 !important;
 }
 .hero-accesories-slide {
   background-color: rgba($color: #fff, $alpha: 0.7) !important;

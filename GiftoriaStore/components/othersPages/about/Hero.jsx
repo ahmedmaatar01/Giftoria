@@ -20,9 +20,9 @@ export default function Hero() {
         <div className="box-content text-center">
           <div className="container">
             <div className="text bell-t-medium text-start" style={{ color: 'black' }}>
-              {t("hero.title")} <br className="d-xl-block d-none" />
-              <span className="hero-title-small montserrat-medium" 
-                style={{ fontFamily: 'Montserrat, Arial, Helvetica, sans-serif !important', fontWeight: '600 !important', lineHeight: '2' }}>
+              <span style={{ fontSize: '60px', color: '#967740' }}>{t("hero.title")}</span> <br className="d-xl-block d-none" />
+              <span className="hero-title-small montserrat-regular" 
+                style={{ fontFamily: 'Montserrat, Arial, Helvetica, sans-serif', lineHeight: '2', fontSize: '20px' }}>
                 {t("hero.subtitle")}
               </span>
             </div>

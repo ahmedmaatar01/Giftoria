@@ -24,31 +24,10 @@ export default function About() {
             </div>
             <div className="tf-content-wrap px-0 d-flex justify-content-center w-100">
               <div>
-                <div className="heading bell-t-medium">{t("about.our_mission_title")}</div>
-                <div className="text montserrat-medium" style={{ textAlign: 'justify' }}>
-                  {t("about.our_mission_text")}
-                </div>
-
-                {/* 'Our Vision' Block */}
-                <div style={{ marginTop: '24px' }}>
-                  <div className="heading bell-t-medium">{t("about.our_vision_title")}</div>
-                  <div className="text montserrat-medium" style={{ textAlign: 'justify' }}>
-                    {t("about.our_vision_text")}
-                  </div>
-                </div>
-
-                {/* 'Our Values' Block */}
-                <div style={{ marginTop: '24px' }}>
-                  <div className="heading bell-t-medium">{t("about.our_values_title")}</div>
-                  <div className="text montserrat-medium" style={{ textAlign: 'justify' }}>
-                    <span className="montserrat-medium">
-                      <strong>{t("about.elegance_title")} :</strong> {t("about.elegance_text")}
-                      <br /><strong>{t("about.personalization_title")} :</strong> {t("about.personalization_text")}
-                      <br /><strong>{t("about.excellence_title")} :</strong> {t("about.excellence_text")}
-                      <br /><strong>{t("about.emotion_title")} :</strong> {t("about.emotion_text")}
-                      <br /><strong>{t("about.creativity_title")} :</strong> {t("about.creativity_text")}
-                    </span>
-
+                <div>
+                  <div className="heading bell-t-medium heading-30" style={{ fontSize: '30px', textTransform: 'uppercase' }}>THE ART BEHIND OUR CRAFT</div>
+                  <div className="text montserrat-regular" style={{ textAlign: 'justify', fontSize: '15px', fontFamily: 'Montserrat, Arial, Helvetica, sans-serif' }}>
+                    From delicate blooms to hand-crafted cakes and bespoke wedding treasures, we turn every idea into a masterpiece made just for you. Our craft is rooted in timeless elegance — every detail, color, and ribbon chosen to tell your story with charm and grace. Whether it’s the whisper of petals, the sweetness of icing, or the magic of your “I do,” we make every creation uniquely yours — beautifully personal, forever memorable.
                   </div>
                 </div>
               </div>

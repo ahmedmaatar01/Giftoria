@@ -21,7 +21,7 @@ export default function ContactForm() {
       <div className="container">
         <div className="tf-grid-layout gap30 lg-col-2">
           <div className="tf-content-left">
-            <h5 className="mb_20">Visit Our Store</h5>
+            <h5 className="mb_20 bell-t-medium">Visit Our Store</h5>
             <div className="mb_20">
               <p className="mb_15">
                 <strong>Address</strong>
@@ -65,8 +65,8 @@ export default function ContactForm() {
             </div>
           </div>
           <div className="tf-content-right">
-            <h5 className="mb_20">Get in Touch</h5>
-            <p className="mb_24">
+            <h5 className="mb_20 bell-t-medium">Get in Touch</h5>
+            <p className="mb_24 montserrat-regular" style={{ fontSize: '15px' }}>
               If you’ve got great products your making or looking to work with
               us then drop us a line.
             </p>

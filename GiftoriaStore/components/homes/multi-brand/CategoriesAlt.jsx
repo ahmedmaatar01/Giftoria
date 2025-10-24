@@ -13,10 +13,10 @@ export default function CategoriesAlt() {
   return (
     <section className="flat-spacing-20">
       {/* ✅ Section Title */}
-      <div className="container" style={{ marginTop: "45px", marginBottom: "40px" }}>
+      <div className="container" style={{ marginTop: "45px", marginBottom: "45px" }}>
         <div className="flat-title flex-row justify-content-center mb-1">
           <span className="title fw-6 wow fadeInUp" data-wow-delay="0s">
-            <span className="bell-t-medium">{t("categoriesAlt.sectionTitle")}</span>
+            <span className="bell-t-medium heading-30">{t("categoriesAlt.sectionTitle")}</span>
           </span>
         </div>
       </div>

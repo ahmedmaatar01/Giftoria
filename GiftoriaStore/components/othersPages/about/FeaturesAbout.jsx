@@ -13,7 +13,7 @@ export default function FeaturesAbout({ title, subtitle, items }) {
           <div className="flat-title lg">
             <span className="title fw-5 bell-t-medium">{t(title)}</span> {/* Translate title */}
             <div>
-              <p className="sub-title text_black-2 montserrat-medium" style={{ lineHeight: '2', textAlign: 'justify' }}>
+              <p className="sub-title text_black-2 montserrat-regular" style={{ lineHeight: '2', textAlign: 'justify', fontSize: '15px' }}>
                 {t(subtitle)} {/* Translate subtitle */}
               </p>
             </div>
@@ -37,8 +37,8 @@ export default function FeaturesAbout({ title, subtitle, items }) {
                   <SwiperSlide key={index}>
                     <div className="tf-icon-box text-center">
                       <div className="content">
-                        <div className="title bell-t-medium">{t(box.title)}</div> {/* Translate item title */}
-                        <p className="text_black-2">{t(box.description)}</p> {/* Translate item description */}
+                        <div className="title bell-t-medium" style={{ fontSize: '28px' }}>{t(box.title)}</div> {/* Translate item title */}
+                        <p className="text_black-2 montserrat-regular" style={{ fontSize: '15px' }}>{t(box.description)}</p> {/* Translate item description */}
 
                       </div>
                     </div>

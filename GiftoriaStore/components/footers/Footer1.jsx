@@ -75,23 +75,23 @@ export default function Footer1({ bgColor = "" }) {
                 <div className="footer-infor">
                   <ul>
                     <li>
-                      <p>
+                      <p className="montserrat-regular" style={{ fontSize: '12px' }}>
                         {t("footer_address_line1")}<br />
                         {t("footer_address_line2")}
                       </p>
                     </li>
                     <li>
-                      <p>
-                        {t("footer_email_label")} <a href="#">{t("footer_email")}</a>
+                      <p className="montserrat-regular" style={{ fontSize: '12px' }}>
+                        {t("footer_email_label")} <a href="#" className="montserrat-regular" style={{ fontSize: '12px' }}>{t("footer_email")}</a>
                       </p>
                     </li>
                     <li>
-                      <p>
-                        {t("footer_phone_label")} <a href="#">{t("footer_phone")}</a>
+                      <p className="montserrat-regular" style={{ fontSize: '12px' }}>
+                        {t("footer_phone_label")} <a href="#" className="montserrat-regular" style={{ fontSize: '12px' }}>{t("footer_phone")}</a>
                       </p>
                     </li>
                   </ul>
-                  <Link href={`/contact-1`} className="tf-btn btn-line">
+                  <Link href={`/contact-1`} className={`tf-btn btn-line montserrat-regular`} style={{ fontSize: '12px' }}>
                     {t("footer_get_direction")}
                     <i className="icon icon-arrow1-top-left" />
                   </Link>
@@ -105,15 +105,15 @@ export default function Footer1({ bgColor = "" }) {
               {/* Help section */}
               <div className="col-xl-3 col-md-6 col-12 footer-col-block">
                 <div className="footer-heading footer-heading-desktop">
-                  <h6>{t("footer_help")}</h6>
+                  <h6 className="bell-t-medium">{t("footer_help")}</h6>
                 </div>
                 <div className="footer-heading footer-heading-moblie">
-                  <h6>{t("footer_help")}</h6>
+                  <h6 className="bell-t-medium">{t("footer_help")}</h6>
                 </div>
                 <ul className="footer-menu-list tf-collapse-content">
                   {footerLinks.map((link, index) => (
                     <li key={index}>
-                      <Link href={link.href} className="footer-menu_item">
+                      <Link href={link.href} className={`footer-menu_item montserrat-regular`} style={{ fontSize: '12px' }}>
                         {t(link.textKey || link.text)} {/* adjust links data to include textKey */}
                       </Link>
                     </li>
@@ -124,15 +124,15 @@ export default function Footer1({ bgColor = "" }) {
               {/* About us section */}
               <div className="col-xl-3 col-md-6 col-12 footer-col-block">
                 <div className="footer-heading footer-heading-desktop">
-                  <h6>{t("footer_about_us")}</h6>
+                  <h6 className="bell-t-medium">{t("footer_about_us")}</h6>
                 </div>
                 <div className="footer-heading footer-heading-moblie">
-                  <h6>{t("footer_about_us")}</h6>
+                  <h6 className="bell-t-medium">{t("footer_about_us")}</h6>
                 </div>
                 <ul className="footer-menu-list tf-collapse-content">
                   {aboutLinks.slice(0, 4).map((link, index) => (
                     <li key={index}>
-                      <Link href={link.href} className="footer-menu_item">
+                      <Link href={link.href} className={`footer-menu_item montserrat-regular`} style={{ fontSize: '12px' }}>
                         {t(link.textKey || link.text)}
                       </Link>
                     </li>
@@ -144,13 +144,13 @@ export default function Footer1({ bgColor = "" }) {
               <div className="col-xl-3 col-md-6 col-12">
                 <div className="footer-newsletter footer-col-block">
                   <div className="footer-heading footer-heading-desktop">
-                    <h6>{t("footer_sign_up_email")}</h6>
+                    <h6 className="bell-t-medium">{t("footer_sign_up_email")}</h6>
                   </div>
                   <div className="footer-heading footer-heading-moblie">
-                    <h6>{t("footer_sign_up_email")}</h6>
+                    <h6 className="bell-t-medium">{t("footer_sign_up_email")}</h6>
                   </div>
                   <div className="tf-collapse-content">
-                    <div className="footer-menu_item">
+                    <div className="footer-menu_item montserrat-regular" style={{ fontSize: '12px' }}>
                       {t("footer_newsletter_text")}
                     </div>
                     <div className={`tfSubscribeMsg ${showMessage ? "active" : ""}`}>
@@ -232,7 +232,7 @@ export default function Footer1({ bgColor = "" }) {
             <div className="row">
               <div className="col-12">
                 <div className="footer-bottom-wrap d-flex gap-20 flex-wrap justify-content-center align-items-center">
-                  <div className="footer-menu_item">
+                  <div className="footer-menu_item montserrat-regular" style={{ fontSize: '12px' }}>
                     {t("footer_copyright", { year: new Date().getFullYear() })}
                   </div>
                 </div>

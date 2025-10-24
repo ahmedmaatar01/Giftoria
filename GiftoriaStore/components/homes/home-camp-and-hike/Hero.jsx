@@ -63,7 +63,7 @@ export default function Hero() {
                       href={`/shop-collection-sub`}
                       className="tf-btn btn-outline-light fw-5 btn-xl rounded-0"
                     >
-                      <span>Shop Collection</span>
+                      <span>{slide.btnText ? slide.btnText : "Shop Collection"}</span>
                       <i className="icon icon-arrow-right" />
                     </Link>
                   </div>
