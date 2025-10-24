@@ -91,3 +91,12 @@ html.arabic-font body,
 html.arabic-font *:not(i):not(.icon):not([class*="icon-"]) {
   font-family: "Muslimah Thin", sans-serif !important;
 }
+/* Initial transparent header */
+.header-default {
+  transition: background-color 0.3s ease;
+}
+
+/* White background after scrolling 200px */
+.header-scrolled {
+  background-color: #ffffff !important;
+}

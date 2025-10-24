@@ -11,6 +11,7 @@ import React from "react";
 import Header10 from "@/components/headers/Header10";
 import Topbar1 from "@/components/headers/Topbar1";
 import StoreContent from "@/components/othersPages/about/StoreContent";
+import Header6 from "@/components/headers/Header6";
 export const metadata = {
   title: "About Us || Ecomus - Ultimate Nextjs Ecommerce Template",
   description: "Ecomus - Ultimate Nextjs Ecommerce Template",
@@ -54,9 +55,7 @@ const storeData = {
 export default function page() {
   return (
     <>
-      <Topbar1 />
-      <Header10 />
-
+       <Header6/>
       <Hero />
       {/* New FeaturesAbout component under the header */}
       <div style={{ marginTop: '60px' }}>

@@ -12,6 +12,8 @@ import FeaturesHomeFood from "@/components/homes/home-food/Features";
 import HeroHome1 from "@/components/homes/home-1/Hero";
 import Marquee from "@/components/homes/home-1/Marquee";
 import Categories from "@/components/homes/home-6/Categories";
+import Header6 from "@/components/headers/Header6";
+
 
 export const metadata = {
   title: "Home 1 || Ecomus - Ultimate Nextjs Ecommerce Template",
@@ -20,8 +22,11 @@ export const metadata = {
 export default function Home() {
   return (
     <>
-      <Topbar1 />
-      <Header10 />
+      {/* <Topbar1 /> */}
+      {/* <Header10/> */}
+      <Header6/>
+
+      
   <HeroHome1 />
   <Marquee />
   <HeroCamp />
