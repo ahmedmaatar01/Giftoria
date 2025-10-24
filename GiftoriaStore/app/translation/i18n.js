@@ -15,11 +15,22 @@ i18n.use(initReactI18next).init({
     en: { translation: en },
     ar: { translation: ar },
   },
-  lng: getLang(),
+  lng: "en", // Always start with 'en' for SSR consistency
   fallbackLng: "en",
   interpolation: {
     escapeValue: false,
   },
+  react: {
+    useSuspense: false, // Disable suspense for SSR
+  },
 });
+
+// Update language after hydration on client side
+if (typeof window !== "undefined") {
+  const savedLang = localStorage.getItem("lang");
+  if (savedLang && savedLang !== i18n.language) {
+    i18n.changeLanguage(savedLang);
+  }
+}
 
 export default i18n;

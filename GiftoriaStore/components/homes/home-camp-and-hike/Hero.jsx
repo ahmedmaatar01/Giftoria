@@ -1,12 +1,60 @@
 "use client";
-import { slides21 } from "@/data/heroslides";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useTranslation } from "react-i18next";
+
+// Helper to resolve occasion image similar to categories/sidebars
+const resolveOccasionImage = (o) => {
+  const featured = o?.images?.find?.((img) => img?.is_featured == 1);
+  let candidate =
+    featured?.image_path ||
+    featured?.url ||
+    featured?.path ||
+    o?.featured_image ||
+    o?.image ||
+    o?.thumbnail;
+  if (!candidate || typeof candidate !== "string") return null;
+
+  // Already absolute
+  if (/^https?:\/\//i.test(candidate)) return candidate;
+
+  // Normalize leading slashes
+  candidate = candidate.replace(/^\/+/, "");
+
+  if (candidate.startsWith("storage/")) return `http://localhost:8000/${candidate}`;
+  if (candidate.startsWith("public/")) {
+    const normalized = candidate.replace(/^public\//, "storage/");
+    return `http://localhost:8000/${normalized}`;
+  }
+  return `http://localhost:8000/storage/${candidate}`;
+};
 
 export default function Hero() {
+  const { i18n } = useTranslation();
+  const [occasions, setOccasions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchOccasions = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch("http://localhost:8000/api/occasions");
+        const data = await res.json();
+        const items = Array.isArray(data) ? data : (data?.data || []);
+        setOccasions(items);
+      } catch (err) {
+        console.error("[Hero] Error fetching occasions:", err);
+        setOccasions([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchOccasions();
+  }, []);
+
   return (
     <section className="tf-slideshow slider-effect-fade slider-camp-and-hike">
       <Swiper
@@ -39,39 +87,54 @@ export default function Hero() {
         }}
         className="tf-sw-slideshow"
       >
-        {slides21.map((slide, index) => (
-          <SwiperSlide key={index}>
-            <div className="wrap-slider">
-              <Image
-                className="lazyload"
-                data-src={slide.imgSrc}
-                src={slide.imgSrc}
-                alt={slide.alt}
-                width={1000}
-                height={649}
-              />
-              <div className="box-content text-center">
-                <div className="container">
-                  <h2 className="fade-item fade-item-1 heading text_white fw-7">
-                    {slide.heading}
-                  </h2>
-                  <p className="fade-item fade-item-2 text_white">
-                    {slide.description}
-                  </p>
-                  <div className="fade-item fade-item-3">
-                    <Link
-                      href={`/shop-collection-sub`}
-                      className="tf-btn btn-outline-light fw-5 btn-xl rounded-0"
-                    >
-                      <span>{slide.btnText ? slide.btnText : "Shop Collection"}</span>
-                      <i className="icon icon-arrow-right" />
-                    </Link>
-                  </div>
+        {loading
+          ? Array.from({ length: 3 }).map((_, idx) => (
+              <SwiperSlide key={`hero-loading-${idx}`}>
+                <div className="wrap-slider">
+                  <div style={{width: '100%', height: 649, background: '#f3f3f3'}} />
                 </div>
-              </div>
-            </div>
-          </SwiperSlide>
-        ))}
+              </SwiperSlide>
+            ))
+          : occasions.map((occasion) => {
+              const imgSrc = resolveOccasionImage(occasion) || "/images/no-image.png";
+              const title = i18n.language === 'ar' && occasion?.arabic_name ? occasion.arabic_name : (occasion?.name || 'Occasion');
+              const desc = occasion?.description ? (typeof occasion.description === 'string' ? occasion.description.replace(/<[^>]*>/g, '').slice(0, 140) : '') : '';
+              return (
+                <SwiperSlide key={occasion.id}>
+                  <div className="wrap-slider">
+                    <Image
+                      className="lazyload"
+                      data-src={imgSrc}
+                      src={imgSrc}
+                      alt={title}
+                      width={1000}
+                      height={649}
+                    />
+                    <div className="box-content text-center">
+                      <div className="container">
+                        <h2 className="fade-item fade-item-1 heading text_white fw-7">
+                          {title}
+                        </h2>
+                        {desc && (
+                          <p className="fade-item fade-item-2 text_white">
+                            {desc}
+                          </p>
+                        )}
+                        <div className="fade-item fade-item-3">
+                          <Link
+                            href={`/shop-collection-sub?occasion=${occasion.id}`}
+                            className="tf-btn btn-outline-light fw-5 btn-xl rounded-0"
+                          >
+                            <span>Shop Collection</span>
+                            <i className="icon icon-arrow-right" />
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              );
+            })}
       </Swiper>
       <div className="container wrap-navigation">
         <div className="nav-sw style-white nav-next-slider navigation-next-slider box-icon w_46 round snbhp1">

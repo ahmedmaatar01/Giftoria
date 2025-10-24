@@ -1,61 +1,49 @@
-{ "topbar": {
+{
+  "topbar": {
     "spring_sale": "Spring Fashion Sale",
     "shop_now": "Shop now",
     "all_collection": "View all collections",
     "summer_discount": "Summer sale discount off 70%",
     "refresh_wardrobe": "Time to refresh your wardrobe."
-  }
-    ,
-
-    "hero_subheading": "Come closer, darling",
-    "hero_heading": "A TOUCH OF CHARM AWAITS",
-    "hero_description": "Don’t be shy, love",
-    "hero_button": "Shop now",
-
-    "explore_flowers_categories": "Explore our flowers categories",
-    "gift_boxes": "Gift Boxes",
-    "sweet_treats": "Sweet Treats",
-    "wellness_sets": "Wellness Sets",
-    "keepsake_gifts": "Keepsake Gifts",
-
-    "exploreChocolateCategories": "Explore our chocolate categories",
-    "chocolate1": "Chocolate 1",
-    "chocolate2": "Chocolate 2",
-    "chocolate3": "Chocolate 3",
-    "chocolate4": "Chocolate 4",
-
-    "banner2_heading": "STEP INTO THE WORLD OF GIFTORIA",
-    "banner2_description": "GIFTORIA.me is a luxury brand born from a desire to transform the art of gifting into an unforgettable, emotional experience. Every detail, from the design of our products to the personal touch behind each gift, is carefully crafted to reflect elegance, intention, and meaning.",
-    "banner2_button": "Start shopping",
-    "banner3_heading": "WELCOME TO THE WORLD OF GIFTORIA",
-
-    "banner3_description": "GIFTORIA.me is a luxury brand born from a desire to transform the art of gifting into an unforgettable, emotional experience. Every detail, from the design of our products to the personal touch behind each gift, is carefully crafted to reflect elegance, intention, and meaning.",
-    "banner3_button": "Join Now",
-
-    "products2_title": "BEST SELLER",
-    "add_to_wishlist": "Add to Wishlist",
-    "already_wishlisted": "Already Wishlisted",
-    "add_to_compare": "Add to Compare",
-    "already_compared": "Already Compared",
-    "quick_view": "Quick View",
-    "add_to_cart": "Add to cart",
-
-    "features_title_line1": "EXPERIENCE THE ELEGANCE",
+  },
+  "ShopCollection": "Read More",
+  "hero_subheading": "Come closer, darling",
+  "hero_heading": "A TOUCH OF CHARM AWAITS",
+  "hero_description": "Don’t be shy, love",
+  "hero_button": "Shop now",
+  "explore_flowers_categories": "Explore our flowers categories",
+  "gift_boxes": "Gift Boxes",
+  "sweet_treats": "Sweet Treats",
+  "wellness_sets": "Wellness Sets",
+  "keepsake_gifts": "Keepsake Gifts",
+  "exploreChocolateCategories": "Explore our chocolate categories",
+  "chocolate1": "Chocolate 1",
+  "chocolate2": "Chocolate 2",
+  "chocolate3": "Chocolate 3",
+  "chocolate4": "Chocolate 4",
+  "banner2_heading": "STEP INTO THE WORLD OF GIFTORIA",
+  "banner2_description": "GIFTORIA.me is a luxury brand born from a desire to transform the art of gifting into an unforgettable, emotional experience. Every detail, from the design of our products to the personal touch behind each gift, is carefully crafted to reflect elegance, intention, and meaning.",
+  "banner2_button": "Start shopping",
+  "banner3_heading": "WELCOME TO THE WORLD OF GIFTORIA",
+  "banner3_description": "GIFTORIA.me is a luxury brand born from a desire to transform the art of gifting into an unforgettable, emotional experience. Every detail, from the design of our products to the personal touch behind each gift, is carefully crafted to reflect elegance, intention, and meaning.",
+  "banner3_button": "Join Now",
+  "products2_title": "BEST SELLER",
+  "add_to_wishlist": "Add to Wishlist",
+  "already_wishlisted": "Already Wishlisted",
+  "add_to_compare": "Add to Compare",
+  "already_compared": "Already Compared",
+  "quick_view": "Quick View",
+  "add_to_cart": "Add to cart",
+  "features_title_line1": "EXPERIENCE THE ELEGANCE",
   "features_title_line2": "OF TIMESLESS GIFTING",
-
   "features_slide_1_title": "Elegant Packaging",
   "features_slide_1_description": "Our gifts are wrapped with premium materials to impress at first glance.",
-
   "features_slide_2_title": "Personalized Touch",
   "features_slide_2_description": "Customize your message or packaging for a truly unique gift.",
-
   "features_slide_3_title": "Fast Delivery",
   "features_slide_3_description": "Get your gifts delivered swiftly and safely to your doorstep.",
-
   "features_slide_4_title": "Luxury Selection",
   "features_slide_4_description": "Curated gifts chosen for their quality, style, and sentiment.",
-
-
   "store_title": "COME STROLL THROUGH OUR FLOWER PARLOUR",
   "qatar_store_title": "Qatar Store",
   "london_store_title": "London Store",
@@ -64,7 +52,6 @@
   "working_days": "Mon - Fri, 8:30am - 10:30pm",
   "saturday_hours": "Saturday, 8:30am - 10:30pm",
   "sunday_closed": "Sunday Closed",
-
   "features": {
     "free_shipping": {
       "title": "Free Shipping",
@@ -82,9 +69,7 @@
       "title": "Premium Support",
       "description": "Outstanding premium support"
     }
-  }
-  ,
-
+  },
   "footer_address_line1": "Address: 1234 Fashion Street, Suite 567,",
   "footer_address_line2": "New York, NY 10001",
   "footer_email_label": "Email:",
@@ -101,7 +86,6 @@
   "footer_enter_email_placeholder": "Enter your email....",
   "footer_subscribe_button": "Subscribe",
   "footer_copyright": "© {{year}} Giftoria Store. All Rights Reserved",
-
   "header.menu": "Open menu",
   "header.logo_home": "Go to homepage",
   "header.logo_alt": "Giftoria Logo",
@@ -110,14 +94,12 @@
   "header.compare": "Compare Products",
   "header.wishlist": "Wishlist",
   "header.cart": "Shopping Cart",
-
-"hero": {
+  "hero": {
     "_comment": "start about us ",
     "title": "THE STORY OF GIFTORIA",
     "subtitle": "Where every gift is wrapped in timeless grace, a blend of elegance, emotion, and lasting charm."
-  }
-,
-"about": {
+  },
+  "about": {
     "image_alt": "collection image",
     "our_mission_title": "Our mission",
     "our_mission_text": "Our mission is to offer a unique and luxurious gifting experience, where every creation is designed with care, personalization, and a true sense of meaning making every moment memorable. Giftoria is the go-to destination for exceptional, personalized luxury gifts crafted to leave a lasting impact.",
@@ -134,8 +116,7 @@
     "emotion_text": "Our gifts carry meaning — they tell stories and create memories.",
     "creativity_title": "Creativity",
     "creativity_text": "We explore endless ways to surprise and delight through thoughtful design."
-  }
-  ,
+  },
   "company": {
     "brand_presentation_title": "BRAND PRESENTATION",
     "premium_quality_title": "Premium Quality",
@@ -144,9 +125,8 @@
     "thoughtful_curation_description": "Handpicked gifts for every occasion.",
     "personalized_touch_title": "Personalized Touch",
     "personalized_touch_description": "Custom options for a unique experience.",
-"brand_presentation_subtitle": "GIFTORIA.me is a luxury brand born from a desire to transform the art of gifting into an unforgettable, emotional experience. Every detail, from the design of our products to the personal touch behind each gift, is carefully crafted to reflect elegance, intention, and meaning. At GIFTORIA, we believe that a gift is never just a gift — it is a gesture, a story, a memory in the making. That’s why we offer a curated universe of personalized and refined creations, designed to celebrate life’s most precious moments in a deeply thoughtful way. Whether it’s a symbolic token of love, a timeless expression of gratitude, or a meaningful surprise, GIFTORIA turns each gift into an exceptional experience — one that’s tailored, elegant, and emotionally resonant. Our brand is dedicated to those who seek to offer more than an object: a lasting impression."
+    "brand_presentation_subtitle": "GIFTORIA.me is a luxury brand born from a desire to transform the art of gifting into an unforgettable, emotional experience. Every detail, from the design of our products to the personal touch behind each gift, is carefully crafted to reflect elegance, intention, and meaning. At GIFTORIA, we believe that a gift is never just a gift — it is a gesture, a story, a memory in the making. That’s why we offer a curated universe of personalized and refined creations, designed to celebrate life’s most precious moments in a deeply thoughtful way. Whether it’s a symbolic token of love, a timeless expression of gratitude, or a meaningful surprise, GIFTORIA turns each gift into an exceptional experience — one that’s tailored, elegant, and emotionally resonant. Our brand is dedicated to those who seek to offer more than an object: a lasting impression."
   },
-
   "productFeatures": {
     "title": "Quality is our priority",
     "subtitle": "Our gifted curators have gathered treasures perfect for every season. They’ve crafted a world of thoughtful delights to inspire your next heartfelt gesture.",
@@ -163,18 +143,17 @@
     "email": "Email",
     "open_time": "Open Time",
     "get_directions": "Get Directions"
-  }
-  ,
+  },
   "contact": {
     "hero_title": "Contact Us",
     "hero_description_line1": "We’d love to hear from you — questions, custom orders,",
     "hero_description_line2": "and feedback are welcome.",
     "visit_store": "Visit Our Store",
-  "store_address": "66 Mott St, New York, New York, Zip Code: 10006, AS",
-  "phone_number": "(623) 934-2400",
-  "email_address": "EComposer@example.com",
-  "store_status": "Our store has re-opened for shopping,",
-  "store_hours": "exchange Every day 11am to 7pm"
+    "store_address": "66 Mott St, New York, New York, Zip Code: 10006, AS",
+    "phone_number": "(623) 934-2400",
+    "email_address": "EComposer@example.com",
+    "store_status": "Our store has re-opened for shopping,",
+    "store_hours": "exchange Every day 11am to 7pm"
   },
   "contact_form": {
     "title": "Get in Touch",
@@ -188,10 +167,10 @@
   },
   "categories": {
     "sectionTitle": "A Symphony of Gifts"
-    
   },
   "categoriesAlt": {
-    "sectionTitle": "THE ART OF GIVING"
+    "sectionTitle": "THE ART OF GIVING",
+    "viewAllCategories": "View All Categories"
   },
   "menu": {
     "home": "Home",
@@ -202,6 +181,4 @@
     "men": "Men",
     "women": "Women"
   }
-  }
-
-  
+}
