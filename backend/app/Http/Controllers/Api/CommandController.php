@@ -36,8 +36,8 @@ class CommandController extends Controller
             'products.*.product_id' => 'required|exists:products,id',
             'products.*.quantity' => 'required|integer|min:1',
             'products.*.custom_fields' => 'nullable|array',
-            'products.*.custom_fields.*.field_id' => 'required_with:products.*.custom_fields|integer',
-            'products.*.custom_fields.*.value' => 'required_with:products.*.custom_fields|string',
+            'products.*.custom_fields.*.field_id' => 'nullable|integer',
+            'products.*.custom_fields.*.value' => 'nullable|string',
         ]);
 
         // Calculate total with custom field pricing

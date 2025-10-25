@@ -26,10 +26,7 @@ export default function Home() {
       <HeroHome1 />
       <Marquee />
       <HeroCamp />
-
-
       <Categories />
-      <div style={{ marginTop: '60px' }} />
       <Banner2 />
       <div style={{ marginTop: '60px' }} />
       <Products2 />
