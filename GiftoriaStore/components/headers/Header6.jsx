@@ -129,11 +129,7 @@ export default function Header6({ isArrow, uppercase = false }) {
                   <i className="icon icon-account" />
                 </a>
               </li>
-              <li className="nav-compare">
-                <Link href={`/compare`} className="nav-icon-item" aria-label={t("header.compare")}>
-                  <i className="icon icon-compare" />
-                </Link>
-              </li>
+              
               <li className="nav-wishlist">
                 <Link href={`/wishlist`} className="nav-icon-item" aria-label={t("header.wishlist")}>
                   <i className="icon icon-heart" />
@@ -154,6 +150,7 @@ export default function Header6({ isArrow, uppercase = false }) {
             <div className="top-bar-language tf-cur justify-content-end">
           
           <div className="tf-languages">
+            
             <LanguageSelect
               parentClassName={"image-select center style-default type-languages"}
               topStart

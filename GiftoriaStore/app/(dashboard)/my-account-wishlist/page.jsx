@@ -1,4 +1,5 @@
 import Footer1 from "@/components/footers/Footer1";
+import Header10 from "@/components/headers/Header10";
 import Header2 from "@/components/headers/Header2";
 import DashboardNav from "@/components/othersPages/dashboard/DashboardNav";
 import Wishlist from "@/components/othersPages/dashboard/Wishlist";
@@ -11,7 +12,7 @@ export const metadata = {
 export default function page() {
   return (
     <>
-      <Header2 />
+      <Header10 />
       <div className="tf-page-title">
         <div className="container-full">
           <div className="heading text-center">My Account Wishlist</div>

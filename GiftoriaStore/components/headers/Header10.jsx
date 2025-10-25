@@ -7,6 +7,7 @@ import Link from "next/link";
 import CartLength from "../common/CartLength";
 import WishlistLength from "../common/WishlistLength";
 import { useTranslation } from "react-i18next";
+import LanguageSelect from "../common/LanguageSelect";
 
 export default function Header10() {
   const { t } = useTranslation();
@@ -85,11 +86,7 @@ export default function Header10() {
                   <i className="icon icon-account" />
                 </a>
               </li>
-              <li className="nav-compare">
-                <Link href={`/compare`} className="nav-icon-item" aria-label={t("header.compare")}>
-                  <i className="icon icon-compare" />
-                </Link>
-              </li>
+             
               <li className="nav-wishlist">
                 <Link href={`/wishlist`} className="nav-icon-item" aria-label={t("header.wishlist")}>
                   <i className="icon icon-heart" />
@@ -111,6 +108,17 @@ export default function Header10() {
                   </span>
                 </a>
               </li>
+              <li className="nav-cart">
+            <div className="top-bar-language tf-cur justify-content-end">
+          
+          <div className="tf-languages">
+            <LanguageSelect
+              parentClassName={"image-select center style-default type-languages"}
+              topStart
+            />
+          </div>
+        </div>
+            </li>
             </ul>
           </div>
         </div>

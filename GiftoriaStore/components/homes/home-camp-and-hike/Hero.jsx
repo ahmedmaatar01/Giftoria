@@ -97,8 +97,17 @@ export default function Hero() {
             ))
           : occasions.map((occasion) => {
               const imgSrc = resolveOccasionImage(occasion) || "/images/no-image.png";
-              const title = i18n.language === 'ar' && occasion?.arabic_name ? occasion.arabic_name : (occasion?.name || 'Occasion');
-              const desc = occasion?.description ? (typeof occasion.description === 'string' ? occasion.description.replace(/<[^>]*>/g, '').slice(0, 140) : '') : '';
+              const title =
+              i18n.language === 'ar' && occasion?.arabic_name
+                ? occasion.arabic_name
+                : occasion?.name || 'Occasion';             
+                const desc =
+                i18n.language === 'ar' && occasion?.arabic_description
+                  ? occasion.arabic_description.replace(/<[^>]*>/g, '').slice(0, 140)
+                  : occasion?.description
+                  ? occasion.description.replace(/<[^>]*>/g, '').slice(0, 140)
+                  : '';
+            
               return (
                 <SwiperSlide key={occasion.id}>
                   <div className="wrap-slider">
