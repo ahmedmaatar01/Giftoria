@@ -112,11 +112,11 @@ export default function Hero() {
                     />
                     <div className="box-content text-center">
                       <div className="container">
-                        <h2 className="fade-item fade-item-1 heading text_white fw-7">
+                        <h2 className="fade-item fade-item-1 heading text_white fw-7 bell-t-medium">
                           {title}
                         </h2>
                         {desc && (
-                          <p className="fade-item fade-item-2 text_white">
+                          <p className="fade-item fade-item-2 text_white montserrat-regular ">
                             {desc}
                           </p>
                         )}
@@ -125,7 +125,7 @@ export default function Hero() {
                             href={`/shop-collection-sub?occasion=${occasion.id}`}
                             className="tf-btn btn-outline-light fw-5 btn-xl rounded-0"
                           >
-                            <span>Shop Collection</span>
+                            <span>Read more</span>
                             <i className="icon icon-arrow-right" />
                           </Link>
                         </div>
