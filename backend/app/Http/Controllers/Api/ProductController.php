@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -64,12 +65,11 @@ class ProductController extends Controller
         return response()->json(['message' => 'Product deleted']);
     }
     public function featured()
-{
-    $featuredProducts = Product::where('featured', 1)
-        ->with(['category.customFields', 'images', 'customValues'])
-        ->get();
+    {
+        $featuredProducts = Product::where('featured', 1)
+            ->with(['category.customFields', 'images', 'customValues'])
+            ->get();
 
-    return response()->json($featuredProducts);
-}
-
+        return response()->json($featuredProducts);
+    }
 }
