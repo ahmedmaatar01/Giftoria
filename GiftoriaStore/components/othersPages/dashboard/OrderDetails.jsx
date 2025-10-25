@@ -1,230 +1,204 @@
 "use client";
-import React, { useEffect } from "react";
-import Image from "next/image";
+
+import { useContextElement } from "@/context/Context";
+import { useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
+
 export default function OrderDetails() {
+  const { user, authToken } = useContextElement();
+  const searchParams = useSearchParams();
+  const orderId = searchParams.get("id");
+  const [order, setOrder] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [activeTab, setActiveTab] = useState(0);
+
   useEffect(() => {
-    const tabs = () => {
-      document.querySelectorAll(".widget-tabs").forEach((widgetTab) => {
-        const titles = widgetTab.querySelectorAll(
-          ".widget-menu-tab .item-title"
-        );
-
-        titles.forEach((title, index) => {
-          title.addEventListener("click", () => {
-            // Remove active class from all menu items
-            titles.forEach((item) => item.classList.remove("active"));
-            // Add active class to the clicked item
-            title.classList.add("active");
-
-            // Remove active class from all content items
-            const contentItems = widgetTab.querySelectorAll(
-              ".widget-content-tab > *"
-            );
-            contentItems.forEach((content) =>
-              content.classList.remove("active")
-            );
-
-            // Add active class and fade-in effect to the matching content item
-            const contentActive = contentItems[index];
-            contentActive.classList.add("active");
-            contentActive.style.display = "block";
-            contentActive.style.opacity = 0;
-            setTimeout(() => (contentActive.style.opacity = 1), 0);
-
-            // Hide all siblings' content
-            contentItems.forEach((content, idx) => {
-              if (idx !== index) {
-                content.style.display = "none";
-              }
-            });
-          });
+    if (!orderId || !authToken) return;
+    const fetchOrder = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await fetch(`http://localhost:8000/api/commands/${orderId}`, {
+          headers: {
+            'Authorization': `Bearer ${authToken}`,
+            'Accept': 'application/json',
+          },
         });
-      });
+        if (!res.ok) throw new Error("Failed to fetch order details");
+        const data = await res.json();
+        setOrder(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
     };
+    fetchOrder();
+  }, [orderId, authToken]);
 
-    // Call the function to initialize the tabs
-    tabs();
+  if (loading) {
+    return <div className="py-5 text-center">Loading order details...</div>;
+  }
+  if (error) {
+    return <div className="alert alert-danger">{error}</div>;
+  }
+  if (!order) {
+    return <div className="alert alert-warning">Order not found.</div>;
+  }
 
-    // Clean up event listeners when the component unmounts
-    return () => {
-      document
-        .querySelectorAll(".widget-menu-tab .item-title")
-        .forEach((title) => {
-          title.removeEventListener("click", () => {});
-        });
-    };
-  }, []);
+  // Helper: format date
+  const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+    const date = new Date(dateString);
+    return date.toLocaleString();
+  };
+
+  // Helper: get order status badge
+  const getStatusBadgeClass = (status) => {
+    switch ((status || "").toLowerCase()) {
+      case "completed":
+        return "badge bg-success";
+      case "pending":
+        return "badge bg-warning";
+      case "cancelled":
+        return "badge bg-danger";
+      case "processing":
+        return "badge bg-info";
+      default:
+        return "badge bg-secondary";
+    }
+  };
+
+  // Tab content
+  const tabTitles = ["Order History", "Item Details", "Courier", "Receiver"];
+
   return (
     <div className="wd-form-order">
       <div className="order-head">
-        <figure className="img-product">
-          <Image
-            alt="product"
-            src="/images/products/brown.jpg"
-            width="720"
-            height="1005"
-          />
-        </figure>
         <div className="content">
-          <div className="badge">In Progress</div>
-          <h6 className="mt-8 fw-5">Order #17493</h6>
+          <div className={getStatusBadgeClass(order.status)}>{order.status || "Pending"}</div>
+          <h6 className="mt-8 fw-5">Order #{order.id}</h6>
         </div>
       </div>
       <div className="tf-grid-layout md-col-2 gap-15">
         <div className="item">
-          <div className="text-2 text_black-2">Item</div>
-          <div className="text-2 mt_4 fw-6">Fashion</div>
+          <div className="text-2 text_black-2">Customer</div>
+          <div className="text-2 mt_4 fw-6">{order.customer_first_name} {order.customer_last_name}</div>
         </div>
         <div className="item">
-          <div className="text-2 text_black-2">Courier</div>
-          <div className="text-2 mt_4 fw-6">Ribbed modal T-shirt</div>
+          <div className="text-2 text_black-2">Email</div>
+          <div className="text-2 mt_4 fw-6">{order.customer_email}</div>
         </div>
         <div className="item">
-          <div className="text-2 text_black-2">Start Time</div>
-          <div className="text-2 mt_4 fw-6">04 September 2024, 13:30:23</div>
+          <div className="text-2 text_black-2">Placed At</div>
+          <div className="text-2 mt_4 fw-6">{formatDate(order.placed_at || order.created_at)}</div>
         </div>
         <div className="item">
-          <div className="text-2 text_black-2">Address</div>
-          <div className="text-2 mt_4 fw-6">
-            1234 Fashion Street, Suite 567, New York
-          </div>
+          <div className="text-2 text_black-2">Shipping Address</div>
+          <div className="text-2 mt_4 fw-6">{order.shipping_address}</div>
         </div>
       </div>
       <div className="widget-tabs style-has-border widget-order-tab">
         <ul className="widget-menu-tab">
-          <li className="item-title active">
-            <span className="inner">Order History</span>
-          </li>
-          <li className="item-title">
-            <span className="inner">Item Details</span>
-          </li>
-          <li className="item-title">
-            <span className="inner">Courier</span>
-          </li>
-          <li className="item-title">
-            <span className="inner">Receiver</span>
-          </li>
+          {tabTitles.map((title, idx) => (
+            <li
+              key={title}
+              className={"item-title" + (activeTab === idx ? " active" : "")}
+              onClick={() => setActiveTab(idx)}
+              style={{cursor:'pointer'}}
+            >
+              <span className="inner">{title}</span>
+            </li>
+          ))}
         </ul>
         <div className="widget-content-tab">
-          <div className="widget-content-inner active">
+          {/* Order History */}
+          <div className={"widget-content-inner" + (activeTab === 0 ? " active" : "")}
+            style={{display: activeTab === 0 ? 'block' : 'none'}}>
             <div className="widget-timeline">
               <ul className="timeline">
                 <li>
                   <div className="timeline-badge success" />
                   <div className="timeline-box">
-                    <a className="timeline-panel" href="#">
-                      <div className="text-2 fw-6">Product Shipped</div>
-                      <span>10/07/2024 4:30pm</span>
-                    </a>
-                    <p>
-                      <strong>Courier Service : </strong>FedEx World Service
-                      Center
-                    </p>
-                    <p>
-                      <strong>Estimated Delivery Date : </strong>12/07/2024
-                    </p>
+                    <div className="text-2 fw-6">Order Placed</div>
+                    <span>{formatDate(order.placed_at || order.created_at)}</span>
                   </div>
                 </li>
-                <li>
-                  <div className="timeline-badge success" />
-                  <div className="timeline-box">
-                    <a className="timeline-panel" href="#">
-                      <div className="text-2 fw-6">Product Shipped</div>
-                      <span>10/07/2024 4:30pm</span>
-                    </a>
-                    <p>
-                      <strong>Tracking Number : </strong>2307-3215-6759
-                    </p>
-                    <p>
-                      <strong>Warehouse : </strong>T-Shirt 10b
-                    </p>
-                  </div>
-                </li>
-                <li>
-                  <div className="timeline-badge" />
-                  <div className="timeline-box">
-                    <a className="timeline-panel" href="#">
-                      <div className="text-2 fw-6">Product Packaging</div>
-                      <span>12/07/2024 4:34pm</span>
-                    </a>
-                  </div>
-                </li>
-                <li>
-                  <div className="timeline-badge" />
-                  <div className="timeline-box">
-                    <a className="timeline-panel" href="#">
-                      <div className="text-2 fw-6">Order Placed</div>
-                      <span>11/07/2024 2:36pm</span>
-                    </a>
-                  </div>
-                </li>
+                {/* Add more timeline events if you have them in your backend */}
               </ul>
             </div>
           </div>
-          <div className="widget-content-inner">
-            <div className="order-head">
-              <figure className="img-product">
-                <Image
-                  alt="product"
-                  src="/images/products/brown.jpg"
-                  width="720"
-                  height="1005"
-                />
-              </figure>
-              <div className="content">
-                <div className="text-2 fw-6">Ribbed modal T-shirt</div>
-                <div className="mt_4">
-                  <span className="fw-6">Price :</span> $28.95
-                </div>
-                <div className="mt_4">
-                  <span className="fw-6">Size :</span> XL
-                </div>
-              </div>
-            </div>
-            <ul>
-              <li className="d-flex justify-content-between text-2">
-                <span>Total Price</span>
-                <span className="fw-6">$28.95</span>
-              </li>
-              <li className="d-flex justify-content-between text-2 mt_4 pb_8 line">
-                <span>Total Discounts</span>
-                <span className="fw-6">$10</span>
-              </li>
-              <li className="d-flex justify-content-between text-2 mt_8">
-                <span>Order Total</span>
-                <span className="fw-6">$18.95</span>
-              </li>
-            </ul>
+          {/* Item Details */}
+          <div className={"widget-content-inner" + (activeTab === 1 ? " active" : "")}
+            style={{display: activeTab === 1 ? 'block' : 'none'}}>
+            {order.products && order.products.length > 0 ? (
+              <>
+                {order.products.map((product) => (
+                  <div key={product.id} className="order-head mb-3">
+                    <div className="content">
+                      <div className="text-2 fw-6">{product.name}</div>
+                      <div className="mt_4">
+                        <span className="fw-6">Price :</span> ${parseFloat(product.pivot?.unit_price || product.price || 0).toFixed(2)}
+                      </div>
+                      <div className="mt_4">
+                        <span className="fw-6">Quantity :</span> {product.pivot?.quantity || 1}
+                      </div>
+                      {/* Custom fields if any */}
+                      {product.pivot?.custom_fields && Array.isArray(JSON.parse(product.pivot.custom_fields)) && (
+                        <div className="mt_4">
+                          <span className="fw-6">Custom Fields:</span>
+                          <ul>
+                            {JSON.parse(product.pivot.custom_fields).map((cf, idx) => (
+                              <li key={idx}>{cf.name}: {cf.value}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+                <ul>
+                  <li className="d-flex justify-content-between text-2">
+                    <span>Total Price</span>
+                    <span className="fw-6">${parseFloat(order.total || 0).toFixed(2)}</span>
+                  </li>
+                  <li className="d-flex justify-content-between text-2 mt_8">
+                    <span>Payment Method</span>
+                    <span className="fw-6">{order.payment_method || 'N/A'}</span>
+                  </li>
+                </ul>
+              </>
+            ) : (
+              <div>No products found in this order.</div>
+            )}
           </div>
-          <div className="widget-content-inner">
+          {/* Courier */}
+          <div className={"widget-content-inner" + (activeTab === 2 ? " active" : "")}
+            style={{display: activeTab === 2 ? 'block' : 'none'}}>
             <p>
-              Our courier service is dedicated to providing fast, reliable, and
-              secure delivery solutions tailored to meet your needs. Whether
-              you're sending documents, parcels, or larger shipments, our team
-              ensures that your items are handled with the utmost care and
-              delivered on time. With a commitment to customer satisfaction,
-              real-time tracking, and a wide network of routes, we make it easy
-              for you to send and receive packages both locally and
-              internationally. Choose our service for a seamless and efficient
-              delivery experience.
+              {/* You can add courier/tracking info here if available in your backend */}
+              No courier information available.
             </p>
           </div>
-          <div className="widget-content-inner">
-            <p className="text-2 text_success">
-              Thank you Your order has been received
-            </p>
+          {/* Receiver */}
+          <div className={"widget-content-inner" + (activeTab === 3 ? " active" : "")}
+            style={{display: activeTab === 3 ? 'block' : 'none'}}>
             <ul className="mt_20">
               <li>
-                Order Number : <span className="fw-7">#17493</span>
+                Order Number : <span className="fw-7">#{order.id}</span>
               </li>
               <li>
-                Date : <span className="fw-7"> 17/07/2024, 02:34pm</span>
+                Date : <span className="fw-7">{formatDate(order.placed_at || order.created_at)}</span>
               </li>
               <li>
-                Total : <span className="fw-7">$18.95</span>
+                Total : <span className="fw-7">${parseFloat(order.total || 0).toFixed(2)}</span>
               </li>
               <li>
-                Payment Methods :<span className="fw-7">Cash on Delivery</span>
+                Payment Method : <span className="fw-7">{order.payment_method || 'N/A'}</span>
+              </li>
+              <li>
+                Shipping Address : <span className="fw-7">{order.shipping_address}</span>
               </li>
             </ul>
           </div>

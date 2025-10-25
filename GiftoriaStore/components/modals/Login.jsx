@@ -1,15 +1,39 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useContextElement } from "@/context/Context";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
-  const { login, authLoading, authError } = useContextElement();
+  const { login, authLoading } = useContextElement();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+
+  // Clear error and password when modal closes
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const modalEl = document.getElementById("login");
+    if (!modalEl) return;
+
+    const handleHidden = () => {
+      setError(null);
+      setPassword("");
+    };
+    const handleShow = () => {
+      // reset error on open too
+      setError(null);
+    };
+
+    modalEl.addEventListener("hidden.bs.modal", handleHidden);
+    modalEl.addEventListener("show.bs.modal", handleShow);
+
+    return () => {
+      modalEl.removeEventListener("hidden.bs.modal", handleHidden);
+      modalEl.removeEventListener("show.bs.modal", handleShow);
+    };
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,6 +65,10 @@ export default function Login() {
             <span
               className="icon-close icon-close-popup"
               data-bs-dismiss="modal"
+              onClick={() => {
+                setError(null);
+                setPassword("");
+              }}
             />
           </div>
           <div className="tf-login-form">
@@ -77,9 +105,6 @@ export default function Login() {
               </div>
               {error && (
                 <div className="alert alert-danger py-2 my-2">{error}</div>
-              )}
-              {authError && (
-                <div className="alert alert-danger py-2 my-2">{authError}</div>
               )}
               <div>
                 <a

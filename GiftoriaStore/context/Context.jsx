@@ -359,6 +359,7 @@ export default function Context({ children }) {
   // --- AUTH ---
   user,
   setUser,
+  authToken, // Add authToken to context
   authLoading,
   authError,
   login,

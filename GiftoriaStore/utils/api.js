@@ -33,7 +33,27 @@ export const apiCall = async (endpoint, options = {}) => {
     clearTimeout(timeoutId);
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      // Try to parse a useful error message from the API
+      let errorMessage = `HTTP error! status: ${response.status}`;
+      try {
+        const errorData = await response.json();
+        if (errorData) {
+          if (typeof errorData.message === 'string' && errorData.message.trim().length) {
+            errorMessage = errorData.message;
+          }
+          // Laravel validation errors shape: { message: "...", errors: { field: ["msg1", ...] } }
+          if (errorData.errors && typeof errorData.errors === 'object') {
+            const firstField = Object.keys(errorData.errors)[0];
+            const firstMsg = firstField ? errorData.errors[firstField][0] : null;
+            if (firstMsg) {
+              errorMessage = firstMsg;
+            }
+          }
+        }
+      } catch (_) {
+        // ignore JSON parse errors; keep default message
+      }
+      throw new Error(errorMessage);
     }
 
     return await response.json();
