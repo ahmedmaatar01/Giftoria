@@ -46,6 +46,10 @@ Route::prefix('admin')->group(function () {
     Route::middleware('auth:admin')->get('dashboard', [AdminAuthController::class, 'dashboard']);
 });
 
+// Featured products must be defined BEFORE the products resource to avoid
+// route-model binding capturing 'featured' as a {product} parameter.
+Route::get('/products/featured', [ProductController::class, 'featured']);
+
 // CRUD routes for catalog
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('products', ProductController::class);
@@ -65,8 +69,7 @@ Route::patch('categories/{category}/images/{image}/featured', [CategoryControlle
 // Routes for occasion image management
 Route::delete('occasions/{occasion}/images/{image}', [OccasionController::class, 'deleteImage']);
 Route::patch('occasions/{occasion}/images/{image}/featured', [OccasionController::class, 'setFeaturedImage']);
-//featured product
-Route::get('/products/featured', [ProductController::class, 'featured']);
+// (moved) featured product route now defined above products resource
 //get commandes by user 
 Route::get('/users/{userId}/commands', [CommandController::class, 'getByUser']);
 

@@ -180,5 +180,38 @@
     "faq": "FAQ",
     "men": "Men",
     "women": "Women"
+  },
+
+  "marquee": {
+    "item1": "Let your heart bloom, discover flowers that whisper stories of timeless love.",
+    "item2": "Let your heart bloom, discover flowers that whisper stories of timeless love.",
+    "item3": "Let your heart bloom, discover flowers that whisper stories of timeless love."
+  },
+  "marquee2": {
+    "item1": "LIMITED TIME OFFER: FASHION SALE YOU CAN'T RESIST",
+    "item2": "FREE SHIPPING AND RETURN",
+    "item3": "NEW SEASON, NEW STYLES: FASHION SALE YOU CAN'T MISS"
+  },
+  "no_featured_products": "No featured products available.",
+  "cart": {
+    "title": "Shopping cart",
+    "remove": "Remove",
+    "empty_message": "Your shop cart is empty",
+    "explore_products": "Explore Products!",
+    "subtotal": "Subtotal",
+    "taxes_message": "Taxes are calculated at checkout",
+    "view_cart": "View cart",
+    "checkout": "Check out",
+    "add_order_note": "Add Order Note",
+    "note_placeholder": "How can we help you?",
+    "close": "Close",
+    "gift_wrap_question": "Do you want a gift wrap?",
+    "only": "Only",
+    "add_gift_wrap": "Add a gift wrap",
+    "cancel": "Cancel",
+    "estimate_shipping": "Estimate Shipping",
+    "country": "Country",
+    "zip_code": "Zip code",
+    "estimate": "Estimate"
   }
 }

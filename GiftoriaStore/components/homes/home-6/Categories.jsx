@@ -12,7 +12,7 @@ export default function Categories() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const { t } = useTranslation(); // ✅ use translation
-
+  const { i18n } = useTranslation();
   useEffect(() => {
     const fetchCategories = async () => {
       setLoading(true);
@@ -99,9 +99,12 @@ export default function Categories() {
                     </div>
                   </SwiperSlide>
                 ))
-              : categories.map((cat) => {
+                : categories.map((cat) => {
                   const imageUrl = resolveCategoryImage(cat) || "/images/no-image.png";
-                  const title = cat?.name || "Category";
+                  const title =
+                    i18n.language === "ar" && cat?.name_ar
+                      ? cat.name_ar
+                      : cat?.name || "Category";
                   return (
                     <SwiperSlide key={cat.id}>
                       <div className="collection-item-circle hover-img">
@@ -129,7 +132,8 @@ export default function Categories() {
                       </div>
                     </SwiperSlide>
                   );
-                })}
+                })
+}
           </Swiper>
           <div className="sw-dots style-2 sw-pagination-collection justify-content-center" />
           <div className="nav-sw nav-next-slider nav-next-collection snbp130">
