@@ -180,5 +180,16 @@
     "faq": "FAQ",
     "men": "Men",
     "women": "Women"
+  },
+
+  "marquee": {
+    "item1": "Let your heart bloom, discover flowers that whisper stories of timeless love.",
+    "item2": "Let your heart bloom, discover flowers that whisper stories of timeless love.",
+    "item3": "Let your heart bloom, discover flowers that whisper stories of timeless love."
+  },
+  "marquee2": {
+    "item1": "LIMITED TIME OFFER: FASHION SALE YOU CAN'T RESIST",
+    "item2": "FREE SHIPPING AND RETURN",
+    "item3": "NEW SEASON, NEW STYLES: FASHION SALE YOU CAN'T MISS"
   }
 }
