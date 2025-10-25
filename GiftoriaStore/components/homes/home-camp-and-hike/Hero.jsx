@@ -136,14 +136,6 @@ export default function Hero() {
               );
             })}
       </Swiper>
-      <div className="container wrap-navigation">
-        <div className="nav-sw style-white nav-next-slider navigation-next-slider box-icon w_46 round snbhp1">
-          <span className="icon icon-arrow-left" />
-        </div>
-        <div className="nav-sw style-white nav-prev-slider navigation-prev-slider box-icon w_46 round snbhn1">
-          <span className="icon icon-arrow-right" />
-        </div>
-      </div>
     </section>
   );
 }

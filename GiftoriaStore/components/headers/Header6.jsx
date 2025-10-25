@@ -129,11 +129,7 @@ export default function Header6({ isArrow, uppercase = false }) {
                   <i className="icon icon-account" />
                 </a>
               </li>
-              <li className="nav-compare">
-                <Link href={`/compare`} className="nav-icon-item" aria-label={t("header.compare")}>
-                  <i className="icon icon-compare" />
-                </Link>
-              </li>
+
               <li className="nav-wishlist">
                 <Link href={`/wishlist`} className="nav-icon-item" aria-label={t("header.wishlist")}>
                   <i className="icon icon-heart" />
@@ -189,6 +185,71 @@ export default function Header6({ isArrow, uppercase = false }) {
           display: flex;
           padding: 5px 15px;
           font-size: 14px;
+        }
+        /* Wishlist icon hover effect */
+        ul.nav-icon li.nav-wishlist a.nav-icon-item:hover i.icon-heart {
+          color: #967740 !important;
+          transition: color 0.3s ease !important;
+        }
+        ul.nav-icon li.nav-wishlist:hover i.icon {
+          color: #967740 !important;
+          transition: color 0.3s ease !important;
+        }
+        /* Extra specific selector */
+        .nav-icon .nav-wishlist .nav-icon-item:hover .icon {
+          color: #967740 !important;
+        }
+        /* Account icon hover effect */
+        ul.nav-icon li.nav-account a.nav-icon-item:hover i.icon-account {
+          color: #967740 !important;
+          transition: color 0.3s ease !important;
+        }
+        ul.nav-icon li.nav-account:hover i.icon {
+          color: #967740 !important;
+          transition: color 0.3s ease !important;
+        }
+        /* Extra specific selector for account */
+        .nav-icon .nav-account .nav-icon-item:hover .icon {
+          color: #967740 !important;
+        }
+        /* Search icon hover effect */
+        ul.nav-icon li.nav-search a.nav-icon-item:hover i.icon-search {
+          color: #967740 !important;
+          transition: color 0.3s ease !important;
+        }
+        ul.nav-icon li.nav-search:hover i.icon {
+          color: #967740 !important;
+          transition: color 0.3s ease !important;
+        }
+        /* Extra specific selector for search */
+        .nav-icon .nav-search .nav-icon-item:hover .icon {
+          color: #967740 !important;
+        }
+        /* Cart/Bag icon hover effect */
+        ul.nav-icon li.nav-cart a.nav-icon-item:hover i.icon-bag {
+          color: #967740 !important;
+          transition: color 0.3s ease !important;
+        }
+        ul.nav-icon li.nav-cart:hover i.icon {
+          color: #967740 !important;
+          transition: color 0.3s ease !important;
+        }
+        /* Extra specific selector for cart */
+        .nav-icon .nav-cart .nav-icon-item:hover .icon {
+          color: #967740 !important;
+        }
+        /* Count-box styling */
+        .count-box {
+          background-color: #967740 !important;
+          color: white !important;
+        }
+        .nav-icon .count-box {
+          background-color: #967740 !important;
+          color: white !important;
+        }
+        ul.nav-icon li .count-box {
+          background-color: #967740 !important;
+          color: white !important;
         }
       `}</style>
     </header>
