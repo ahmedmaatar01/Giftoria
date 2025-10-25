@@ -1,6 +1,7 @@
 "use client";
 // import { allProducts } from "@/data/products";
 import { fetchProducts, products1 } from "@/data/products";
+import { apiCall, API_CONFIG } from "@/utils/api";
 import { openCartModal } from "@/utlis/openCartModal";
 // import { openCart } from "@/utlis/toggleCart";
 import React, { useEffect } from "react";
@@ -19,7 +20,163 @@ export default function Context({ children }) {
   const [quickAddItem, setQuickAddItem] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
   const [apiProducts, setApiProducts] = useState([]); // Changed to empty array
-    const [allProducts, setAllProducts] = useState([]); // allProducts always mirrors apiProducts
+  const [allProducts, setAllProducts] = useState([]); // allProducts always mirrors apiProducts
+  // --- AUTH STATE ---
+  const [user, setUser] = useState(null);
+  const [authToken, setAuthToken] = useState(null);
+  const [authLoading, setAuthLoading] = useState(false);
+  const [authError, setAuthError] = useState(null);
+
+  // --- AUTH LOGIC ---
+  // Load token from localStorage on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedToken = localStorage.getItem('auth_token');
+      const savedUser = localStorage.getItem('auth_user');
+      if (savedToken && savedUser) {
+        setAuthToken(savedToken);
+        try {
+          setUser(JSON.parse(savedUser));
+        } catch (e) {
+          localStorage.removeItem('auth_token');
+          localStorage.removeItem('auth_user');
+        }
+      }
+    }
+  }, []);
+
+  // Check session on mount (validate token if exists)
+  useEffect(() => {
+    const checkSession = async () => {
+      if (!authToken) return;
+      
+      setAuthLoading(true);
+      setAuthError(null);
+      try {
+        const res = await apiCall('/user/me', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${authToken}`,
+          },
+        });
+        const userData = res.user || res;
+        setUser(userData);
+        // Update localStorage with fresh user data
+        localStorage.setItem('auth_user', JSON.stringify(userData));
+      } catch (err) {
+        console.log('[Auth] Session invalid, clearing auth state');
+        setUser(null);
+        setAuthToken(null);
+        localStorage.removeItem('auth_token');
+        localStorage.removeItem('auth_user');
+      } finally {
+        setAuthLoading(false);
+      }
+    };
+    checkSession();
+  }, [authToken]);
+
+  // Login
+  const login = async (email, password) => {
+    setAuthLoading(true);
+    setAuthError(null);
+    try {
+      const res = await apiCall('/user/login', {
+        method: 'POST',
+        body: JSON.stringify({ email, password }),
+      });
+      const userData = res.user || res;
+      const token = res.token || res.access_token;
+      
+      if (!token) {
+        throw new Error('No token received from server');
+      }
+      
+      setUser(userData);
+      setAuthToken(token);
+      
+      // Save to localStorage
+      localStorage.setItem('auth_token', token);
+      localStorage.setItem('auth_user', JSON.stringify(userData));
+      
+      return { success: true };
+    } catch (err) {
+      setAuthError(err.message || 'Login failed');
+      setUser(null);
+      setAuthToken(null);
+      return { success: false, error: err.message };
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+  // Register
+  const register = async (first_name, last_name, email, password) => {
+    setAuthLoading(true);
+    setAuthError(null);
+    try {
+      const res = await apiCall('/user/register', {
+        method: 'POST',
+        body: JSON.stringify({ first_name, last_name, email, password }),
+      });
+      const userData = res.user || res;
+      const token = res.token || res.access_token;
+      
+      if (!token) {
+        throw new Error('No token received from server');
+      }
+      
+      setUser(userData);
+      setAuthToken(token);
+      
+      // Save to localStorage
+      localStorage.setItem('auth_token', token);
+      localStorage.setItem('auth_user', JSON.stringify(userData));
+      
+      return { success: true };
+    } catch (err) {
+      setAuthError(err.message || 'Registration failed');
+      setUser(null);
+      setAuthToken(null);
+      return { success: false, error: err.message };
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+  // Logout
+  const logout = async () => {
+    setAuthLoading(true);
+    setAuthError(null);
+    try {
+      if (authToken) {
+        await apiCall('/user/logout', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${authToken}`,
+          },
+        });
+      }
+      
+      // Clear state and localStorage
+      setUser(null);
+      setAuthToken(null);
+      localStorage.removeItem('auth_token');
+      localStorage.removeItem('auth_user');
+      
+      return { success: true };
+    } catch (err) {
+      setAuthError(err.message || 'Logout failed');
+      // Clear anyway even if API call fails
+      setUser(null);
+      setAuthToken(null);
+      localStorage.removeItem('auth_token');
+      localStorage.removeItem('auth_user');
+      return { success: false, error: err.message };
+    } finally {
+      setAuthLoading(false);
+    }
+  };
   const [loading, setLoading] = useState(false);
 
   // Load products from API
@@ -197,8 +354,16 @@ export default function Context({ children }) {
     compareItem,
     setCompareItem,
     updateQuantity,
-    apiProducts, // Add API products to context
-    loading, // Add loading state
+  apiProducts, // Add API products to context
+  loading, // Add loading state
+  // --- AUTH ---
+  user,
+  setUser,
+  authLoading,
+  authError,
+  login,
+  register,
+  logout,
   };
   return (
     <dataContext.Provider value={contextElement}>

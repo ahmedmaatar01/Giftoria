@@ -1,7 +1,34 @@
 "use client";
-import React from "react";
+
+import React, { useState } from "react";
+import { useContextElement } from "@/context/Context";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const { login, authLoading, authError } = useContextElement();
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+    const res = await login(email, password);
+    if (res.success) {
+      // Close modal
+      if (typeof window !== "undefined" && window.bootstrap) {
+        const modal = document.getElementById("login");
+        if (modal) {
+          const bsModal = window.bootstrap.Modal.getOrCreateInstance(modal);
+          bsModal.hide();
+        }
+      }
+      router.push("/my-account");
+    } else {
+      setError(res.error || "Login failed");
+    }
+  };
   return (
     <div
       className="modal modalCentered fade form-sign-in modal-part-content"
@@ -17,21 +44,19 @@ export default function Login() {
             />
           </div>
           <div className="tf-login-form">
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className=""
-              acceptCharset="utf-8"
-            >
+            <form onSubmit={handleSubmit} className="" acceptCharset="utf-8">
               <div className="tf-field style-1">
                 <input
                   className="tf-field-input tf-input"
                   placeholder=" "
                   type="email"
-                  name=""
+                  name="email"
                   required
-                  autoComplete="abc@xyz.com"
+                  autoComplete="email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
                 />
-                <label className="tf-field-label" htmlFor="">
+                <label className="tf-field-label" htmlFor="email">
                   Email *
                 </label>
               </div>
@@ -40,14 +65,22 @@ export default function Login() {
                   className="tf-field-input tf-input"
                   placeholder=" "
                   type="password"
-                  name=""
+                  name="password"
                   required
                   autoComplete="current-password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
                 />
-                <label className="tf-field-label" htmlFor="">
+                <label className="tf-field-label" htmlFor="password">
                   Password *
                 </label>
               </div>
+              {error && (
+                <div className="alert alert-danger py-2 my-2">{error}</div>
+              )}
+              {authError && (
+                <div className="alert alert-danger py-2 my-2">{authError}</div>
+              )}
               <div>
                 <a
                   href="#forgotPassword"
@@ -62,8 +95,9 @@ export default function Login() {
                   <button
                     type="submit"
                     className="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
+                    disabled={authLoading}
                   >
-                    <span>Log in</span>
+                    <span>{authLoading ? "Logging in..." : "Log in"}</span>
                   </button>
                 </div>
                 <div className="w-100">

@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useContextElement } from "@/context/Context";
 const accountLinks = [
   { href: "/my-account", label: "Dashboard" },
   { href: "/my-account-orders", label: "Orders" },
@@ -11,6 +12,14 @@ const accountLinks = [
 
 export default function DashboardNav() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { logout } = useContextElement();
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    await logout();
+    router.push("/");
+  };
   return (
     <ul className="my-account-nav">
       {accountLinks.map((link, index) => (
@@ -26,9 +35,9 @@ export default function DashboardNav() {
         </li>
       ))}
       <li>
-        <Link href={`/login`} className="my-account-nav-item">
+        <a href="#logout" className="my-account-nav-item" onClick={handleLogout}>
           Logout
-        </Link>
+        </a>
       </li>
     </ul>
   );

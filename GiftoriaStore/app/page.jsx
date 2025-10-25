@@ -22,24 +22,20 @@ export const metadata = {
 export default function Home() {
   return (
     <>
-      {/* <Topbar1 /> */}
-      {/* <Header10/> */}
-      <Header6/>
+      <Header6 />
+      <HeroHome1 />
+      <Marquee />
+      <HeroCamp />
 
-      
-  <HeroHome1 />
-  <Marquee />
-  <HeroCamp />
- 
-      
-  <Categories />
-  <div style={{ marginTop: '60px' }} />
-  <Banner2 />
+
+      <Categories />
+      <div style={{ marginTop: '60px' }} />
+      <Banner2 />
       <div style={{ marginTop: '60px' }} />
       <Products2 />
       <div style={{ marginTop: '60px' }} />
       <FeaturesHomeFood />
-      
+
       <BannerHome1
         bgUrl="images/slider/fashion-slideshow-01.jpg"
         heading="JOIN THE GIFTORIA CIRCLE"

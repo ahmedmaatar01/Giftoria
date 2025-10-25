@@ -8,9 +8,39 @@ import CartLength from "../common/CartLength";
 import WishlistLength from "../common/WishlistLength";
 import { useTranslation } from "react-i18next";
 import LanguageSelect from "../common/LanguageSelect"; // <-- make sure this path is correct
+import { useRouter } from "next/navigation";
+import { useContextElement } from "@/context/Context";
 
 export default function Header6({ isArrow, uppercase = false }) {
   const { t } = useTranslation();
+  const router = useRouter();
+  const { user } = useContextElement();
+
+  const handleAccountClick = (e) => {
+    e.preventDefault();
+    console.log(user);
+    if (user) {
+      router.push("/my-account");
+    } else {
+      // Open login modal programmatically
+      if (typeof window !== "undefined") {
+        // Wait for next tick to ensure Bootstrap is loaded
+        setTimeout(() => {
+          const modal = document.getElementById("login");
+          if (modal) {
+            // Import bootstrap dynamically and show modal
+            import("bootstrap/dist/js/bootstrap.esm").then((bootstrap) => {
+              const bsModal = new bootstrap.Modal(modal);
+              bsModal.show();
+            }).catch(() => {
+              // Fallback: just set hash if bootstrap fails to load
+              window.location.hash = "#login";
+            });
+          }
+        }, 0);
+      }
+    }
+  };
 
   useEffect(() => {
     const header = document.getElementById("header");
@@ -90,7 +120,12 @@ export default function Header6({ isArrow, uppercase = false }) {
                 </a>
               </li>
               <li className="nav-account">
-                <a href="#login" data-bs-toggle="modal" className="nav-icon-item" aria-label={t("header.account")}>
+                <a 
+                  href="#login" 
+                  className="nav-icon-item" 
+                  aria-label={t("header.account")}
+                  onClick={handleAccountClick}
+                >
                   <i className="icon icon-account" />
                 </a>
               </li>

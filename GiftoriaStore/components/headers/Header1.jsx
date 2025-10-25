@@ -1,10 +1,34 @@
+"use client";
 import React from "react";
 import Nav from "./Nav";
 import Image from "next/image";
 import Link from "next/link";
 import CartLength from "../common/CartLength";
 import WishlistLength from "../common/WishlistLength";
+import { useRouter } from "next/navigation";
+import { useContextElement } from "@/context/Context";
 export default function Header1() {
+  const router = useRouter();
+  const { user } = useContextElement();
+
+  const handleAccountClick = (e) => {
+    e.preventDefault();
+    if (user) {
+      router.push("/my-account");
+    } else {
+      // Open login modal
+      if (typeof window !== "undefined") {
+        const modal = document.getElementById("login");
+        if (modal && window.bootstrap) {
+          const bsModal = window.bootstrap.Modal.getOrCreateInstance(modal);
+          bsModal.show();
+        } else {
+          // fallback: set hash
+          window.location.hash = "#login";
+        }
+      }
+    }
+  };
   return (
     <header id="header" className="header-default header-absolute">
       <div className="px_15 lg-px_40">
@@ -62,8 +86,8 @@ export default function Header1() {
               <li className="nav-account">
                 <a
                   href="#login"
-                  data-bs-toggle="modal"
                   className="nav-icon-item"
+                  onClick={handleAccountClick}
                 >
                   <i className="icon icon-account" />
                 </a>
