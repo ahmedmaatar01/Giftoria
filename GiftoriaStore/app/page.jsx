@@ -4,7 +4,6 @@ import Header10 from "@/components/headers/Header10";
 import Topbar1 from "@/components/headers/Topbar1";
 import Products2 from "@/components/homes/home-baby/Products2";
 import Store from "@/components/homes/home-2/Store";
-import CategoriesAlt from "@/components/homes/multi-brand/CategoriesAlt";
 import HeroCamp from "@/components/homes/home-camp-and-hike/Hero";
 import Banner2 from "@/components/homes/home-food/Banner2";
 import BannerHome1 from "@/components/homes/home-1/BannerHome1";

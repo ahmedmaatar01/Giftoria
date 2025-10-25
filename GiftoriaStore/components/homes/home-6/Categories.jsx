@@ -51,7 +51,7 @@ export default function Categories() {
     return `http://localhost:8000/storage/${candidate}`;
   };
   return (
-    <section className="flat-spacing-12 bg_grey-3">
+    <section className="flat-spacing-12">
       <div className="container">
         <div
           className="flat-title flex-row justify-content-between align-items-center px-0 wow fadeInUp"
