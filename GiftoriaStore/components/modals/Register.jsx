@@ -1,7 +1,34 @@
 "use client";
-import React from "react";
-import Link from "next/link";
+import React, { useState } from "react";
+import { useContextElement } from "@/context/Context";
+import { useRouter } from "next/navigation";
 export default function Register() {
+  const { register, authLoading, authError } = useContextElement();
+  const router = useRouter();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+    const res = await register(firstName, lastName, email, password);
+    if (res.success) {
+      // Close modal
+      if (typeof window !== "undefined" && window.bootstrap) {
+        const modal = document.getElementById("register");
+        if (modal) {
+          const bsModal = window.bootstrap.Modal.getOrCreateInstance(modal);
+          bsModal.hide();
+        }
+      }
+      router.push("/my-account");
+    } else {
+      setError(res.error || "Registration failed");
+    }
+  };
   return (
     <div
       className="modal modalCentered fade form-sign-in modal-part-content"
@@ -17,16 +44,18 @@ export default function Register() {
             />
           </div>
           <div className="tf-login-form">
-            <form onSubmit={(e) => e.preventDefault()} className="">
+            <form onSubmit={handleSubmit} className="">
               <div className="tf-field style-1">
                 <input
                   className="tf-field-input tf-input"
                   placeholder=" "
                   type="text"
                   required
-                  name=""
+                  name="firstName"
+                  value={firstName}
+                  onChange={e => setFirstName(e.target.value)}
                 />
-                <label className="tf-field-label" htmlFor="">
+                <label className="tf-field-label" htmlFor="firstName">
                   First name
                 </label>
               </div>
@@ -36,9 +65,11 @@ export default function Register() {
                   placeholder=" "
                   type="text"
                   required
-                  name=""
+                  name="lastName"
+                  value={lastName}
+                  onChange={e => setLastName(e.target.value)}
                 />
-                <label className="tf-field-label" htmlFor="">
+                <label className="tf-field-label" htmlFor="lastName">
                   Last name
                 </label>
               </div>
@@ -47,11 +78,13 @@ export default function Register() {
                   className="tf-field-input tf-input"
                   placeholder=" "
                   type="email"
-                  autoComplete="abc@xyz.com"
+                  autoComplete="email"
                   required
-                  name=""
+                  name="email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
                 />
-                <label className="tf-field-label" htmlFor="">
+                <label className="tf-field-label" htmlFor="email">
                   Email *
                 </label>
               </div>
@@ -61,21 +94,30 @@ export default function Register() {
                   placeholder=" "
                   type="password"
                   required
-                  name=""
+                  name="password"
                   autoComplete="current-password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
                 />
-                <label className="tf-field-label" htmlFor="">
+                <label className="tf-field-label" htmlFor="password">
                   Password *
                 </label>
               </div>
+              {error && (
+                <div className="alert alert-danger py-2 my-2">{error}</div>
+              )}
+              {authError && (
+                <div className="alert alert-danger py-2 my-2">{authError}</div>
+              )}
               <div className="bottom">
                 <div className="w-100">
-                  <Link
-                    href={`/register`}
+                  <button
+                    type="submit"
                     className="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
+                    disabled={authLoading}
                   >
-                    <span>Register</span>
-                  </Link>
+                    <span>{authLoading ? "Registering..." : "Register"}</span>
+                  </button>
                 </div>
                 <div className="w-100">
                   <a
