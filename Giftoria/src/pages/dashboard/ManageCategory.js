@@ -13,6 +13,7 @@ const ManageCategory = () => {
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState({ 
     name: '', 
+    name_ar: '', 
     slug: '', 
     description: '', 
     parent_id: '', 
@@ -24,6 +25,7 @@ const ManageCategory = () => {
   // Defensive: always ensure form is never null/undefined and all fields are strings/bools
   const safeForm = form && typeof form === 'object' ? {
     name: form.name ?? '',
+    name_ar: form.name_ar ?? '',
     slug: form.slug ?? '',
     description: form.description ?? '',
     parent_id: form.parent_id ?? '',
@@ -78,6 +80,7 @@ const ManageCategory = () => {
     if (cat && typeof cat === 'object') {
       setForm({
         name: cat.name ?? '',
+        name_ar: cat.name_ar ?? '',
         slug: cat.slug ?? '',
         description: cat.description ?? '',
         parent_id: cat.parent_id ?? '',
@@ -109,6 +112,7 @@ const ManageCategory = () => {
       // Prepare data with proper boolean conversion
       const categoryData = {
         name: form.name,
+        name_ar: form.name_ar,
         slug: form.slug,
         description: form.description,
         parent_id: form.parent_id || null,
@@ -138,6 +142,7 @@ const ManageCategory = () => {
       // Add other fields to FormData for consistency with proper boolean
       if (hasImages) {
         formData.append('name', form.name);
+        formData.append('name_ar', form.name_ar);
         formData.append('slug', form.slug);
         formData.append('description', form.description);
         formData.append('parent_id', form.parent_id || '');
@@ -224,20 +229,33 @@ const ManageCategory = () => {
         </Card.Header>
         <Card.Body>
           <Table responsive className="align-items-center table-flush">
-            <thead className="thead-light">
+          <thead className="thead-light">
               <tr>
-                <th>Name</th>
+                <th>Name (EN)</th>
+                <th>Name (AR)</th>
                 <th>Slug</th>
                 <th>Parent</th>
                 <th>Show Menu</th>
                 <th>Image</th>
                 <th>Actions</th>
               </tr>
-            </thead>
+          </thead>
+
             <tbody>
               {filteredCategories.map(cat => (
                 <tr key={cat.id}>
-                  <td>{cat.name}</td>
+                  <td>
+                    {cat.name}
+                  </td>
+                  <td>
+                  {cat.name_ar && (
+                      <div className="text-muted" dir="rtl">
+                        {cat.name_ar}
+                      </div>
+                    )}
+                  </td>
+              
+
                   <td>{cat.slug}</td>
                   <td>{cat.parent ? cat.parent.name : ''}</td>
                   <td>{cat.show_menu ? 'Yes' : 'No'}</td>
@@ -286,19 +304,28 @@ const ManageCategory = () => {
           {safeForm && typeof safeForm === 'object' ? (
             <Form>
               <Row>
-                <Col md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control name="name" value={safeForm.name || ''} onChange={handleChange} required />
-                  </Form.Group>
-                </Col>
-                <Col md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Slug</Form.Label>
-                    <Form.Control name="slug" value={safeForm.slug || ''} onChange={handleChange} required />
-                  </Form.Group>
-                </Col>
-              </Row>
+  <Col md={6}>
+    <Form.Group className="mb-3">
+      <Form.Label>Name (English)</Form.Label>
+      <Form.Control name="name" value={safeForm.name || ''} onChange={handleChange} required />
+    </Form.Group>
+  </Col>
+  <Col md={6}>
+    <Form.Group className="mb-3">
+      <Form.Label>Name (Arabic)</Form.Label>
+      <Form.Control name="name_ar" value={safeForm.name_ar || ''} onChange={handleChange} required />
+    </Form.Group>
+  </Col>
+</Row>
+<Row>
+  <Col md={12}>
+    <Form.Group className="mb-3">
+      <Form.Label>Slug</Form.Label>
+      <Form.Control name="slug" value={safeForm.slug || ''} onChange={handleChange} required />
+    </Form.Group>
+  </Col>
+</Row>
+
               
               <Form.Group className="mb-3">
                 <Form.Label>Description</Form.Label>
