@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { products1 } from "@/data/products";
@@ -16,7 +16,37 @@ import { useTranslation } from "react-i18next";
 
 export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
   const pathname = usePathname();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+  
+  const [occasions, setOccasions] = useState([]);
+  const [loadingOccasions, setLoadingOccasions] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+    (async () => {
+      try {
+        const res = await fetch(`${API_BASE}/api/occasions`, {
+          headers: { "Accept": "application/json" },
+          cache: "no-store",
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (isMounted) {
+          // Filter occasions that have show_menu = true
+          const menuOccasions = Array.isArray(data) 
+            ? data.filter(occ => occ.show_menu === true || occ.show_menu === 1)
+            : [];
+          setOccasions(menuOccasions);
+        }
+      } catch (err) {
+        console.error("Failed to fetch occasions:", err);
+      } finally {
+        if (isMounted) setLoadingOccasions(false);
+      }
+    })();
+    return () => { isMounted = false; };
+  }, [API_BASE]);
 
   const isMenuActive = (menuItem) => {
     let active = false;
@@ -69,95 +99,45 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
           {t("menu.home")}
         </Link>
       </li>
-
       <li className="menu-item">
-        <a
-          href="#"
-          className={`item-link ${Linkfs} ${textColor} ${isMenuActive(productsPages) ? "activeMenu" : ""}`}
+        <Link
+          href="/shop-left-sidebar"
+          className={`item-link ${Linkfs} ${textColor} ${pathname === "/shop-left-sidebar" ? "activeMenu" : ""}`}
         >
           {t("menu.shop")}
-          {isArrow && <i className="icon icon-arrow-down" />}
+        </Link>
+      </li>
+      <li className="menu-item position-relative">
+        <a
+          href="#"
+          className={`item-link ${Linkfs} ${textColor} ${pathname.includes('/occasion') ? "activeMenu" : ""}`}
+        >
+          {i18n.language === 'ar' ? 'المناسبات' : 'Occasions'}
+          {isArrow ? <i className="icon icon-arrow-down" /> : ""}
         </a>
-        <div className="sub-menu mega-menu">
-          <div className="container">
-            <div className="row">
-              {productsPages.map((menu, index) => (
-                <div className="col-lg-2" key={index}>
-                  <div className="mega-menu-item">
-                    <div className="menu-heading">{t(menu.heading)}</div>
-                    <ul className="menu-list">
-                      {menu.links.map((link, linkIndex) => (
-                        <li key={linkIndex}>
-                          <Link
-                            href={link.href}
-                            className={`menu-link-text link ${isMenuActive(link) ? "activeMenu" : ""}`}
-                          >
-                            {t(link.text)}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              ))}
-
-              <div className="col-lg-3">
-                <div className="collection-item hover-img">
-                  <div className="collection-inner">
-                    <Link href={`/home-men`} className="collection-image img-style">
-                      <Image
-                        className="lazyload"
-                        data-src="/images/collections/collection-1.jpg"
-                        alt="Men"
-                        src="/images/collections/collection-1.jpg"
-                        width="1000"
-                        height="1215"
-                      />
-                    </Link>
-                    <div className="collection-content">
-                      <Link
-                        href={`/home-men`}
-                        className="tf-btn hover-icon btn-xl collection-title fs-16"
-                      >
-                        <span>{t("menu.men")}</span>
-                        <i className="icon icon-arrow1-top-left" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-lg-3">
-                <div className="collection-item hover-img">
-                  <div className="collection-inner">
-                    <Link href={`/shop-women`} className="collection-image img-style">
-                      <Image
-                        className="lazyload"
-                        data-src="/images/collections/collection-2.jpg"
-                        alt="Women"
-                        src="/images/collections/collection-2.jpg"
-                        width="500"
-                        height="607"
-                      />
-                    </Link>
-                    <div className="collection-content">
-                      <Link
-                        href={`/shop-women`}
-                        className="tf-btn btn-xl collection-title fs-16 hover-icon"
-                      >
-                        <span>{t("menu.women")}</span>
-                        <i className="icon icon-arrow1-top-left" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
+        <div className="sub-menu links-default">
+          <ul className="menu-list">
+            {!loadingOccasions && occasions.length > 0 ? (
+              occasions.map((occasion, index) => (
+                <li key={index}>
+                  <Link
+                    href={`/shop-collection-sub?occasion=${occasion.id}`}
+                    className={`menu-link-text link text_black-2 ${pathname.includes('shop-collection-sub') && typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('occasion') === String(occasion.id) ? "activeMenu" : ""}`}
+                  >
+                    {i18n.language === 'ar' && occasion.arabic_name 
+                      ? occasion.arabic_name 
+                      : occasion.name}
+                  </Link>
+                </li>
+              ))
+            ) : (
+              <li className="text-muted small px-3">
+                {loadingOccasions ? 'Loading...' : 'No occasions available'}
+              </li>
+            )}
+          </ul>
         </div>
       </li>
-
       <li className="menu-item">
         <Link href="/about-us" className={`item-link ${Linkfs} ${textColor}`}>
           {t("menu.about")}
@@ -175,6 +155,7 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
           {t("menu.faq")}
         </Link>
       </li>
+
     </>
   );
 }

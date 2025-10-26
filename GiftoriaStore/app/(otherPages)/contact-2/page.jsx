@@ -1,5 +1,5 @@
 import Footer1 from "@/components/footers/Footer1";
-import Header10 from "@/components/headers/Header10";
+import Header6 from "@/components/headers/Header6";
 import ContactForm2 from "@/components/othersPages/contact/ContactForm2";
 import Map2 from "@/components/othersPages/contact/Map2";
 import React from "react";
@@ -13,7 +13,6 @@ export const metadata = {
 export default function page() {
   return (
     <>
-      <Topbar1 />
       <Header10 />
       <HeroContact />
       <Map2 />

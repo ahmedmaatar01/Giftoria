@@ -6,14 +6,12 @@ import ShopCollections from "@/components/shop/ShopCollections";
 import React from "react";
 
 export const metadata = {
-  title:
-    "Product Collection List || Ecomus - Ultimate Nextjs Ecommerce Template",
-  description: "Ecomus - Ultimate Nextjs Ecommerce Template",
+  title: "giftoria Store",
+  description: "Luxury personalized gifts crafted with elegance and emotion for every special moment.",
 };
 export default function page() {
   return (
     <>
-      <Topbar1 />
       <Header10 />
       <div className="tf-page-title">
         <div className="container-full">

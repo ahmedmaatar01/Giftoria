@@ -13,7 +13,7 @@ export default function Header10() {
   const { t } = useTranslation();
 
   return (
-    <header id="header" className="header-default">
+    <header id="header" className="header-default header-style-10">
       <div className="px_15 lg-px_40">
         <div className="row wrapper-header align-items-center">
           {/* Mobile Menu */}

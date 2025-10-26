@@ -46,7 +46,6 @@ export default function Page() {
 
   return (
     <>
-      <Topbar1 />
       <Header10 />
       <div className="tf-page-title">
         <div className="container-full">
