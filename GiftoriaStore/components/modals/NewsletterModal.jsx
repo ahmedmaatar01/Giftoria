@@ -45,27 +45,35 @@ export default function NewsletterModal() {
   };
   const modalElement = useRef();
   useEffect(() => {
-    const showModal = async () => {
-      if (pathname === "/") {
-        const bootstrap = await import("bootstrap"); // dynamically import bootstrap
-        const myModal = new bootstrap.Modal(
-          document.getElementById("newsletterPopup"),
-          {
-            keyboard: false,
-          }
-        );
+    // Newsletter modal disabled - will never show automatically
+    // const showModal = async () => {
+    //   if (pathname === "/") {
+    //     // Check if user has already seen the newsletter modal
+    //     const hasSeenNewsletter = localStorage.getItem('hasSeenNewsletterModal');
+        
+    //     if (!hasSeenNewsletter) {
+    //       const bootstrap = await import("bootstrap"); // dynamically import bootstrap
+    //       const myModal = new bootstrap.Modal(
+    //         document.getElementById("newsletterPopup"),
+    //         {
+    //           keyboard: false,
+    //         }
+    //       );
 
-        // Show the modal after a delay using a promise
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        myModal.show();
+    //       // Show the modal after a delay using a promise
+    //       await new Promise((resolve) => setTimeout(resolve, 2000));
+    //       myModal.show();
 
-        modalElement.current.addEventListener("hidden.bs.modal", () => {
-          myModal.hide();
-        });
-      }
-    };
+    //       modalElement.current.addEventListener("hidden.bs.modal", () => {
+    //         // Mark that user has seen the modal
+    //         localStorage.setItem('hasSeenNewsletterModal', 'true');
+    //         myModal.hide();
+    //       });
+    //     }
+    //   }
+    // };
 
-    showModal();
+    // showModal();
   }, [pathname]);
   return (
     <div

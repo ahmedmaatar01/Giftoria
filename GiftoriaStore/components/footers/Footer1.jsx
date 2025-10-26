@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import axios from "axios";
 import LanguageSelect from "../common/LanguageSelect";
 import CurrencySelect from "../common/CurrencySelect";
 
@@ -28,41 +27,6 @@ export default function Footer1({ bgColor = "" }) {
       });
     };
   }, []);
-
-  const formRef = useRef();
-  const [success, setSuccess] = useState(true);
-  const [showMessage, setShowMessage] = useState(false);
-
-  const handleShowMessage = () => {
-    setShowMessage(true);
-    setTimeout(() => {
-      setShowMessage(false);
-    }, 2000);
-  };
-
-  const sendEmail = async (e) => {
-    e.preventDefault();
-    const email = e.target.email.value;
-    try {
-      const response = await axios.post(
-        "https://express-brevomail.vercel.app/api/contacts",
-        { email }
-      );
-      if ([200, 201].includes(response.status)) {
-        e.target.reset();
-        setSuccess(true);
-        handleShowMessage();
-      } else {
-        setSuccess(false);
-        handleShowMessage();
-      }
-    } catch (error) {
-      console.error("Error:", error.response?.data || "An error occurred");
-      setSuccess(false);
-      handleShowMessage();
-      e.target.reset();
-    }
-  };
 
   return (
     <footer id="footer" className={`footer md-pb-70 ${bgColor}`}>
@@ -140,68 +104,20 @@ export default function Footer1({ bgColor = "" }) {
                 </ul>
               </div>
 
-              {/* Newsletter section */}
+              {/* Language and Currency section */}
               <div className="col-xl-3 col-md-6 col-12">
                 <div className="footer-newsletter footer-col-block">
                   <div className="footer-heading footer-heading-desktop">
-                    <h6 className="bell-t-medium">{t("footer_sign_up_email")}</h6>
+                    <h6 className="bell-t-medium">Language Support</h6>
                   </div>
                   <div className="footer-heading footer-heading-moblie">
-                    <h6 className="bell-t-medium">{t("footer_sign_up_email")}</h6>
+                    <h6 className="bell-t-medium">Language Support</h6>
                   </div>
                   <div className="tf-collapse-content">
                     <div className="footer-menu_item montserrat-regular" style={{ fontSize: '12px' }}>
-                      {t("footer_newsletter_text")}
+                      Our website supports multiple languages
                     </div>
-                    <div className={`tfSubscribeMsg ${showMessage ? "active" : ""}`}>
-                      {success ? (
-                        <p style={{ color: "rgb(52, 168, 83)" }}>
-                          {t("footer_subscribe_success")}
-                        </p>
-                      ) : (
-                        <p style={{ color: "red" }}>
-                          {t("footer_subscribe_error")}
-                        </p>
-                      )}
-                    </div>
-                    <form
-                      ref={formRef}
-                      onSubmit={sendEmail}
-                      className="form-newsletter subscribe-form"
-                      action="#"
-                      method="post"
-                      acceptCharset="utf-8"
-                      data-mailchimp="true"
-                    >
-                      <div className="subscribe-content">
-                        <fieldset className="email">
-                          <input
-                            required
-                            type="email"
-                            name="email"
-                            className="subscribe-email"
-                            placeholder={t("footer_enter_email_placeholder")}
-                            tabIndex={0}
-                            aria-required="true"
-                            autoComplete="abc@xyz.com"
-                          />
-                        </fieldset>
-                        <div className="button-submit">
-                          <button
-                            className="subscribe-button tf-btn btn-sm radius-3 btn-fill btn-icon animate-hover-btn"
-                            type="submit"
-                          >
-                            {t("footer_subscribe_button")}
-                            <i className="icon icon-arrow1-top-left" />
-                          </button>
-                        </div>
-                      </div>
-                      <div className="subscribe-msg" />
-                    </form>
                     <div className="tf-cur">
-                      <div className="tf-currencies">
-                        <CurrencySelect />
-                      </div>
                       <div className="tf-languages">
                         <LanguageSelect />
                       </div>

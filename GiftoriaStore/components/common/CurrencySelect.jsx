@@ -63,17 +63,15 @@ export default function CurrencySelect({ topStart = false, light = false }) {
         title="USD $ | United States"
       >
         <div className="filter-option">
-          <div className="filter-option-inner">
-            <div className="filter-option-inner-inner">
-              <Image
-                src={selected.thumbnail}
-                width="640"
-                height="480"
-                alt="image"
-              />
-              {selected.text}
-            </div>
-          </div>{" "}
+          <div className="filter-option-inner-inner">
+            <Image
+              src={selected.thumbnail}
+              width="640"
+              height="480"
+              alt="image"
+            />
+            {selected.text}
+          </div>
         </div>
       </button>
       <div

@@ -58,7 +58,7 @@ export default function Categories() {
           data-wow-delay="0s"
         >
           <h3 className="bell-t-medium heading-30">{t("categoriesAlt.sectionTitle")}</h3>
-          <Link href={`/shop-collection-sub`} className="tf-btn btn-line">
+          <Link href={`/shop-left-sidebar`} className="tf-btn btn-line">
             {t("categoriesAlt.viewAllCategories")}
             <i className="icon icon-arrow1-top-left" />
           </Link>

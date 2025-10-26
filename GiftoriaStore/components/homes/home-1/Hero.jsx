@@ -29,7 +29,7 @@ export default function Hero() {
               {t("hero_description")}
             </p>
             <Link
-              href="/shop-women"
+              href="/shop-left-sidebar"
               className="tf-btn btn-md btn-light-icon btn-icon radius-3 animate-hover-btn"
             >
               <span>{t("hero_button")}</span>

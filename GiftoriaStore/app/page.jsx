@@ -34,7 +34,7 @@ export default function Home() {
         bgUrl="images/slider/fashion-slideshow-01.jpg"
         heading="JOIN THE GIFTORIA CIRCLE"
         description={`Become a part of our exclusive community and enjoy special benefits, early access to new collections, and personalized offers.`}
-        buttonLink="/shop-collection-sub"
+        buttonLink="/contact-2"
         buttonLabel="Get in Touch"
       />
       <Store />

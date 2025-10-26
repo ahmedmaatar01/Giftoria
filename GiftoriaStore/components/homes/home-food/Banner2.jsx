@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 export default function Banner2({
   bgUrl = "/images/slider/food-banner-collection.jpg",
-  buttonLink = "/shop-collection-sub",
+  buttonLink = "/shop-left-sidebar",
 }) {
   const { t, i18n } = useTranslation();
   const isArabic = i18n.language === "ar";
