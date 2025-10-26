@@ -123,6 +123,95 @@ export default function Header10() {
           </div>
         </div>
       </div>
+            <style jsx>{`
+        .sticky-header {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          z-index: 9999;
+          transition: all 0.3s ease;
+        }
+        .header-white {
+          background-color: transparent;
+        }
+        .bg-white {
+          background-color: #ffffff !important;
+        }
+        .header-shadow {
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .top-bar {
+          display: flex;
+          padding: 5px 15px;
+          font-size: 14px;
+        }
+        /* Wishlist icon hover effect */
+        ul.nav-icon li.nav-wishlist a.nav-icon-item:hover i.icon-heart {
+          color: #967740 !important;
+          transition: color 0.3s ease !important;
+        }
+        ul.nav-icon li.nav-wishlist:hover i.icon {
+          color: #967740 !important;
+          transition: color 0.3s ease !important;
+        }
+        /* Extra specific selector */
+        .nav-icon .nav-wishlist .nav-icon-item:hover .icon {
+          color: #967740 !important;
+        }
+        /* Account icon hover effect */
+        ul.nav-icon li.nav-account a.nav-icon-item:hover i.icon-account {
+          color: #967740 !important;
+          transition: color 0.3s ease !important;
+        }
+        ul.nav-icon li.nav-account:hover i.icon {
+          color: #967740 !important;
+          transition: color 0.3s ease !important;
+        }
+        /* Extra specific selector for account */
+        .nav-icon .nav-account .nav-icon-item:hover .icon {
+          color: #967740 !important;
+        }
+        /* Search icon hover effect */
+        ul.nav-icon li.nav-search a.nav-icon-item:hover i.icon-search {
+          color: #967740 !important;
+          transition: color 0.3s ease !important;
+        }
+        ul.nav-icon li.nav-search:hover i.icon {
+          color: #967740 !important;
+          transition: color 0.3s ease !important;
+        }
+        /* Extra specific selector for search */
+        .nav-icon .nav-search .nav-icon-item:hover .icon {
+          color: #967740 !important;
+        }
+        /* Cart/Bag icon hover effect */
+        ul.nav-icon li.nav-cart a.nav-icon-item:hover i.icon-bag {
+          color: #967740 !important;
+          transition: color 0.3s ease !important;
+        }
+        ul.nav-icon li.nav-cart:hover i.icon {
+          color: #967740 !important;
+          transition: color 0.3s ease !important;
+        }
+        /* Extra specific selector for cart */
+        .nav-icon .nav-cart .nav-icon-item:hover .icon {
+          color: #967740 !important;
+        }
+        /* Count-box styling */
+        .count-box {
+          background-color: #967740 !important;
+          color: white !important;
+        }
+        .nav-icon .count-box {
+          background-color: #967740 !important;
+          color: white !important;
+        }
+        ul.nav-icon li .count-box {
+          background-color: #967740 !important;
+          color: white !important;
+        }
+      `}</style>
     </header>
   );
 }

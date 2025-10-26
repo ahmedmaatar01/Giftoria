@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 export default function BannerHome1({
   bgUrl = "/images/slider/food-banner-collection.jpg",
-  buttonLink = "/shop-collection-sub",
+  buttonLink = "/contact-2",
   heading,
   description,
   buttonLabel,
@@ -19,7 +19,7 @@ export default function BannerHome1({
     >
       <div className="box-content">
         <div className="container">
-          <Link href={buttonLink} className="text-md-start text-center">
+          <div className="text-md-start text-center">
             <h4 className="heading mb-3">
               <span className="bell-t-medium heading-30">{heading ? heading : t("banner3_heading")}</span>
             </h4>
@@ -30,11 +30,13 @@ export default function BannerHome1({
               <span className="montserrat-regular">{description ? description : t("banner3_description")}</span>
             </p>
             <div className="wow fadeInUp" data-wow-delay="0s">
-              <button className="tf-btn style-2 fw-6 btn-fill animate-hover-btn mt-2">
-                <span className="montserrat-semi-bold">{buttonLabel ? buttonLabel : t("banner3_button")}</span>
-              </button>
+              <Link href={buttonLink}>
+                <button className="tf-btn style-2 fw-6 btn-fill animate-hover-btn mt-2">
+                  <span className="montserrat-semi-bold">{buttonLabel ? buttonLabel : t("banner3_button")}</span>
+                </button>
+              </Link>
             </div>
-          </Link>
+          </div>
         </div>
       </div>
     </section>
