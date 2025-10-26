@@ -1,7 +1,5 @@
 import Features from "@/components/common/Features";
 import Footer1 from "@/components/footers/Footer1";
-import Header10 from "@/components/headers/Header10";
-import Topbar1 from "@/components/headers/Topbar1";
 import Products2 from "@/components/homes/home-baby/Products2";
 import Store from "@/components/homes/home-2/Store";
 import HeroCamp from "@/components/homes/home-camp-and-hike/Hero";
@@ -15,8 +13,8 @@ import Header6 from "@/components/headers/Header6";
 
 
 export const metadata = {
-  title: "Home 1 || Ecomus - Ultimate Nextjs Ecommerce Template",
-  description: "Ecomus - Ultimate Nextjs Ecommerce Template",
+  title: "Giftoria Store",
+  description: "Luxury personalized gifts crafted with elegance and emotion for every special moment.",
 };
 export default function Home() {
   return (

@@ -6,8 +6,8 @@ import ShopSidebarleft from "@/components/shop/ShopSidebarleft";
 import React from "react";
 
 export const metadata = {
-  title: "Shop Left Sidebar || Ecomus - Ultimate Nextjs Ecommerce Template",
-  description: "Ecomus - Ultimate Nextjs Ecommerce Template",
+  title: "Giftoria Store",
+  description: "Luxury personalized gifts crafted with elegance and emotion for every special moment.",
 };
 export default function page() {
   return (

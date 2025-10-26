@@ -18,12 +18,29 @@
   line-height: 1.3;
 }
 
-.product-description-html h1 { font-size: 2rem; }
-.product-description-html h2 { font-size: 1.75rem; }
-.product-description-html h3 { font-size: 1.5rem; }
-.product-description-html h4 { font-size: 1.25rem; }
-.product-description-html h5 { font-size: 1.1rem; }
-.product-description-html h6 { font-size: 1rem; }
+.product-description-html h1 {
+  font-size: 2rem;
+}
+
+.product-description-html h2 {
+  font-size: 1.75rem;
+}
+
+.product-description-html h3 {
+  font-size: 1.5rem;
+}
+
+.product-description-html h4 {
+  font-size: 1.25rem;
+}
+
+.product-description-html h5 {
+  font-size: 1.1rem;
+}
+
+.product-description-html h6 {
+  font-size: 1rem;
+}
 
 .product-description-html p {
   margin-bottom: 1rem;
@@ -66,13 +83,17 @@
   margin: 1rem 0;
   border-radius: 8px;
 }
+
 .activeMenu {
-  color: #967740 !important ;
+  color: #967740 !important;
 }
+
 #header .box-nav-ul .item-link::before {
- 
-    background: #967740 !important ;;
+
+  background: #967740 !important;
+  ;
 }
+
 .product-description-html blockquote {
   border-left: 4px solid #ddd;
   padding-left: 1rem;
@@ -80,11 +101,29 @@
   color: #666;
   font-style: italic;
 }
+
 @font-face {
   font-family: "Muslimah Thin";
   src: url("/fonts/Muslimah-Thin.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
+}
+.header-style-10 .filter-option-inner-inner,.header-style-10 .dropdown.bootstrap-select.image-select.style-default>button::after {
+  color: #000000;
+}
+.header-shadow .filter-option-inner-inner,
+.header-shadow .dropdown.bootstrap-select.image-select.style-default>button::after {
+  color: #000000;
+  
+}
+header#header {
+    padding: 4px 0px;
+}
+
+.filter-option-inner-inner,
+.dropdown.bootstrap-select.image-select.style-default>button::after {
+
+  color: #ffffff;
 }
 
 /* Apply Arabic font when html has the arabic-font class */
@@ -92,11 +131,13 @@ html.arabic-font,
 html.arabic-font body {
   font-family: "Muslimah Thin", sans-serif !important;
 }
+
 html.arabic-font,
 html.arabic-font body,
 html.arabic-font *:not(i):not(.icon):not([class*="icon-"]) {
   font-family: "Muslimah Thin", sans-serif !important;
 }
+
 /* Initial transparent header */
 .header-default {
   transition: background-color 0.3s ease;
