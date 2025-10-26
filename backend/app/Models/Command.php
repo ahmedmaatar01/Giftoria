@@ -21,8 +21,15 @@ class Command extends Model
         'shipping_address',
         'billing_address',
         'placed_at',
+        'desired_delivery_at',
         'payment_method',
         'source',
+        'description'
+    ];
+
+    protected $casts = [
+        'placed_at' => 'datetime',
+        'desired_delivery_at' => 'datetime',
     ];
 
     public function user()

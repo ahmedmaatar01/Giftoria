@@ -221,4 +221,36 @@
     "zip_code": "Zip code",
     "estimate": "Estimate"
   }
+  ,
+  "checkout": {
+    "title_billing_details": "Billing details",
+    "error_cart_empty": "Your cart is empty",
+    "error_agree_terms": "You must agree to the terms and conditions",
+    "error_invalid_desired_delivery": "Please choose a valid desired delivery date and time.",
+    "error_too_soon_desired_delivery": "Desired delivery must be at least 6 hours from now.",
+    "success_order_placed": "Order placed successfully!",
+    "validation_error_prefix": "Validation error",
+    "failure_order": "Failed to place order. Please try again.",
+
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "country_region": "Country/Region",
+    "select_country": "Select country",
+    "city": "Town/City",
+    "address": "Address",
+    "phone_number": "Phone Number",
+    "email": "Email",
+    "desired_delivery": "Desired delivery date & time",
+    "order_notes_optional": "Order notes (optional)",
+    "your_order": "Your order",
+    "total": "Total",
+    "payment_online": "Online payment",
+    "payment_cod": "Cash on delivery",
+    "privacy_notice": "Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our",
+    "privacy_policy": "privacy policy",
+    "agree_terms_prefix": "I have read and agree to the website",
+    "terms_and_conditions": "terms and conditions",
+    "processing": "Processing...",
+    "place_order": "Place order"
+  }
 }

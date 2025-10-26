@@ -4,7 +4,7 @@ import ContactForm2 from "@/components/othersPages/contact/ContactForm2";
 import Map2 from "@/components/othersPages/contact/Map2";
 import React from "react";
 import HeroContact from "@/components/othersPages/contact/HeroContact";
-import Topbar1 from "@/components/headers/Topbar1";
+import Header10 from "@/components/headers/Header10";
 
 export const metadata = {
   title: "Contact 2 || Ecomus - Ultimate Nextjs Ecommerce Template",

@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 
 import Image from "next/image";
-import CountdownComponent from "../common/Countdown";
 import {
   paymentImages,
 } from "@/data/singleProductOptions";
@@ -50,7 +49,7 @@ export default function DetailsOuterZoom({ product }) {
       "/images/no-image.png";
   };
 
-
+console.log("Product in DetailsOuterZoom:", product);
   const {
     addProductToCart,
     isAddedToCartProducts,
@@ -116,12 +115,9 @@ export default function DetailsOuterZoom({ product }) {
                     <div className="countdown-wrap">
                       <div className="countdown-title">
                         <i className="icon-time tf-ani-tada" />
-                        <p>HURRY UP! SALE ENDS IN:</p>
-                      </div>
-                      <div className="tf-countdown style-1">
-                        <div className="js-countdown">
-                          <CountdownComponent labels="Days :,Hours :,Mins :,Secs" />
-                        </div>
+                        <p className="fw-6">
+                          Estimated delivery time: {product.lead_time ? `${product.lead_time} hours` : "N/A"}
+                        </p>
                       </div>
                     </div>
                   </div>
