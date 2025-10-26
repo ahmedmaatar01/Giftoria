@@ -220,4 +220,36 @@
     "zip_code": "الرمز البريدي",
     "estimate": "تقدير"
   }
+  ,
+  "checkout": {
+    "title_billing_details": "تفاصيل الفوترة",
+    "error_cart_empty": "عربة التسوق فارغة",
+    "error_agree_terms": "يجب الموافقة على الشروط والأحكام",
+    "error_invalid_desired_delivery": "يرجى اختيار تاريخ ووقت تسليم صالحين.",
+    "error_too_soon_desired_delivery": "يجب أن يكون وقت التسليم المطلوب بعد 6 ساعات على الأقل من الآن.",
+    "success_order_placed": "تم إرسال الطلب بنجاح!",
+    "validation_error_prefix": "خطأ في التحقق",
+    "failure_order": "فشل في إتمام الطلب. يرجى المحاولة مرة أخرى.",
+
+    "first_name": "الاسم الأول",
+    "last_name": "اسم العائلة",
+    "country_region": "الدولة/المنطقة",
+    "select_country": "اختر الدولة",
+    "city": "المدينة/البلدة",
+    "address": "العنوان",
+    "phone_number": "رقم الهاتف",
+    "email": "البريد الإلكتروني",
+    "desired_delivery": "تاريخ ووقت التسليم المطلوب",
+    "order_notes_optional": "ملاحظات الطلب (اختياري)",
+    "your_order": "طلبك",
+    "total": "الإجمالي",
+    "payment_online": "الدفع الإلكتروني",
+    "payment_cod": "الدفع عند التسليم",
+    "privacy_notice": "سيتم استخدام بياناتك الشخصية لمعالجة طلبك ودعم تجربتك عبر هذا الموقع، ولأغراض أخرى موضحة في",
+    "privacy_policy": "سياسة الخصوصية",
+    "agree_terms_prefix": "لقد قرأت وأوافق على",
+    "terms_and_conditions": "الشروط والأحكام",
+    "processing": "جارٍ المعالجة...",
+    "place_order": "إتمام الطلب"
+  }
 }

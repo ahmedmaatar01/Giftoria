@@ -32,6 +32,8 @@ class CommandController extends Controller
             'billing_address' => 'nullable|string',
             'payment_method' => 'nullable|in:cod,online',
             'source' => 'nullable|string|max:50',
+            'description' => 'nullable|string',
+            'desired_delivery_at' => 'nullable|date',
             'products' => 'required|array|min:1',
             'products.*.product_id' => 'required|exists:products,id',
             'products.*.quantity' => 'required|integer|min:1',
@@ -90,6 +92,7 @@ class CommandController extends Controller
             'total' => $total,
             'name' => ($validated['customer_first_name'] ?? '') . ' ' . ($validated['customer_last_name'] ?? ''),
             'placed_at' => now(),
+            'desired_delivery_at' => $validated['desired_delivery_at'] ?? null,
         ]);
 
         // Attach products with custom selections and computed prices
@@ -116,11 +119,17 @@ class CommandController extends Controller
     {
         $command = Command::findOrFail($id);
         $validated = $request->validate([
+            'customer_first_name' => 'nullable|string|max:255',
+            'customer_last_name' => 'nullable|string|max:255',
+            'customer_email' => 'nullable|email|max:255',
+            'customer_phone' => 'nullable|string|max:50',
             'status' => 'nullable|string|max:50',
             'shipping_address' => 'nullable|string',
             'billing_address' => 'nullable|string',
             'payment_method' => 'nullable|in:cod,online',
             'source' => 'nullable|string|max:50',
+            'description' => 'nullable|string',
+            'desired_delivery_at' => 'nullable|date',
             'products' => 'nullable|array',
             'products.*.product_id' => 'required_with:products|exists:products,id',
             'products.*.quantity' => 'required_with:products|integer|min:1',
@@ -130,11 +139,17 @@ class CommandController extends Controller
         ]);
 
         $command->update([
+            'customer_first_name' => $validated['customer_first_name'] ?? $command->customer_first_name,
+            'customer_last_name' => $validated['customer_last_name'] ?? $command->customer_last_name,
+            'customer_email' => $validated['customer_email'] ?? $command->customer_email,
+            'customer_phone' => $validated['customer_phone'] ?? $command->customer_phone,
             'status' => $validated['status'] ?? $command->status,
             'shipping_address' => $validated['shipping_address'] ?? $command->shipping_address,
             'billing_address' => $validated['billing_address'] ?? $command->billing_address,
             'payment_method' => $validated['payment_method'] ?? $command->payment_method,
             'source' => $validated['source'] ?? $command->source,
+            'description' => $validated['description'] ?? $command->description,
+            'desired_delivery_at' => $validated['desired_delivery_at'] ?? $command->desired_delivery_at,
         ]);
 
         // If products are provided, sync them

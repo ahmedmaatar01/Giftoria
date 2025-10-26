@@ -5,14 +5,31 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 export default function Checkout() {
   const { cartProducts, setCartProducts, totalPrice, user } = useContextElement();
   const router = useRouter();
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [successMsg, setSuccessMsg] = useState(null);
-  
+
+  // Helper to format a Date to input[type="datetime-local"] value (YYYY-MM-DDTHH:mm)
+  const toLocalDateTimeInputValue = (date) => {
+    const pad = (n) => String(n).padStart(2, "0");
+    const year = date.getFullYear();
+    const month = pad(date.getMonth() + 1);
+    const day = pad(date.getDate());
+    const hours = pad(date.getHours());
+    const minutes = pad(date.getMinutes());
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+
+  // Minimum desired delivery date-time is current time + 6 hours
+  const initialMinDelivery = new Date(Date.now() + 6 * 60 * 60 * 1000);
+  const [minDesiredDeliveryLocal, setMinDesiredDeliveryLocal] = useState(toLocalDateTimeInputValue(initialMinDelivery));
+
   // Form state
   const [formData, setFormData] = useState({
     firstName: '',
@@ -25,6 +42,7 @@ export default function Checkout() {
     note: '',
     paymentMethod: 'cod', // default to cash on delivery
     agreeTerms: false,
+    desiredDelivery: toLocalDateTimeInputValue(initialMinDelivery),
   });
 
   // Prefill form with user info if authenticated
@@ -62,14 +80,14 @@ export default function Checkout() {
 
   const handleSubmitOrder = async (e) => {
     e.preventDefault();
-    
+
     if (cartProducts.length === 0) {
-      setError("Your cart is empty");
+      setError(t("checkout.error_cart_empty"));
       return;
     }
 
     if (!formData.agreeTerms) {
-      setError("You must agree to the terms and conditions");
+      setError(t("checkout.error_agree_terms"));
       return;
     }
 
@@ -77,6 +95,20 @@ export default function Checkout() {
     setError(null);
 
     try {
+      // Validate desired delivery date-time (must be >= now + 6h)
+      const minDt = new Date(minDesiredDeliveryLocal);
+      const chosenDt = new Date(formData.desiredDelivery);
+      if (!(chosenDt instanceof Date) || isNaN(chosenDt.getTime())) {
+        setError(t("checkout.error_invalid_desired_delivery"));
+        setLoading(false);
+        return;
+      }
+      if (chosenDt.getTime() < minDt.getTime()) {
+        setError(t("checkout.error_too_soon_desired_delivery"));
+        setLoading(false);
+        return;
+      }
+
       // Build shipping and billing address
       const shippingAddress = `${formData.address}, ${formData.city}, ${formData.country}`;
       const billingAddress = shippingAddress;
@@ -111,6 +143,7 @@ export default function Checkout() {
         payment_method: formData.paymentMethod,
         source: 'website',
         description: formData.note,
+        desired_delivery_at: new Date(formData.desiredDelivery).toISOString(),
         products,
       };
 
@@ -120,18 +153,18 @@ export default function Checkout() {
       setCartProducts([]);
       localStorage.removeItem('cartList');
       setError(null);
-      setSuccessMsg('Command sent successfully!');
+      setSuccessMsg(t('checkout.success_order_placed'));
 
     } catch (err) {
       console.error('Order submission error:', err);
       console.error('Error response:', err.response?.data);
-      
+
       // Show detailed validation errors if available
       if (err.response?.data?.errors) {
         const validationErrors = Object.values(err.response.data.errors).flat().join(', ');
-        setError(`Validation error: ${validationErrors}`);
+        setError(`${t('checkout.validation_error_prefix')}: ${validationErrors}`);
       } else {
-        setError(err.response?.data?.message || 'Failed to place order. Please try again.');
+        setError(err.response?.data?.message || t('checkout.failure_order'));
       }
     } finally {
       setLoading(false);
@@ -143,7 +176,7 @@ export default function Checkout() {
       <div className="container">
         <div className="tf-page-cart-wrap layout-2">
           <div className="tf-page-cart-item">
-            <h5 className="fw-5 mb_20">Billing details</h5>
+            <h5 className="fw-5 mb_20">{t('checkout.title_billing_details')}</h5>
             {error && (
               <div className="alert alert-danger mb-3" role="alert">
                 {error}
@@ -160,7 +193,7 @@ export default function Checkout() {
             >
               <div className="box grid-2">
                 <fieldset className="fieldset">
-                  <label htmlFor="first-name">First Name</label>
+                  <label htmlFor="first-name">{t('checkout.first_name')}</label>
                   <input
                     required
                     type="text"
@@ -171,11 +204,11 @@ export default function Checkout() {
                   />
                 </fieldset>
                 <fieldset className="fieldset">
-                  <label htmlFor="last-name">Last Name</label>
-                  <input 
-                    required 
-                    type="text" 
-                    id="last-name" 
+                  <label htmlFor="last-name">{t('checkout.last_name')}</label>
+                  <input
+                    required
+                    type="text"
+                    id="last-name"
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleInputChange}
@@ -183,7 +216,7 @@ export default function Checkout() {
                 </fieldset>
               </div>
               <fieldset className="box fieldset">
-                <label htmlFor="country">Country/Region</label>
+                <label htmlFor="country">{t('checkout.country_region')}</label>
                 <div className="select-custom">
                   <select
                     required
@@ -193,7 +226,7 @@ export default function Checkout() {
                     value={formData.country}
                     onChange={handleInputChange}
                   >
-                    <option value="">Select country</option>
+                    <option value="">{t('checkout.select_country')}</option>
                     <option value="Qatar">Qatar</option>
                     <option value="Algeria">Algeria</option>
                     <option value="Morocco">Morocco</option>
@@ -213,40 +246,40 @@ export default function Checkout() {
                 </div>
               </fieldset>
               <fieldset className="box fieldset">
-                <label htmlFor="city">Town/City</label>
-                <input 
-                  required 
-                  type="text" 
-                  id="city" 
+                <label htmlFor="city">{t('checkout.city')}</label>
+                <input
+                  required
+                  type="text"
+                  id="city"
                   name="city"
                   value={formData.city}
                   onChange={handleInputChange}
                 />
               </fieldset>
               <fieldset className="box fieldset">
-                <label htmlFor="address">Address</label>
-                <input 
-                  required 
-                  type="text" 
-                  id="address" 
+                <label htmlFor="address">{t('checkout.address')}</label>
+                <input
+                  required
+                  type="text"
+                  id="address"
                   name="address"
                   value={formData.address}
                   onChange={handleInputChange}
                 />
               </fieldset>
               <fieldset className="box fieldset">
-                <label htmlFor="phone">Phone Number</label>
-                <input 
-                  required 
-                  type="tel" 
-                  id="phone" 
+                <label htmlFor="phone">{t('checkout.phone_number')}</label>
+                <input
+                  required
+                  type="tel"
+                  id="phone"
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
                 />
               </fieldset>
               <fieldset className="box fieldset">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">{t('checkout.email')}</label>
                 <input
                   required
                   type="email"
@@ -258,19 +291,32 @@ export default function Checkout() {
                 />
               </fieldset>
               <fieldset className="box fieldset">
-                <label htmlFor="note">Order notes (optional)</label>
-                <textarea 
-                  name="note" 
-                  id="note" 
+                <label htmlFor="desired-delivery">{t('checkout.desired_delivery')}</label>
+                <input
+                  required
+                  type="datetime-local"
+                  id="desired-delivery"
+                  name="desiredDelivery"
+                  min={minDesiredDeliveryLocal}
+                  value={formData.desiredDelivery}
+                  onChange={handleInputChange}
+                />
+              </fieldset>
+              <fieldset className="box fieldset">
+                <label htmlFor="note">{t('checkout.order_notes_optional')}</label>
+                <textarea
+                  name="note"
+                  id="note"
                   value={formData.note}
                   onChange={handleInputChange}
                 />
               </fieldset>
+
             </form>
           </div>
           <div className="tf-page-cart-footer">
             <div className="tf-cart-footer-inner">
-              <h5 className="fw-5 mb_20">Your order</h5>
+              <h5 className="fw-5 mb_20">{t('checkout.your_order')}</h5>
               <form
                 onSubmit={handleSubmitOrder}
                 className="tf-page-cart-checkout widget-wrap-checkout"
@@ -317,7 +363,7 @@ export default function Checkout() {
                   <div className="container">
                     <div className="row align-items-center mt-5 mb-5">
                       <div className="col-12 fs-18">
-                        Your shop cart is empty
+                        {t('cart.empty_message')}
                       </div>
                       <div className="col-12 mt-3">
                         <Link
@@ -325,7 +371,7 @@ export default function Checkout() {
                           className="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
                           style={{ width: "fit-content" }}
                         >
-                          Explore Products!
+                          {t('cart.explore_products')}
                         </Link>
                       </div>
                     </div>
@@ -341,7 +387,7 @@ export default function Checkout() {
                   </a>
                 </div> */}
                 <div className="d-flex justify-content-between line pb_20">
-                  <h6 className="fw-5">Total</h6>
+                  <h6 className="fw-5">{t('checkout.total')}</h6>
                   <h6 className="total fw-5">${totalPrice.toFixed(2)}</h6>
                 </div>
                 <div className="wd-check-payment">
@@ -356,7 +402,7 @@ export default function Checkout() {
                       checked={formData.paymentMethod === 'online'}
                       onChange={handleInputChange}
                     />
-                    <label htmlFor="bank">Online payment</label>
+                    <label htmlFor="bank">{t('checkout.payment_online')}</label>
                   </div>
                   <div className="fieldset-radio mb_20">
                     <input
@@ -369,17 +415,15 @@ export default function Checkout() {
                       checked={formData.paymentMethod === 'cod'}
                       onChange={handleInputChange}
                     />
-                    <label htmlFor="delivery">Cash on delivery</label>
+                    <label htmlFor="delivery">{t('checkout.payment_cod')}</label>
                   </div>
                   <p className="text_black-2 mb_20">
-                    Your personal data will be used to process your order,
-                    support your experience throughout this website, and for
-                    other purposes described in our
+                    {t('checkout.privacy_notice')}
                     <Link
                       href={`/privacy-policy`}
                       className="text-decoration-underline"
                     >
-                      privacy policy
+                      {t('checkout.privacy_policy')}
                     </Link>
                     .
                   </p>
@@ -394,23 +438,23 @@ export default function Checkout() {
                       onChange={handleInputChange}
                     />
                     <label htmlFor="check-agree" className="text_black-2">
-                      I have read and agree to the website
+                      {t('checkout.agree_terms_prefix')}
                       <Link
                         href={`/terms-conditions`}
                         className="text-decoration-underline"
                       >
-                        terms and conditions
+                        {t('checkout.terms_and_conditions')}
                       </Link>
                       .
                     </label>
                   </div>
                 </div>
-                <button 
+                <button
                   type="submit"
                   disabled={loading || cartProducts.length === 0}
                   className="tf-btn radius-3 btn-fill btn-icon animate-hover-btn justify-content-center"
                 >
-                  {loading ? 'Processing...' : 'Place order'}
+                  {loading ? t('checkout.processing') : t('checkout.place_order')}
                 </button>
               </form>
             </div>
