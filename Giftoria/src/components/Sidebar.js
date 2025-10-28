@@ -13,7 +13,7 @@ import ThemesbergLogo from "../assets/img/themesberg.svg";
 import ReactHero from "../assets/img/technologies/react-hero-logo.svg";
 import ProfilePicture from "../assets/img/team/profile-picture-3.jpg";
 import GiftoriaLogo from '../assets/img/giftoria-logo.svg';
-
+import LogoGiftoria from '../assets/img/LogoGiftoria.png';
 
 export default (props = {}) => {
   const location = useLocation();
@@ -57,7 +57,7 @@ export default (props = {}) => {
         <Nav.Link {...linkProps} target={target} className={classNames}>
           <span>
             {icon ? <span className="sidebar-icon"><FontAwesomeIcon icon={icon} /> </span> : null}
-            {image ? <Image src={image} width={20} height={20} className="sidebar-icon svg-icon" /> : null}
+            {image ? <Image src={image} width={160}  className="sidebar-icon svg-icon" /> : null}
 
             <span className="sidebar-text">{title}</span>
           </span>
@@ -73,7 +73,7 @@ export default (props = {}) => {
     <>
       <Navbar expand={false} collapseOnSelect variant="dark" className="navbar-theme-primary px-4 d-md-none">
         <Navbar.Brand className="me-lg-5" as={Link} to={Routes.DashboardOverview.path}>
-          <Image src={GiftoriaLogo} className="navbar-brand-light" />
+          <Image src={LogoGiftoria} className="navbar-brand-light" />
         </Navbar.Brand>
         <Navbar.Toggle as={Button} aria-controls="main-navbar" onClick={onCollapse}>
           <span className="navbar-toggler-icon" />
@@ -99,7 +99,7 @@ export default (props = {}) => {
               </Nav.Link>
             </div>
             <Nav className="flex-column pt-3 pt-md-0">
-              <NavItem title="GiftoriaLogo" link={Routes.Presentation.path} image={GiftoriaLogo} />
+              <NavItem title="" link={Routes.Presentation.path} image={LogoGiftoria} />
               <NavItem title="Overview" link={Routes.DashboardOverview.path} icon={faChartPie} />
               <NavItem title="Transactions" icon={faHandHoldingUsd} link={Routes.Transactions.path} />
               <CollapsableNavItem eventKey="tables/" title="Tables" icon={faTable}>
