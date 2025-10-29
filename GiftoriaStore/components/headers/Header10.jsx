@@ -1,17 +1,59 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Nav from "./Nav";
 import Image from "next/image";
 import Link from "next/link";
 import CartLength from "../common/CartLength";
-import WishlistLength from "../common/WishlistLength";
 import { useTranslation } from "react-i18next";
 import LanguageSelect from "../common/LanguageSelect";
+import { useContextElement } from "@/context/Context";
+import { useRouter } from "next/navigation";
 
 export default function Header10() {
   const { t } = useTranslation();
-
+  const router = useRouter();
+  const { user } = useContextElement
+  const handleAccountClick = (e) => {
+    e.preventDefault();
+    console.log(user);
+    if (user) {
+      router.push("/my-account");
+    } else {
+      // Open login modal programmatically
+      if (typeof window !== "undefined") {
+        // Wait for next tick to ensure Bootstrap is loaded
+        setTimeout(() => {
+          const modal = document.getElementById("login");
+          if (modal) {
+            // Import bootstrap dynamically and show modal
+            import("bootstrap/dist/js/bootstrap.esm").then((bootstrap) => {
+              const bsModal = new bootstrap.Modal(modal);
+              bsModal.show();
+            }).catch(() => {
+              // Fallback: just set hash if bootstrap fails to load
+              window.location.hash = "#login";
+            });
+          }
+        }, 0);
+      }
+    }
+  };
+    // useEffect(() => {
+    //   const header = document.getElementById("header");
+    //   const handleScroll = () => {
+    //     if (window.scrollY > 200) {
+    //       header.classList.add("bg-white", "header-shadow");
+    //       header.classList.remove("header-white");
+    //     } else {
+    //       header.classList.remove("bg-white", "header-shadow");
+    //       header.classList.add("header-white");
+    //     }
+    //   };
+    //   window.addEventListener("scroll", handleScroll);
+  
+    //   return () => window.removeEventListener("scroll", handleScroll);
+    // }, []);
   return (
     <header id="header" className="header-default header-style-10">
       <div className="px_15 lg-px_40">
@@ -79,21 +121,13 @@ export default function Header10() {
               <li className="nav-account">
                 <a
                   href="#login"
-                  data-bs-toggle="modal"
                   className="nav-icon-item"
                   aria-label={t("header.account")}
+                  onClick={handleAccountClick}
+
                 >
                   <i className="icon icon-account" />
                 </a>
-              </li>
-             
-              <li className="nav-wishlist">
-                <Link href={`/wishlist`} className="nav-icon-item" aria-label={t("header.wishlist")}>
-                  <i className="icon icon-heart" />
-                  <span className="count-box">
-                    <WishlistLength />
-                  </span>
-                </Link>
               </li>
               <li className="nav-cart">
                 <a
@@ -109,21 +143,21 @@ export default function Header10() {
                 </a>
               </li>
               <li className="nav-cart">
-            <div className="top-bar-language tf-cur justify-content-end">
-          
-          <div className="tf-languages">
-            <LanguageSelect
-              parentClassName={"image-select center style-default type-languages"}
-              topStart
-            />
-          </div>
-        </div>
-            </li>
+                <div className="top-bar-language tf-cur justify-content-end">
+
+                  <div className="tf-languages">
+                    <LanguageSelect
+                      parentClassName={"image-select center style-default type-languages"}
+                      topStart
+                    />
+                  </div>
+                </div>
+              </li>
             </ul>
           </div>
         </div>
       </div>
-            <style jsx>{`
+      <style jsx>{`
         .sticky-header {
           position: fixed;
           top: 0;

@@ -13,30 +13,31 @@ export default function QuickAdd() {
     isAddedToCartProducts,
     apiProducts,
   } = useContextElement();
-  const [item, setItem] = useState(allProducts[0]);
+  const [item, setItem] = useState(null);
   const [quantity, setQuantity] = useState(1);
   
   // State for custom field values
   const [customFieldValues, setCustomFieldValues] = useState({});
   
   useEffect(() => {
-    // Try to find in API products first, fallback to static products
-    const allAvailableProducts = [...allProducts, ...(Array.isArray(apiProducts) ? apiProducts : [])];
-    const filtered = allAvailableProducts.filter((el) => el.id == quickAddItem);
-    if (filtered && filtered.length > 0) {
-      setItem(filtered[0]);
-      
-      // Initialize custom field values
-      const initial = {};
-      if (filtered[0].custom_fields && filtered[0].custom_fields.length > 0) {
-        filtered[0].custom_fields.forEach(field => {
-          const val = filtered[0].customValues && filtered[0].customValues.length > 0
-            ? filtered[0].customValues.find(v => v.custom_field_id === field.id)?.value || ''
-            : '';
-          initial[field.id] = val;
-        });
+    // Use only API products
+    if (Array.isArray(apiProducts) && apiProducts.length > 0) {
+      const filtered = apiProducts.filter((el) => el.id == quickAddItem);
+      if (filtered && filtered.length > 0) {
+        setItem(filtered[0]);
+        
+        // Initialize custom field values
+        const initial = {};
+        if (filtered[0].custom_fields && filtered[0].custom_fields.length > 0) {
+          filtered[0].custom_fields.forEach(field => {
+            const val = filtered[0].customValues && filtered[0].customValues.length > 0
+              ? filtered[0].customValues.find(v => v.custom_field_id === field.id)?.value || ''
+              : '';
+            initial[field.id] = val;
+          });
+        }
+        setCustomFieldValues(initial);
       }
-      setCustomFieldValues(initial);
     }
   }, [quickAddItem, apiProducts]);
 
@@ -47,6 +48,8 @@ export default function QuickAdd() {
 
   // Helper function to get product image
   const getProductImage = () => {
+    if (!item) return "/images/no-image.png";
+    
     if (item.images && item.images.length > 0) {
       const featuredImage = item.images.find(img => img.is_featured);
       return featuredImage ? 
@@ -62,6 +65,7 @@ export default function QuickAdd() {
 
   // Get product name
   const getProductName = () => {
+    if (!item) return "Product";
     return item.name || item.title || "Product";
   };
 
@@ -76,6 +80,8 @@ export default function QuickAdd() {
             />
           </div>
           <div className="wrap">
+            {item ? (
+            <>
             <div className="tf-product-info-item">
               <div className="image">
                 <Image
@@ -183,6 +189,12 @@ export default function QuickAdd() {
  
               </form>
             </div>
+            </>
+            ) : (
+              <div className="text-center p-4">
+                <p>Product not found in API data.</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

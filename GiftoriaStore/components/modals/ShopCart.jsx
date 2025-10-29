@@ -160,29 +160,26 @@ export default function ShopCart() {
 
                     {!cartProducts.length && (
                       <div className="container">
-                        <div className="row align-items-center mt-5 mb-5">
-                        <div className="relative mx-auto mb-4" style={{ width: "200px", height: "250px" }}>
-                            <Image
-                              src="/images/empty-cart.png"
-                              alt="Empty cart"
-                              fill
-                              className="object-contain"
-                              priority
-                            />
-                          </div>
+                        <div className="row align-items-center mt-5 mb-5 ">
+                          <div className="relative mx-auto mb-4 d-flex justify-content-center" >
 
-                          <div className="col-12 fs-18">
-                            
-                            {t("cart.empty_message")}
-                          </div>
-                          <div className="col-12 mt-3">
-                            <Link
-                              href={`/shop-default`}
-                              className="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
-                              style={{ width: "fit-content" }}
-                            >
-                              {t("cart.explore_products")}
+                            <Link href={`/shop-left-sidebar`}>
+                              <img src="/images/empty-cart.png" alt="Empty cart" style={{ cursor: "pointer" }}  className="mt-4"/>
                             </Link>
+                          </div>
+                          <div className="msgAndbutton mt-4">
+                            <div className="col-12 fs-18 text-center">
+                              {t("cart.empty_message")}
+                            </div>
+                            <div className="col-12 mt-3">
+                              <Link
+                                href={`/shop-left-sidebar`}
+                                className="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
+                                style={{ width: "fit-content" }}
+                              >
+                                {t("cart.explore_products")}
+                              </Link>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -311,7 +308,7 @@ export default function ShopCart() {
                     {t("cart.taxes_message")}
                   </div>
                   <div className="tf-mini-cart-line" />
-  
+
                   <div className="tf-mini-cart-view-checkout">
                     <Link
                       href={`/view-cart`}

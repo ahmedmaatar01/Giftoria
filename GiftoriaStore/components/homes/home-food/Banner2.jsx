@@ -37,7 +37,7 @@ export default function Banner2({
 
             <div className="wow fadeInUp" data-wow-delay="0s">
               <button className="btn-link-arrow raleway-light ">
-                <span className="montserrat-semi-bold">{t("banner3_button")}</span>
+                <span className="montserrat-semi-bold">{t("banner3_button")} </span>
               </button>
             </div>
           </Link>
