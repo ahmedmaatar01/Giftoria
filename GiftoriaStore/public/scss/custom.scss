@@ -31,6 +31,11 @@ section.tf-slideshow.slider-video.position-relative {
   font-family: 'Bell T Medium', 'Times New Roman', Times, serif !important;
   font-weight: 500 !important;
 }
+.bell-bold {
+  font-family: 'Bell T Bold', 'Times New Roman', Times, serif !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+}
 
 
 
@@ -56,7 +61,7 @@ section.tf-slideshow.slider-video.position-relative {
 }
 /* Custom class for Montserrat Semi Bold banner title */
 .banner-title-montserrat {
-  font-family: 'Montserrat', Arial, Helvetica, sans-serif !important;
+  font-family: 'Raleway', Arial, Helvetica, sans-serif !important;  
   font-weight: 600 !important;
   letter-spacing: 0.01em;
 }
@@ -87,6 +92,14 @@ section.tf-slideshow.slider-video.position-relative {
 .announcement-bar {
   transition: 0.6s;
 }
+#footer-lang .filter-option-inner-inner {
+  color: black;
+}
+#footer-lang .dropdown.bootstrap-select.image-select.style-default>button::after {
+  color: black;
+}
+
+
 .rc-slider {
   margin-bottom: 20px;
   margin-left: 10px;
@@ -361,3 +374,51 @@ html[dir="rtl"] {
     }
   }
 }
+.btn-link-arrow {
+  background: none;
+  border: 1px solid;
+  padding: 12px 18px;
+  border-radius: 10px;
+  color: #4f4646;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  position: relative;
+  text-decoration: none; /* remove underline */
+}
+
+/* Remove underline line under button */
+.btn-link-arrow::before {
+  display: none;
+}
+
+.btn-link-arrow::after {
+  content: "↗";
+  font-size: 14px;
+  transition: transform 0.2s ease;
+}
+
+.btn-link-arrow:hover::after {
+  transform: translateX(3px) translateY(-3px);
+}
+
+/* ✅ Add underline only under the span text */
+.btn-link-arrow span {
+  position: relative;
+}
+
+.btn-link-arrow span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+}
+
+

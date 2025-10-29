@@ -35,8 +35,8 @@ export default function Features() {
                     <i className={elm.iconClass} />
                   </div>
                   <div className="content">
-                    <div className="title bell-t-medium">{t(elm.titleKey)}</div>
-                    <p className="montserrat-regular">{t(elm.descriptionKey)}</p>
+                    <div className="title raleway-medium" style={{  textTransform: "uppercase" }}>{t(elm.titleKey)}</div>
+                    <p className="raleway-light" style={{  textTransform: "uppercase" }}>{t(elm.descriptionKey)}</p>
                   </div>
                 </div>
               </SwiperSlide>

@@ -8,10 +8,11 @@ export const footerLinks = [
   { href: "/wishlist", text: "My Wishlist" },
 ];
 export const aboutLinks = [
-  { href: "/about-us", text: "Our Story" },
-  { href: "/our-store", text: "Visit Our Store" },
+ 
+  
   { href: "/contact-1", text: "Contact Us" },
   { href: "/about-us", text: "About Us" },
+  { href: "/faq-1", text: "FAQ’s" },
   { href: "/login", text: "Account" },
 ];
 export const paymentImages = [

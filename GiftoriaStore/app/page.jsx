@@ -10,6 +10,7 @@ import HeroHome1 from "@/components/homes/home-1/Hero";
 import Marquee from "@/components/homes/home-1/Marquee";
 import Categories from "@/components/homes/home-6/Categories";
 import Header6 from "@/components/headers/Header6";
+import Collection from "@/components/homes/home-5/Collection";
 
 
 export const metadata = {
@@ -22,7 +23,8 @@ export default function Home() {
       <Header6 />
       <HeroHome1 />
       <Marquee />
-      <HeroCamp />
+      <Collection></Collection>
+      {/* <HeroCamp /> */}
       <Categories />
       <Banner2 />
       <div style={{ marginTop: '60px' }} />
@@ -37,7 +39,7 @@ export default function Home() {
         buttonLink="/contact-2"
         buttonLabel="Get in Touch"
       />
-      <Store />
+      {/* <Store /> */}
       <div style={{ marginTop: '60px' }} />
       <Features />
       <Footer1 />

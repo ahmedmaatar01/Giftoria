@@ -27,7 +27,7 @@ export default function ProductDetailClient({ productId }) {
       fetchProduct();
     }
   }, [productId]);
-
+    
   if (loading) {
     return <ProductDetailLoading />;
   }

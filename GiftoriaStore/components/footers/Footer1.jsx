@@ -118,7 +118,7 @@ export default function Footer1({ bgColor = "" }) {
                       Our website supports multiple languages
                     </div>
                     <div className="tf-cur">
-                      <div className="tf-languages">
+                      <div className="tf-languages" id="footer-lang">
                         <LanguageSelect />
                       </div>
                     </div>

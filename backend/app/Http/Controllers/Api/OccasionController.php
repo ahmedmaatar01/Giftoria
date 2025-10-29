@@ -20,7 +20,7 @@ class OccasionController extends Controller
         $data = $request->validate([
             'name' => 'required|string',
             'arabic_name' => 'nullable|string',
-            'slug' => 'required|string|unique:occasions,slug',
+            'slug' => 'nullable|string|unique:occasions,slug',
             'description' => 'nullable|string',
             'arabic_description' => 'nullable|string',
             'show_menu' => 'nullable|boolean',
@@ -31,7 +31,7 @@ class OccasionController extends Controller
             'category_ids.*' => 'exists:categories,id',
         ]);
 
-        $data['show_menu'] = $data['show_menu'] ?? false;
+        $data['show_menu'] = true;
 
         if ($request->hasFile('featured_image')) {
             $featuredImage = $request->file('featured_image');
@@ -76,7 +76,7 @@ class OccasionController extends Controller
         $data = $request->validate([
             'name' => 'sometimes|string',
             'arabic_name' => 'nullable|string',
-            'slug' => 'sometimes|string|unique:occasions,slug,' . $id,
+            'slug' => 'nullable|string|unique:occasions,slug,' . $id,
             'description' => 'nullable|string',
             'arabic_description' => 'nullable|string',
             'show_menu' => 'nullable|boolean',
@@ -87,9 +87,8 @@ class OccasionController extends Controller
             'category_ids.*' => 'exists:categories,id',
         ]);
 
-        if (array_key_exists('show_menu', $data)) {
-            $data['show_menu'] = $data['show_menu'] ?? false;
-        }
+        $data['show_menu'] = true;
+
 
         if ($request->hasFile('featured_image')) {
             if ($occasion->featured_image) {

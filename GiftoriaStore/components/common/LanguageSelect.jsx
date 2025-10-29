@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import i18n from "../../app/translation/i18n";
 
 const languageOptions = [
-  { id: "en", label: "English" },
+  { id: "en", label: "ENGLISH" },
   { id: "ar", label: "العربية" },
 ];
 

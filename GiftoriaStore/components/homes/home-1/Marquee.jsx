@@ -11,16 +11,17 @@ export default function Marquee() {
       <div className="wrap-marquee">
         {marqueeItems.map((key, index) => (
           <div className="marquee-item" key={index}>
-            <div className="icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width={15}
-                height={20}
-                viewBox="0 0 15 20"
-              >
-                <path d="M14.5833 8H8.61742L9.94318 0L0 12H5.96591L4.64015 20L14.5833 8" />
-              </svg>
-            </div>
+        <div className="icon" style={{ width: "20px", height: "20px", background: "transparent" ,marginRight:"22px"}}>
+  <img
+    src="/images/11000_Plan_de_travail_1.svg"
+    alt="icon"
+    width="20px"
+    height="20px"
+    style={{transform:'scale(6)'}}
+  />
+</div>
+
+
             <p className="text raleway-light">{t(key)}</p>
           </div>
         ))}

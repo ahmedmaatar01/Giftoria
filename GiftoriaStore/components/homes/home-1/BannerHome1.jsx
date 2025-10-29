@@ -21,17 +21,17 @@ export default function BannerHome1({
         <div className="container">
           <div className="text-md-start text-center">
             <h4 className="heading mb-3">
-              <span className="bell-t-medium heading-30">{heading ? heading : t("banner3_heading")}</span>
+              <span className="bell-bold heading-30">{heading ? heading : t("banner3_heading")}</span>
             </h4>
             <p
               className="text mb-4"
               style={{ maxWidth: "600px", margin: "0", textAlign: "left" }}
             >
-              <span className="montserrat-regular">{description ? description : t("banner3_description")}</span>
+              <span className="montserrat-regular" style={{  textTransform: "uppercase" }}>{description ? description : t("banner3_description")}</span>
             </p>
             <div className="wow fadeInUp" data-wow-delay="0s">
               <Link href={buttonLink}>
-                <button className="tf-btn style-2 fw-6 btn-fill animate-hover-btn mt-2">
+                <button className="btn-link-arrow raleway-light">
                   <span className="montserrat-semi-bold">{buttonLabel ? buttonLabel : t("banner3_button")}</span>
                 </button>
               </Link>

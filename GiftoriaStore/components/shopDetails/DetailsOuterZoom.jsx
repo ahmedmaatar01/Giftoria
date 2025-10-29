@@ -82,7 +82,7 @@ console.log("Product in DetailsOuterZoom:", product);
                 <div className="tf-zoom-main" />
                 <div className="tf-product-info-list other-image-zoom">
                   <div className="tf-product-info-title">
-                    <h5>
+                    <h5 className="bell-t-medium" style={{  textTransform: "uppercase" }}>
                       {product.name ? product.name : "Product Name"}
                     </h5>
                   </div>
@@ -103,14 +103,9 @@ console.log("Product in DetailsOuterZoom:", product);
 
   
 
-                    <div className="badges-on-sale">
-                      <span>20</span>% OFF
-                    </div>
+                  
                   </div>
-                  <div className="tf-product-info-liveview">
-                    <div className="liveview-count">20</div>
-                    <p className="fw-6">People are viewing this right now</p>
-                  </div>
+                 
                   <div className="tf-product-info-countdown">
                     <div className="countdown-wrap">
                       <div className="countdown-title">

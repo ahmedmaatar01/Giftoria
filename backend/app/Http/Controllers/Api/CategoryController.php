@@ -19,7 +19,7 @@ class CategoryController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string',
-            'slug' => 'required|string|unique:categories,slug',
+            'slug' => 'nullable|string|unique:categories,slug',
             'description' => 'nullable|string',
             'parent_id' => 'nullable|exists:categories,id',
             'show_menu' => 'nullable|boolean',
@@ -70,7 +70,7 @@ class CategoryController extends Controller
         $data = $request->validate([
             'name' => 'sometimes|string',
             'name_ar' => 'nullable|string',
-            'slug' => 'sometimes|string|unique:categories,slug,' . $id,
+            'slug' => 'nullable|string|unique:categories,slug,' . $id,
             'description' => 'nullable|string',
             'parent_id' => 'nullable|exists:categories,id',
             'show_menu' => 'nullable|boolean',
