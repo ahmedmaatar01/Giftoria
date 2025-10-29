@@ -22,7 +22,7 @@ export default function Hero() {
             <p className="subheading text-white fw-7 banner-title-montserrat">
               {t("hero_subheading")}
             </p>
-            <h1 className="heading text-white bell-t-medium" style={{ fontSize: '60px' }}>
+            <h1 className="heading text-white bell-medium" style={{ fontSize: '60px' }}>
               {t("hero_heading")}
             </h1>
             <p className="description text-white banner-title-montserrat">

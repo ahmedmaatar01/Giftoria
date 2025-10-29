@@ -3,8 +3,6 @@
 import { slides22 } from "@/data/categories";
 import Link from "next/link";
 import React from "react";
-import { Pagination } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
 import { useTranslation } from "react-i18next";
 
 export default function Features() {
@@ -17,7 +15,7 @@ export default function Features() {
         <div className="flat-title mb-lg text-center wow fadeInUp" data-wow-delay="0s">
           <span className="title bell-t-medium heading-30">
             {t("features_title_line1")} <br />
-            {t("features_title_line2")}
+            <span style={{ marginTop: '10px', display: 'inline-block' }}>{t("features_title_line2")}</span>
           </span>
         </div>
         <div className="row justify-content-center wow fadeInUp" data-wow-delay="0s">
@@ -26,7 +24,7 @@ export default function Features() {
               <div className="tf-icon-box style-lg w-100 text-center p-4" style={{ boxShadow: "none" }}>
                 <div className="content">
                   <Link href="/shop-default" className="title link fw-normal">
-                    <span className="bell-t-medium">{t(`features_slide_${idx + 1}_title`)}</span>
+                    <span className="raleway-regular ">{t(`features_slide_${idx + 1}_title`)}</span>
 
                   </Link>
                   <p className="montserrat-regular">{t(`features_slide_${idx + 1}_description`)}</p>

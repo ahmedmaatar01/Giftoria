@@ -20,9 +20,9 @@ export default function HeroContact() {
         <div className="box-content text-center">
           <div className="container">
             <div className="text text-start" style={{ color: "black" }}>
-              <h1 className="heading bell-t-medium" style={{ fontSize: '60px', textTransform: 'uppercase', color: '#967740' }}>{t("contact.hero_title")}</h1>
+              <h1 className="heading bell-medium" style={{ fontSize: '60px', textTransform: 'uppercase', color: '#967740' }}>{t("contact.hero_title")}</h1>
               <p
-                className="hero-title-small montserrat-regular"
+                className="hero-title-small raleway-light"
                 style={{ lineHeight: "1.6", fontSize: '20px' }}
               >
                 {t("contact.hero_description_line1")}

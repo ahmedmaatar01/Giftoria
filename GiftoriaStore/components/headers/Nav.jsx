@@ -94,7 +94,7 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
       <li className="menu-item">
         <Link
           href="/"
-          className={`item-link ${Linkfs} ${textColor} ${pathname === "/" ? "activeMenu" : ""}`}
+          className={`raleway-medium item-link ${Linkfs} ${textColor} ${pathname === "/" ? "activeMenu" : ""}`}
         >
           {t("menu.home")}
         </Link>
@@ -102,7 +102,7 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
       <li className="menu-item">
         <Link
           href="/shop-left-sidebar"
-          className={`item-link ${Linkfs} ${textColor} ${pathname === "/shop-left-sidebar" ? "activeMenu" : ""}`}
+          className={`raleway-medium item-link ${Linkfs} ${textColor} ${pathname === "/shop-left-sidebar" ? "activeMenu" : ""}`}
         >
           {t("menu.shop")}
         </Link>
@@ -110,9 +110,9 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
       <li className="menu-item position-relative">
         <a
           href="#"
-          className={`item-link ${Linkfs} ${textColor} ${pathname.includes('/occasion') ? "activeMenu" : ""}`}
+          className={`raleway-medium item-link ${Linkfs} ${textColor} ${pathname.includes('/occasion') ? "activeMenu" : ""}`}
         >
-          {i18n.language === 'ar' ? 'المناسبات' : 'Occasions'}
+          {i18n.language === 'ar' ? 'المناسبات' : 'OCCASIONS'}
           {isArrow ? <i className="icon icon-arrow-down" /> : ""}
         </a>
         <div className="sub-menu links-default">
@@ -139,19 +139,19 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
         </div>
       </li>
       <li className="menu-item">
-        <Link href="/about-us" className={`item-link ${Linkfs} ${textColor}`}>
+        <Link href="/about-us" className={`raleway-medium item-link ${Linkfs} ${textColor}`}>
           {t("menu.about")}
         </Link>
       </li>
 
       <li className="menu-item">
-        <Link href="/contact-2" className={`item-link ${Linkfs} ${textColor}`}>
+        <Link href="/contact-2" className={`raleway-medium item-link ${Linkfs} ${textColor}`}>
           {t("menu.contact")}
         </Link>
       </li>
 
       <li className="menu-item">
-        <Link href="/faq-1" className={`item-link ${Linkfs} ${textColor}`}>
+        <Link href="/faq-1" className={`raleway-medium item-link ${Linkfs} ${textColor}`}>
           {t("menu.faq")}
         </Link>
       </li>

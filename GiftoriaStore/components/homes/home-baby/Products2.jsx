@@ -86,11 +86,21 @@ export default function Products2() {
   } = useContextElement();
 
   return (
-    <section className="flat-spacing-13 pb_0">
+    <>
+      <style jsx>{`
+        .box-icon.quick-add.tf-btn-loading {
+          background-color: #000000 !important;
+          background: #000000 !important;
+        }
+        .box-icon.quick-add.tf-btn-loading .icon {
+          color: white !important;
+        }
+      `}</style>
+      <section className="flat-spacing-13 pb_0">
       <div className="container">
         <div className="flat-title flex-row justify-content-center">
           <span className="title fw-6 wow fadeInUp" data-wow-delay="0s">
-            <span className="bell-t-medium heading-30" style={{ textTransform: 'uppercase', fontSize: '30px' }}>{t("products2_title")}</span>
+            <span className="raleway-regular heading-30" style={{ textTransform: 'uppercase', fontSize: '30px' }}>{t("products2_title")}</span>
           </span>
         </div>
 
@@ -176,8 +186,9 @@ export default function Products2() {
                         {product.name || product.title}
                       </Link>
                       <div>
-                        <span className="new-price price-primary" style={{ color: '#967740' }}>
-                          ${Number(product.price || 0).toFixed(2)}
+                        <span className="new-price price-primary" style={{ color: '#000000ff' }}>
+                          <span style={{ fontSize: '15px' }}>$</span>
+                          <span style={{ fontSize: '24px', fontWeight: 'bold' }}>{Number(product.price || 0).toFixed(2)}</span>
                         </span>
                       </div>
                     </div>
@@ -187,8 +198,13 @@ export default function Products2() {
                         href="#quick_add"
                         data-bs-toggle="modal"
                         className="box-icon quick-add tf-btn-loading"
+                        style={{ 
+                          backgroundColor: '#000000 !important',
+                          background: '#000000 !important',
+                          color: 'white !important'
+                        }}
                       >
-                        <span className="icon icon-bag" />
+                        <span className="icon icon-bag" style={{ color: 'white !important' }} />
                         <span className="tooltip">{t("add_to_cart")}</span>
                       </a>
                     </div>
@@ -219,5 +235,6 @@ export default function Products2() {
         </div>
       </div>
     </section>
+    </>
   );
 }

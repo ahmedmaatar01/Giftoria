@@ -15,8 +15,8 @@ export default function page() {
         <div className="container-full">
           <div className="row">
             <div className="col-12">
-              <div className="heading text-center bell-t-medium">Our Products</div>
-              <p className="text-center text-2 text_black-2 mt_5 montserrat-regular">
+              <div className="heading text-center raleway-bold ">Our Products</div>
+              <p className="text-center text-2 text_black-2 mt_5 raleway-regular">
                 Feel free to choose your products from our wide range of categories and collections.
               </p>
             </div>
