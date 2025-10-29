@@ -20,10 +20,14 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
   const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
   
   const [occasions, setOccasions] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loadingOccasions, setLoadingOccasions] = useState(true);
+  const [loadingCategories, setLoadingCategories] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
+    
+    // Fetch occasions
     (async () => {
       try {
         const res = await fetch(`${API_BASE}/api/occasions`, {
@@ -45,6 +49,26 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
         if (isMounted) setLoadingOccasions(false);
       }
     })();
+
+    // Fetch categories
+    (async () => {
+      try {
+        const res = await fetch(`${API_BASE}/api/categories`, {
+          headers: { "Accept": "application/json" },
+          cache: "no-store",
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (isMounted) {
+          setCategories(Array.isArray(data) ? data : []);
+        }
+      } catch (err) {
+        console.error("Failed to fetch categories:", err);
+      } finally {
+        if (isMounted) setLoadingCategories(false);
+      }
+    })();
+
     return () => { isMounted = false; };
   }, [API_BASE]);
 
@@ -94,64 +118,100 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
       <li className="menu-item">
         <Link
           href="/"
-          className={`raleway-medium item-link ${Linkfs} ${textColor} ${pathname === "/" ? "activeMenu" : ""}`}
+          className={`item-link raleway-medium ${Linkfs} ${textColor} ${pathname === "/" ? "activeMenu" : ""}`}
         >
           {t("menu.home")}
         </Link>
       </li>
-      <li className="menu-item">
-        <Link
-          href="/shop-left-sidebar"
-          className={`raleway-medium item-link ${Linkfs} ${textColor} ${pathname === "/shop-left-sidebar" ? "activeMenu" : ""}`}
-        >
-          {t("menu.shop")}
-        </Link>
-      </li>
-      <li className="menu-item position-relative">
+     <li className="menu-item">
         <a
           href="#"
-          className={`raleway-medium item-link ${Linkfs} ${textColor} ${pathname.includes('/occasion') ? "activeMenu" : ""}`}
+          className={`item-link raleway-medium ${Linkfs} ${textColor} ${
+            pathname.includes('/shop') || pathname.includes('/category') || pathname.includes('/occasion') ? "activeMenu" : ""
+          } `}
         >
-          {i18n.language === 'ar' ? 'المناسبات' : 'OCCASIONS'}
+          {t("menu.shop")}
           {isArrow ? <i className="icon icon-arrow-down" /> : ""}
         </a>
-        <div className="sub-menu links-default">
-          <ul className="menu-list">
-            {!loadingOccasions && occasions.length > 0 ? (
-              occasions.map((occasion, index) => (
-                <li key={index}>
-                  <Link
-                    href={`/shop-collection-sub?occasion=${occasion.id}`}
-                    className={`menu-link-text link text_black-2 ${pathname.includes('shop-collection-sub') && typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('occasion') === String(occasion.id) ? "activeMenu" : ""}`}
-                  >
-                    {i18n.language === 'ar' && occasion.arabic_name 
-                      ? occasion.arabic_name 
-                      : occasion.name}
-                  </Link>
-                </li>
-              ))
-            ) : (
-              <li className="text-muted small px-3">
-                {loadingOccasions ? 'Loading...' : 'No occasions available'}
-              </li>
-            )}
-          </ul>
+        <div className="sub-menu mega-menu" style={{marginTop:"-8px"}}>
+          <div className="container">
+            <div className="row">
+              {/* Categories Column */}
+              <div className="col-lg-6">
+                <div className="mega-menu-item">
+                  <div className="menu-heading">{i18n.language === 'ar' ? 'التصنيفات' : 'Categories'}</div>
+                  <ul className="menu-list">
+                    {!loadingCategories && categories.length > 0 ? (
+                      categories.map((category) => (
+                        <li key={category.id}>
+                          <Link
+                            href={`/shop-default?category=${category.id}`}
+                            className={`menu-link-text link ${
+                              pathname.includes('shop-default') && typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('category') === String(category.id) ? "activeMenu" : ""
+                            }`}
+                          >
+                            {i18n.language === 'ar' && category.name_ar 
+                              ? category.name_ar 
+                              : category.name}
+                          </Link>
+                        </li>
+                      ))
+                    ) : (
+                      <li className="text-muted small">
+                        {loadingCategories ? 'Loading...' : 'No categories available'}
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              </div>
+              
+              {/* Occasions Column */}
+              <div className="col-lg-6">
+                <div className="mega-menu-item">
+                  <div className="menu-heading">{i18n.language === 'ar' ? 'المناسبات' : 'Occasions'}</div>
+                  <ul className="menu-list">
+                    {!loadingOccasions && occasions.length > 0 ? (
+                      occasions.map((occasion) => (
+                        <li key={occasion.id}>
+                          <Link
+                            href={`/shop-collection-sub?occasion=${occasion.id}`}
+                            className={`menu-link-text link ${
+                              pathname.includes('shop-collection-sub') && typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('occasion') === String(occasion.id) ? "activeMenu" : ""
+                            }`}
+                          >
+                            {i18n.language === 'ar' && occasion.arabic_name 
+                              ? occasion.arabic_name 
+                              : occasion.name}
+                          </Link>
+                        </li>
+                      ))
+                    ) : (
+                      <li className="text-muted small">
+                        {loadingOccasions ? 'Loading...' : 'No occasions available'}
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </li>
+
       <li className="menu-item">
-        <Link href="/about-us" className={`raleway-medium item-link ${Linkfs} ${textColor}`}>
+        <Link href="/about-us" className={`item-link raleway-medium ${Linkfs} ${textColor}`}>
           {t("menu.about")}
         </Link>
       </li>
 
       <li className="menu-item">
-        <Link href="/contact-2" className={`raleway-medium item-link ${Linkfs} ${textColor}`}>
+        <Link href="/contact-2" className={`item-link raleway-medium ${Linkfs} ${textColor}`}>
           {t("menu.contact")}
         </Link>
       </li>
 
       <li className="menu-item">
-        <Link href="/faq-1" className={`raleway-medium item-link ${Linkfs} ${textColor}`}>
+        <Link href="/faq-1" className={`item-link raleway-medium ${Linkfs} ${textColor}`}>
           {t("menu.faq")}
         </Link>
       </li>

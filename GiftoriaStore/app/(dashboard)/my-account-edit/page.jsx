@@ -15,7 +15,7 @@ export default function page() {
       <Header10 />
       <div className="tf-page-title">
         <div className="container-full">
-          <div className="heading text-center">My Account Edit</div>
+          <div className="heading text-center raleway-bold text-uppercase">My Account Edit</div>
         </div>
       </div>
       <section className="flat-spacing-11">

@@ -32,7 +32,7 @@ export default function Hero() {
               href="/shop-left-sidebar"
               className="btn-link-arrow raleway-light"  style={{ color: "#fff" }}
             >
-              <span>{t("hero_button")}</span>
+              <span>{t("hero_button")} </span>
              
             </Link>
           </div>

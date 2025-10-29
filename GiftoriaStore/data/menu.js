@@ -719,7 +719,7 @@ export const pages = [
       {
         href: "/my-account-edit",
         text: "My account details",
-        className: "menu-link-text link text_black-2",
+        className: "menu-link-text link text_black-2 raleway-medium",
       },
       {
         href: "/my-account-wishlist",

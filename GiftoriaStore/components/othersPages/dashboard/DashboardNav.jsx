@@ -25,7 +25,7 @@ export default function DashboardNav() {
         <li key={index}>
           <Link
             href={link.href}
-            className={`my-account-nav-item ${
+            className={`my-account-nav-item raleway-medium ${
               pathname == link.href ? "active" : ""
             }`}
           >
@@ -34,7 +34,7 @@ export default function DashboardNav() {
         </li>
       ))}
       <li>
-        <a href="#logout" className="my-account-nav-item" onClick={handleLogout}>
+        <a href="#logout" className="my-account-nav-item raleway-medium" onClick={handleLogout}>
           Logout
         </a>
       </li>
