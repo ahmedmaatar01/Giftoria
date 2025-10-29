@@ -130,14 +130,7 @@ export default function Header6({ isArrow, uppercase = false }) {
                 </a>
               </li>
               
-              <li className="nav-wishlist">
-                <Link href={`/wishlist`} className="nav-icon-item" aria-label={t("header.wishlist")}>
-                  <i className="icon icon-heart" />
-                  <span className="count-box">
-                    <WishlistLength />
-                  </span>
-                </Link>
-              </li>
+             
               <li className="nav-cart">
                 <a href="#shoppingCart" data-bs-toggle="modal" className="nav-icon-item" aria-label={t("header.cart")}>
                   <i className="icon icon-bag" />

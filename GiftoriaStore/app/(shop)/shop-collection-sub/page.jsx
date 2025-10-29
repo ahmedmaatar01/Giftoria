@@ -49,7 +49,7 @@ export default function Page() {
       <Header10 />
       <div className="tf-page-title">
         <div className="container-full">
-          <div className="heading text-center bell-t-medium">
+          <div className="heading text-center raleway-bold">
             {loading ? "Loading..." : displayName}
           </div>
           <p className="text-center text-2 text_black-2 mt_5 montserrat-regular">

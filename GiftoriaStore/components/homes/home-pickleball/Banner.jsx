@@ -15,7 +15,7 @@ export default function Banner() {
             data-wow-delay="0s"
           >
             <div className="heading">
-              <span className="bell-t-medium" style={{ fontSize: '30px', textTransform: 'uppercase' }}>OUR ESTEEMED PARTNERS</span>
+              <span className="bell-medium" style={{ fontSize: '30px', textTransform: 'uppercase' }}>OUR ESTEEMED PARTNERS</span>
             </div>
             <p className="description text_black-2 montserrat-regular" style={{ fontSize: '15px' }}>
              In the timeless art of gifting, collaboration is our finest treasure.

@@ -100,7 +100,7 @@ export default function Products2() {
       <div className="container">
         <div className="flat-title flex-row justify-content-center">
           <span className="title fw-6 wow fadeInUp" data-wow-delay="0s">
-            <span className="raleway-regular heading-30" style={{ textTransform: 'uppercase', fontSize: '30px' }}>{t("products2_title")}</span>
+            <span className="bell-medium heading-30" style={{ textTransform: 'uppercase', fontSize: '30px' }}>{t("products2_title")}</span>
           </span>
         </div>
 
@@ -182,13 +182,13 @@ export default function Products2() {
 
                   <div className="card-product-info">
                     <div className="inner-info">
-                      <Link href={`/product-detail/${product.id}`} className="title link fw-6">
+                      <Link href={`/product-detail/${product.id}`} className="raleway-light" style={{ letterSpacing: "1px", textTransform: "uppercase" }}>
                         {product.name || product.title}
                       </Link>
                       <div>
                         <span className="new-price price-primary" style={{ color: '#000000ff' }}>
                           <span style={{ fontSize: '15px' }}>$</span>
-                          <span style={{ fontSize: '24px', fontWeight: 'bold' }}>{Number(product.price || 0).toFixed(2)}</span>
+                          <span style={{ fontSize: '20px', fontWeight: 'bold' }}>{Number(product.price || 0).toFixed(2)}</span>
                         </span>
                       </div>
                     </div>

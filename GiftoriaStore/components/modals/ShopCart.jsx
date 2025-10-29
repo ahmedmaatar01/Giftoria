@@ -7,6 +7,8 @@ import { useRef } from "react";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useTranslation } from "react-i18next";
+
+
 export default function ShopCart() {
   const { t } = useTranslation();
   const { cartProducts, totalPrice, setCartProducts, setQuickViewItem } =
@@ -159,7 +161,18 @@ export default function ShopCart() {
                     {!cartProducts.length && (
                       <div className="container">
                         <div className="row align-items-center mt-5 mb-5">
+                        <div className="relative mx-auto mb-4" style={{ width: "200px", height: "250px" }}>
+                            <Image
+                              src="/images/empty-cart.png"
+                              alt="Empty cart"
+                              fill
+                              className="object-contain"
+                              priority
+                            />
+                          </div>
+
                           <div className="col-12 fs-18">
+                            
                             {t("cart.empty_message")}
                           </div>
                           <div className="col-12 mt-3">

@@ -19,7 +19,7 @@ export default function Hero() {
         />
         <div className="box-content text-center">
           <div className="container wow fadeInUp" data-wow-delay="0s">
-            <p className="subheading text-white fw-7 banner-title-montserrat">
+            <p className="subheading text-white fw-7 raleway-medium">
               {t("hero_subheading")}
             </p>
             <h1 className="heading text-white bell-medium" style={{ fontSize: '60px' }}>
@@ -30,10 +30,10 @@ export default function Hero() {
             </p>
             <Link
               href="/shop-left-sidebar"
-              className="tf-btn btn-md btn-light-icon btn-icon radius-3 animate-hover-btn"
+              className="btn-link-arrow raleway-light"  style={{ color: "#fff" }}
             >
               <span>{t("hero_button")}</span>
-              <i className="icon icon-arrow-right" />
+             
             </Link>
           </div>
         </div>

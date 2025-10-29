@@ -57,7 +57,7 @@ export default function Categories() {
           className="flat-title flex-row justify-content-between align-items-center px-0 wow fadeInUp"
           data-wow-delay="0s"
         >
-          <h3 className="bell-t-medium heading-30">{t("categoriesAlt.sectionTitle")}</h3>
+          <h3 className="bell-medium heading-30">{t("categoriesAlt.sectionTitle")}</h3>
           <Link href={`/shop-left-sidebar`} className="tf-btn btn-line">
             {t("categoriesAlt.viewAllCategories")}
             <i className="icon icon-arrow1-top-left" />
@@ -126,7 +126,7 @@ export default function Categories() {
                             href={`/shop-default?category=${cat.id}`}
                             className="link title fw-5"
                           >
-                            {title}
+                            <p className="bell-medium" style={{ letterSpacing: "1px", textTransform: "uppercase" }}>{title}</p>
                           </Link>
                         </div>
                       </div>
