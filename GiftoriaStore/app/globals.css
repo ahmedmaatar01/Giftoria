@@ -108,6 +108,15 @@
   font-weight: 400;
   font-style: normal;
 }
+
+@font-face {
+  font-family: "be IN Normal";
+  src: url("/fonts/beINNormal.ttf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* be IN Normal font will be used from system fonts or web fonts if available */
 .header-style-10 .filter-option-inner-inner,.header-style-10 .dropdown.bootstrap-select.image-select.style-default>button::after {
   color: #000000;
 }
@@ -126,16 +135,22 @@ header#header {
   color: #ffffff;
 }
 
-/* Apply Arabic font when html has the arabic-font class */
+/* Apply Arabic fonts when html has the arabic-font class */
 html.arabic-font,
 html.arabic-font body {
   font-family: "Muslimah Thin", sans-serif !important;
 }
 
-html.arabic-font,
-html.arabic-font body,
-html.arabic-font *:not(i):not(.icon):not([class*="icon-"]) {
+/* Apply Muslimah Thin to all elements except paragraphs and spans */
+html.arabic-font *:not(p):not(span):not(i):not(.icon):not([class*="icon-"]) {
   font-family: "Muslimah Thin", sans-serif !important;
+}
+
+/* Apply be IN Normal font specifically to paragraphs and spans when Arabic is selected */
+html.arabic-font p,
+html.arabic-font span {
+  font-family: "be IN Normal", sans-serif !important;
+  font-weight: 400 !important;
 }
 
 /* Initial transparent header */
