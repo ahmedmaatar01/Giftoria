@@ -198,7 +198,7 @@ const ManageOccasions = () => {
               <tr>
                 <th>Name</th>
                 <th>Arabic Name</th>
-                <th>Slug</th>
+                 
                 <th>Show Menu</th>
                 <th>Image</th>
                 <th>Categories</th>
@@ -210,7 +210,7 @@ const ManageOccasions = () => {
                 <tr key={occ.id}>
                   <td>{occ.name}</td>
                   <td>{occ.arabic_name}</td>
-                  <td>{occ.slug}</td>
+                  
                   <td>{occ.show_menu ? 'Yes' : 'No'}</td>
                   <td>
                     {occ.featured_image || (occ.images && occ.images.length > 0) ? (
@@ -259,7 +259,7 @@ const ManageOccasions = () => {
             <Row>
               <Col md={6}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Name</Form.Label>
+                  <Form.Label>English Name</Form.Label>
                   <Form.Control name="name" value={safeForm.name} onChange={handleChange} required />
                 </Form.Group>
               </Col>
@@ -270,19 +270,7 @@ const ManageOccasions = () => {
                 </Form.Group>
               </Col>
             </Row>
-            <Row>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Slug</Form.Label>
-                  <Form.Control name="slug" value={safeForm.slug} onChange={handleChange} required />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Check type="checkbox" label="Show in Menu" name="show_menu" checked={safeForm.show_menu} onChange={handleChange} />
-                </Form.Group>
-              </Col>
-            </Row>
+           
             <Form.Group className="mb-3">
               <Form.Label>Description</Form.Label>
               <Form.Control as="textarea" rows={3} name="description" value={safeForm.description} onChange={handleChange} />

@@ -61,7 +61,7 @@ const ManageCustomField = () => {
       <Card.Body>
         <Table responsive>
           <thead>
-            <tr><th>Name</th><th>Type</th><th>Category</th><th>Required</th><th>Affects Price</th><th>Actions</th></tr>
+            <tr><th>Name</th><th>Type</th><th>Category</th><th>Actions</th></tr>
           </thead>
           <tbody>
             {fields.map(field => (
@@ -69,8 +69,7 @@ const ManageCustomField = () => {
                 <td>{field.name}</td>
                 <td>{field.type}</td>
                 <td>{categories.find(c => c.id === field.category_id)?.name || ''}</td>
-                <td>{field.is_required ? 'Yes' : 'No'}</td>
-                <td>{field.affects_price ? 'Yes' : 'No'}</td>
+             
                 <td>
                   <Button size="sm" onClick={() => handleShowModal(field)} className="me-2">Edit</Button>
                   <Button size="sm" variant="danger" onClick={async () => {
@@ -119,12 +118,7 @@ const ManageCustomField = () => {
               <Form.Label>Options (comma separated)</Form.Label>
               <Form.Control name="options" value={form.options} onChange={handleChange} disabled={form.type !== 'select'} />
             </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Check type="checkbox" label="Required" name="is_required" checked={form.is_required} onChange={handleChange} />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Check type="checkbox" label="Affects Price" name="affects_price" checked={form.affects_price} onChange={handleChange} />
-            </Form.Group>
+           
             {form.affects_price && (
               <Row>
                 <Col>
