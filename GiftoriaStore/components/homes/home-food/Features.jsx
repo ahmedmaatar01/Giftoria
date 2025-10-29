@@ -6,14 +6,14 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 export default function Features() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const features = slides22.slice(0, 4);
 
   return (
     <section className="flat-spacing-18 bg_beige-4">
       <div className="container">
         <div className="flat-title mb-lg text-center wow fadeInUp" data-wow-delay="0s">
-          <span className="title bell-bold heading-30">
+          <span className={`title ${i18n.language === 'ar' ? 'muslimah-thin' : 'bell-bold'} heading-30`}>
             {t("features_title_line1")} <br />
             <span style={{ marginTop: '10px', display: 'inline-block' }}>{t("features_title_line2")}</span>
           </span>
