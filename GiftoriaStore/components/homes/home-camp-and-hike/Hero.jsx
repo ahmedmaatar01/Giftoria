@@ -133,6 +133,7 @@ export default function Hero() {
                           <Link
                             href={`/shop-collection-sub?occasion=${occasion.id}`}
                             className="tf-btn btn-outline-light fw-5 btn-xl rounded-0"
+                            style={{ border: 'none' }}
                           >
                             <span>Read more</span>
                             <i className="icon icon-arrow-right" />

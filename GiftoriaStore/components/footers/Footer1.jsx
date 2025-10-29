@@ -136,7 +136,7 @@ export default function Footer1({ bgColor = "" }) {
               <Image
                 alt="image"
                 src="/images/logo/logo_Plan de travail 1 copie 2.svg"
-                width="300"
+                width="450"
                 height="21"
               />
             </Link>

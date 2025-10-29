@@ -11,9 +11,9 @@ export default function FeaturesAbout({ title, subtitle, items }) {
       <div className="container">
         <div className="bg_grey-2 radius-10 flat-wrap-iconbox">
           <div className="flat-title lg">
-            <span className="title fw-5 bell-t-medium">{t(title)}</span> {/* Translate title */}
+            <span className="title fw-5 raleway-bold">{t(title)}</span> {/* Translate title */}
             <div>
-              <p className="sub-title text_black-2 montserrat-regular" style={{ lineHeight: '2', textAlign: 'justify', fontSize: '15px' }}>
+              <p className="sub-title text_black-2 raleway-light" style={{ lineHeight: '2', textAlign: 'justify', fontSize: '15px' }}>
                 {t(subtitle)} {/* Translate subtitle */}
               </p>
             </div>
@@ -37,8 +37,8 @@ export default function FeaturesAbout({ title, subtitle, items }) {
                   <SwiperSlide key={index}>
                     <div className="tf-icon-box text-center">
                       <div className="content">
-                        <div className="title bell-t-medium" style={{ fontSize: '28px' }}>{t(box.title)}</div> {/* Translate item title */}
-                        <p className="text_black-2 montserrat-regular" style={{ fontSize: '15px' }}>{t(box.description)}</p> {/* Translate item description */}
+                        <div className="raleway-regular" style={{ fontSize: '28px' }}>{t(box.title)}</div> {/* Translate item title */}
+                        <p className="text_black-2 raleway-light" style={{ fontSize: '15px', marginTop: '20px' }}>{t(box.description)}</p> {/* Translate item description */}
 
                       </div>
                     </div>

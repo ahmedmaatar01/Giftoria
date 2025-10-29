@@ -180,13 +180,13 @@
     "viewAllCategories": "View All Categories"
   },
   "menu": {
-    "home": "Home",
-    "shop": "Shop",
-    "about": "About Us",
-    "contact": "Contact",
+    "home": "HOME",
+    "shop": "SHOP",
+    "about": "ABOUT US",
+    "contact": "CONTACT",
     "faq": "FAQ",
-    "men": "Men",
-    "women": "Women"
+    "men": "MEN",
+    "women": "WOMEN"
   },
 
   "marquee": {

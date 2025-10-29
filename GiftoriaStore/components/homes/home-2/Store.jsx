@@ -22,7 +22,7 @@ export default function Store() {
             <div className="tab-pane active show" id="Qatar" role="tabpanel">
               <div className="widget-card-store align-items-center tf-grid-layout md-col-2">
                 <div className="store-item-info">
-                  <h5 className="store-heading bell-t-medium">{t("qatar_store_title")}</h5>
+                  <h5 className="store-heading raleway-regular">{t("qatar_store_title")}</h5>
 
                   <div className="description">
                     <p>
