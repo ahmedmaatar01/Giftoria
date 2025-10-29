@@ -114,7 +114,7 @@ const ProductModal = ({ show, onHide, onSubmit, form, setForm, isEdit }) => {
           <Form.Label>Lead Time</Form.Label>
           <Form.Control
             type="text"
-            placeholder="e.g. 2 days for preparation"
+            placeholder="e.g. 2 hours for preparation"
             value={form.lead_time}
             onChange={(e) => setForm({ ...form, lead_time: e.target.value })}
           />

@@ -10,9 +10,11 @@ const ManageCommands = () => {
     const [commands, setCommands] = useState([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
+    const [filterStatus, setFilterStatus] = useState("");
     const [showModal, setShowModal] = useState(false);
     const [selectedCommand, setSelectedCommand] = useState(null);
     const [showEditModal, setShowEditModal] = useState(false);
+    const [selectedStatus, setSelectedStatus] = useState("");
     const [editForm, setEditForm] = useState({
         status: "",
         description: "",
@@ -69,11 +71,25 @@ const ManageCommands = () => {
         fetchCommands();
     }, []);
 
-    // Filter commands by search
-    const filteredCommands = commands.filter(cmd =>
-        cmd.name?.toLowerCase().includes(search.toLowerCase()) ||
-        (cmd.description && cmd.description.toLowerCase().includes(search.toLowerCase()))
-    );
+   // Filter commands by search (name, description, customer name, phone) and status
+const filteredCommands = commands.filter(cmd => {
+  const searchLower = search.toLowerCase();
+
+  const matchesSearch =
+    cmd.name?.toLowerCase().includes(searchLower) ||
+    cmd.description?.toLowerCase().includes(searchLower) ||
+    cmd.customer_first_name?.toLowerCase().includes(searchLower) ||
+    cmd.customer_last_name?.toLowerCase().includes(searchLower) ||
+    cmd.customer_phone?.toLowerCase().includes(searchLower);
+
+  const matchesStatus = filterStatus
+    ? cmd.status?.toLowerCase() === filterStatus.toLowerCase()
+    : true;
+
+  return matchesSearch && matchesStatus;
+});
+
+
 
     return (
         <>
@@ -97,7 +113,21 @@ const ManageCommands = () => {
                         </InputGroup.Text>
                         <Form.Control type="text" placeholder="Search" value={search} onChange={e => setSearch(e.target.value)} />
                     </InputGroup>
+                    
                 </Col>
+                <Col xs={12} md={4} lg={3}>
+  <Form.Select
+    value={filterStatus}
+    onChange={(e) => setFilterStatus(e.target.value)}
+  >
+    <option value="">All Statuses</option>
+    <option value="pending">Pending</option>
+    <option value="processing">Processing</option>
+    <option value="completed">Completed</option>
+    <option value="cancelled">Cancelled</option>
+  </Form.Select>
+</Col>
+
             </Row>
         </div>
         <Card border="light" className="shadow-sm">
@@ -161,161 +191,347 @@ const ManageCommands = () => {
 
         {/* Modal for command details */}
         {showModal && selectedCommand && (
-            <div className="modal show" style={{ display: 'block', background: 'rgba(0,0,0,0.5)' }} tabIndex="-1">
-                <div className="modal-dialog modal-lg">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title">Command Details</h5>
-                            <Button variant="close" onClick={() => setShowModal(false)}>&times;</Button>
-                        </div>
-                        <div className="modal-body">
-                            <h6>General Info</h6>
-                            <ul>
-                                <li><b>Name:</b> {selectedCommand.name}</li>
-                                <li><b>Status:</b> {selectedCommand.status}</li>
-                                <li><b>Total:</b> {selectedCommand.total}</li>
-                                <li><b>Placed At:</b> {formatDate(selectedCommand.placed_at)}</li>
-                                <li><b>Source:</b> {selectedCommand.source}</li>
-                                <li><b>Payment Method:</b> {formatPayment(selectedCommand.payment_method)}</li>
-                                <li><b>Desired Delivery:</b> {formatDate(selectedCommand.desired_delivery_at)}</li>
-                                <li><b>Note:</b> {selectedCommand.description}</li>
-                            </ul>
-                            <h6>Customer Info</h6>
-                            <ul>
-                                <li><b>First Name:</b> {selectedCommand.customer_first_name}</li>
-                                <li><b>Last Name:</b> {selectedCommand.customer_last_name}</li>
-                                <li><b>Email:</b> {selectedCommand.customer_email}</li>
-                                <li><b>Phone:</b> {selectedCommand.customer_phone}</li>
-                                <li><b>Shipping Address:</b> {selectedCommand.shipping_address}</li>
-                                <li><b>Billing Address:</b> {selectedCommand.billing_address}</li>
-                            </ul>
-                            <h6>Products</h6>
-                            <ul>
-                                {selectedCommand.command_products && selectedCommand.command_products.length > 0 ? (
-                                    selectedCommand.command_products.map((cp, idx) => (
-                                        <li key={idx} style={{ marginBottom: '1em' }}>
-                                            <b>Product:</b> {cp.product?.name || cp.product_id}<br />
-                                            <b>Quantity:</b> {cp.quantity}<br />
-                                            <b>Unit Price:</b> {cp.unit_price}<br />
-                                            <b>Line Total:</b> {cp.line_total}<br />
-                                            <b>Custom Fields:</b>
-                                            <ul>
-                                                {Array.isArray(cp.custom_fields) && cp.custom_fields.length > 0 ? (
-                                                    cp.custom_fields.map((cf, i) => (
-                                                        <li key={i}><b>{cf.name}:</b> {cf.value}</li>
-                                                    ))
-                                                ) : (<li>None</li>)}
-                                            </ul>
-                                        </li>
-                                    ))
-                                ) : (<li>No products</li>)}
-                            </ul>
-                        </div>
-                        <div className="modal-footer">
-                            <Button variant="secondary" onClick={() => setShowModal(false)}>Close</Button>
-                        </div>
-                    </div>
-                </div>
+  <div
+    className="modal show fade"
+    style={{ display: "block", background: "rgba(0,0,0,0.6)" }}
+    tabIndex="-1"
+  >
+    <div className="modal-dialog modal-xl modal-dialog-centered">
+      <div className="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        
+        {/* HEADER */}
+        <div className="modal-header bg-primary text-white d-flex justify-content-between align-items-center">
+          <h5 className="modal-title fw-bold mb-0">
+            🧾 Command Details
+          </h5>
+          <button
+            type="button"
+            className="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center"
+            style={{
+              width: "32px",
+              height: "32px",
+              fontSize: "1.2rem",
+              lineHeight: "1",
+              border: "none",
+            }}
+            onClick={() => setShowModal(false)}
+          >
+            &times;
+          </button>
+        </div>
+
+        {/* BODY */}
+        <div className="modal-body p-4 bg-light">
+          {/* General Info */}
+          <h6 className="fw-semibold mb-3 text-primary">General Info</h6>
+          <table className="table table-striped table-hover table-bordered align-middle bg-white rounded">
+            <tbody>
+              <tr><th className="w-25">Name</th><td>{selectedCommand.name}</td></tr>
+              <tr><th>Status</th><td><span className="badge bg-info">{selectedCommand.status}</span></td></tr>
+              <tr><th>Total</th><td><b>{selectedCommand.total} DT</b></td></tr>
+              <tr><th>Placed At</th><td>{formatDate(selectedCommand.placed_at)}</td></tr>
+              <tr><th>Source</th><td>{selectedCommand.source}</td></tr>
+              <tr><th>Payment Method</th><td>{formatPayment(selectedCommand.payment_method)}</td></tr>
+              <tr><th>Desired Delivery</th><td>{formatDate(selectedCommand.desired_delivery_at)}</td></tr>
+              <tr><th>Note</th><td>{selectedCommand.description || "—"}</td></tr>
+            </tbody>
+          </table>
+
+          {/* Customer Info */}
+          <h6 className="fw-semibold mb-3 mt-5 text-primary">Customer Info</h6>
+          <table className="table table-striped table-hover table-bordered align-middle bg-white rounded">
+            <tbody>
+              <tr><th>First Name</th><td>{selectedCommand.customer_first_name}</td></tr>
+              <tr><th>Last Name</th><td>{selectedCommand.customer_last_name}</td></tr>
+              <tr><th>Email</th><td>{selectedCommand.customer_email}</td></tr>
+              <tr><th>Phone</th><td>{selectedCommand.customer_phone}</td></tr>
+              <tr><th>Shipping Address</th><td>{selectedCommand.shipping_address}</td></tr>
+              <tr><th>Billing Address</th><td>{selectedCommand.billing_address}</td></tr>
+            </tbody>
+          </table>
+
+          {/* Products */}
+          <h6 className="fw-semibold mb-3 mt-5 text-primary">Products</h6>
+          {selectedCommand.command_products && selectedCommand.command_products.length > 0 ? (
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered align-middle bg-white rounded">
+                <thead className="table-primary">
+                  <tr>
+                    <th>#</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Line Total</th>
+                    <th>Custom Fields</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {selectedCommand.command_products.map((cp, idx) => (
+                    <tr key={idx}>
+                      <td>{idx + 1}</td>
+                      <td>{cp.product?.name || cp.product_id}</td>
+                      <td>{cp.quantity}</td>
+                      <td>{cp.unit_price}</td>
+                      <td><b>{cp.line_total}</b></td>
+                      <td>
+                        {Array.isArray(cp.custom_fields) && cp.custom_fields.length > 0 ? (
+                          <table className="table table-sm mb-0 border-0">
+                            <tbody>
+                              {cp.custom_fields.map((cf, i) => (
+                                <tr key={i}>
+                                  <th className="bg-light w-50">{cf.name}</th>
+                                  <td>{cf.value}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        ) : (
+                          <span className="text-muted">None</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-        )}
+          ) : (
+            <p className="text-muted fst-italic">No products found</p>
+          )}
+        </div>
+
+        {/* FOOTER */}
+        <div className="modal-footer bg-white">
+          <Button
+            variant="secondary"
+            className="rounded-pill px-4"
+            onClick={() => setShowModal(false)}
+          >
+            Close
+          </Button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
 
         {/* Modal for managing/editing command */}
         {showEditModal && selectedCommand && (
-            <div className="modal show" style={{ display: 'block', background: 'rgba(0,0,0,0.5)' }} tabIndex="-1">
-                <div className="modal-dialog modal-lg">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title">Manage Command</h5>
-                            <Button variant="close" onClick={() => setShowEditModal(false)}>&times;</Button>
-                        </div>
-                        <div className="modal-body">
-                            {editError && <div className="alert alert-danger">{editError}</div>}
-                            {editSuccess && <div className="alert alert-success">{editSuccess}</div>}
-                            <Form onSubmit={(e) => { e.preventDefault(); }}>
-                                <Row className="g-3">
-                                    <Col md={6}>
-                                        <Form.Group>
-                                            <Form.Label>Status</Form.Label>
-                                            <Form.Select value={editForm.status} onChange={(e) => setEditForm({ ...editForm, status: e.target.value })}>
-                                                <option value="">Select status</option>
-                                                <option value="pending">pending</option>
-                                                <option value="processing">processing</option>
-                                                <option value="completed">completed</option>
-                                                <option value="cancelled">cancelled</option>
-                                            </Form.Select>
-                                        </Form.Group>
-                                    </Col>
-                                    <Col md={6}>
-                                        <Form.Group>
-                                            <Form.Label>Note</Form.Label>
-                                            <Form.Control as="textarea" rows={1} value={editForm.description} onChange={(e) => setEditForm({ ...editForm, description: e.target.value })} />
-                                        </Form.Group>
-                                    </Col>
-                                    <Col md={6}>
-                                        <Form.Group>
-                                            <Form.Label>Customer First Name</Form.Label>
-                                            <Form.Control type="text" value={editForm.customer_first_name} onChange={(e) => setEditForm({ ...editForm, customer_first_name: e.target.value })} />
-                                        </Form.Group>
-                                    </Col>
-                                    <Col md={6}>
-                                        <Form.Group>
-                                            <Form.Label>Customer Last Name</Form.Label>
-                                            <Form.Control type="text" value={editForm.customer_last_name} onChange={(e) => setEditForm({ ...editForm, customer_last_name: e.target.value })} />
-                                        </Form.Group>
-                                    </Col>
-                                    <Col md={6}>
-                                        <Form.Group>
-                                            <Form.Label>Customer Email</Form.Label>
-                                            <Form.Control type="email" value={editForm.customer_email} onChange={(e) => setEditForm({ ...editForm, customer_email: e.target.value })} />
-                                        </Form.Group>
-                                    </Col>
-                                    <Col md={6}>
-                                        <Form.Group>
-                                            <Form.Label>Customer Phone</Form.Label>
-                                            <Form.Control type="text" value={editForm.customer_phone} onChange={(e) => setEditForm({ ...editForm, customer_phone: e.target.value })} />
-                                        </Form.Group>
-                                    </Col>
-                                    <Col md={6}>
-                                        <Form.Group>
-                                            <Form.Label>Shipping Address</Form.Label>
-                                            <Form.Control type="text" value={editForm.shipping_address} onChange={(e) => setEditForm({ ...editForm, shipping_address: e.target.value })} />
-                                        </Form.Group>
-                                    </Col>
-                                    <Col md={6}>
-                                        <Form.Group>
-                                            <Form.Label>Billing Address</Form.Label>
-                                            <Form.Control type="text" value={editForm.billing_address} onChange={(e) => setEditForm({ ...editForm, billing_address: e.target.value })} />
-                                        </Form.Group>
-                                    </Col>
-                                </Row>
-                            </Form>
-                        </div>
-                        <div className="modal-footer">
-                            <Button variant="secondary" onClick={() => setShowEditModal(false)} disabled={editLoading}>Cancel</Button>
-                            <Button variant="primary" disabled={editLoading} onClick={async () => {
-                                try {
-                                    setEditLoading(true);
-                                    setEditError(null);
-                                    setEditSuccess(null);
-                                    const res = await axios.put(`${API_URL}/commands/${selectedCommand.id}`, editForm);
-                                    const updated = res.data;
-                                    setCommands(prev => prev.map(c => c.id === updated.id ? updated : c));
-                                    setSelectedCommand(updated);
-                                    setEditSuccess('Updated successfully');
-                                    setShowEditModal(false);
-                                } catch (err) {
-                                    const msg = err.response?.data?.message || 'Update failed';
-                                    const validation = err.response?.data?.errors ? Object.values(err.response.data.errors).flat().join(', ') : '';
-                                    setEditError(validation ? `${msg}: ${validation}` : msg);
-                                } finally {
-                                    setEditLoading(false);
-                                }
-                            }}>Save changes</Button>
-                        </div>
-                    </div>
-                </div>
+  <div
+    className="modal show fade"
+    style={{ display: "block", background: "rgba(0,0,0,0.6)" }}
+    tabIndex="-1"
+  >
+    <div className="modal-dialog modal-lg modal-dialog-centered">
+      <div className="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        
+        {/* HEADER */}
+        <div className="modal-header bg-primary text-white d-flex justify-content-between align-items-center">
+          <h5 className="modal-title fw-bold mb-0">
+            🛠️ Manage Command
+          </h5>
+          <button
+            type="button"
+            className="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center"
+            style={{
+              width: "32px",
+              height: "32px",
+              fontSize: "1.2rem",
+              lineHeight: "1",
+              border: "none",
+            }}
+            onClick={() => setShowEditModal(false)}
+          >
+            &times;
+          </button>
+        </div>
+
+        {/* BODY */}
+        <div className="modal-body bg-light p-4">
+          {editError && (
+            <div className="alert alert-danger shadow-sm rounded-3 py-2 px-3">
+              ❌ {editError}
             </div>
-        )}
+          )}
+          {editSuccess && (
+            <div className="alert alert-success shadow-sm rounded-3 py-2 px-3">
+              ✅ {editSuccess}
+            </div>
+          )}
+
+          <Form onSubmit={(e) => e.preventDefault()} className="mt-3">
+            <Row className="g-3">
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label className="fw-semibold text-primary">Status</Form.Label>
+                  <Form.Select
+                    className="rounded-3 border-0 shadow-sm"
+                    value={editForm.status}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, status: e.target.value })
+                    }
+                  >
+                    <option value="">Select status</option>
+                    <option value="pending">Pending</option>
+                    <option value="processing">Processing</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label className="fw-semibold text-primary">Note</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={1}
+                    className="rounded-3 border-0 shadow-sm"
+                    placeholder="Add a note..."
+                    value={editForm.description}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, description: e.target.value })
+                    }
+                  />
+                </Form.Group>
+              </Col>
+
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label className="fw-semibold text-primary">Customer First Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    className="rounded-3 border-0 shadow-sm"
+                    value={editForm.customer_first_name}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, customer_first_name: e.target.value })
+                    }
+                  />
+                </Form.Group>
+              </Col>
+
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label className="fw-semibold text-primary">Customer Last Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    className="rounded-3 border-0 shadow-sm"
+                    value={editForm.customer_last_name}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, customer_last_name: e.target.value })
+                    }
+                  />
+                </Form.Group>
+              </Col>
+
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label className="fw-semibold text-primary">Customer Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    className="rounded-3 border-0 shadow-sm"
+                    value={editForm.customer_email}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, customer_email: e.target.value })
+                    }
+                  />
+                </Form.Group>
+              </Col>
+
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label className="fw-semibold text-primary">Customer Phone</Form.Label>
+                  <Form.Control
+                    type="text"
+                    className="rounded-3 border-0 shadow-sm"
+                    value={editForm.customer_phone}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, customer_phone: e.target.value })
+                    }
+                  />
+                </Form.Group>
+              </Col>
+
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label className="fw-semibold text-primary">Shipping Address</Form.Label>
+                  <Form.Control
+                    type="text"
+                    className="rounded-3 border-0 shadow-sm"
+                    value={editForm.shipping_address}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, shipping_address: e.target.value })
+                    }
+                  />
+                </Form.Group>
+              </Col>
+
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label className="fw-semibold text-primary">Billing Address</Form.Label>
+                  <Form.Control
+                    type="text"
+                    className="rounded-3 border-0 shadow-sm"
+                    value={editForm.billing_address}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, billing_address: e.target.value })
+                    }
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+
+        {/* FOOTER */}
+        <div className="modal-footer bg-white d-flex justify-content-end">
+          <Button
+            variant="secondary"
+            className="rounded-pill px-4"
+            onClick={() => setShowEditModal(false)}
+            disabled={editLoading}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="primary"
+            className="rounded-pill px-4 ms-2"
+            disabled={editLoading}
+            onClick={async () => {
+              try {
+                setEditLoading(true);
+                setEditError(null);
+                setEditSuccess(null);
+                const res = await axios.put(`${API_URL}/commands/${selectedCommand.id}`, editForm);
+                const updated = res.data;
+                setCommands((prev) =>
+                  prev.map((c) => (c.id === updated.id ? updated : c))
+                );
+                setSelectedCommand(updated);
+                setEditSuccess("Updated successfully");
+                setShowEditModal(false);
+              } catch (err) {
+                const msg =
+                  err.response?.data?.message || "Update failed";
+                const validation = err.response?.data?.errors
+                  ? Object.values(err.response.data.errors)
+                      .flat()
+                      .join(", ")
+                  : "";
+                setEditError(validation ? `${msg}: ${validation}` : msg);
+              } finally {
+                setEditLoading(false);
+              }
+            }}
+          >
+            {editLoading ? "Saving..." : "Save Changes"}
+          </Button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
         </>
     );
 };

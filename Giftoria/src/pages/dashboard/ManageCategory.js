@@ -233,9 +233,6 @@ const ManageCategory = () => {
               <tr>
                 <th>Name (EN)</th>
                 <th>Name (AR)</th>
-                <th>Slug</th>
-                <th>Parent</th>
-                <th>Show Menu</th>
                 <th>Image</th>
                 <th>Actions</th>
               </tr>
@@ -256,9 +253,8 @@ const ManageCategory = () => {
                   </td>
               
 
-                  <td>{cat.slug}</td>
-                  <td>{cat.parent ? cat.parent.name : ''}</td>
-                  <td>{cat.show_menu ? 'Yes' : 'No'}</td>
+                  
+                  
                   <td>
                     {cat.featured_image || (cat.images && cat.images.length > 0) ? (
                       <Image 
@@ -317,14 +313,7 @@ const ManageCategory = () => {
     </Form.Group>
   </Col>
 </Row>
-<Row>
-  <Col md={12}>
-    <Form.Group className="mb-3">
-      <Form.Label>Slug</Form.Label>
-      <Form.Control name="slug" value={safeForm.slug || ''} onChange={handleChange} required />
-    </Form.Group>
-  </Col>
-</Row>
+
 
               
               <Form.Group className="mb-3">
@@ -332,30 +321,7 @@ const ManageCategory = () => {
                 <Form.Control name="description" value={safeForm.description || ''} onChange={handleChange} as="textarea" rows={3} />
               </Form.Group>
               
-              <Row>
-                <Col md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Parent Category</Form.Label>
-                    <Form.Select name="parent_id" value={safeForm.parent_id || ''} onChange={handleChange}>
-                      <option value="">None</option>
-                      {categories.filter(c => c.id !== safeForm.id).map(cat => (
-                        <option key={cat.id} value={cat.id}>{cat.name}</option>
-                      ))}
-                    </Form.Select>
-                  </Form.Group>
-                </Col>
-                <Col md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Check 
-                      type="checkbox" 
-                      label="Show in Menu" 
-                      name="show_menu" 
-                      checked={safeForm.show_menu} 
-                      onChange={handleChange} 
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
+           
 
               <hr />
               <h6>Image</h6>
