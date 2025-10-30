@@ -17,6 +17,7 @@ export default function Products2() {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const {  i18n } = useTranslation();
 
   // Helper to resolve product image from API data
   const getItemImage = (product) => {
@@ -183,7 +184,11 @@ export default function Products2() {
                   <div className="card-product-info">
                     <div className="inner-info">
                       <Link href={`/product-detail/${product.id}`} className="raleway-light" style={{ letterSpacing: "1px", textTransform: "uppercase" }}>
-                        {product.name || product.title}
+                      {i18n.language === "ar" 
+                                  ? product.arabic_name || product.name 
+                                  : product.name || product.name}
+
+
                       </Link>
                       <div>
                         <span className="new-price price-primary" style={{ color: '#000000ff' }}>

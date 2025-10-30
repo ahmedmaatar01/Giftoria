@@ -30,11 +30,13 @@ export default function Hero() {
             </p>
             <Link
               href="/shop-left-sidebar"
-              className="btn-link-arrow raleway-light"  style={{ color: "#fff" }}
+           
             >
-              <span>{t("hero_button")} </span>
-             
+               <div className="ecomus-button-link ecomus-button em-button em-button-subtle" style={{ marginTop: "10px" }}>
+              <span  className="raleway-regular text-uppercase  "style={{textDecoration:"underline", color: "#fff" }}>{t("hero_button")} </span>
+              </div>
             </Link>
+          
           </div>
         </div>
       </div>

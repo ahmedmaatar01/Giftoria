@@ -4,7 +4,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 export default function BannerHome1({
-  bgUrl = "/images/slider/food-banner-collection.jpg",
+  bgUrl = "images/slider/fashion-slideshow-01.jpg",
   buttonLink = "/contact-2",
   heading,
   description,
@@ -31,10 +31,11 @@ export default function BannerHome1({
             </p>
             <div className="wow fadeInUp" data-wow-delay="0s">
               <Link href={buttonLink}>
-                <button className="btn-link-arrow raleway-light">
-                  <span className="montserrat-semi-bold">{buttonLabel ? buttonLabel : t("banner3_button")}</span>
-                </button>
+                <div className="ecomus-button-link ecomus-button em-button em-button-subtle">
+                  <span className="raleway-regular text-uppercase  "style={{textDecoration:"underline"}}  >{buttonLabel ? buttonLabel : t("banner3_button")}  </span>
+                </div>
               </Link>
+              {/* <a href="#" className="ecomus-button-link ecomus-button em-button em-button-subtle"> <span className="ecomus-button-text">Button Underline</span> </a>  */}
             </div>
           </div>
         </div>
