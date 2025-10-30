@@ -272,5 +272,8 @@
 "selling_fast": "الأكثر مبيعًا! {{stock}} عناصر متوفرة.",
 "estimated_delivery_time_label": "الوقت المقدر للتوصيل",
   "hours": "ساعات",
-  "not_available": "غير متوفر"
+  "not_available": "غير متوفر",
+  "estimate_delivery_international": "يقدر التسليم {{internationalDays}} أيام عمل للمتاجر الدولية / {{localDays}} أيام إلى {{country}}",
+  "guarantee_safe_checkout": "ضمان الدفع الآمن والموثوق",
+  "qatar": "قطر"
 }

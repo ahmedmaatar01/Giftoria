@@ -1,5 +1,5 @@
 import Footer1 from "@/components/footers/Footer1";
-import Header1 from "@/components/headers/Header1";
+import Header10 from "@/components/headers/Header10";
 import Products from "@/components/homes/home-2/Products";
 import RecentProducts from "@/components/shopDetails/RecentProducts";
 import ShopDetailsTab from "@/components/shopDetails/ShopDetailsTab";
@@ -17,8 +17,8 @@ export default async function page({ params }) {
 
   return (
     <>
-      <Header1 />
-      <div className="tf-breadcrumb" style={{marginTop:"80px"}}>
+      <Header10 />
+      <div className="tf-breadcrumb" style={{marginTop:"40px"}}>
         <div className="container">
           <div className="tf-breadcrumb-wrap d-flex justify-content-between flex-wrap align-items-center">
             <div className="tf-breadcrumb-list">
@@ -35,7 +35,7 @@ export default async function page({ params }) {
       <ProductDetailClient productId={id} />
       <ShopDetailsTab productId={id} />
       <Products />
-      <RecentProducts />
+      {/* <RecentProducts /> */}
       <Footer1 />
     </>
   );
