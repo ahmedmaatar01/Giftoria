@@ -75,7 +75,7 @@ export default function AboutUsPageContent() {
       <Features />
       <div style={{ marginTop: '60px' }} />
       <Banner />
-      <section className="flat-spacing-10">
+      {/* <section className="flat-spacing-10">
         <div className="container">
           <div className="tf-grid-layout md-col-2">
             <div className="tf-ourstore-img">
@@ -91,7 +91,7 @@ export default function AboutUsPageContent() {
             <StoreContent {...storeData} />
           </div>
         </div>
-      </section>
+      </section> */}
       <div className="container">
         <div className="line"></div>
       </div>
