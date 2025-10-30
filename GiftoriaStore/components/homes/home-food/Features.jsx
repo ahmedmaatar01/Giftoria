@@ -23,9 +23,9 @@ export default function Features() {
             <div className="col-12 col-md-6 mb-4 d-flex align-items-stretch justify-content-center" key={idx}>
               <div className="tf-icon-box style-lg w-100 text-center p-4 d-flex justify-content-center" style={{ boxShadow: "none" }}>
                 <div className="content " style={{width:"360px"}}>
-                    <span className="raleway-regular title  fw-normal d-block"style={{ textAlign:"left", letterSpacing: "1px", textTransform: "uppercase" }}>{t(`features_slide_${idx + 1}_title`)}</span>
+                    <span className="raleway-regular title  fw-normal d-block text-start"style={{ letterSpacing: "1px", textTransform: "uppercase" }}>{t(`features_slide_${idx + 1}_title`)}</span>
 
-                  <p className="raleway-light" style={{ textAlign:"justify", textTransform: "uppercase" }}>{t(`features_slide_${idx + 1}_description`)}</p>
+                  <p className="raleway-light text-start" style={{ textTransform: "uppercase" }}>{t(`features_slide_${idx + 1}_description`)}</p>
                 </div>
               </div>
             </div>

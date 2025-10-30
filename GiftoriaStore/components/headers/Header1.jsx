@@ -92,14 +92,6 @@ export default function Header1() {
                   <i className="icon icon-account" />
                 </a>
               </li>
-              <li className="nav-wishlist">
-                <Link href={`/wishlist`} className="nav-icon-item">
-                  <i className="icon icon-heart" />
-                  <span className="count-box">
-                    <WishlistLength />
-                  </span>
-                </Link>
-              </li>
               <li className="nav-cart">
                 <a
                   href="#shoppingCart"
@@ -112,6 +104,7 @@ export default function Header1() {
                   </span>
                 </a>
               </li>
+              
             </ul>
           </div>
         </div>

@@ -107,16 +107,11 @@ export default function Footer1({ bgColor = "" }) {
               {/* Language and Currency section */}
               <div className="col-xl-3 col-md-6 col-12">
                 <div className="footer-newsletter footer-col-block">
-                  <div className="footer-heading footer-heading-desktop">
-                    <h6 className="bell-t-medium">Language Support</h6>
-                  </div>
-                  <div className="footer-heading footer-heading-moblie">
-                    <h6 className="bell-t-medium">Language Support</h6>
-                  </div>
+                <h6 className="bell-t-medium">{t("footer_language_support")}</h6>
                   <div className="tf-collapse-content">
-                    <div className="footer-menu_item montserrat-regular" style={{ fontSize: '12px' }}>
-                      Our website supports multiple languages
-                    </div>
+                  <div className="footer-menu_item montserrat-regular" style={{ fontSize: '12px' }}>
+  {t("footer_language_text")}
+</div>
                     <div className="tf-cur">
                       <div className="tf-languages" id="footer-lang">
                         <LanguageSelect />
