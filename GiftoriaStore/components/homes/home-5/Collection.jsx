@@ -50,7 +50,7 @@ export default function Collection() {
   }, []);
 
   return (
-    <section className="flat-spacing-15">
+    <section className="flat-spacing-15 occasions" >
       <div className="container-full">
         <div className="flat-title flex-row justify-content-between px-0">
         <span className="bell-medium heading-30" data-wow-delay="0s">
