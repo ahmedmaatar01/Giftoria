@@ -53,8 +53,8 @@ export default function Collection() {
     <section className="flat-spacing-15">
       <div className="container-full">
         <div className="flat-title flex-row justify-content-between px-0">
-        <span className="title wow fadeInUp" data-wow-delay="0s">
-  {i18n.language === "ar" ? "المناسبات" : "Occasions"}
+        <span className="bell-medium heading-30" data-wow-delay="0s">
+  {i18n.language === "ar" ? "المناسبات" : "OCCASIONS"}
 </span>
 
           <div className="box-sw-navigation">
@@ -129,7 +129,7 @@ export default function Collection() {
                       </div>
 
                       {/* ✅ Text left-aligned under image */}
-                      <div className="collection-content text-left mt-4 px-1">
+                      <div className="collection-content text-left mt-4 px-1" >
                       <h3
                           className="raleway-bold uppercase text-lg mb-2"
                           style={{ letterSpacing: "1px", textTransform: "uppercase" }}
@@ -140,15 +140,16 @@ export default function Collection() {
                         {desc && (
                           <p
                             className="raleway-light text-base mb-3 leading-relaxed"
-                            style={{ color: "#555" ,textTransform: "uppercase" }}
+                            style={{ color: "#555"  }}
                           >
                             {desc}
                           </p>
                         )}
                         <Link
                           href={`/shop-collection-sub?occasion=${occasion.id}`}
-                          className="raleway-bold uppercase underline text-sm"
-                          style={{ color: "#000" }}
+                          className="raleway-light uppercase  text-sm"
+                          style={{ textDecoration:"underline" }}
+                          
                         >
                           {i18n.language === "ar" ? "اقرأ المزيد" : "READ MORE"}
                         </Link>

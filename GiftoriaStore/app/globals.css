@@ -166,23 +166,6 @@ html.arabic-font .raleway-regular:span:not(i):not(.icon):not([class^="icon-"]) {
   background-color: #ffffff !important;
 }
 
-/* Custom pagination styles for product image slider */
-/* .swiper-pagination-custom {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  background: rgba(0, 0, 0, 0.3);
-  padding: 8px 15px;
-  border-radius: 20px;
-  backdrop-filter: blur(5px);
-} */
-
 .swiper-horizontal>.swiper-pagination-bullets,
 .swiper-pagination-bullets.swiper-pagination-horizontal,
 .swiper-pagination-custom,
@@ -228,19 +211,31 @@ html.arabic-font .raleway-regular:span:not(i):not(.icon):not([class^="icon-"]) {
 /* --------------------------------------------- */
 /* 🔤 Arabic Font Overrides for Existing Classes */
 /* --------------------------------------------- */
-html.arabic-font .bell-medium,
-html.arabic-font .bell-bold,
-html.arabic-font .bell-t-medium {
-  font-family: "Muslimah Thin", sans-serif !important;
+
+
+/* When Arabic mode */
+html.arabic-font {
+
+  /* Bell → Muslimah Thin */
+  .bell-medium,
+  .bell-bold,
+  .bell-t-medium {
+    font-family: "Muslimah Thin", sans-serif !important;
+  }
+
+  /* Raleway / Montserrat → be IN Normal */
+  .raleway-light,
+  .raleway-regular,
+  .raleway-medium,
+  .raleway-bold,
+  .montserrat-regular,
+  .hero-title-montserrat-medium,
+  .banner-title-montserrat {
+    font-family: "be IN Normal", sans-serif !important;
+  }
 }
 
-/* Replace Raleway & Montserrat with be IN Normal */
-html.arabic-font .raleway-light,
-html.arabic-font .raleway-regular,
-html.arabic-font .raleway-medium,
-html.arabic-font .raleway-bold,
-html.arabic-font .montserrat-regular,
-html.arabic-font .hero-title-montserrat-medium,
-html.arabic-font .banner-title-montserrat {
-  font-family: "be IN Normal", sans-serif !important;
+.mega-menu,
+.sub-menu {
+  box-shadow: none !important;
 }

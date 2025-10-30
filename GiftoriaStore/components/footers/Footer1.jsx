@@ -30,7 +30,12 @@ export default function Footer1({ bgColor = "" }) {
 
   return (
     <footer id="footer" className={`footer md-pb-70 ${bgColor}`}>
-      <div className="footer-wrap" style={{ backgroundColor: "#F1ECE4" }}>
+      <div className="footer-wrap"  style={{
+    backgroundImage: "url('/images/footer_bg.jpg')",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundPosition: "center"
+  }}>
         <div className="footer-body">
           <div className="container">
             <div className="row">
@@ -69,10 +74,10 @@ export default function Footer1({ bgColor = "" }) {
               {/* Help section */}
               <div className="col-xl-3 col-md-6 col-12 footer-col-block">
                 <div className="footer-heading footer-heading-desktop">
-                  <h6 className="bell-t-medium">{t("footer_help")}</h6>
+                  <h6 className="bell-t-medium text-uppercase">{t("footer_help")}</h6>
                 </div>
                 <div className="footer-heading footer-heading-moblie">
-                  <h6 className="bell-t-medium">{t("footer_help")}</h6>
+                  <h6 className="bell-t-medium text-uppercase">{t("footer_help")}</h6>
                 </div>
                 <ul className="footer-menu-list tf-collapse-content">
                   {footerLinks.map((link, index) => (
@@ -88,7 +93,7 @@ export default function Footer1({ bgColor = "" }) {
               {/* About us section */}
               <div className="col-xl-3 col-md-6 col-12 footer-col-block">
                 <div className="footer-heading footer-heading-desktop">
-                  <h6 className="bell-t-medium">{t("footer_about_us")}</h6>
+                  <h6 className="bell-t-medium text-uppercase">{t("footer_about_us")}</h6>
                 </div>
                 <div className="footer-heading footer-heading-moblie">
                   <h6 className="bell-t-medium">{t("footer_about_us")}</h6>
@@ -107,7 +112,7 @@ export default function Footer1({ bgColor = "" }) {
               {/* Language and Currency section */}
               <div className="col-xl-3 col-md-6 col-12">
                 <div className="footer-newsletter footer-col-block">
-                <h6 className="bell-t-medium">{t("footer_language_support")}</h6>
+                <h6 className="bell-t-medium text-uppercase">{t("footer_language_support")}</h6>
                   <div className="tf-collapse-content">
                   <div className="footer-menu_item montserrat-regular" style={{ fontSize: '12px' }}>
   {t("footer_language_text")}
