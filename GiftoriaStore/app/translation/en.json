@@ -273,7 +273,10 @@
 "selling_fast": "Selling fast! {{stock}} items in stock.",
 "estimated_delivery_time_label": "Estimated delivery time",
   "hours": "hours",
-  "not_available": "N/A"
+  "not_available": "N/A",
+  "estimate_delivery_international": "Estimate delivery {{internationalDays}} Business days to international / {{localDays}} days to {{country}}",
+  "guarantee_safe_checkout": "Guarantee safe & secure checkout",
+  "qatar": "Qatar"
 
 }
 

@@ -7,7 +7,7 @@ import {
 } from "@/data/singleProductOptions";
 import StickyItem from "./StickyItem";
 import Quantity from "./Quantity";
-import { useTranslation } from "react-i18next"; 
+import { useTranslation } from "react-i18next";
 
 import Slider1ZoomOuter from "./sliders/Slider1ZoomOuter";
 import { useContextElement } from "@/context/Context";
@@ -41,16 +41,16 @@ export default function DetailsOuterZoom({ product }) {
   const getMainImage = () => {
     if (product.images && product.images.length > 0) {
       const featuredImage = product.images.find(img => img.is_featured);
-      return featuredImage ? 
-        `http://localhost:8000${featuredImage.image_path}` : 
+      return featuredImage ?
+        `http://localhost:8000${featuredImage.image_path}` :
         `http://localhost:8000${product.images[0].image_path}`;
     }
-    return product.featured_image ? 
-      `http://localhost:8000${product.featured_image}` : 
+    return product.featured_image ?
+      `http://localhost:8000${product.featured_image}` :
       "/images/no-image.png";
   };
 
-console.log("Product in DetailsOuterZoom:", product);
+  console.log("Product in DetailsOuterZoom:", product);
   const {
     addProductToCart,
     isAddedToCartProducts,
@@ -83,44 +83,44 @@ console.log("Product in DetailsOuterZoom:", product);
                 <div className="tf-zoom-main" />
                 <div className="tf-product-info-list other-image-zoom">
                   <div className="tf-product-info-title">
-                    <h5 className="bell-t-medium" style={{  textTransform: "uppercase" }}>
-                    {i18n.language === "ar" 
-            ? product.arabic_name || product.name 
-            : product.name || product.name || "Product Name"}
+                    <h5 className="bell-t-medium" style={{ textTransform: "uppercase" }}>
+                      {i18n.language === "ar"
+                        ? product.arabic_name || product.name
+                        : product.name || product.name || "Product Name"}
                     </h5>
                   </div>
-      
+
                   <div className="tf-product-info-badges">
                     <div className="badges">Best seller</div>
                     <div className="product-status-content">
                       <i className="icon-lightning" />
                       <p className="fw-6">
-  {t("selling_fast", { stock: product.stock })}
-</p>
+                        {t("selling_fast", { stock: product.stock })}
+                      </p>
                     </div>
                   </div>
                   <div className="tf-product-info-price">
-                    <div className="price-on-sale" style={{color:"#000"}}>
+                    <div className="price-on-sale" style={{ color: "#000" }}>
                       ${parseFloat(product.price).toFixed(2)}
                     </div>
 
-  
 
-                  
+
+
                   </div>
-                 
+
                   <div className="tf-product-info-countdown">
                     <div className="countdown-wrap">
                       <div className="countdown-title">
                         <i className="icon-time tf-ani-tada" />
                         <p className="fw-6">
-      {t("estimated_delivery_time_label")}: {product.lead_time ? `${product.lead_time} ${t("hours")}` : t("not_available")}
-    </p>
+                          {t("estimated_delivery_time_label")}: {product.lead_time ? `${product.lead_time} ${t("hours")}` : t("not_available")}
+                        </p>
 
                       </div>
                     </div>
                   </div>
-               {/* Render custom fields as input fields if present */}
+                  {/* Render custom fields as input fields if present */}
                   {product.custom_fields && product.custom_fields.length > 0 && (
                     <div className="tf-product-custom-fields mb-3">
                       {product.custom_fields.map((field) => {
@@ -137,7 +137,7 @@ console.log("Product in DetailsOuterZoom:", product);
                               name={`custom-field-${field.id}`}
                               className="form-control"
                               value={value}
-                              style={{ paddingTop:"0.75rem",paddingBottom:"0.75rem"}}
+                              style={{ paddingTop: "0.75rem", paddingBottom: "0.75rem" }}
                               onChange={e => handleCustomFieldChange(field.id, e.target.value)}
                               required={field.is_required}
                             >
@@ -209,9 +209,8 @@ console.log("Product in DetailsOuterZoom:", product);
                         className="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action"
                       >
                         <span
-                          className={`icon icon-heart ${
-                            isAddedtoWishlist(product.id) ? "added" : ""
-                          }`}
+                          className={`icon icon-heart ${isAddedtoWishlist(product.id) ? "added" : ""
+                            }`}
                         />
                         <span className="tooltip">
                           {" "}
@@ -238,7 +237,7 @@ console.log("Product in DetailsOuterZoom:", product);
                       </div> */}
                     </form>
                   </div>
-        
+
                   <div className="tf-product-info-delivery-return">
                     <div className="row">
                       <div className="col-xl-6 col-12">
@@ -247,8 +246,8 @@ console.log("Product in DetailsOuterZoom:", product);
                             <i className="icon-delivery-time" />
                           </div>
                           <p>
-  {t("estimate_delivery_international", { internationalDays: "12-26", localDays: "2-6", country: t("quatar") })}
-</p>
+                            {t("estimate_delivery_international", { internationalDays: "12-26", localDays: "2-6", country: t("qatar") })}
+                          </p>
 
                         </div>
                       </div>
@@ -269,18 +268,18 @@ console.log("Product in DetailsOuterZoom:", product);
                     <div className="tf-product-trust-mess">
                       <i className="icon-safe" />
                       <p className="fw-6">
-  {t("guarantee_safe_checkout")}
-</p>
+                        {t("guarantee_safe_checkout")}
+                      </p>
 
                     </div>
                     <div className="tf-payment">
-                        <Image
-                          key={'index'}
-                          alt={"payment"}
-                          src={"https://i0.wp.com/wpecomus.com/fashion/wp-content/uploads/sites/2/2024/07/payments.png"}
-                          width={"250"}
-                          height={"50"}
-                        />
+                      <Image
+                        key={'index'}
+                        alt={"payment"}
+                        src={"https://i0.wp.com/wpecomus.com/fashion/wp-content/uploads/sites/2/2024/07/payments.png"}
+                        width={"250"}
+                        height={"50"}
+                      />
                     </div>
                   </div>
                 </div>

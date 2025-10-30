@@ -137,7 +137,10 @@ header#header {
 
   color: #ffffff;
 }
+.dropdown.bootstrap-select.image-select.type-languages > .dropdown-menu {
+    width: 110px !important;
 
+}
 /* Apply Arabic fonts when html has the arabic-font class */
 html.arabic-font,
 html.arabic-font body {
