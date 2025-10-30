@@ -123,7 +123,7 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
           {t("menu.home")}
         </Link>
       </li>
-     <li className="menu-item">
+     <li className="menu-item" >
         <a
           href="#"
           className={`item-link raleway-medium ${Linkfs} ${textColor} ${

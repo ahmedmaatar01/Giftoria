@@ -105,7 +105,7 @@ export default function Header6({ isArrow, uppercase = false }) {
                 alt={t("header.logo_alt")}
                 className="logo"
                 src="/images/logo/logo_Plan de travail 1 copie 2.svg"
-                width={136}
+                width={200}
                 height={21}
               />
             </Link>

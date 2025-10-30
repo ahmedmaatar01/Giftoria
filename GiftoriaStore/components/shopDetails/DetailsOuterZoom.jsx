@@ -7,13 +7,14 @@ import {
 } from "@/data/singleProductOptions";
 import StickyItem from "./StickyItem";
 import Quantity from "./Quantity";
+import { useTranslation } from "react-i18next"; 
 
 import Slider1ZoomOuter from "./sliders/Slider1ZoomOuter";
 import { useContextElement } from "@/context/Context";
 import { openCartModal } from "@/utlis/openCartModal";
 
 export default function DetailsOuterZoom({ product }) {
-
+  const { t, i18n } = useTranslation();
   const [quantity, setQuantity] = useState(1);
 
   // State for custom field values
@@ -83,7 +84,9 @@ console.log("Product in DetailsOuterZoom:", product);
                 <div className="tf-product-info-list other-image-zoom">
                   <div className="tf-product-info-title">
                     <h5 className="bell-t-medium" style={{  textTransform: "uppercase" }}>
-                      {product.name ? product.name : "Product Name"}
+                    {i18n.language === "ar" 
+            ? product.arabic_name || product.name 
+            : product.name || product.name || "Product Name"}
                     </h5>
                   </div>
       
@@ -92,12 +95,12 @@ console.log("Product in DetailsOuterZoom:", product);
                     <div className="product-status-content">
                       <i className="icon-lightning" />
                       <p className="fw-6">
-                        Selling fast! {product.stock} items in stock.
-                      </p>
+  {t("selling_fast", { stock: product.stock })}
+</p>
                     </div>
                   </div>
                   <div className="tf-product-info-price">
-                    <div className="price-on-sale">
+                    <div className="price-on-sale" style={{color:"#000"}}>
                       ${parseFloat(product.price).toFixed(2)}
                     </div>
 
@@ -111,8 +114,9 @@ console.log("Product in DetailsOuterZoom:", product);
                       <div className="countdown-title">
                         <i className="icon-time tf-ani-tada" />
                         <p className="fw-6">
-                          Estimated delivery time: {product.lead_time ? `${product.lead_time} hours` : "N/A"}
-                        </p>
+      {t("estimated_delivery_time_label")}: {product.lead_time ? `${product.lead_time} ${t("hours")}` : t("not_available")}
+    </p>
+
                       </div>
                     </div>
                   </div>
@@ -243,11 +247,9 @@ console.log("Product in DetailsOuterZoom:", product);
                             <i className="icon-delivery-time" />
                           </div>
                           <p>
-                            Estimate delivery times:
-                            <span className="fw-7">12-26 days</span>
-                            (International),
-                            <span className="fw-7">2-6 days</span> (Quatar).
-                          </p>
+  {t("estimate_delivery_international", { internationalDays: "12-26", localDays: "2-6", country: t("quatar") })}
+</p>
+
                         </div>
                       </div>
                       <div className="col-xl-6 col-12">
@@ -267,8 +269,9 @@ console.log("Product in DetailsOuterZoom:", product);
                     <div className="tf-product-trust-mess">
                       <i className="icon-safe" />
                       <p className="fw-6">
-                        Guarantee Safe Checkout
-                      </p>
+  {t("guarantee_safe_checkout")}
+</p>
+
                     </div>
                     <div className="tf-payment">
                         <Image

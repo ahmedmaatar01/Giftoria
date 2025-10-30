@@ -17,9 +17,9 @@ export default function Banner2({
     >
       <div className="box-content">
         <div className="container">
-          <Link href={buttonLink} className="text-md-start text-center">
+         
             <h4 className="heading mb-3">
-              <span className="bell-bold heading-30">{t("banner3_heading")}</span>
+              <span className="bell-bold heading-30">{t("banner2_heading")}</span>
             </h4>
 
             {/* ✅ Dynamic text alignment */}
@@ -32,16 +32,19 @@ export default function Banner2({
                 direction: isArabic ? "rtl" : "ltr",
               }}
             >
-              <span className="raleway-medium">{t("banner3_description")}</span>
+              <span className="raleway-medium">{t("banner2_description")}</span>
             </p>
-
-            <div className="wow fadeInUp" data-wow-delay="0s">
-              <button className="btn-link-arrow raleway-light ">
-                <span className="montserrat-semi-bold">{t("banner3_button")} </span>
-              </button>
+            <Link href={buttonLink} >
+            <div className="ecomus-button-link ecomus-button em-button em-button-subtle" >
+             
+                <span className="raleway-regular text-uppercase" style={{textDecoration:"underline"}}>{t("banner2_button")} </span>
+              
+              
             </div>
+            
           </Link>
         </div>
+     
       </div>
     </section>
   );
