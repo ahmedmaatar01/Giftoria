@@ -147,11 +147,11 @@ html.arabic-font *:not(p):not(span):not(i):not(.icon):not([class*="icon-"]) {
 }
 
 /* Apply be IN Normal font specifically to paragraphs and spans when Arabic is selected */
-html.arabic-font p,
-html.arabic-font span {
+html.arabic-font p:not(i):not(.icon):not([class^="icon-"]),
+html.arabic-font .raleway-regular:span:not(i):not(.icon):not([class^="icon-"]) {
   font-family: "be IN Normal", sans-serif !important;
-  font-weight: 400 !important;
 }
+
 
 /* Initial transparent header */
 .header-default {
@@ -161,4 +161,23 @@ html.arabic-font span {
 /* White background after scrolling 200px */
 .header-scrolled {
   background-color: #ffffff !important;
+}
+/* --------------------------------------------- */
+/* 🔤 Arabic Font Overrides for Existing Classes */
+/* --------------------------------------------- */
+html.arabic-font .bell-medium,
+html.arabic-font .bell-bold,
+html.arabic-font .bell-t-medium {
+  font-family: "Muslimah Thin", sans-serif !important;
+}
+
+/* Replace Raleway & Montserrat with be IN Normal */
+html.arabic-font .raleway-light,
+html.arabic-font .raleway-regular,
+html.arabic-font .raleway-medium,
+html.arabic-font .raleway-bold,
+html.arabic-font .montserrat-regular,
+html.arabic-font .hero-title-montserrat-medium,
+html.arabic-font .banner-title-montserrat {
+  font-family: "be IN Normal", sans-serif !important;
 }

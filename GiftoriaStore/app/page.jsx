@@ -32,13 +32,7 @@ export default function Home() {
       <div style={{ marginTop: '60px' }} />
       <FeaturesHomeFood />
 
-      <BannerHome1
-        bgUrl="images/slider/fashion-slideshow-01.jpg"
-        heading="JOIN THE GIFTORIA CIRCLE"
-        description={`Become a part of our exclusive community and enjoy special benefits, early access to new collections, and personalized offers.`}
-        buttonLink="/contact-2"
-        buttonLabel="Get in Touch"
-      />
+      <BannerHome1/>
       {/* <Store /> */}
       <div style={{ marginTop: '60px' }} />
       <Features />

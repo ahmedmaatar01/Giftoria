@@ -1,8 +1,12 @@
+"use client";
+
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 export default function Banner() {
+  const { t } = useTranslation();
+
   return (
     <section className="flat-spacing-22">
       <div className="container">
@@ -15,17 +19,18 @@ export default function Banner() {
             data-wow-delay="0s"
           >
             <div className="heading">
-              <span className="bell-medium" style={{ fontSize: '30px', textTransform: 'uppercase' }}>OUR ESTEEMED PARTNERS</span>
+              <span className="bell-medium" style={{ fontSize: '30px', textTransform: 'uppercase' }}>
+                {t("partners_heading")}
+              </span>
             </div>
             <p className="description text_black-2 montserrat-regular" style={{ fontSize: '15px' }}>
-             In the timeless art of gifting, collaboration is our finest treasure.
-             We take pride in joining hands with distinguished artisans, chocolatiers,
-             florists, and creators who share our devotion to elegance and authenticity.
-             Together, we craft experiences that transcend mere presents —
-             weaving stories of craftsmanship, trust, and enduring grace.
+              {t("partners_description")}
             </p>
 
-            <div className="partners-logos d-flex justify-content-center gap-30 mb_30" style={{ marginTop: '50px' }}>
+            <div
+              className="partners-logos d-flex justify-content-center gap-30 mb_30"
+              style={{ marginTop: '50px' }}
+            >
               <div className="partner-logo">
                 <Image
                   src="/images/logo/partner1.png"

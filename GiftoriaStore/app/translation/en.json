@@ -24,9 +24,9 @@
   "banner2_heading": "STEP INTO THE WORLD OF GIFTORIA",
   "banner2_description": "GIFTORIA.me is a luxury brand born from a desire to transform the art of gifting into an unforgettable, emotional experience. Every detail, from the design of our products to the personal touch behind each gift, is carefully crafted to reflect elegance, intention, and meaning.",
   "banner2_button": "Start shopping",
-  "banner3_heading": "WELCOME TO THE WORLD OF GIFTORIA",
-  "banner3_description": "GIFTORIA.me is a luxury brand born from a desire to transform the art of gifting into an unforgettable, emotional experience. Every detail, from the design of our products to the personal touch behind each gift, is carefully crafted to reflect elegance, intention, and meaning.",
-  "banner3_button": "Join Now",
+  "banner3_heading": "JOIN THE GIFTORIA CIRCLE",
+  "banner3_description": "Become a part of our exclusive community and enjoy special benefits, early access to new collections, and personalized offers.",
+  "banner3_button": "Get in Touch",
   "products2_title": "BEST SELLER",
   "add_to_wishlist": "Add to Wishlist",
   "already_wishlisted": "Already Wishlisted",
@@ -253,5 +253,21 @@
     "terms_and_conditions": "terms and conditions",
     "processing": "Processing...",
     "place_order": "Place order"
-  }
+  },
+ 
+  "footer_language_support": "Language Support",
+  "footer_language_text": "Our website supports multiple languages",
+  "footer_privacy_policy": "Privacy Policy",
+  "footer_returns_exchanges": "Returns + Exchanges",
+  "footer_shipping": "Shipping",
+  "footer_terms_conditions": "Terms & Conditions",
+  "footer_faq": "FAQ’s",
+  "footer_compare": "Compare",
+  "footer_wishlist": "My Wishlist",
+  "footer_contact_us": "Contact Us",
+  "footer_about_us_link": "About Us",
+  "footer_account": "Account",
+  "partners_heading": "OUR ESTEEMED PARTNERS",
+  "partners_description": "In the timeless art of gifting, collaboration is our finest treasure. We take pride in joining hands with distinguished artisans, chocolatiers, florists, and creators who share our devotion to elegance and authenticity. Together, we craft experiences that transcend mere presents — weaving stories of craftsmanship, trust, and enduring grace."
 }
+

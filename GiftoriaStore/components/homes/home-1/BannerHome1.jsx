@@ -27,7 +27,7 @@ export default function BannerHome1({
               className="text mb-4"
               style={{ maxWidth: "600px", margin: "0", textAlign: "left" }}
             >
-              <span className="montserrat-regular" style={{  textTransform: "uppercase" }}>{description ? description : t("banner3_description")}</span>
+              <span className="montserrat-regular text-start" style={{  textTransform: "uppercase" }}>{description ? description : t("banner3_description")}</span>
             </p>
             <div className="wow fadeInUp" data-wow-delay="0s">
               <Link href={buttonLink}>
