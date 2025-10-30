@@ -117,16 +117,19 @@
 }
 
 /* be IN Normal font will be used from system fonts or web fonts if available */
-.header-style-10 .filter-option-inner-inner,.header-style-10 .dropdown.bootstrap-select.image-select.style-default>button::after {
+.header-style-10 .filter-option-inner-inner,
+.header-style-10 .dropdown.bootstrap-select.image-select.style-default>button::after {
   color: #000000;
 }
+
 .header-shadow .filter-option-inner-inner,
 .header-shadow .dropdown.bootstrap-select.image-select.style-default>button::after {
   color: #000000;
-  
+
 }
+
 header#header {
-    padding: 4px 0px;
+  padding: 4px 0px;
 }
 
 .filter-option-inner-inner,
@@ -162,6 +165,54 @@ html.arabic-font .raleway-regular:span:not(i):not(.icon):not([class^="icon-"]) {
 .header-scrolled {
   background-color: #ffffff !important;
 }
+
+.swiper-horizontal>.swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal,
+.swiper-pagination-custom,
+.swiper-pagination-fraction {
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  background: #0000000f;
+  padding: 4px 10px;
+  border-radius: 2px;
+  backdrop-filter: blur(5px);
+}
+
+.swiper-pagination-bullet-custom {
+    width: 36px;
+    height: 4px;
+    background-color: rgb(0 0 0 / 45%);
+    border-radius: 9%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}
+
+.swiper-pagination-bullet-custom:hover {
+  background-color: #967740;
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.swiper-pagination-bullet-active-custom {
+  background-color: #967740 !important;
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* --------------------------------------------- */
+/* 🔤 Arabic Font Overrides for Existing Classes */
+/* --------------------------------------------- */
+
+
 /* When Arabic mode */
 html.arabic-font {
 

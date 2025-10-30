@@ -3,7 +3,7 @@ import Drift from "drift-zoom";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Gallery, Item } from "react-photoswipe-gallery";
-import { Navigation, Thumbs } from "swiper/modules";
+import { Navigation, Thumbs, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 const imagesDefault = [
   {
@@ -277,10 +277,16 @@ export default function Slider1ZoomOuter({
             nextEl: ".swiper-button-next",
             prevEl: ".swiper-button-prev",
           }}
+          pagination={{
+            clickable: true,
+            el: ".swiper-pagination-custom",
+            bulletClass: "swiper-pagination-bullet-custom",
+            bulletActiveClass: "swiper-pagination-bullet-active-custom",
+          }}
           className="tf-product-media-main"
           id="gallery-swiper-started"
           thumbs={{ swiper: thumbsSwiper }}
-          modules={[Thumbs, Navigation]}
+          modules={[Thumbs, Navigation, Pagination]}
           onSwiper={(swiper) => (swiperRef.current = swiper)}
           onSlideChange={(swiper) => {
             if (updatedImages[swiper.activeIndex]?.dataValue) {
@@ -320,8 +326,11 @@ export default function Slider1ZoomOuter({
           ))}
 
           {/* Navigation buttons */}
-          <div className="swiper-button-next button-style-arrow thumbs-next"></div>
-          <div className="swiper-button-prev button-style-arrow thumbs-prev"></div>
+          {/* <div className="swiper-button-next button-style-arrow thumbs-next"></div>
+          <div className="swiper-button-prev button-style-arrow thumbs-prev"></div> */}
+          
+          {/* Pagination dots */}
+          <div className="swiper-pagination-custom"></div>
         </Swiper>{" "}
       </Gallery>
     </>

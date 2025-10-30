@@ -15,7 +15,7 @@ export default function page() {
     <>
       <Header10 />
       <HeroContact />
-      <Map2 />
+      {/* <Map2 /> */}
       <ContactForm2 />
       <Footer1 />
     </>
