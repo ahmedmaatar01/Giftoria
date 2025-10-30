@@ -141,6 +141,9 @@ header#header {
     width: 110px !important;
 
 }
+.occasions.flat-spacing-15{
+  max-height: 600px;
+}
 /* Apply Arabic fonts when html has the arabic-font class */
 html.arabic-font,
 html.arabic-font body {
