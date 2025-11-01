@@ -314,7 +314,11 @@
     "quick_note_title": "Add Note to Order #{{orderNumber}}",
     "your_note": "Your Note",
     "cancel": "Cancel"
+  },
+  
+  "shop_page": {
+    "our_products": "Our Products",
+    "shop_latest_selection": "Shop through our latest selection of Fashion"
   }
-
 }
 

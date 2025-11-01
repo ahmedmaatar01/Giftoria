@@ -71,7 +71,7 @@
       "description": "دعم فني مميز ومتميز"
     }
   },
-  "footer_address_line1": "العنوان: شارع الأزياء 1234، جناح 567،",
+  "footer_address_line1": "العنوان: شارع الهدايا 1234، جناح 567،",
   "footer_address_line2": "نيويورك، نيويورك 10001",
   "footer_email_label": "البريد الإلكتروني:",
   "footer_email": "info@fashionshop.com",
@@ -313,5 +313,10 @@
     "quick_note_title": "إضافة ملاحظة للطلب #{{orderNumber}}",
     "your_note": "ملاحظتك",
     "cancel": "إلغاء"
+  },
+  
+  "shop_page": {
+    "our_products": "منتجاتنا",
+    "shop_latest_selection": "تسوق من خلال أحدث مجموعتنا من الهدايا"
   }
 }
