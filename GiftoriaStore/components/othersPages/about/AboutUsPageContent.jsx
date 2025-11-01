@@ -54,7 +54,7 @@ export default function AboutUsPageContent() {
 
   return (
     <>
-      <Header6/>
+      <Header6 />
       <Hero />
       {/* New FeaturesAbout component under the header */}
       <div style={{ marginTop: '60px' }}>
@@ -68,6 +68,7 @@ export default function AboutUsPageContent() {
           ]}
         />
       </div>
+
       <About />
       <div style={{ marginBottom: '80px' }}>
         <Products2 />

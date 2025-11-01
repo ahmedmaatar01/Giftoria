@@ -14,25 +14,25 @@ export default function BannerHome1({
 
   return (
     <section
-      className="banner-hero-collection-wrap banner-parallax"
+      className="banner-hero-collection-wrap banner-parallax invert-arabic"
       style={{ backgroundImage: `url(${bgUrl})` }}
     >
-      <div className="box-content">
+      <div className="box-content invert-arabic">
         <div className="container">
           <div className="text-md-start text-center">
-            <h4 className="heading mb-3">
-              <span className="bell-bold heading-30">{heading ? heading : t("banner3_heading")}</span>
+            <h4 className="heading mb-4">
+              <span className="bell-bold heading-30 c-titre">{heading ? heading : t("banner3_heading")}</span>
             </h4>
             <p
               className="text mb-4"
-              style={{ maxWidth: "600px", margin: "0", textAlign: "left" }}
+              style={{ maxWidth: "600px", margin: "0" }}
             >
-              <span className="montserrat-regular text-start" style={{  textTransform: "uppercase" }}>{description ? description : t("banner3_description")}</span>
+              <span className="montserrat-regular text-start c-paragraph" style={{  textTransform: "uppercase" }}>{description ? description : t("banner3_description")}</span>
             </p>
             <div className="wow fadeInUp" data-wow-delay="0s">
               <Link href={buttonLink}>
                 <div className="ecomus-button-link ecomus-button em-button em-button-subtle">
-                  <span className="raleway-regular text-uppercase  "style={{textDecoration:"underline"}}  >{buttonLabel ? buttonLabel : t("banner3_button")}  </span>
+                  <span className="raleway-regular text-uppercase   c-butn"style={{textDecoration:"underline"}}  >{buttonLabel ? buttonLabel : t("banner3_button")}  </span>
                 </div>
               </Link>
               {/* <a href="#" className="ecomus-button-link ecomus-button em-button em-button-subtle"> <span className="ecomus-button-text">Button Underline</span> </a>  */}
