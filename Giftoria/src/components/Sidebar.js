@@ -102,13 +102,13 @@ export default (props = {}) => {
               <NavItem title="" link={Routes.Presentation.path} image={LogoGiftoria} />
               <NavItem title="Overview" link={Routes.DashboardOverview.path} icon={faChartPie} />
               <NavItem title="Transactions" icon={faHandHoldingUsd} link={Routes.Transactions.path} />
-              <CollapsableNavItem eventKey="tables/" title="Tables" icon={faTable}>
+              {/* <CollapsableNavItem eventKey="tables/" title="Tables" icon={faTable}>
                 <NavItem title="Bootstrap Table" link={Routes.BootstrapTables.path} />
-              </CollapsableNavItem>
-              <NavItem title="Manage Products" icon={faBoxOpen} link={Routes.ManageProducts.path} />
-              <NavItem title="Manage Categories" icon={faBook} link={Routes.ManageCategory.path} />
-              <NavItem title="Manage Custom Fields" icon={faTable} link={Routes.ManageCustomField.path} />
-              <NavItem title="Manage Occasions" icon={faCalendarAlt} link={Routes.ManageOccasions.path} />
+              </CollapsableNavItem> */}
+              <NavItem title="Products" icon={faBoxOpen} link={Routes.ManageProducts.path} />
+              <NavItem title="Categories" icon={faBook} link={Routes.ManageCategory.path} />
+              <NavItem title="Custom Fields" icon={faTable} link={Routes.ManageCustomField.path} />
+              <NavItem title="Occasions" icon={faCalendarAlt} link={Routes.ManageOccasions.path} />
               <NavItem title="Commands" icon={faCartArrowDown} link={Routes.ManageCommands.path} />
             </Nav>
           </div>

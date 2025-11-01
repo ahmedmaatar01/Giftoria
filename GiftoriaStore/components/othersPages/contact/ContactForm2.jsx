@@ -25,8 +25,8 @@ export default function ContactForm2() {
     <section className="bg_grey-7 flat-spacing-9">
       <div className="container">
         <div className="flat-title text-center">
-          <span className="title bell-t-medium">{t("contact_form.title")}</span>
-          <p className="sub-title text_black-2 raleway-light">{t("contact_form.subtitle")}</p>
+          <span className="title bell-medium text-uppercase">{t("contact_form.title")}</span>
+          <p className="sub-title text_black-2 raleway-light ">{t("contact_form.subtitle")}</p>
         </div>
         <div>
           <form

@@ -9,7 +9,7 @@ export default function HeroContact() {
 
   return (
     <section className="tf-slideshow contact-page position-relative">
-      <div className="banner-wrapper">
+      <div className="banner-wrapper invert-arabic">
         <Image
           className="lazyload"
           src="/images/slider/hero-banner.jpg"
@@ -18,11 +18,11 @@ export default function HeroContact() {
           height={1262}
         />
         <div className="box-content text-center">
-          <div className="container">
+          <div className="container invert-arabic">
             <div className="text text-start" style={{ color: "black" }}>
-              <h1 className="heading text-black bell-medium" style={{fontSize:"60px"}}>{t("contact.hero_title")}</h1>
-       <span className="description text-black banner-title-montserrat " style={{color:"#000"}} 
-               >
+              <h1 className="heading text-black bell-medium" style={{ fontSize: "60px" }}>{t("contact.hero_title")}</h1>
+              <span className="description text-black banner-title-montserrat " style={{ color: "#000" }}
+              >
                 {t("contact.hero_description_line1")}
                 <br />
                 {t("contact.hero_description_line2")}
