@@ -83,7 +83,7 @@ export default function Footer1({ bgColor = "" }) {
                   {footerLinks.map((link, index) => (
                     <li key={index}>
                       <Link href={link.href} className={`footer-menu_item montserrat-regular`} style={{ fontSize: '12px' }}>
-                        {t(link.textKey || link.text)} {/* adjust links data to include textKey */}
+                        <span>{t(link.textKey || link.text)}</span> {/* adjust links data to include textKey */}
                       </Link>
                     </li>
                   ))}
@@ -102,7 +102,7 @@ export default function Footer1({ bgColor = "" }) {
                   {aboutLinks.slice(0, 4).map((link, index) => (
                     <li key={index}>
                       <Link href={link.href} className={`footer-menu_item montserrat-regular`} style={{ fontSize: '12px' }}>
-                        {t(link.textKey || link.text)}
+                        <span>{t(link.textKey || link.text)}</span>
                       </Link>
                     </li>
                   ))}
