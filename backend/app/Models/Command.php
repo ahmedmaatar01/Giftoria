@@ -48,4 +48,71 @@ class Command extends Model
             ->withPivot('quantity', 'price_at_order_time', 'custom_fields', 'unit_price', 'line_total')
             ->withTimestamps();
     }
+
+    /**
+     * Get all notes for this command.
+     */
+    public function notes()
+    {
+        return $this->hasMany(OrderNote::class)->orderBy('created_at', 'desc');
+    }
+
+    /**
+     * Get customer notes only.
+     */
+    public function customerNotes()
+    {
+        return $this->hasMany(OrderNote::class)
+            ->where('note_type', 'customer')
+            ->where('is_visible_to_customer', true)
+            ->orderBy('created_at', 'desc');
+    }
+
+    /**
+     * Get admin notes only.
+     */
+    public function adminNotes()
+    {
+        return $this->hasMany(OrderNote::class)
+            ->where('note_type', 'admin')
+            ->orderBy('created_at', 'desc');
+    }
+
+    /**
+     * Get status history for this command.
+     */
+    public function statusHistory()
+    {
+        return $this->hasMany(OrderStatusHistory::class)->orderBy('created_at', 'desc');
+    }
+
+    /**
+     * Get the latest status change.
+     */
+    public function latestStatusChange()
+    {
+        return $this->hasOne(OrderStatusHistory::class)->latestOfMany();
+    }
+
+    /**
+     * Update status and create history record.
+     */
+    public function updateStatus($newStatus, $adminId = null, $notes = null)
+    {
+        $oldStatus = $this->status;
+        
+        // Update the status
+        $this->update(['status' => $newStatus]);
+        
+        // Create history record
+        OrderStatusHistory::createStatusChange(
+            $this->id,
+            $oldStatus,
+            $newStatus,
+            $adminId,
+            $notes
+        );
+
+        return $this;
+    }
 }

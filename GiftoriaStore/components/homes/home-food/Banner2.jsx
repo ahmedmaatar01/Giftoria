@@ -12,14 +12,14 @@ export default function Banner2({
 
   return (
     <section
-      className="banner-hero-collection-wrap banner-parallax"
+      className="banner-hero-collection-wrap banner-parallax invert-arabic"
       style={{ backgroundImage: `url(${bgUrl})` }}
     >
-      <div className="box-content">
+      <div className="box-content invert-arabic ">
         <div className="container">
          
-            <h4 className="heading mb-3">
-              <span className="bell-bold heading-30">{t("banner2_heading")}</span>
+            <h4 className="heading mb-4">
+              <span className="bell-bold heading-30 c-titre">{t("banner2_heading")}</span>
             </h4>
 
             {/* ✅ Dynamic text alignment */}
@@ -32,12 +32,12 @@ export default function Banner2({
                 direction: isArabic ? "rtl" : "ltr",
               }}
             >
-              <span className="raleway-medium">{t("banner2_description")}</span>
+              <span className="raleway-regular c-paragraph">{t("banner2_description")}</span>
             </p>
             <Link href={buttonLink} >
             <div className="ecomus-button-link ecomus-button em-button em-button-subtle" >
              
-                <span className="raleway-regular text-uppercase" style={{textDecoration:"underline"}}>{t("banner2_button")} </span>
+                <span className="raleway-regular text-uppercase c-butn" style={{textDecoration:"underline"}}>{t("banner2_button")} </span>
               
               
             </div>

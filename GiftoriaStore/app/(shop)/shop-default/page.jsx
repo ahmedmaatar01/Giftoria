@@ -13,8 +13,8 @@ export default function page() {
       <Header10 />
       <div className="tf-page-title">
         <div className="container-full">
-          <div className="heading text-center">New Arrival</div>
-          <p className="text-center text-2 text_black-2 mt_5">
+          <div className="heading text-center text-uppercase">New Arrival</div>
+          <p className="text-center text-2 text_black-2 mt_5 text-uppercase">
             Shop through our latest selection of Fashion
           </p>
         </div>

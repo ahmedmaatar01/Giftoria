@@ -97,7 +97,7 @@ export default function Products2() {
           color: white !important;
         }
       `}</style>
-      <section className="flat-spacing-13 pb_0">
+      <section className="flat-spacing-13 pb_0 products-homeP">
       <div className="container">
         <div className="flat-title flex-row justify-content-center">
           <span className="title fw-6 wow fadeInUp" data-wow-delay="0s">
@@ -183,7 +183,7 @@ export default function Products2() {
 
                   <div className="card-product-info">
                     <div className="inner-info">
-                      <Link href={`/product-detail/${product.id}`} className="raleway-light" style={{ letterSpacing: "1px", textTransform: "uppercase" }}>
+                      <Link href={`/product-detail/${product.id}`} className="raleway-light productName" style={{ letterSpacing: "1px", textTransform: "uppercase" }}>
                       {i18n.language === "ar" 
                                   ? product.arabic_name || product.name 
                                   : product.name || product.name}

@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Card, Table, Button, Breadcrumb, InputGroup, Form, Row, Col } from '@themesberg/react-bootstrap';
-import { faHome, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { Card, Table, Button, Breadcrumb, InputGroup, Form, Row, Col, Modal, Badge, Timeline, Alert, Spinner } from '@themesberg/react-bootstrap';
+import { faHome, faSearch, faEye, faEdit, faHistory, faCommentDots, faPlus, faClock, faUser, faUserTie } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 
 const API_URL = 'http://localhost:8000/api';
+
+// Helper function to get auth headers
+const getAuthHeaders = () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const token = (user && (user.access_token || user.token || user.accessToken)) || localStorage.getItem('access_token');
+    return token ? { Authorization: `Bearer ${token}` } : {};
+};
 
 const ManageCommands = () => {
     const [commands, setCommands] = useState([]);
@@ -14,6 +21,8 @@ const ManageCommands = () => {
     const [showModal, setShowModal] = useState(false);
     const [selectedCommand, setSelectedCommand] = useState(null);
     const [showEditModal, setShowEditModal] = useState(false);
+    const [showNotesModal, setShowNotesModal] = useState(false);
+    const [showHistoryModal, setShowHistoryModal] = useState(false);
     const [selectedStatus, setSelectedStatus] = useState("");
     const [editForm, setEditForm] = useState({
         status: "",
@@ -28,6 +37,15 @@ const ManageCommands = () => {
     const [editLoading, setEditLoading] = useState(false);
     const [editError, setEditError] = useState(null);
     const [editSuccess, setEditSuccess] = useState(null);
+    
+    // New state for notes and history
+    const [notes, setNotes] = useState([]);
+    const [statusHistory, setStatusHistory] = useState([]);
+    const [newNote, setNewNote] = useState("");
+    const [newNoteType, setNewNoteType] = useState("admin");
+    const [notesLoading, setNotesLoading] = useState(false);
+    const [historyLoading, setHistoryLoading] = useState(false);
+    const [statusUpdateNotes, setStatusUpdateNotes] = useState("");
 
     const formatPayment = (method) => {
         if (!method) return "-";
@@ -57,13 +75,152 @@ const ManageCommands = () => {
         }
     };
 
+    // New functions for notes and status history
+    const fetchNotes = async (commandId) => {
+        setNotesLoading(true);
+        try {
+            const res = await axios.get(`${API_URL}/commands/${commandId}/notes`, {
+                headers: getAuthHeaders()
+            });
+            setNotes(res.data.notes);
+        } catch (err) {
+            console.error('Error fetching notes:', err);
+        } finally {
+            setNotesLoading(false);
+        }
+    };
+
+    const fetchStatusHistory = async (commandId) => {
+        setHistoryLoading(true);
+        try {
+            const res = await axios.get(`${API_URL}/commands/${commandId}/status-history`, {
+                headers: getAuthHeaders()
+            });
+            setStatusHistory(res.data.history);
+        } catch (err) {
+            console.error('Error fetching status history:', err);
+        } finally {
+            setHistoryLoading(false);
+        }
+    };
+
+    const addNote = async () => {
+        if (!newNote.trim() || !selectedCommand) return;
+        
+        // Console log to check admin authentication status
+        console.log('=== Admin Add Note Debug ===');
+        
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const token = (user && (user.access_token || user.token || user.accessToken)) || localStorage.getItem('access_token');
+        
+        console.log('User from localStorage:', user);
+        console.log('Token found:', token ? 'YES' : 'NO');
+        console.log('Token value (first 20 chars):', token ? token.substring(0, 20) + '...' : 'null');
+        console.log('User role:', user.role || 'undefined');
+        console.log('Selected Command:', selectedCommand);
+        console.log('New Note Content:', newNote);
+        console.log('Note Type:', newNoteType);
+        console.log('API URL:', `${API_URL}/commands/${selectedCommand.id}/notes`);
+        
+        if (!token) {
+            console.error('❌ No authentication token found!');
+            alert('Authentication required. Please login again.');
+            return;
+        }
+        
+        try {
+            const response = await axios.post(`${API_URL}/commands/${selectedCommand.id}/notes`, {
+                content: newNote,
+                note_type: newNoteType,
+                is_visible_to_customer: newNoteType !== 'admin',
+                admin_id: user.id || 1 // Use actual admin ID from user context
+            }, {
+                headers: getAuthHeaders()
+            });
+            
+            console.log('✅ Note added successfully:', response.data);
+            setNewNote("");
+            fetchNotes(selectedCommand.id);
+        } catch (err) {
+            console.error('❌ Error adding note:', err);
+            console.error('Error response:', err.response?.data);
+            console.error('Error status:', err.response?.status);
+            console.error('Error headers:', err.response?.headers);
+        }
+    };
+
+    const updateStatusWithHistory = async () => {
+        if (!selectedCommand) return;
+        
+        setEditLoading(true);
+        try {
+            await axios.put(`${API_URL}/commands/${selectedCommand.id}/status`, {
+                status: editForm.status,
+                notes: statusUpdateNotes,
+                admin_id: 1 // Replace with actual admin ID
+            }, {
+                headers: getAuthHeaders()
+            });
+            
+            // Refresh commands list
+            const res = await axios.get(`${API_URL}/commands`, {
+                headers: getAuthHeaders()
+            });
+            setCommands(res.data);
+            
+            setEditSuccess("Status updated successfully!");
+            setStatusUpdateNotes("");
+            
+            // If status history modal is open, refresh it
+            if (showHistoryModal) {
+                fetchStatusHistory(selectedCommand.id);
+            }
+        } catch (err) {
+            setEditError("Failed to update status");
+            console.error('Error updating status:', err);
+        } finally {
+            setEditLoading(false);
+        }
+    };
+
+    const openNotesModal = (command) => {
+        setSelectedCommand(command);
+        setShowNotesModal(true);
+        fetchNotes(command.id);
+    };
+
+    const openHistoryModal = (command) => {
+        setSelectedCommand(command);
+        setShowHistoryModal(true);
+        fetchStatusHistory(command.id);
+    };
+
+    const getStatusBadgeVariant = (status) => {
+        switch (status?.toLowerCase()) {
+            case 'pending': return 'warning';
+            case 'confirmed': return 'info';
+            case 'processing': return 'primary';
+            case 'shipped': return 'secondary';
+            case 'out_for_delivery': return 'info';
+            case 'delivered': return 'success';
+            case 'cancelled': return 'danger';
+            case 'refunded': return 'dark';
+            default: return 'secondary';
+        }
+    };
+
     useEffect(() => {
         const fetchCommands = async () => {
             try {
-                const res = await axios.get(`${API_URL}/commands`);
+                const res = await axios.get(`${API_URL}/commands`, {
+                    headers: getAuthHeaders()
+                });
                 setCommands(res.data);
             } catch (err) {
-                // handle error
+                console.error('Error fetching commands:', err);
+                if (err.response?.status === 401) {
+                    console.error('Authentication failed - please login again');
+                }
             } finally {
                 setLoading(false);
             }
@@ -154,7 +311,11 @@ const filteredCommands = commands.filter(cmd => {
                         {filteredCommands.map(cmd => (
                             <tr key={cmd.id}>
                                 <td>{cmd.name}</td>
-                                <td>{cmd.status}</td>
+                                <td>
+                                    <Badge variant={getStatusBadgeVariant(cmd.status)}>
+                                        {cmd.status}
+                                    </Badge>
+                                </td>
                                 <td>{cmd.total}</td>
                                 <td>{formatDate(cmd.placed_at)}</td>
                                 <td>{formatPayment(cmd.payment_method)}</td>
@@ -163,8 +324,10 @@ const filteredCommands = commands.filter(cmd => {
                                 <td>{cmd.customer_first_name} {cmd.customer_last_name}</td>
                                 <td>{cmd.description}</td>
                                 <td>
-                                    <Button variant="primary" size="sm" className="me-2" onClick={() => { setSelectedCommand(cmd); setShowModal(true); }}>Details</Button>
-                                    <Button variant="warning" size="sm" onClick={() => {
+                                    <Button variant="primary" size="sm" className="me-1 mb-1" onClick={() => { setSelectedCommand(cmd); setShowModal(true); }}>
+                                        <FontAwesomeIcon icon={faEye} /> Details
+                                    </Button>
+                                    <Button variant="warning" size="sm" className="me-1 mb-1" onClick={() => {
                                         setSelectedCommand(cmd);
                                         setEditForm({
                                             status: cmd.status || "",
@@ -179,7 +342,15 @@ const filteredCommands = commands.filter(cmd => {
                                         setEditError(null);
                                         setEditSuccess(null);
                                         setShowEditModal(true);
-                                    }}>Manage</Button>
+                                    }}>
+                                        <FontAwesomeIcon icon={faEdit} /> Manage
+                                    </Button>
+                                    <Button variant="info" size="sm" className="me-1 mb-1" onClick={() => openNotesModal(cmd)}>
+                                        <FontAwesomeIcon icon={faCommentDots} /> Notes
+                                    </Button>
+                                    <Button variant="secondary" size="sm" className="mb-1" onClick={() => openHistoryModal(cmd)}>
+                                        <FontAwesomeIcon icon={faHistory} /> History
+                                    </Button>
                                 </td>
                             </tr>
                         ))}
@@ -373,10 +544,30 @@ const filteredCommands = commands.filter(cmd => {
                   >
                     <option value="">Select status</option>
                     <option value="pending">Pending</option>
+                    <option value="confirmed">Confirmed</option>
                     <option value="processing">Processing</option>
-                    <option value="completed">Completed</option>
+                    <option value="shipped">Shipped</option>
+                    <option value="out_for_delivery">Out for Delivery</option>
+                    <option value="delivered">Delivered</option>
                     <option value="cancelled">Cancelled</option>
+                    <option value="refunded">Refunded</option>
                   </Form.Select>
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label className="fw-semibold text-primary">Status Change Notes</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={2}
+                    className="rounded-3 border-0 shadow-sm"
+                    value={statusUpdateNotes}
+                    onChange={(e) => setStatusUpdateNotes(e.target.value)}
+                    placeholder="Add a note about this status change..."
+                  />
+                  <Form.Text className="text-muted">
+                    This note will be added to the status history.
+                  </Form.Text>
                 </Form.Group>
               </Col>
 
@@ -502,13 +693,24 @@ const filteredCommands = commands.filter(cmd => {
                 setEditLoading(true);
                 setEditError(null);
                 setEditSuccess(null);
-                const res = await axios.put(`${API_URL}/commands/${selectedCommand.id}`, editForm);
+                
+                // Update basic command info
+                const res = await axios.put(`${API_URL}/commands/${selectedCommand.id}`, editForm, {
+                    headers: getAuthHeaders()
+                });
                 const updated = res.data;
+                
+                // If status changed, update with history tracking
+                if (editForm.status !== selectedCommand.status && editForm.status) {
+                  await updateStatusWithHistory();
+                }
+                
                 setCommands((prev) =>
                   prev.map((c) => (c.id === updated.id ? updated : c))
                 );
                 setSelectedCommand(updated);
                 setEditSuccess("Updated successfully");
+                setStatusUpdateNotes("");
                 setShowEditModal(false);
               } catch (err) {
                 const msg =
@@ -531,6 +733,271 @@ const filteredCommands = commands.filter(cmd => {
     </div>
   </div>
 )}
+
+        {/* Notes Modal */}
+        {showNotesModal && selectedCommand && (
+          <div
+            className="modal show fade"
+            style={{ display: "block", background: "rgba(0,0,0,0.6)" }}
+            tabIndex="-1"
+          >
+            <div className="modal-dialog modal-xl modal-dialog-centered">
+              <div className="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+                
+                {/* HEADER */}
+                <div className="modal-header bg-primary text-white d-flex justify-content-between align-items-center">
+                  <h5 className="modal-title fw-bold mb-0">
+                    <FontAwesomeIcon icon={faCommentDots} className="me-2" />
+                    Order Notes - #{selectedCommand.id}
+                  </h5>
+                  <button
+                    type="button"
+                    className="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                    style={{
+                      width: "32px",
+                      height: "32px",
+                      fontSize: "1.2rem",
+                      lineHeight: "1",
+                      border: "none",
+                    }}
+                    onClick={() => setShowNotesModal(false)}
+                  >
+                    &times;
+                  </button>
+                </div>
+                
+                {/* BODY */}
+                <div className="modal-body p-4" style={{ maxHeight: "70vh", overflowY: "auto" }}>
+                  {/* Add new note */}
+                  <Card className="mb-4 border-0 shadow-sm">
+                    <Card.Header className="bg-light border-0">
+                      <FontAwesomeIcon icon={faPlus} className="me-2 text-primary" />
+                      <strong>Add New Note</strong>
+                    </Card.Header>
+                    <Card.Body>
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">Note Type</Form.Label>
+                        <Form.Select
+                          value={newNoteType}
+                          onChange={(e) => setNewNoteType(e.target.value)}
+                          className="rounded-3 border-0 shadow-sm"
+                        >
+                          <option value="admin">Admin Note (Internal)</option>
+                          <option value="customer">Customer Visible Note</option>
+                          <option value="system">System Note</option>
+                        </Form.Select>
+                      </Form.Group>
+                      <Form.Group className="mb-3">
+                        <Form.Label className="fw-semibold">Note Content</Form.Label>
+                        <Form.Control
+                          as="textarea"
+                          rows={3}
+                          value={newNote}
+                          onChange={(e) => setNewNote(e.target.value)}
+                          placeholder="Enter your note here..."
+                          className="rounded-3 border-0 shadow-sm"
+                        />
+                      </Form.Group>
+                      <Button 
+                        variant="primary" 
+                        onClick={addNote}
+                        disabled={!newNote.trim()}
+                        className="rounded-pill px-4"
+                      >
+                        <FontAwesomeIcon icon={faPlus} className="me-2" />
+                        Add Note
+                      </Button>
+                    </Card.Body>
+                  </Card>
+
+                  {/* Notes list */}
+                  <Card className="border-0 shadow-sm">
+                    <Card.Header className="bg-light border-0">
+                      <strong>All Notes</strong>
+                    </Card.Header>
+                    <Card.Body style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                      {notesLoading ? (
+                        <div className="text-center py-3">
+                          <Spinner animation="border" size="sm" />
+                          <p className="mt-2 mb-0">Loading notes...</p>
+                        </div>
+                      ) : notes.length === 0 ? (
+                        <Alert variant="info" className="border-0 bg-light">
+                          No notes found for this order.
+                        </Alert>
+                      ) : (
+                        notes.map(note => (
+                          <Card key={note.id} className="mb-3 border-0 shadow-sm">
+                            <Card.Body className="py-3">
+                              <div className="d-flex justify-content-between align-items-start mb-2">
+                                <div className="d-flex align-items-center">
+                                  <FontAwesomeIcon 
+                                    icon={note.note_type === 'customer' ? faUser : faUserTie} 
+                                    className="me-2" 
+                                  />
+                                  <Badge bg={
+                                    note.note_type === 'customer' ? 'primary' : 
+                                    note.note_type === 'admin' ? 'warning' : 'secondary'
+                                  }>
+                                    {note.note_type.toUpperCase()}
+                                  </Badge>
+                                  {!note.is_visible_to_customer && (
+                                    <Badge bg="danger" className="ms-2">Internal</Badge>
+                                  )}
+                                </div>
+                                <small className="text-muted">
+                                  <FontAwesomeIcon icon={faClock} className="me-1" />
+                                  {formatDate(note.created_at)}
+                                </small>
+                              </div>
+                              <p className="mb-1">{note.content}</p>
+                              <small className="text-muted">
+                                By: {note.user ? `${note.user.name} (Customer)` : 
+                                     note.admin ? `${note.admin.name} (Admin)` : 'System'}
+                              </small>
+                            </Card.Body>
+                          </Card>
+                        ))
+                      )}
+                    </Card.Body>
+                  </Card>
+                </div>
+                
+                {/* FOOTER */}
+                <div className="modal-footer bg-white d-flex justify-content-end">
+                  <Button 
+                    variant="secondary" 
+                    className="rounded-pill px-4"
+                    onClick={() => setShowNotesModal(false)}
+                  >
+                    Close
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Status History Modal */}
+        {showHistoryModal && selectedCommand && (
+          <div
+            className="modal show fade"
+            style={{ display: "block", background: "rgba(0,0,0,0.6)" }}
+            tabIndex="-1"
+          >
+            <div className="modal-dialog modal-xl modal-dialog-centered">
+              <div className="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+                
+                {/* HEADER */}
+                <div className="modal-header bg-secondary text-white d-flex justify-content-between align-items-center">
+                  <h5 className="modal-title fw-bold mb-0">
+                    <FontAwesomeIcon icon={faHistory} className="me-2" />
+                    Status History - #{selectedCommand.id}
+                  </h5>
+                  <button
+                    type="button"
+                    className="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                    style={{
+                      width: "32px",
+                      height: "32px",
+                      fontSize: "1.2rem",
+                      lineHeight: "1",
+                      border: "none",
+                    }}
+                    onClick={() => setShowHistoryModal(false)}
+                  >
+                    &times;
+                  </button>
+                </div>
+                
+                {/* BODY */}
+                <div className="modal-body p-4" style={{ maxHeight: "70vh", overflowY: "auto" }}>
+                  <Card className="mb-4 border-0 shadow-sm">
+                    <Card.Header className="bg-light border-0 d-flex justify-content-between align-items-center">
+                      <strong>Current Status</strong>
+                      <Badge bg={getStatusBadgeVariant(selectedCommand.status)} className="fs-6">
+                        {selectedCommand.status}
+                      </Badge>
+                    </Card.Header>
+                  </Card>
+
+                  <Card className="border-0 shadow-sm">
+                    <Card.Header className="bg-light border-0">
+                      <strong>Status Timeline</strong>
+                    </Card.Header>
+                    <Card.Body style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                      {historyLoading ? (
+                        <div className="text-center py-3">
+                          <Spinner animation="border" size="sm" />
+                          <p className="mt-2 mb-0">Loading history...</p>
+                        </div>
+                      ) : statusHistory.length === 0 ? (
+                        <Alert variant="info" className="border-0 bg-light">
+                          No status changes recorded yet.
+                        </Alert>
+                      ) : (
+                        <div className="timeline">
+                          {statusHistory.map((history, index) => (
+                            <div key={history.id} className="timeline-item d-flex mb-4">
+                              <div className="timeline-marker me-3">
+                                <div className={`rounded-circle d-flex align-items-center justify-content-center ${
+                                  index === 0 ? 'bg-primary' : 'bg-secondary'
+                                }`} style={{ width: '30px', height: '30px' }}>
+                                  <FontAwesomeIcon icon={faClock} className="text-white" size="sm" />
+                                </div>
+                              </div>
+                              <div className="timeline-content flex-grow-1">
+                                <Card className={`border-0 shadow-sm ${index === 0 ? 'border-primary' : ''}`}>
+                                  <Card.Body className="py-3">
+                                    <div className="d-flex justify-content-between align-items-start mb-2">
+                                      <div>
+                                        <strong>Status Changed:</strong>
+                                        {history.old_status && (
+                                          <Badge bg="secondary" className="ms-2 me-1">
+                                            {history.old_status}
+                                          </Badge>
+                                        )}
+                                        <span className="mx-1">→</span>
+                                        <Badge bg={getStatusBadgeVariant(history.new_status)} className="me-2">
+                                          {history.new_status}
+                                        </Badge>
+                                      </div>
+                                      <small className="text-muted">
+                                        {formatDate(history.created_at)}
+                                      </small>
+                                    </div>
+                                    {history.notes && (
+                                      <p className="mb-2 text-muted">{history.notes}</p>
+                                    )}
+                                    <small className="text-muted">
+                                      Changed by: {history.changed_by_system ? 'System' : 
+                                                 history.changed_by ? history.changed_by.name : 'Unknown'}
+                                    </small>
+                                  </Card.Body>
+                                </Card>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </Card.Body>
+                  </Card>
+                </div>
+                
+                {/* FOOTER */}
+                <div className="modal-footer bg-white d-flex justify-content-end">
+                  <Button 
+                    variant="secondary" 
+                    className="rounded-pill px-4"
+                    onClick={() => setShowHistoryModal(false)}
+                  >
+                    Close
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         </>
     );

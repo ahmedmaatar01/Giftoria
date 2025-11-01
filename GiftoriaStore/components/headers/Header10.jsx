@@ -97,7 +97,7 @@ export default function Header10() {
               <Image
                 alt={t("header.logo_alt")}
                 className="logo"
-                src="/images/logo/logo_Plan de travail 1 copie 2.svg"
+                src="/images/logo/GiftoriaLogoMe.png"
                 width={136}
                 height={21}
               />

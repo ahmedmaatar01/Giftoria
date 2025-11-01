@@ -104,7 +104,7 @@ export default function Header6({ isArrow, uppercase = false }) {
               <Image
                 alt={t("header.logo_alt")}
                 className="logo"
-                src="/images/logo/logo_Plan de travail 1 copie 2.svg"
+                src="/images/logo/GiftoriaLogoMe.png"
                 width={200}
                 height={21}
               />

@@ -50,13 +50,13 @@ Route::prefix('admin')->group(function () {
 // route-model binding capturing 'featured' as a {product} parameter.
 Route::get('/products/featured', [ProductController::class, 'featured']);
 
-// CRUD routes for catalog
+// CRUD routes for catalog - protect commands with auth
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('products', ProductController::class);
 Route::apiResource('product-images', ProductImageController::class);
 Route::apiResource('custom-fields', CustomFieldController::class);
 Route::apiResource('product-custom-values', ProductCustomValueController::class);
-Route::apiResource('commands', CommandController::class);
+Route::apiResource('commands', CommandController::class)->middleware('auth:sanctum');
 Route::apiResource('occasions', OccasionController::class);
 
 // Route for uploading images to a product
@@ -71,5 +71,12 @@ Route::delete('occasions/{occasion}/images/{image}', [OccasionController::class,
 Route::patch('occasions/{occasion}/images/{image}/featured', [OccasionController::class, 'setFeaturedImage']);
 // (moved) featured product route now defined above products resource
 //get commandes by user 
-Route::get('/users/{userId}/commands', [CommandController::class, 'getByUser']);
+Route::get('/users/{userId}/commands', [CommandController::class, 'getCommandsByUser'])->middleware('auth:sanctum');
+
+// Order notes and status history routes
+Route::get('/commands/{commandId}/notes', [CommandController::class, 'getNotes'])->middleware('auth:sanctum');
+Route::post('/commands/{commandId}/notes', [CommandController::class, 'addNote'])->middleware('auth:sanctum');
+Route::get('/commands/{commandId}/status-history', [CommandController::class, 'getStatusHistory'])->middleware('auth:sanctum');
+Route::put('/commands/{commandId}/status', [CommandController::class, 'updateStatus'])->middleware('auth:sanctum');
+Route::get('/commands/{commandId}/details', [CommandController::class, 'getCommandDetails'])->middleware('auth:sanctum');
 
