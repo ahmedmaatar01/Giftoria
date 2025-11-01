@@ -165,7 +165,6 @@ header#header {
 html.arabic-font .invert-arabic {
   transform: scaleX(-1);
 }
-
 html.arabic-font .invert-arabic .c-titre {
   font-size: 52px !important;
   font-weight: 600 !important;
