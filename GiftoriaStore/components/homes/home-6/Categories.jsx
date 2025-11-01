@@ -59,8 +59,10 @@ export default function Categories() {
         >
           <h3 className="bell-medium heading-30">{t("categoriesAlt.sectionTitle")}</h3>
           <Link href={`/shop-left-sidebar`} className="tf-btn btn-line">
-            {t("categoriesAlt.viewAllCategories")}
-            <i className="icon icon-arrow1-top-left" />
+            <span className="viewAllCategs">
+              {t("categoriesAlt.viewAllCategories")}
+              <i className="icon icon-arrow1-top-left" />
+            </span>
           </Link>
         </div>
         <div className="hover-sw-nav hover-sw-2">
@@ -90,50 +92,50 @@ export default function Categories() {
           >
             {loading
               ? Array.from({ length: 6 }).map((_, idx) => (
-                  <SwiperSlide key={`cat-loading-${idx}`}>
+                <SwiperSlide key={`cat-loading-${idx}`}>
+                  <div className="collection-item-circle hover-img">
+                    <div className="collection-image img-style" style={{ width: 180, height: 180, background: "#f0f0f0", borderRadius: "50%" }} />
+                    <div className="collection-content text-center">
+                      <div style={{ height: 18, width: 100, background: "#f0f0f0", margin: "10px auto", borderRadius: 4 }} />
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))
+              : categories.map((cat) => {
+                const imageUrl = resolveCategoryImage(cat) || "/images/no-image.png";
+                const title =
+                  i18n.language === "ar" && cat?.name_ar
+                    ? cat.name_ar
+                    : cat?.name || "Category";
+                return (
+                  <SwiperSlide key={cat.id}>
                     <div className="collection-item-circle hover-img">
-                      <div className="collection-image img-style" style={{ width: 180, height: 180, background: "#f0f0f0", borderRadius: "50%" }} />
+                      <Link
+                        href={`/shop-default?category=${cat.id}`}
+                        className="collection-image img-style"
+                      >
+                        <Image
+                          className="lazyload"
+                          data-src={imageUrl}
+                          alt={title}
+                          src={imageUrl}
+                          width={180}
+                          height={180}
+                        />
+                      </Link>
                       <div className="collection-content text-center">
-                        <div style={{ height: 18, width: 100, background: "#f0f0f0", margin: "10px auto", borderRadius: 4 }} />
+                        <Link
+                          href={`/shop-default?category=${cat.id}`}
+                          className="link title fw-5"
+                        >
+                          <p className="raleway-medium" style={{ letterSpacing: "1px", textTransform: "uppercase" }}>{title}</p>
+                        </Link>
                       </div>
                     </div>
                   </SwiperSlide>
-                ))
-                : categories.map((cat) => {
-                  const imageUrl = resolveCategoryImage(cat) || "/images/no-image.png";
-                  const title =
-                    i18n.language === "ar" && cat?.name_ar
-                      ? cat.name_ar
-                      : cat?.name || "Category";
-                  return (
-                    <SwiperSlide key={cat.id}>
-                      <div className="collection-item-circle hover-img">
-                        <Link
-                          href={`/shop-default?category=${cat.id}`}
-                          className="collection-image img-style"
-                        >
-                          <Image
-                            className="lazyload"
-                            data-src={imageUrl}
-                            alt={title}
-                            src={imageUrl}
-                            width={180}
-                            height={180}
-                          />
-                        </Link>
-                        <div className="collection-content text-center">
-                          <Link
-                            href={`/shop-default?category=${cat.id}`}
-                            className="link title fw-5"
-                          >
-                            <p className="raleway-medium" style={{ letterSpacing: "1px", textTransform: "uppercase" }}>{title}</p>
-                          </Link>
-                        </div>
-                      </div>
-                    </SwiperSlide>
-                  );
-                })
-}
+                );
+              })
+            }
           </Swiper>
           <div className="sw-dots style-2 sw-pagination-collection justify-content-center" />
           <div className="nav-sw nav-next-slider nav-next-collection snbp130">

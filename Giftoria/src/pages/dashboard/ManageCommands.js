@@ -42,7 +42,7 @@ const ManageCommands = () => {
     const [notes, setNotes] = useState([]);
     const [statusHistory, setStatusHistory] = useState([]);
     const [newNote, setNewNote] = useState("");
-    const [newNoteType, setNewNoteType] = useState("admin");
+    const [newNoteType, setNewNoteType] = useState("system");
     const [notesLoading, setNotesLoading] = useState(false);
     const [historyLoading, setHistoryLoading] = useState(false);
     const [statusUpdateNotes, setStatusUpdateNotes] = useState("");
@@ -368,7 +368,7 @@ const filteredCommands = commands.filter(cmd => {
     tabIndex="-1"
   >
     <div className="modal-dialog modal-xl modal-dialog-centered">
-      <div className="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+      <div className="modal-content  shadow-lg rounded-4 overflow-hidden">
         
         {/* HEADER */}
         <div className="modal-header bg-primary text-white d-flex justify-content-between align-items-center">
@@ -446,7 +446,7 @@ const filteredCommands = commands.filter(cmd => {
                       <td><b>{cp.line_total}</b></td>
                       <td>
                         {Array.isArray(cp.custom_fields) && cp.custom_fields.length > 0 ? (
-                          <table className="table table-sm mb-0 border-0">
+                          <table className="table table-sm mb-0 ">
                             <tbody>
                               {cp.custom_fields.map((cf, i) => (
                                 <tr key={i}>
@@ -494,7 +494,7 @@ const filteredCommands = commands.filter(cmd => {
     tabIndex="-1"
   >
     <div className="modal-dialog modal-lg modal-dialog-centered">
-      <div className="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+      <div className="modal-content  shadow-lg rounded-4 overflow-hidden">
         
         {/* HEADER */}
         <div className="modal-header bg-primary text-white d-flex justify-content-between align-items-center">
@@ -536,7 +536,7 @@ const filteredCommands = commands.filter(cmd => {
                 <Form.Group>
                   <Form.Label className="fw-semibold text-primary">Status</Form.Label>
                   <Form.Select
-                    className="rounded-3 border-0 shadow-sm"
+                    className="rounded-3  shadow-sm"
                     value={editForm.status}
                     onChange={(e) =>
                       setEditForm({ ...editForm, status: e.target.value })
@@ -560,7 +560,7 @@ const filteredCommands = commands.filter(cmd => {
                   <Form.Control
                     as="textarea"
                     rows={2}
-                    className="rounded-3 border-0 shadow-sm"
+                    className="rounded-3  shadow-sm"
                     value={statusUpdateNotes}
                     onChange={(e) => setStatusUpdateNotes(e.target.value)}
                     placeholder="Add a note about this status change..."
@@ -577,7 +577,7 @@ const filteredCommands = commands.filter(cmd => {
                   <Form.Control
                     as="textarea"
                     rows={1}
-                    className="rounded-3 border-0 shadow-sm"
+                    className="rounded-3  shadow-sm"
                     placeholder="Add a note..."
                     value={editForm.description}
                     onChange={(e) =>
@@ -592,7 +592,7 @@ const filteredCommands = commands.filter(cmd => {
                   <Form.Label className="fw-semibold text-primary">Customer First Name</Form.Label>
                   <Form.Control
                     type="text"
-                    className="rounded-3 border-0 shadow-sm"
+                    className="rounded-3  shadow-sm"
                     value={editForm.customer_first_name}
                     onChange={(e) =>
                       setEditForm({ ...editForm, customer_first_name: e.target.value })
@@ -606,7 +606,7 @@ const filteredCommands = commands.filter(cmd => {
                   <Form.Label className="fw-semibold text-primary">Customer Last Name</Form.Label>
                   <Form.Control
                     type="text"
-                    className="rounded-3 border-0 shadow-sm"
+                    className="rounded-3  shadow-sm"
                     value={editForm.customer_last_name}
                     onChange={(e) =>
                       setEditForm({ ...editForm, customer_last_name: e.target.value })
@@ -620,7 +620,7 @@ const filteredCommands = commands.filter(cmd => {
                   <Form.Label className="fw-semibold text-primary">Customer Email</Form.Label>
                   <Form.Control
                     type="email"
-                    className="rounded-3 border-0 shadow-sm"
+                    className="rounded-3  shadow-sm"
                     value={editForm.customer_email}
                     onChange={(e) =>
                       setEditForm({ ...editForm, customer_email: e.target.value })
@@ -634,7 +634,7 @@ const filteredCommands = commands.filter(cmd => {
                   <Form.Label className="fw-semibold text-primary">Customer Phone</Form.Label>
                   <Form.Control
                     type="text"
-                    className="rounded-3 border-0 shadow-sm"
+                    className="rounded-3  shadow-sm"
                     value={editForm.customer_phone}
                     onChange={(e) =>
                       setEditForm({ ...editForm, customer_phone: e.target.value })
@@ -648,7 +648,7 @@ const filteredCommands = commands.filter(cmd => {
                   <Form.Label className="fw-semibold text-primary">Shipping Address</Form.Label>
                   <Form.Control
                     type="text"
-                    className="rounded-3 border-0 shadow-sm"
+                    className="rounded-3  shadow-sm"
                     value={editForm.shipping_address}
                     onChange={(e) =>
                       setEditForm({ ...editForm, shipping_address: e.target.value })
@@ -662,7 +662,7 @@ const filteredCommands = commands.filter(cmd => {
                   <Form.Label className="fw-semibold text-primary">Billing Address</Form.Label>
                   <Form.Control
                     type="text"
-                    className="rounded-3 border-0 shadow-sm"
+                    className="rounded-3  shadow-sm"
                     value={editForm.billing_address}
                     onChange={(e) =>
                       setEditForm({ ...editForm, billing_address: e.target.value })
@@ -742,7 +742,7 @@ const filteredCommands = commands.filter(cmd => {
             tabIndex="-1"
           >
             <div className="modal-dialog modal-xl modal-dialog-centered">
-              <div className="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+              <div className="modal-content  shadow-lg rounded-4 overflow-hidden">
                 
                 {/* HEADER */}
                 <div className="modal-header bg-primary text-white d-flex justify-content-between align-items-center">
@@ -769,24 +769,12 @@ const filteredCommands = commands.filter(cmd => {
                 {/* BODY */}
                 <div className="modal-body p-4" style={{ maxHeight: "70vh", overflowY: "auto" }}>
                   {/* Add new note */}
-                  <Card className="mb-4 border-0 shadow-sm">
-                    <Card.Header className="bg-light border-0">
+                  <Card className="mb-4  shadow-sm">
+                    <Card.Header className="bg-light ">
                       <FontAwesomeIcon icon={faPlus} className="me-2 text-primary" />
                       <strong>Add New Note</strong>
                     </Card.Header>
                     <Card.Body>
-                      <Form.Group className="mb-3">
-                        <Form.Label className="fw-semibold">Note Type</Form.Label>
-                        <Form.Select
-                          value={newNoteType}
-                          onChange={(e) => setNewNoteType(e.target.value)}
-                          className="rounded-3 border-0 shadow-sm"
-                        >
-                          <option value="admin">Admin Note (Internal)</option>
-                          <option value="customer">Customer Visible Note</option>
-                          <option value="system">System Note</option>
-                        </Form.Select>
-                      </Form.Group>
                       <Form.Group className="mb-3">
                         <Form.Label className="fw-semibold">Note Content</Form.Label>
                         <Form.Control
@@ -795,7 +783,7 @@ const filteredCommands = commands.filter(cmd => {
                           value={newNote}
                           onChange={(e) => setNewNote(e.target.value)}
                           placeholder="Enter your note here..."
-                          className="rounded-3 border-0 shadow-sm"
+                          className="rounded-3  shadow-sm"
                         />
                       </Form.Group>
                       <Button 
@@ -811,8 +799,8 @@ const filteredCommands = commands.filter(cmd => {
                   </Card>
 
                   {/* Notes list */}
-                  <Card className="border-0 shadow-sm">
-                    <Card.Header className="bg-light border-0">
+                  <Card className=" shadow-sm">
+                    <Card.Header className="bg-light ">
                       <strong>All Notes</strong>
                     </Card.Header>
                     <Card.Body style={{ maxHeight: '400px', overflowY: 'auto' }}>
@@ -822,12 +810,12 @@ const filteredCommands = commands.filter(cmd => {
                           <p className="mt-2 mb-0">Loading notes...</p>
                         </div>
                       ) : notes.length === 0 ? (
-                        <Alert variant="info" className="border-0 bg-light">
+                        <Alert variant="info" className=" bg-light">
                           No notes found for this order.
                         </Alert>
                       ) : (
                         notes.map(note => (
-                          <Card key={note.id} className="mb-3 border-0 shadow-sm">
+                          <Card key={note.id} className="mb-3  shadow-sm">
                             <Card.Body className="py-3">
                               <div className="d-flex justify-content-between align-items-start mb-2">
                                 <div className="d-flex align-items-center">
@@ -886,7 +874,7 @@ const filteredCommands = commands.filter(cmd => {
             tabIndex="-1"
           >
             <div className="modal-dialog modal-xl modal-dialog-centered">
-              <div className="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+              <div className="modal-content  shadow-lg rounded-4 overflow-hidden">
                 
                 {/* HEADER */}
                 <div className="modal-header bg-secondary text-white d-flex justify-content-between align-items-center">
@@ -912,8 +900,8 @@ const filteredCommands = commands.filter(cmd => {
                 
                 {/* BODY */}
                 <div className="modal-body p-4" style={{ maxHeight: "70vh", overflowY: "auto" }}>
-                  <Card className="mb-4 border-0 shadow-sm">
-                    <Card.Header className="bg-light border-0 d-flex justify-content-between align-items-center">
+                  <Card className="mb-4  shadow-sm">
+                    <Card.Header className="bg-light  d-flex justify-content-between align-items-center">
                       <strong>Current Status</strong>
                       <Badge bg={getStatusBadgeVariant(selectedCommand.status)} className="fs-6">
                         {selectedCommand.status}
@@ -921,8 +909,8 @@ const filteredCommands = commands.filter(cmd => {
                     </Card.Header>
                   </Card>
 
-                  <Card className="border-0 shadow-sm">
-                    <Card.Header className="bg-light border-0">
+                  <Card className=" shadow-sm">
+                    <Card.Header className="bg-light ">
                       <strong>Status Timeline</strong>
                     </Card.Header>
                     <Card.Body style={{ maxHeight: '400px', overflowY: 'auto' }}>
@@ -932,7 +920,7 @@ const filteredCommands = commands.filter(cmd => {
                           <p className="mt-2 mb-0">Loading history...</p>
                         </div>
                       ) : statusHistory.length === 0 ? (
-                        <Alert variant="info" className="border-0 bg-light">
+                        <Alert variant="info" className=" bg-light">
                           No status changes recorded yet.
                         </Alert>
                       ) : (
@@ -947,7 +935,7 @@ const filteredCommands = commands.filter(cmd => {
                                 </div>
                               </div>
                               <div className="timeline-content flex-grow-1">
-                                <Card className={`border-0 shadow-sm ${index === 0 ? 'border-primary' : ''}`}>
+                                <Card className={` shadow-sm ${index === 0 ? 'border-primary' : ''}`}>
                                   <Card.Body className="py-3">
                                     <div className="d-flex justify-content-between align-items-start mb-2">
                                       <div>

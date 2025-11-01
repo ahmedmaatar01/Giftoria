@@ -1,6 +1,6 @@
 {
   "topbar": {
-    "spring_sale": "Spring Fashion Sale",
+    "spring_sale": "Spring Gifts Sale",
     "shop_now": "Shop now",
     "all_collection": "View all collections",
     "summer_discount": "Summer sale discount off 70%",
@@ -71,10 +71,10 @@
       "description": "Outstanding premium support"
     }
   },
-  "footer_address_line1": "Address: 1234 Fashion Street, Suite 567,",
+  "footer_address_line1": "Address: 1234 Gifts Street, Suite 567,",
   "footer_address_line2": "New York, NY 10001",
   "footer_email_label": "Email:",
-  "footer_email": "info@fashionshop.com",
+  "footer_email": "info@Giftsshop.com",
   "footer_phone_label": "Phone:",
   "footer_phone": "(212) 555‑1234",
   "footer_get_direction": "Get direction",
@@ -196,9 +196,9 @@
     "item3": "Let your heart bloom, discover flowers that whisper stories of timeless love."
   },
   "marquee2": {
-    "item1": "LIMITED TIME OFFER: FASHION SALE YOU CAN'T RESIST",
+    "item1": "LIMITED TIME OFFER: Gifts SALE YOU CAN'T RESIST",
     "item2": "FREE SHIPPING AND RETURN",
-    "item3": "NEW SEASON, NEW STYLES: FASHION SALE YOU CAN'T MISS"
+    "item3": "NEW SEASON, NEW STYLES: Gifts SALE YOU CAN'T MISS"
   },
   "no_featured_products": "No featured products available.",
   "cart": {
@@ -314,7 +314,11 @@
     "quick_note_title": "Add Note to Order #{{orderNumber}}",
     "your_note": "Your Note",
     "cancel": "Cancel"
+  },
+  
+  "shop_page": {
+    "our_products": "Our Products",
+    "shop_latest_selection": "Shop through our latest selection of Gifts"
   }
-
 }
 

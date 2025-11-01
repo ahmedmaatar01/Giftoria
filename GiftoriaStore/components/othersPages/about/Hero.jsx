@@ -9,7 +9,7 @@ export default function Hero() {
 
   return (
     <section className="tf-slideshow about-us-page position-relative">
-      <div className="banner-wrapper">
+      <div className="banner-wrapper invert-arabic">
         <Image
           className="lazyload"
           src="/images/slider/about-banner-01.jpg"
@@ -17,9 +17,9 @@ export default function Hero() {
           width={2000}
           height={1262}
         />
-        <div className="box-content text-center">
+        <div className="box-content text-center ">
           <div className="container">
-            <div className="text bell-medium text-start" style={{ color: 'black' }}>
+            <div className="text bell-medium text-start invert-arabic" style={{ color: 'black' }}>
               <span className="heading text-black bell-medium" style={{fontSize:"60px", whiteSpace: "pre-line"}}>{t("hero.title")} </span> <br className="d-xl-block d-none" />
               <span className="description text-black banner-title-montserrat " 
                >
