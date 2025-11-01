@@ -118,7 +118,7 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
       <li className="menu-item">
         <Link
           href="/"
-          className={`item-link raleway-medium ${Linkfs} ${textColor} ${pathname === "/" ? "activeMenu" : ""}`}
+          className={`item-link raleway-regular ${Linkfs} ${textColor} ${pathname === "/" ? "activeMenu" : ""}`}
         >
           {t("menu.home")}
         </Link>
@@ -126,7 +126,7 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
      <li className="menu-item" >
         <a
           href="#"
-          className={`item-link raleway-medium ${Linkfs} ${textColor} ${
+          className={`item-link raleway-regular ${Linkfs} ${textColor} ${
             pathname.includes('/shop') || pathname.includes('/category') || pathname.includes('/occasion') ? "activeMenu" : ""
           } `}
         >
@@ -199,19 +199,19 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
       </li>
 
       <li className="menu-item">
-        <Link href="/about-us" className={`item-link raleway-medium ${Linkfs} ${textColor}`}>
+        <Link href="/about-us" className={`item-link raleway-regular ${Linkfs} ${textColor}`}>
           {t("menu.about")}
         </Link>
       </li>
 
       <li className="menu-item">
-        <Link href="/contact-2" className={`item-link raleway-medium ${Linkfs} ${textColor}`}>
+        <Link href="/contact-2" className={`item-link raleway-regular ${Linkfs} ${textColor}`}>
           {t("menu.contact")}
         </Link>
       </li>
 
       <li className="menu-item">
-        <Link href="/faq-1" className={`item-link raleway-medium ${Linkfs} ${textColor}`}>
+        <Link href="/faq-1" className={`item-link raleway-regular ${Linkfs} ${textColor}`}>
           {t("menu.faq")}
         </Link>
       </li>

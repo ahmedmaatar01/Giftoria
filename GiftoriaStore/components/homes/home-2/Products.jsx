@@ -22,7 +22,7 @@ export default function Products() {
       <div className="container">
         <div className="flat-title flex-row justify-content-between px-0">
           <span className="bell-medium heading-30 wow fadeInUp" data-wow-delay="0s">
-            Best Seller
+            BEST SELLER
           </span>
           <div className="box-sw-navigation">
             <div className="nav-sw square nav-next-slider nav-next-product snbp114">
