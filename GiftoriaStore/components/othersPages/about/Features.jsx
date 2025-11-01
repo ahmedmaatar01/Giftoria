@@ -12,10 +12,10 @@ export default function Features() {
     <section>
       <div className="container">
         <div className="bg_grey-2 radius-10 flat-wrap-iconbox">
-          <div className="flat-title lg">
-            <span className="title bell-medium heading-30" style={{  textTransform: 'uppercase' }}>{t("productFeatures.title")}</span> {/* Translate title */}
+          <div className="flat-title lg p-0">
+            <span className="title bell-medium heading-30 mb-4" style={{ textTransform: 'uppercase' }}>{t("productFeatures.title")}</span> {/* Translate title */}
             <div>
-              <p className="sub-title text_black-2 raleway-light text-uppercase" style={{ fontSize: '15px' }}>
+              <p className="sub-title text_black-2 raleway-light text-uppercase text-start" style={{ fontSize: '15px' }}>
                 {t("productFeatures.subtitle")}
               </p> {/* Translate subtitle */}
 
@@ -23,34 +23,19 @@ export default function Features() {
           </div>
           <div className="flat-iconbox-v3 lg">
             <div className="wrap-carousel wrap-mobile">
-              <Swiper
-                dir="ltr"
-                spaceBetween={15}
-                slidesPerView={3}
-                breakpoints={{
-                  768: { slidesPerView: 3, spaceBetween: 15 },
-                  480: { slidesPerView: 2, spaceBetween: 15 },
-                  0: { slidesPerView: 1, spaceBetween: 15 },
-                }}
-                className="swiper tf-sw-mobile"
-                modules={[Pagination]}
-                pagination={{ clickable: true, el: ".spd303" }}
-              >
+              <div className="box3">
                 {iconBoxes4.map((box, index) => (
-                  <SwiperSlide key={index}>
+                  <div className="box">
                     <div className="tf-icon-box text-center">
-                      <div className="icon">
-                        <i className={box.iconClass} />
-                      </div>
-                      <div className="content">
-                        <div className="raleway-medium title  fw-normal d-block fs-4 text-uppercase " >{t(box.title)}</div> {/* Translate item title */}
-                        <p className="raleway-light  text-uppercase" >{t(box.description)}</p> {/* Translate item description */}
+                      <div className="content content ">
+                        <div className="raleway-medium title  fw-normal d-block fs-4 text-uppercase text-start " >{t(box.title)}</div> {/* Translate item title */}
+                        <p className="text_black-2 raleway-light raleway-light  text-uppercase text-start" >{t(box.description)}</p> {/* Translate item description */}
                       </div>
                     </div>
-                  </SwiperSlide>
+                  </div>
                 ))}
-                <div className="sw-dots style-2 sw-pagination-mb justify-content-center spd303" />
-              </Swiper>
+              </div>
+              <div className="sw-dots style-2 sw-pagination-mb justify-content-center spd303" />
             </div>
           </div>
         </div>

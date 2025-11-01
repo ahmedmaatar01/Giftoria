@@ -141,7 +141,23 @@ header#header {
   width: 110px !important;
 
 }
+.box3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
 
+@media (max-width: 992px) {
+  .box3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .box3 {
+    grid-template-columns: 1fr;
+  }
+}
 .occasions.flat-spacing-15 {
   max-height: 600px;
 }
@@ -154,9 +170,9 @@ html.arabic-font .invert-arabic .c-titre {
   font-size: 52px !important;
   font-weight: 600 !important;
 }
-html.arabic .products-homeP .raleway-light.productName:a{
+html.arabic-font .products-homeP .raleway-light.productName{
   font-family: "be IN Normal", sans-serif !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
 }
 html.arabic-font .invert-arabic .c-paragraph {
   font-size: 27px;

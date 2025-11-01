@@ -10,42 +10,30 @@ export default function FeaturesAbout({ title, subtitle, items }) {
     <section>
       <div className="container">
         <div className="bg_grey-2 radius-10 flat-wrap-iconbox">
-          <div className="flat-title lg">
-            <span className="title bell-medium heading-30">{t(title)}</span> {/* Translate title */}
+          <div className="flat-title lg p-0">
+            <span className="title bell-medium heading-30 mb-4">{t(title)}</span> {/* Translate title */}
             <div>
-              <p className="sub-title text_black-2 raleway-light" style={{ lineHeight: '2', textAlign: 'justify', fontSize: '15px' }}>
+              <p className="sub-title text_black-2 raleway-light " style={{ lineHeight: '2', textAlign: 'justify', fontSize: '15px' }}>
                 {t(subtitle)} {/* Translate subtitle */}
               </p>
             </div>
           </div>
           <div className="flat-iconbox-v3 lg">
             <div className="wrap-carousel wrap-mobile">
-              <Swiper
-                dir="ltr"
-                spaceBetween={15}
-                slidesPerView={3}
-                breakpoints={{
-                  768: { slidesPerView: 3, spaceBetween: 15 },
-                  480: { slidesPerView: 2, spaceBetween: 15 },
-                  0: { slidesPerView: 1, spaceBetween: 15 },
-                }}
-                className="swiper tf-sw-mobile"
-                modules={[Pagination]}
-                pagination={{ clickable: true, el: ".spd303about" }}
-              >
-                {items.map((box, index) => (
-                  <SwiperSlide key={index}>
-                    <div className="tf-icon-box text-center">
-                      <div className="content">
-                        <div className="raleway-medium title  fw-normal d-block fs-4 text-uppercase " style={{ fontSize: '28px' }}>{t(box.title)}</div> {/* Translate item title */}
-                        <p className="text_black-2 raleway-light raleway-light  text-uppercase" style={{ fontSize: '15px', marginTop: '20px' }}>{t(box.description)}</p> {/* Translate item description */}
-
+   
+                <div className="box3">
+                  {items.map((box, index) => (
+                    <div className="box">
+                      <div className="tf-icon-box text-center">
+                        <div className="content content ">
+                          <div className="raleway-medium title  fw-normal d-block fs-4 text-uppercase text-start" style={{ fontSize: '28px' ,marginBottom:"0px"}}>{t(box.title)}</div> {/* Translate item title */}
+                          <p className="text_black-2 raleway-light raleway-light  text-uppercase text-start" style={{ fontSize: '15px' }}>{t(box.description)}</p> {/* Translate item description */}
+                        </div>
                       </div>
                     </div>
-                  </SwiperSlide>
-                ))}
+                  ))}
+                </div>
                 <div className="sw-dots style-2 sw-pagination-mb justify-content-center spd303about" />
-              </Swiper>
             </div>
           </div>
         </div>
