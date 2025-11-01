@@ -91,7 +91,7 @@ export default function DetailsOuterZoom({ product }) {
                   </div>
 
                   <div className="tf-product-info-badges">
-                    <div className="badges">Best seller</div>
+                    <div className="badges">BEST SELLER</div>
                     <div className="product-status-content">
                       <i className="icon-lightning" />
                       <p className="fw-6">
