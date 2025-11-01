@@ -8,7 +8,7 @@ export default function Banner() {
   const { t } = useTranslation();
 
   return (
-    <section className="flat-spacing-22">
+    <section className="flat-spacing-22 mb-5">
       <div className="container">
         <div
           className="tf-grid-layout md-col-2 tf-img-with-text style-5"
@@ -49,12 +49,12 @@ export default function Banner() {
               </div>
             </div>
           </div>
-          <div className="tf-image-wrap">
+          <div className="tf-image-wrap ">
             <Image
               className="lazyload"
-              data-src="/images/collections/banner-cls-pickleball.jpg"
+              data-src="/images/about/partners.png"
               alt="collection-img"
-              src="/images/collections/banner-cls-pickleball.jpg"
+              src="/images/about/partners.png"
               width={800}
               height={598}
             />

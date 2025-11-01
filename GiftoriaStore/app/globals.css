@@ -105,14 +105,13 @@
 @font-face {
   font-family: "Muslimah Thin";
   src: url("/fonts/Muslimah-Thin.otf") format("opentype");
-  font-weight: 400;
+
   font-style: normal;
 }
 
 @font-face {
   font-family: "be IN Normal";
   src: url("/fonts/beINNormal.ttf") format("opentype");
-  font-weight: 400;
   font-style: normal;
 }
 
@@ -137,13 +136,45 @@ header#header {
 
   color: #ffffff;
 }
-.dropdown.bootstrap-select.image-select.type-languages > .dropdown-menu {
-    width: 110px !important;
+
+.dropdown.bootstrap-select.image-select.type-languages>.dropdown-menu {
+  width: 110px !important;
 
 }
-.occasions.flat-spacing-15{
+
+.occasions.flat-spacing-15 {
   max-height: 600px;
 }
+
+html.arabic-font .invert-arabic {
+  transform: scaleX(-1);
+}
+
+html.arabic-font .invert-arabic .c-titre {
+  font-size: 52px !important;
+  font-weight: 600 !important;
+}
+html.arabic .products-homeP .raleway-light.productName:a{
+  font-family: "be IN Normal", sans-serif !important;
+  font-weight: 600 !important;
+}
+html.arabic-font .invert-arabic .c-paragraph {
+  font-size: 27px;
+  line-height: 2;
+  font-weight: 400 !important;
+}
+
+html.arabic-font .c-butn {
+  font-size: 26px;
+}
+
+html.arabic-font .box-content.invert-arabic {
+  position: static;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
 /* Apply Arabic fonts when html has the arabic-font class */
 html.arabic-font,
 html.arabic-font body {
@@ -193,13 +224,13 @@ html.arabic-font .raleway-regular:span:not(i):not(.icon):not([class^="icon-"]) {
 }
 
 .swiper-pagination-bullet-custom {
-    width: 36px;
-    height: 4px;
-    background-color: rgb(0 0 0 / 45%);
-    border-radius: 9%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    opacity: 0.8;
+  width: 36px;
+  height: 4px;
+  background-color: rgb(0 0 0 / 45%);
+  border-radius: 9%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0.8;
 }
 
 .swiper-pagination-bullet-custom:hover {
@@ -224,9 +255,9 @@ html.arabic-font {
 
   /* Bell → Muslimah Thin */
   .bell-medium,
-  .bell-bold,
-  .bell-t-medium {
+  .bell-bold {
     font-family: "Muslimah Thin", sans-serif !important;
+    font-weight: 600 !important;
   }
 
   /* Raleway / Montserrat → be IN Normal */

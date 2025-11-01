@@ -7,12 +7,14 @@ import Image from "next/image";
 import { Navigation, Pagination } from "swiper/modules";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 export default function Subcollections() {
   const searchParams = useSearchParams();
   const occasionId = searchParams.get('occasion');
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { i18n } = useTranslation();
 
   useEffect(() => {
     const fetchOccasionCategories = async () => {
@@ -99,6 +101,11 @@ export default function Subcollections() {
                   ? `http://localhost:8000/storage/${category.featured_image}`
                   : '/images/no-image.png';
 
+                // Get the display name based on language
+                const displayName = i18n.language === 'ar' && category.name_ar 
+                  ? category.name_ar 
+                  : category.name;
+
                 return (
                   <SwiperSlide key={category.id}>
                     <div className="collection-item style-2 hover-img">
@@ -110,18 +117,20 @@ export default function Subcollections() {
                           <Image
                             className="lazyload"
                             data-src={imageUrl}
-                            alt={category.name}
+                            alt={displayName}
                             src={imageUrl}
                             width={600}
                             height={721}
                           />
                         </Link>
-                        <div className="collection-content">
+                        <div className="collection-content position-static pt-2">
                           <Link
                             href={`/shop-default?category=${category.id}`}
                             className="tf-btn collection-title hover-icon fs-15"
                           >
-                            <span>{category.name}</span>
+                            <span className="raleway-regular uppercase ">
+                              {displayName}
+                            </span>
                             <i className="icon icon-arrow1-top-left" />
                           </Link>
                         </div>

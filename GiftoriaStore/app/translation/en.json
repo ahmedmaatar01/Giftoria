@@ -276,7 +276,45 @@
   "not_available": "N/A",
   "estimate_delivery_international": "Estimate delivery {{internationalDays}} Business days to international / {{localDays}} days to {{country}}",
   "guarantee_safe_checkout": "Guarantee safe & secure checkout",
-  "qatar": "Qatar"
+  "qatar": "Qatar",
+  
+  "orders": {
+    "my_orders": "My Orders",
+    "order_number": "Order #{{number}}",
+    "order_placed": "Order Placed",
+    "order_confirmed": "Order Confirmed",
+    "processing": "Processing",
+    "shipped": "Shipped",
+    "out_for_delivery": "Out for Delivery",
+    "delivered": "Delivered",
+    "cancelled": "Cancelled",
+    "refunded": "Refunded",
+    "pending": "Pending",
+    "view_details": "View Details",
+    "add_note": "Add Note",
+    "order_history": "Order History",
+    "item_details": "Item Details",
+    "my_notes": "My Notes",
+    "status_timeline": "Status Timeline",
+    "order_info": "Order Info",
+    "add_note_title": "Add a Note",
+    "add_note_placeholder": "Add your note or question about this order...",
+    "adding_note": "Adding...",
+    "note_added_success": "Note added successfully!",
+    "note_add_failed": "Failed to add note. Please try again.",
+    "no_notes_yet": "No notes yet. Add your first note above!",
+    "you": "You",
+    "admin": "Admin",
+    "status_changed_from": "from {{oldStatus}}",
+    "changed_by_system": "System",
+    "changed_by_admin": "Admin",
+    "no_status_changes": "No status changes recorded yet.",
+    "loading_notes": "Loading notes...",
+    "loading_history": "Loading status history...",
+    "quick_note_title": "Add Note to Order #{{orderNumber}}",
+    "your_note": "Your Note",
+    "cancel": "Cancel"
+  }
 
 }
 

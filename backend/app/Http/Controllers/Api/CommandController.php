@@ -10,13 +10,23 @@ use App\Models\Product;
 use App\Models\User;
 use App\Models\CustomField;
 use App\Models\ProductCustomValue;
+use App\Models\OrderNote;
+use App\Models\OrderStatusHistory;
+use Illuminate\Support\Facades\Log;
 
 class CommandController extends Controller
 {
     public function index()
     {
-        // Return all commands with user and products (with pivot data)
-        return Command::with(['user', 'products', 'commandProducts.product'])->get();
+        // Return all commands with user, products, notes, and status history
+        return Command::with([
+            'user', 
+            'products', 
+            'commandProducts.product',
+            'notes.user',
+            'notes.admin',
+            'statusHistory.changedBy'
+        ])->get();
     }
 
     public function store(Request $request)
@@ -187,13 +197,25 @@ class CommandController extends Controller
         return response()->json(null, 204);
     }
     // Add this method inside CommandController
-public function getByUser($userId)
+public function getCommandsByUser($userId)
 {
     // Check if user exists
     $user = User::findOrFail($userId);
+    
+    // Optional: Add security check to ensure users can only see their own orders
+    // $authUser = auth()->user();
+    // if ($authUser && $authUser->id != $userId) {
+    //     return response()->json(['error' => 'Unauthorized'], 403);
+    // }
 
-    // Retrieve all commands for that user, with related products and pivot data
-    $commands = Command::with(['products', 'commandProducts.product'])
+    // Retrieve all commands for that user, with related products, notes, and status history
+    $commands = Command::with([
+        'products', 
+        'commandProducts.product',
+        'notes.user',
+        'notes.admin',
+        'statusHistory.changedBy'
+    ])
         ->where('user_id', $userId)
         ->get();
 
@@ -202,5 +224,183 @@ public function getByUser($userId)
         'commands' => $commands
     ]);
 }
+
+    /**
+     * Get notes for a specific command
+     */
+    public function getNotes(Request $request, $commandId)
+    {
+        $command = Command::findOrFail($commandId);
+        
+        // Check permissions - users can only see their own order notes
+        $user = $request->user();
+        if ($user && $command->user_id !== $user->id) {
+            // If not the order owner, only show customer-visible notes
+            $notes = $command->notes()
+                ->visibleToCustomer()
+                ->with(['user', 'admin'])
+                ->get();
+        } else {
+            // Show all notes if it's the order owner or admin
+            $notes = $command->notes()->with(['user', 'admin'])->get();
+        }
+
+        return response()->json([
+            'command_id' => $commandId,
+            'notes' => $notes
+        ]);
+    }
+
+    /**
+     * Add a note to a command
+     */
+    public function addNote(Request $request, $commandId)
+    {
+        $validated = $request->validate([
+            'content' => 'required|string|max:2000',
+            'note_type' => 'in:customer,admin,system',
+            'is_visible_to_customer' => 'boolean'
+        ]);
+
+        $command = Command::findOrFail($commandId);
+        $user = $request->user();
+        
+        // Check if user is authenticated
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized - Authentication required'], 403);
+        }
+        
+        // Determine note type and permissions
+        $noteData = [
+            'command_id' => $commandId,
+            'content' => $validated['content'],
+            'note_type' => $validated['note_type'] ?? 'customer',
+            'is_visible_to_customer' => $validated['is_visible_to_customer'] ?? true,
+        ];
+
+        // Check if the authenticated user is an admin
+        // Method 1: Check if user has 'role' attribute set to 'admin'
+        $isAdminByRole = isset($user->role) && $user->role === 'admin';
+        
+        // Method 2: Check if user email indicates admin (common pattern)
+        $isAdminByEmail = str_contains($user->email, 'admin') || str_ends_with($user->email, '@admin.com');
+        
+        // Method 3: Check if admin guard is being used
+        $isAdminByGuard = $request->user('admin') !== null;
+        
+        // Method 4: Check if user exists in admins table (fallback)
+        $isAdminByTable = \App\Models\Admin::where('email', $user->email)->exists();
+        
+        $isAdmin = $isAdminByRole || $isAdminByEmail || $isAdminByGuard || $isAdminByTable;
+        
+        // Debug logging to see which method detects admin
+        Log::info('Admin detection debug', [
+            'user_id' => $user->id,
+            'user_email' => $user->email,
+            'user_role' => $user->role ?? 'not_set',
+            'isAdminByRole' => $isAdminByRole,
+            'isAdminByEmail' => $isAdminByEmail,
+            'isAdminByGuard' => $isAdminByGuard,
+            'isAdminByTable' => $isAdminByTable,
+            'final_isAdmin' => $isAdmin,
+            'note_type' => $noteData['note_type']
+        ]);
+        
+        // Authorization logic
+        if ($noteData['note_type'] === 'customer') {
+            // For customer notes: allow if user is the customer OR if user is admin
+            if (!$isAdmin && $command->user_id !== $user->id) {
+                return response()->json(['error' => 'Unauthorized - Only order customer or admin can add customer notes'], 403);
+            }
+            
+            if ($isAdmin) {
+                // Admin adding customer-visible note - store as admin note
+                $noteData['admin_id'] = $user->id;
+                // Keep note_type as 'customer' to make it visible to customer
+            } else {
+                // Customer adding their own note
+                $noteData['user_id'] = $user->id;
+            }
+        } else {
+            // For admin/system notes: only allow if user is admin
+            if (!$isAdmin) {
+                return response()->json(['error' => 'Unauthorized - Only admins can add admin/system notes'], 403);
+            }
+            $noteData['admin_id'] = $user->id;
+        }
+
+        $note = OrderNote::create($noteData);
+        $note->load(['user', 'admin']);
+
+        return response()->json([
+            'message' => 'Note added successfully',
+            'note' => $note
+        ], 201);
+    }
+
+    /**
+     * Get status history for a command
+     */
+    public function getStatusHistory($commandId)
+    {
+        $command = Command::findOrFail($commandId);
+        $history = $command->statusHistory()->with('changedBy')->get();
+
+        return response()->json([
+            'command_id' => $commandId,
+            'current_status' => $command->status,
+            'history' => $history
+        ]);
+    }
+
+    /**
+     * Update command status with history tracking
+     */
+    public function updateStatus(Request $request, $commandId)
+    {
+        $validated = $request->validate([
+            'status' => 'required|string|max:50',
+            'notes' => 'nullable|string|max:1000',
+            'admin_id' => 'nullable|exists:admins,id'
+        ]);
+
+        $command = Command::findOrFail($commandId);
+        
+        // Use the model method to update status and create history
+        $command->updateStatus(
+            $validated['status'],
+            $validated['admin_id'] ?? null,
+            $validated['notes'] ?? null
+        );
+
+        // Load the updated command with relationships
+        $command->load([
+            'statusHistory.changedBy',
+            'notes.user',
+            'notes.admin'
+        ]);
+
+        return response()->json([
+            'message' => 'Status updated successfully',
+            'command' => $command
+        ]);
+    }
+
+    /**
+     * Get detailed command information including notes and history
+     */
+    public function getCommandDetails($commandId)
+    {
+        $command = Command::with([
+            'user',
+            'products',
+            'commandProducts.product',
+            'notes.user',
+            'notes.admin',
+            'statusHistory.changedBy'
+        ])->findOrFail($commandId);
+
+        return response()->json($command);
+    }
 
 }

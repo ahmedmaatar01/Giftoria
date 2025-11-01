@@ -47,14 +47,14 @@ export default function ShopCart() {
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="header">
-            <div className="title fw-5">{t("cart.title")}</div>
+            <div className="title fw-5 text-uppercase">{t("cart.title")}</div>
             <span
               className="icon-close icon-close-popup"
               data-bs-dismiss="modal"
             />
           </div>
           <div className="wrap">
-          
+
             <div className="tf-mini-cart-wrap">
               <div className="tf-mini-cart-main">
                 <div className="tf-mini-cart-sroll">
@@ -142,14 +142,14 @@ export default function ShopCart() {
                         <div className="row align-items-center mt-5 mb-5 ">
                           <div className="relative mx-auto mb-4 d-flex justify-content-center" >
 
-                          <Link href={`/shop-left-sidebar`}>
-  <img
-    src="/images/flower-05.png"
-    alt="Empty cart"
-    style={{ cursor: "pointer", width: "150px", height: "auto" }}
-    className="mt-4"
-  />
-</Link>
+                            <Link href={`/shop-left-sidebar`}>
+                              <img
+                                src="/images/flower-05.png"
+                                alt="Empty cart"
+                                style={{ cursor: "pointer", width: "130px", height: "auto" }}
+                                className="mt-4"
+                              />
+                            </Link>
 
                           </div>
                           <div className="msgAndbutton mt-4">

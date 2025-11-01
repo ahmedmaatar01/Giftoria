@@ -3,15 +3,25 @@
 import { useContextElement } from "@/context/Context";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function OrderDetails() {
   const { user, authToken } = useContextElement();
+  const { t, i18n } = useTranslation();
   const searchParams = useSearchParams();
   const orderId = searchParams.get("id");
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState(0);
+  
+  // New state for notes and status history
+  const [notes, setNotes] = useState([]);
+  const [statusHistory, setStatusHistory] = useState([]);
+  const [newNote, setNewNote] = useState("");
+  const [notesLoading, setNotesLoading] = useState(false);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [addingNote, setAddingNote] = useState(false);
 
   useEffect(() => {
     if (!orderId || !authToken) return;
@@ -19,7 +29,7 @@ export default function OrderDetails() {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(`http://localhost:8000/api/commands/${orderId}`, {
+        const res = await fetch(`http://localhost:8000/api/commands/${orderId}/details`, {
           headers: {
             'Authorization': `Bearer ${authToken}`,
             'Accept': 'application/json',
@@ -28,6 +38,10 @@ export default function OrderDetails() {
         if (!res.ok) throw new Error("Failed to fetch order details");
         const data = await res.json();
         setOrder(data);
+        
+        // Fetch notes and status history
+        fetchNotes();
+        fetchStatusHistory();
       } catch (err) {
         setError(err.message);
       } finally {
@@ -36,6 +50,78 @@ export default function OrderDetails() {
     };
     fetchOrder();
   }, [orderId, authToken]);
+
+  // Fetch notes for the order
+  const fetchNotes = async () => {
+    if (!orderId || !authToken) return;
+    setNotesLoading(true);
+    try {
+      const res = await fetch(`http://localhost:8000/api/commands/${orderId}/notes`, {
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+          'Accept': 'application/json',
+        },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setNotes(data.notes);
+      }
+    } catch (err) {
+      console.error('Error fetching notes:', err);
+    } finally {
+      setNotesLoading(false);
+    }
+  };
+
+  // Fetch status history for the order
+  const fetchStatusHistory = async () => {
+    if (!orderId) return;
+    setHistoryLoading(true);
+    try {
+      const res = await fetch(`http://localhost:8000/api/commands/${orderId}/status-history`, {
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setStatusHistory(data.history);
+      }
+    } catch (err) {
+      console.error('Error fetching status history:', err);
+    } finally {
+      setHistoryLoading(false);
+    }
+  };
+
+  // Add a new note
+  const addNote = async () => {
+    if (!newNote.trim() || !orderId || !authToken) return;
+    setAddingNote(true);
+    try {
+      const res = await fetch(`http://localhost:8000/api/commands/${orderId}/notes`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          content: newNote,
+          note_type: 'customer',
+          is_visible_to_customer: true
+        }),
+      });
+      if (res.ok) {
+        setNewNote("");
+        fetchNotes(); // Refresh notes
+      }
+    } catch (err) {
+      console.error('Error adding note:', err);
+    } finally {
+      setAddingNote(false);
+    }
+  };
 
   if (loading) {
     return <div className="py-5 text-center">Loading order details...</div>;
@@ -57,21 +143,49 @@ export default function OrderDetails() {
   // Helper: get order status badge
   const getStatusBadgeClass = (status) => {
     switch ((status || "").toLowerCase()) {
-      case "completed":
+      case "delivered":
         return "badge bg-success";
+      case "shipped":
+      case "out_for_delivery":
+        return "badge bg-info";
+      case "processing":
+        return "badge bg-primary";
       case "pending":
         return "badge bg-warning";
       case "cancelled":
         return "badge bg-danger";
-      case "processing":
-        return "badge bg-info";
       default:
         return "badge bg-secondary";
     }
   };
 
+  // Helper: get timeline badge class
+  const getTimelineBadgeClass = (status) => {
+    switch ((status || "").toLowerCase()) {
+      case "delivered":
+        return "bg-success";
+      case "shipped":
+      case "out_for_delivery":
+        return "bg-info";
+      case "processing":
+        return "bg-primary";
+      case "pending":
+        return "bg-warning";
+      case "cancelled":
+        return "bg-danger";
+      default:
+        return "bg-secondary";
+    }
+  };
+
+  // Helper: format status name
+  const formatStatusName = (status) => {
+    if (!status) return "Unknown";
+    return status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  };
+
   // Tab content
-  const tabTitles = ["Order History", "Item Details", "Courier", "Receiver"];
+  const tabTitles = ["Order History", "Item Details", "My Notes", "Status Timeline", "Order Info"];
 
   return (
     <div className="wd-form-order">
@@ -125,10 +239,23 @@ export default function OrderDetails() {
                     <span>{formatDate(order.placed_at || order.created_at)}</span>
                   </div>
                 </li>
-                {/* Add more timeline events if you have them in your backend */}
+                {/* Render status history timeline */}
+                {statusHistory.map((history, index) => (
+                  <li key={history.id}>
+                    <div className={`timeline-badge ${getTimelineBadgeClass(history.new_status)}`} />
+                    <div className="timeline-box">
+                      <div className="text-2 fw-6">Status: {formatStatusName(history.new_status)}</div>
+                      <span>{formatDate(history.created_at)}</span>
+                      {history.notes && (
+                        <p className="mt-2 text-muted">{history.notes}</p>
+                      )}
+                    </div>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
+          
           {/* Item Details */}
           <div className={"widget-content-inner" + (activeTab === 1 ? " active" : "")}
             style={{display: activeTab === 1 ? 'block' : 'none'}}>
@@ -173,17 +300,106 @@ export default function OrderDetails() {
               <div>No products found in this order.</div>
             )}
           </div>
-          {/* Courier */}
+          
+          {/* My Notes */}
           <div className={"widget-content-inner" + (activeTab === 2 ? " active" : "")}
             style={{display: activeTab === 2 ? 'block' : 'none'}}>
-            <p>
-              {/* You can add courier/tracking info here if available in your backend */}
-              No courier information available.
-            </p>
+            {/* Add note form */}
+            <div className="mb-4 p-3 border rounded">
+              <h6 className="mb-3">Add a Note</h6>
+              <div className="mb-3">
+                <textarea 
+                  className="form-control"
+                  rows="3"
+                  placeholder="Add your note or question about this order..."
+                  value={newNote}
+                  onChange={(e) => setNewNote(e.target.value)}
+                />
+              </div>
+              <button 
+                className="btn btn-primary"
+                onClick={addNote}
+                disabled={!newNote.trim() || addingNote}
+              >
+                {addingNote ? 'Adding...' : 'Add Note'}
+              </button>
+            </div>
+            
+            {/* Notes list */}
+            <div>
+              <h6 className="mb-3">Order Notes</h6>
+              {notesLoading ? (
+                <div className="text-center py-3">Loading notes...</div>
+              ) : notes.length === 0 ? (
+                <div className="alert alert-info">No notes yet. Add your first note above!</div>
+              ) : (
+                <div className="notes-list">
+                  {notes.map(note => (
+                    <div key={note.id} className="note-item mb-3 p-3 border rounded">
+                      <div className="d-flex justify-content-between align-items-start mb-2">
+                        <div>
+                          <span className={`badge ${note.note_type === 'customer' ? 'bg-primary' : 'bg-warning'}`}>
+                            {note.note_type === 'customer' ? 'You' : 'Admin'}
+                          </span>
+                        </div>
+                        <small className="text-muted">{formatDate(note.created_at)}</small>
+                      </div>
+                      <p className="mb-0">{note.content}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
-          {/* Receiver */}
+          
+          {/* Status Timeline */}
           <div className={"widget-content-inner" + (activeTab === 3 ? " active" : "")}
             style={{display: activeTab === 3 ? 'block' : 'none'}}>
+            <h6 className="mb-3">Order Status Timeline</h6>
+            {historyLoading ? (
+              <div className="text-center py-3">Loading status history...</div>
+            ) : statusHistory.length === 0 ? (
+              <div className="alert alert-info">No status changes recorded yet.</div>
+            ) : (
+              <div className="timeline-vertical">
+                {statusHistory.map((history, index) => (
+                  <div key={history.id} className="timeline-item d-flex mb-4">
+                    <div className="timeline-marker me-3">
+                      <div className={`rounded-circle ${getTimelineBadgeClass(history.new_status)} d-flex align-items-center justify-content-center`} 
+                           style={{width: '30px', height: '30px'}}>
+                        <i className="fas fa-check text-white" style={{fontSize: '12px'}}></i>
+                      </div>
+                    </div>
+                    <div className="timeline-content flex-grow-1">
+                      <div className="border rounded p-3">
+                        <div className="d-flex justify-content-between align-items-start mb-2">
+                          <div>
+                            <strong>{formatStatusName(history.new_status)}</strong>
+                            {history.old_status && (
+                              <small className="text-muted ms-2">
+                                (from {formatStatusName(history.old_status)})
+                              </small>
+                            )}
+                          </div>
+                          <small className="text-muted">{formatDate(history.created_at)}</small>
+                        </div>
+                        {history.notes && (
+                          <p className="mb-2 text-muted">{history.notes}</p>
+                        )}
+                        <small className="text-muted">
+                          Changed by: {history.changed_by_system ? 'System' : 'Admin'}
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          
+          {/* Order Info */}
+          <div className={"widget-content-inner" + (activeTab === 4 ? " active" : "")}
+            style={{display: activeTab === 4 ? 'block' : 'none'}}>
             <ul className="mt_20">
               <li>
                 Order Number : <span className="fw-7">#{order.id}</span>
@@ -199,6 +415,14 @@ export default function OrderDetails() {
               </li>
               <li>
                 Shipping Address : <span className="fw-7">{order.shipping_address}</span>
+              </li>
+              {order.desired_delivery_at && (
+                <li>
+                  Desired Delivery : <span className="fw-7">{formatDate(order.desired_delivery_at)}</span>
+                </li>
+              )}
+              <li>
+                Phone : <span className="fw-7">{order.customer_phone}</span>
               </li>
             </ul>
           </div>

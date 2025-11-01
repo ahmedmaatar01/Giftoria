@@ -73,7 +73,7 @@ export default function ShopByOccasion() {
 
   return (
     <>
-      <section className="flat-spacing-2">
+      <section className="flat-spacing-2"> 
         <div className="container">
           <div className="tf-shop-control grid-3 align-items-center">
             <div className="tf-control-filter">
