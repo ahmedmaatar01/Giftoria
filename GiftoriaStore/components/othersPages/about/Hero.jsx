@@ -20,8 +20,8 @@ export default function Hero() {
         <div className="box-content text-center">
           <div className="container">
             <div className="text bell-medium text-start" style={{ color: 'black' }}>
-              <span className="heading text-white bell-medium" style={{fontSize:"60px"}}>{t("hero.title")} </span> <br className="d-xl-block d-none" />
-              <span className="description text-white banner-title-montserrat " 
+              <span className="heading text-black bell-medium" style={{fontSize:"60px", whiteSpace: "pre-line"}}>{t("hero.title")} </span> <br className="d-xl-block d-none" />
+              <span className="description text-black banner-title-montserrat " 
                >
                 {t("hero.subtitle")}
               </span>

@@ -215,8 +215,8 @@ export default function ShopDetailsTab({ productId }) {
                     <div className="title mb-3">
                       Flower Shop Return Policy
                     </div>
-                    
-                    <h5 className="fw-6 mb-2">Freshness Guarantee</h5>
+
+                    <h5 className="raleway-regular fw-6 mb-2">Freshness Guarantee</h5>
                     <p className="mb-3">
                       We take pride in delivering only the freshest flowers. All our arrangements are 
                       carefully crafted using premium, hand-selected blooms. If your flowers arrive 
@@ -224,14 +224,14 @@ export default function ShopDetailsTab({ productId }) {
                       and we will provide a full refund or replacement at no additional cost.
                     </p>
 
-                    <h5 className="fw-6 mb-2">Return Window</h5>
+                    <h5 className="raleway-regular fw-6 mb-2">Return Window</h5>
                     <p className="mb-3">
                       Due to the perishable nature of fresh flowers, returns are accepted within 
                       <strong> 24 hours of delivery</strong>. Please ensure you inspect your order 
                       immediately upon receipt and notify us of any issues.
                     </p>
 
-                    <h5 className="fw-6 mb-2">Conditions for Returns</h5>
+                    <h5 className="raleway-regular fw-6 mb-2">Conditions for Returns</h5>
                     <ul className="mb-3">
                       <li>Flowers must be in their original condition</li>
                       <li>Photo evidence of damage or quality issues is required</li>
@@ -239,28 +239,28 @@ export default function ShopDetailsTab({ productId }) {
                       <li>Seasonal flowers and special orders are final sale unless damaged</li>
                     </ul>
 
-                    <h5 className="fw-6 mb-2">Delivery Issues</h5>
+                    <h5 className="raleway-regular fw-6 mb-2">Delivery Issues</h5>
                     <p className="mb-3">
                       If your delivery was missed or left in an inappropriate location, please contact 
                       us immediately. We will work with you to arrange a redelivery or provide an 
                       appropriate solution based on the circumstances.
                     </p>
 
-                    <h5 className="fw-6 mb-2">Refund Process</h5>
+                    <h5 className="raleway-regular fw-6 mb-2">Refund Process</h5>
                     <p className="mb-3">
                       Approved refunds will be processed within 5-7 business days and credited back 
                       to your original payment method. In some cases, we may offer store credit or 
                       a replacement arrangement instead of a monetary refund.
                     </p>
 
-                    <h5 className="fw-6 mb-2">Care Instructions</h5>
+                    <h5 className="raleway-regular fw-6 mb-2">Care Instructions</h5>
                     <p className="mb-3">
                       To ensure the longevity of your flowers, please follow the care instructions 
                       provided with your delivery. Proper care includes trimming stems, changing water 
                       daily, and keeping flowers away from direct sunlight and heat sources.
                     </p>
 
-                    <h5 className="fw-6 mb-2">Contact Us</h5>
+                    <h5 className="raleway-regular fw-6 mb-2">Contact Us</h5>
                     <p className="mb-0">
                       For any questions regarding returns or to report an issue with your order, 
                       please contact our customer service team at <strong>support@giftoria.com</strong> or 

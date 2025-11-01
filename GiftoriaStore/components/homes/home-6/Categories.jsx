@@ -126,7 +126,7 @@ export default function Categories() {
                             href={`/shop-default?category=${cat.id}`}
                             className="link title fw-5"
                           >
-                            <p className="bell-medium" style={{ letterSpacing: "1px", textTransform: "uppercase" }}>{title}</p>
+                            <p className="raleway-medium" style={{ letterSpacing: "1px", textTransform: "uppercase" }}>{title}</p>
                           </Link>
                         </div>
                       </div>

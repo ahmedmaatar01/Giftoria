@@ -12,7 +12,7 @@ export default function Banner() {
       <div className="container">
         <div
           className="tf-grid-layout md-col-2 tf-img-with-text style-5"
-          style={{ background: '#ffffff', border: '1px solid #E8DBC8', borderRadius: '50px' }}
+          style={{ background: '#ffffff', borderRadius: '50px' }}
         >
           <div
             className="tf-content-wrap w-100 pe-xl-5 wow fadeInUp"

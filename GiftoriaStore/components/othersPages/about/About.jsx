@@ -25,10 +25,10 @@ export default function About() {
             <div className="tf-content-wrap px-0 d-flex justify-content-center w-100">
               <div>
                 <div>
-                  <div className="heading bell-t-medium heading-30" style={{ fontSize: '30px', textTransform: 'uppercase' }}>{t("about.craft_title")}</div>
-                  <div className="text raleway-medium" style={{ textAlign: 'justify', fontSize: '15px' }}>
-                    {t("about.craft_description")}
-
+                  <div className="heading bell-medium heading-30" style={{ fontSize: '30px', textTransform: 'uppercase' }}>{t("about.craft_title")}</div>
+                  <div className="text montserrat-regular" style={{ textAlign: 'justify', fontSize: '15px', lineHeight: '2' }}>
+                    <span className="montserrat-regular">{t("about.craft_description")}</span>
+                    
                   </div>
                 </div>
               </div>

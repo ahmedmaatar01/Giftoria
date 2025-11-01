@@ -20,8 +20,8 @@ export default function HeroContact() {
         <div className="box-content text-center">
           <div className="container">
             <div className="text text-start" style={{ color: "black" }}>
-              <h1 className="heading text-white bell-medium" style={{fontSize:"60px"}}>{t("contact.hero_title")}</h1>
-       <span className="description text-white banner-title-montserrat " style={{color:"#fff"}} 
+              <h1 className="heading text-black bell-medium" style={{fontSize:"60px"}}>{t("contact.hero_title")}</h1>
+       <span className="description text-black banner-title-montserrat " style={{color:"#000"}} 
                >
                 {t("contact.hero_description_line1")}
                 <br />

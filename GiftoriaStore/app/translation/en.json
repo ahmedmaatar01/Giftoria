@@ -7,9 +7,9 @@
     "refresh_wardrobe": "Time to refresh your wardrobe."
   },
   "ShopCollection": "Read More",
-  "hero_subheading": "Come closer, darling",
+  "hero_subheading": "",
   "hero_heading": "A TOUCH OF CHARM AWAITS",
-  "hero_description": "Don’t be shy, love",
+  "hero_description": "",
   "hero_button": "Shop now",
   "explore_flowers_categories": "Explore our flowers categories",
   "gift_boxes": "Gift Boxes",
@@ -97,7 +97,7 @@
   "header.cart": "Shopping Cart",
   "hero": {
     "_comment": "start about us ",
-    "title": "THE STORY OF GIFTORIA",
+    "title": "THE STORY OF\nGIFTORIA",
     "subtitle": "Where every gift is wrapped in timeless grace, a blend of elegance, emotion, and lasting charm."
   },
   "about": {
@@ -153,8 +153,8 @@
     "store_hours": "Our store has re-opened for shopping, exchange Every day 11am to 7pm"
   },
   "contact": {
-    "hero_title": "Contact Us",
-    "hero_description_line1": "We’d love to hear from you — questions, custom orders,",
+    "hero_title": "CONTACT US",
+    "hero_description_line1": "We'd love to hear from you — questions, custom orders,",
     "hero_description_line2": "and feedback are welcome.",
     "visit_store": "Visit Our Store",
     "store_address": "66 Mott St, New York, New York, Zip Code: 10006, AS",

@@ -14,7 +14,7 @@ export default function VideoBanner() {
         <div className="box-content text-center">
           <div className="container wow fadeInUp" data-wow-delay="0s">
             <p className="subheading text-white fw-7 banner-title-montserrat">
-              Come closer, darling
+              
             </p>
             <h1 className="heading text-white bell-t-medium">A touch of charm awaits</h1>
             <p className="description text-white banner-title-montserrat">
