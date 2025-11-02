@@ -4,7 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useContextElement } from "@/context/Context";
 import CountdownComponent from "../common/Countdown";
+import { useTranslation } from "react-i18next";
+
 export const ProductCard = ({ product }) => {
+  const { t, i18n } = useTranslation();
   // Helpers to resolve API image paths
   const resolveImageUrl = (p) => {
     if (!p) return "/images/no-image.png";
@@ -50,7 +53,13 @@ export const ProductCard = ({ product }) => {
   }, [product]);
 
   // Safe name/price handling for API data (price may be string)
-  const displayName = product?.title || product?.name || "Product";
+  const getProductName = () => {
+    if (i18n.language === 'ar' && product?.arabic_name) {
+      return product.arabic_name;
+    }
+    return product?.title || product?.name || "Product";
+  };
+  const displayName = getProductName();
   const priceNumber = parseFloat(product?.price ?? 0);
   const priceDisplay = isNaN(priceNumber) ? null : priceNumber.toFixed(2);
   if (isNaN(priceNumber)) {
@@ -80,7 +89,7 @@ export const ProductCard = ({ product }) => {
         </Link>
         {product.soldOut ? (
           <div className="sold-out">
-            <span>Sold out</span>
+            <span>{t('product_card.sold_out')}</span>
           </div>
         ) : (
           <>
@@ -92,7 +101,7 @@ export const ProductCard = ({ product }) => {
                 className="box-icon bg_white quick-add tf-btn-loading"
               >
                 <span className="icon icon-bag" />
-                <span className="tooltip">Quick Add</span>
+                <span className="tooltip">{t('product_card.quick_add')}</span>
               </a>
               <a
                 onClick={() => addToWishlist(product.id)}
@@ -105,8 +114,8 @@ export const ProductCard = ({ product }) => {
                 />
                 <span className="tooltip">
                   {isAddedtoWishlist(product.id)
-                    ? "Already Wishlisted"
-                    : "Add to Wishlist"}
+                    ? t('product_card.already_wishlisted')
+                    : t('product_card.add_to_wishlist')}
                 </span>
                 <span className="icon icon-delete" />
               </a>
@@ -125,8 +134,8 @@ export const ProductCard = ({ product }) => {
                 <span className="tooltip">
                   {" "}
                   {isAddedtoCompareItem(product.id)
-                    ? "Already Compared"
-                    : "Add to Compare"}
+                    ? t('product_card.already_compared')
+                    : t('product_card.add_to_compare')}
                 </span>
                 <span className="icon icon-check" />
               </a>
@@ -137,7 +146,7 @@ export const ProductCard = ({ product }) => {
                 className="box-icon bg_white quickview tf-btn-loading"
               >
                 <span className="icon icon-view" />
-                <span className="tooltip">Quick View</span>
+                <span className="tooltip">{t('product_card.quick_view')}</span>
               </a>
             </div>
             {product.countdown && (

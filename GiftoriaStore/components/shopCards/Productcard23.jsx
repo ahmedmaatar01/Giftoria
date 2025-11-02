@@ -3,7 +3,10 @@ import { useEffect, useState } from "react";
 import React from "react";
 import Image from "next/image";
 import { useContextElement } from "@/context/Context";
+import { useTranslation } from "react-i18next";
+
 export default function Productcard23({ product }) {
+  const { t, i18n } = useTranslation();
   // Helpers for description rendering
   const stripHtml = (html) => {
     if (!html) return "";
@@ -13,6 +16,21 @@ export default function Productcard23({ product }) {
     const words = String(text).split(/\s+/).filter(Boolean);
     if (words.length <= maxWords) return words.join(" ");
     return words.slice(0, maxWords).join(" ") + "...";
+  };
+
+  // Helper functions for language-specific content
+  const getProductName = () => {
+    if (i18n.language === 'ar' && product?.arabic_name) {
+      return product.arabic_name;
+    }
+    return product?.title || product?.name || 'Product';
+  };
+
+  const getProductDescription = () => {
+    if (i18n.language === 'ar' && product?.arabic_description) {
+      return product.arabic_description;
+    }
+    return product?.description || '';
   };
 
   const resolveImageUrl = (p) => {
@@ -79,7 +97,7 @@ export default function Productcard23({ product }) {
       </div>
       <div className="card-product-info">
         <a href="#" className="title link">
-          {product?.title || product?.name || 'Product'}
+          {getProductName()}
         </a>
         {(() => {
           const n = parseFloat(product?.price ?? 0);
@@ -91,7 +109,8 @@ export default function Productcard23({ product }) {
         })()}
         <p className="description">
           {(() => {
-            const clean = stripHtml(product?.description);
+            const description = getProductDescription();
+            const clean = stripHtml(description);
             return clean ? limitWords(clean, 20) : "";
           })()}
         </p>
@@ -135,7 +154,7 @@ export default function Productcard23({ product }) {
             className="box-icon quick-add style-3 hover-tooltip"
           >
             <span className="icon icon-bag" />
-            <span className="tooltip">Quick add</span>
+            <span className="tooltip">{t('product_card.quick_add')}</span>
           </a>
           <a
             onClick={() => addToWishlist(product.id)}
@@ -148,8 +167,8 @@ export default function Productcard23({ product }) {
             />
             <span className="tooltip">
               {isAddedtoWishlist(product.id)
-                ? "Already Wishlisted"
-                : "Add to Wishlist"}
+                ? t('product_card.already_wishlisted')
+                : t('product_card.add_to_wishlist')}
             </span>
           </a>
 
@@ -168,8 +187,8 @@ export default function Productcard23({ product }) {
             <span className="tooltip">
               {" "}
               {isAddedtoCompareItem(product.id)
-                ? "Already Compared"
-                : "Add to Compare"}
+                ? t('product_card.already_compared')
+                : t('product_card.add_to_compare')}
             </span>
           </a>
           <a
@@ -179,7 +198,7 @@ export default function Productcard23({ product }) {
             className="box-icon quickview style-3 hover-tooltip"
           >
             <span className="icon icon-view" />
-            <span className="tooltip">Quick view</span>
+            <span className="tooltip">{t('product_card.quick_view')}</span>
           </a>
         </div>
       </div>

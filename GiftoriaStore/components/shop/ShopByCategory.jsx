@@ -5,11 +5,13 @@ import { useState, useEffect } from "react";
 import ShopFilterOccasion from "./ShopFilterOccasion";
 import Sorting from "./Sorting";
 import { useSearchParams } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 // Pagination: 30 items per page
 const ITEMS_PER_PAGE = 30;
 
 export default function ShopByCategory() {
+  const { t } = useTranslation();
   const searchParams = useSearchParams();
   const categoryIdParam = searchParams.get('category');
   const categoryId = categoryIdParam ? parseInt(categoryIdParam, 10) : null;
@@ -74,7 +76,7 @@ export default function ShopByCategory() {
                 className="tf-btn-filter"
               >
                 <span className="icon icon-filter" />
-                <span className="text">Filter</span>
+                <span className="text">{t('shop.filter')}</span>
               </a>
             </div>
             <ul className="tf-control-layout d-flex justify-content-center">
@@ -102,7 +104,7 @@ export default function ShopByCategory() {
             <div className="meta-filter-shop" />
             {loading ? (
               <div className="text-center py-5">
-                <p>Loading products...</p>
+                <p>{t('shop.loading_products')}</p>
               </div>
             ) : paginatedProducts.length > 0 ? (
               <>
@@ -132,7 +134,7 @@ export default function ShopByCategory() {
               </>
             ) : (
               <div className="text-center py-5">
-                <p>No products found in this category.</p>
+                <p>{t('shop.no_products_found')}</p>
               </div>
             )}
           </div>

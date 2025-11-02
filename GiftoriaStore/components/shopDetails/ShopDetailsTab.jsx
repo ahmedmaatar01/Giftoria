@@ -5,7 +5,7 @@ import axios from "axios";
 import { useTranslation } from 'react-i18next';
 
 export default function ShopDetailsTab({ productId }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [currentTab, setCurrentTab] = useState(1);
   const [product, setProduct] = useState(null);
 
@@ -60,16 +60,25 @@ export default function ShopDetailsTab({ productId }) {
                   } `}
                 >
                   <div className="">
-                    {/* Render HTML description from product */}
-                    {product && product.description ? (
-                      <div 
-                        className="product-description-html"
-                        dangerouslySetInnerHTML={{ __html: product.description }}
-                      />
-                    ) : (
-                      <p className="mb_30">
-                        {t('product_details.default_description')}
-                      </p>
+                    {/* Render HTML description from product based on language */}
+                    {product && (
+                      <>
+                        {i18n.language === 'ar' && product.arabic_description ? (
+                          <div 
+                            className="product-description-html"
+                            dangerouslySetInnerHTML={{ __html: product.arabic_description }}
+                          />
+                        ) : product.description ? (
+                          <div 
+                            className="product-description-html"
+                            dangerouslySetInnerHTML={{ __html: product.description }}
+                          />
+                        ) : (
+                          <p className="mb_30">
+                            {t('product_details.default_description')}
+                          </p>
+                        )}
+                      </>
                     )}
                     {/* <div className="tf-product-des-demo">
                       <div className="right">
