@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 export default function Header10() {
   const { t } = useTranslation();
   const router = useRouter();
-  const { user } = useContextElement
+  const { user } = useContextElement();
   const handleAccountClick = (e) => {
     e.preventDefault();
     console.log(user);

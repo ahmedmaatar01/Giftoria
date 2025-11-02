@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 
 export default function Checkout() {
-  const { cartProducts, setCartProducts, totalPrice, user } = useContextElement();
+  const { cartProducts, setCartProducts, totalPrice, user, authToken } = useContextElement();
   const router = useRouter();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
@@ -69,6 +69,31 @@ export default function Checkout() {
     return elm?.imgSrc || "/images/no-image.png";
   };
   const getItemName = (elm) => elm?.name || elm?.title || "Product";
+
+  // Helper function to get authentication headers
+  const getAuthHeaders = () => {
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+    
+    if (authToken) {
+      headers['Authorization'] = `Bearer ${authToken}`;
+    }
+    
+    return headers;
+  };
+
+  // Helper function to check if user is authenticated
+  const isAuthenticated = () => {
+    return !!(user && authToken);
+  };
+
+  console.log('Auth Debug:', {
+    user: user,
+    authToken: authToken ? 'Token exists' : 'No token',
+    isAuthenticated: isAuthenticated(),
+    userId: user?.id
+  });
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -147,7 +172,13 @@ export default function Checkout() {
         products,
       };
 
-      const response = await axios.post('http://localhost:8000/api/commands', orderPayload);
+      const response = await axios.post(
+        'http://localhost:8000/api/commands', 
+        orderPayload,
+        {
+          headers: getAuthHeaders()
+        }
+      );
 
       // Success! Clear cart and show message
       setCartProducts([]);
@@ -177,6 +208,7 @@ export default function Checkout() {
         <div className="tf-page-cart-wrap layout-2">
           <div className="tf-page-cart-item">
             <h5 className="fw-5 mb_20">{t('checkout.title_billing_details')}</h5>
+
             {error && (
               <div className="alert alert-danger mb-3" role="alert">
                 {error}
