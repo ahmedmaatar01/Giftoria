@@ -3,11 +3,13 @@ import React, { useState, useEffect } from "react";
 import { ProductCard } from "../shopCards/ProductCard";
 import Productcard23 from "../shopCards/Productcard23";
 import { useContextElement } from "@/context/Context";
+import { useTranslation } from "react-i18next";
 
 export default function ProductGrid({
   gridItems = 4,
   allproducts,
 }) {
+  const { t } = useTranslation();
   const { apiProducts, loading: apiLoading } = useContextElement();
   const [displayProducts, setDisplayProducts] = useState([]);
 
@@ -27,9 +29,9 @@ export default function ProductGrid({
     return (
       <div className="text-center py-5">
         <div className="spinner-border" role="status">
-          <span className="visually-hidden">Loading products...</span>
+          <span className="visually-hidden">{t('shop.loading_products')}</span>
         </div>
-        <p className="mt-2">Loading products from server...</p>
+        <p className="mt-2">{t('shop.loading_from_server')}</p>
       </div>
     );
   }
@@ -38,8 +40,8 @@ export default function ProductGrid({
     return (
       <div className="text-center py-5">
         <div className="alert alert-warning">
-          <h5>No Products Found</h5>
-          <p>There are currently no products available in the shop.</p>
+          <h5>{t('shop.no_products_title')}</h5>
+          <p>{t('shop.no_products_message')}</p>
         </div>
       </div>
     );
@@ -56,7 +58,7 @@ export default function ProductGrid({
           marginBottom: "24px",
         }}
       >
-        {displayProducts.length} product(s) found
+        {displayProducts.length} {t('shop.products_found')}
       </div>
       {gridItems == 1 ? (
         <div className="grid-layout" data-grid="grid-list">
@@ -73,6 +75,7 @@ export default function ProductGrid({
         >
           {/* card product 1 */}
           {displayProducts.map((elm, i) => (
+            
             <ProductCard product={elm} key={i} />
           ))}
         </div>

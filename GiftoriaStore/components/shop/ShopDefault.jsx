@@ -7,8 +7,10 @@ import ShopFilter from "./ShopFilter";
 import Sorting from "./Sorting";
 import { useSearchParams } from "next/navigation";
 import ShopByCategory from "./ShopByCategory";
+import { useTranslation } from "react-i18next";
 
 export default function ShopDefault() {
+  const { t } = useTranslation();
   const searchParams = useSearchParams();
   const categoryId = searchParams.get('category');
   // If a specific category is requested, delegate to ShopByCategory
@@ -41,7 +43,7 @@ export default function ShopDefault() {
                 className="tf-btn-filter"
               >
                 <span className="icon icon-filter" />
-                <span className="text">Filter</span>
+                <span className="text">{t('shop.filter')}</span>
               </a>
             </div>
             <ul className="tf-control-layout d-flex justify-content-center">
