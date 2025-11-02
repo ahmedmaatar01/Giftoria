@@ -32,7 +32,16 @@ export default function Hero() {
               href="/shop-left-sidebar"
            
             >
-               <div className="ecomus-button-link ecomus-button em-button em-button-subtle" style={{ marginTop: "10px" }}>
+               <div className="ecomus-button-link ecomus-button em-button em-button-subtle"  style={{
+                    marginTop: "20px",
+                    padding: "22px 45px",     
+                    borderRadius: "8px",      
+                    fontSize: "20px",         
+                    display: "inline-flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    minWidth: "280px"         
+                  }} >
               <span  className="raleway-regular text-uppercase  "style={{textDecoration:"underline", color: "#fff" }}>{t("hero_button")} </span>
               </div>
             </Link>

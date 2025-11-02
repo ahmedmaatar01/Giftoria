@@ -58,10 +58,14 @@ export default function Categories() {
           data-wow-delay="0s"
         >
           <h3 className="bell-medium heading-30">{t("categoriesAlt.sectionTitle")}</h3>
-          <Link href={`/shop-left-sidebar`} className="tf-btn btn-line">
-            <span className="viewAllCategs">
+          <Link href={`/shop-left-sidebar`} className="tf-btn">
+            <span className="viewAllCategs" style={{ fontSize: "18px", fontWeight: "500" }}>
               {t("categoriesAlt.viewAllCategories")}
-              <i className="icon icon-arrow1-top-left" />
+              <i className="icon icon-arrow1-top-left" style={{ 
+                fontSize: "12px", 
+                marginLeft: i18n.language === "ar" ? "25px" : "8px",
+                marginRight: i18n.language === "ar" ? "10px" : "0"
+              }} />
             </span>
           </Link>
         </div>

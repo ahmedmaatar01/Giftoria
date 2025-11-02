@@ -33,7 +33,7 @@ export default function ShopDetailsTab({ productId }) {
 
   return (
     <section
-      className="flat-spacing-17 pt_0"
+      className="flat-spacing-17 pt_0 shop-details-page"
       style={{ maxWidth: "100vw", overflow: "clip" }}
     >
       <div className="container">
@@ -65,7 +65,7 @@ export default function ShopDetailsTab({ productId }) {
                       <>
                         {i18n.language === 'ar' && product.arabic_description ? (
                           <div 
-                            className="product-description-html"
+                            className="product-description-html arabic_div"
                             dangerouslySetInnerHTML={{ __html: product.arabic_description }}
                           />
                         ) : product.description ? (
@@ -205,10 +205,10 @@ export default function ShopDetailsTab({ productId }) {
   <p className="mb-3">
     <strong>{t('product_details.return_policy.conditions')}</strong><br />
     <ul>
-      <li>{t('product_details.return_policy.condition1')}</li>
-      <li>{t('product_details.return_policy.condition2')}</li>
-      <li>{t('product_details.return_policy.condition3')}</li>
-      <li>{t('product_details.return_policy.condition4')}</li>
+      <li className="arabic_div">{t('product_details.return_policy.condition1')}</li>
+      <li className="arabic_div">{t('product_details.return_policy.condition2')}</li>
+      <li className="arabic_div">{t('product_details.return_policy.condition3')}</li>
+      <li className="arabic_div">{t('product_details.return_policy.condition4')}</li>
     </ul>
   </p>
 

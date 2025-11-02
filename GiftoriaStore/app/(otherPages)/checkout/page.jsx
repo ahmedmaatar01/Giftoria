@@ -13,7 +13,7 @@ export default function page() {
       <Header10 />
       <div className="tf-page-title">
         <div className="container-full">
-          <div className="heading text-center raleway-regular text-uppercase">{t('checkout_page.title')}</div>
+          <div className="heading text-center raleway-regular text-uppercase fs-2">{t('checkout_page.title')}</div>
         </div>
       </div>
 

@@ -60,8 +60,8 @@
   "already_compared": "تمت إضافته للمقارنة",
   "quick_view": "عرض سريع",
   "add_to_cart": "أضف إلى السلة",
-  "features_title_line1": "اكتشف أناقة",
-  "features_title_line2": "الهدايا الخالدة",
+  "features_title_line1": "اكتشف أناقة الهدايا الخالدة",
+  "features_title_line2": "",
   "features_slide_1_title": "تغليف أنيق",
   "features_slide_1_description": "نغلف الهدايا بأفضل الخامات لتترك انطباعًا رائعًا منذ الوهلة الأولى.",
   "features_slide_2_title": "لمسة شخصية",
@@ -82,14 +82,14 @@
   "features": {
     "free_shipping": {
       "title": "شحن مجاني",
-      "description": "شحن مجاني للطلبات فوق 120 دولارًا"
+      "description": "شحن مجاني للطلبات فوق ١٢٠ دولارًا"
     },
     "flexible_payment": {
       "title": "دفع مرن",
       "description": "ادفع باستخدام عدة بطاقات ائتمانية"
     },
     "returns": {
-      "title": "14 يوم للإرجاع",
+      "title": "١٤ يوم للإرجاع",
       "description": "خلال 30 يومًا للاستبدال"
     },
     "support": {
@@ -202,7 +202,7 @@
     "sectionTitle": "سيمفونية الهدايا"
   },
   "categoriesAlt": {
-    "sectionTitle": "فن العطاء",
+    "sectionTitle": "هدية من القلب",
     "viewAllCategories": "عرض جميع الفئات"
   },
   "menu": {

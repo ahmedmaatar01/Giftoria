@@ -151,7 +151,7 @@ export default function OrderDetails() {
       case "processing":
         return "badge bg-primary";
       case "pending":
-        return "badge bg-warning";
+        return "badge text-white";
       case "cancelled":
         return "badge bg-danger";
       default:
@@ -170,7 +170,7 @@ export default function OrderDetails() {
       case "processing":
         return "bg-primary";
       case "pending":
-        return "bg-warning";
+        return "";
       case "cancelled":
         return "bg-danger";
       default:
@@ -191,7 +191,12 @@ export default function OrderDetails() {
     <div className="wd-form-order">
       <div className="order-head">
         <div className="content">
-          <div className={getStatusBadgeClass(order.status)}>{order.status || "Pending"}</div>
+          <div 
+            className={getStatusBadgeClass(order.status)}
+            style={order.status?.toLowerCase() === 'pending' ? { backgroundColor: '#967740' } : {}}
+          >
+            {order.status || "Pending"}
+          </div>
           <h6 className="mt-8 fw-5">Order #{order.id}</h6>
         </div>
       </div>
@@ -242,7 +247,10 @@ export default function OrderDetails() {
                 {/* Render status history timeline */}
                 {statusHistory.map((history, index) => (
                   <li key={history.id}>
-                    <div className={`timeline-badge ${getTimelineBadgeClass(history.new_status)}`} />
+                    <div 
+                      className={`timeline-badge ${getTimelineBadgeClass(history.new_status)}`}
+                      style={history.new_status?.toLowerCase() === 'pending' ? { backgroundColor: '#967740' } : {}}
+                    />
                     <div className="timeline-box">
                       <div className="text-2 fw-6">Status: {formatStatusName(history.new_status)}</div>
                       <span>{formatDate(history.created_at)}</span>
@@ -317,7 +325,8 @@ export default function OrderDetails() {
                 />
               </div>
               <button 
-                className="btn btn-primary"
+                className="btn btn-dark btn-sm"
+                style={{ backgroundColor: '#000000' }}
                 onClick={addNote}
                 disabled={!newNote.trim() || addingNote}
               >
@@ -331,7 +340,7 @@ export default function OrderDetails() {
               {notesLoading ? (
                 <div className="text-center py-3">Loading notes...</div>
               ) : notes.length === 0 ? (
-                <div className="alert alert-info">No notes yet. Add your first note above!</div>
+                <div className="alert alert-info" style={{ backgroundColor: '#F1ECE4', borderColor: '#F1ECE4', color: '#000000' }}>No notes yet. Add your first note above!</div>
               ) : (
                 <div className="notes-list">
                   {notes.map(note => (
@@ -359,14 +368,20 @@ export default function OrderDetails() {
             {historyLoading ? (
               <div className="text-center py-3">Loading status history...</div>
             ) : statusHistory.length === 0 ? (
-              <div className="alert alert-info">No status changes recorded yet.</div>
+              <div className="alert alert-info" style={{ backgroundColor: '#F1ECE4', borderColor: '#F1ECE4', color: '#000000' }}>No status changes recorded yet.</div>
             ) : (
               <div className="timeline-vertical">
                 {statusHistory.map((history, index) => (
                   <div key={history.id} className="timeline-item d-flex mb-4">
                     <div className="timeline-marker me-3">
-                      <div className={`rounded-circle ${getTimelineBadgeClass(history.new_status)} d-flex align-items-center justify-content-center`} 
-                           style={{width: '30px', height: '30px'}}>
+                      <div 
+                        className={`rounded-circle ${getTimelineBadgeClass(history.new_status)} d-flex align-items-center justify-content-center`} 
+                        style={{
+                          width: '30px', 
+                          height: '30px',
+                          ...(history.new_status?.toLowerCase() === 'pending' ? { backgroundColor: '#967740' } : {})
+                        }}
+                      >
                         <i className="fas fa-check text-white" style={{fontSize: '12px'}}></i>
                       </div>
                     </div>

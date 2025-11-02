@@ -236,7 +236,6 @@ export default function Products2() {
           <div className="nav-sw nav-prev-slider style-white-line nav-prev-sell-1 box-icon w_46 round snbn21">
             <span className="icon icon-arrow-right" />
           </div>
-          <div className="sw-dots style-2 sw-pagination-sell-1 justify-content-center spdp21" />
         </div>
       </div>
     </section>
