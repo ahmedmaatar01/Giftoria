@@ -184,7 +184,18 @@ export default function Checkout() {
       setCartProducts([]);
       localStorage.removeItem('cartList');
       setError(null);
-      setSuccessMsg(t('checkout.success_order_placed'));
+      // Redirect after success
+      const orderId = response.data?.data?.id; // adjust if your API returns another field
+      setTimeout(() => {
+        if (!user) {
+          // check this authentification conditon 
+          router.push(`/order-success?order_id=${orderId}`);
+        } else {
+          // Logged-in user → go to My Orders page
+          router.push("my-account-orders");
+        }
+      }, 500);
+
 
     } catch (err) {
       console.error('Order submission error:', err);

@@ -43,12 +43,7 @@ export default function Footer1({ bgColor = "" }) {
               <div className="col-xl-3 col-md-6 col-12">
                 <div className="footer-infor">
                   <ul>
-                    <li>
-                      <p className="montserrat-regular" style={{ fontSize: '12px' }}>
-                        {t("footer_address_line1")}<br />
-                        {t("footer_address_line2")}
-                      </p>
-                    </li>
+                   
                     <li>
                       <p className="montserrat-regular" style={{ fontSize: '12px' }}>
                         {t("footer_email_label")} <a href="#" className="montserrat-regular" style={{ fontSize: '12px' }}>{t("footer_email")}</a>

@@ -42,12 +42,15 @@ export default function Marquee() {
               />
             </div>
             <p 
-              className="text raleway-light" 
-              style={{ 
-                margin: 0, 
+               className={`text ${
+                i18n.language === "ar" ? "muslimah-font" : "bell-font"
+              }`}
+              style={{
+                margin: 0,
                 textAlign: "center",
                 paddingRight: i18n.language === "ar" ? "10px" : "0",
-                paddingLeft: i18n.language === "ar" ? "0" : "0"
+                paddingLeft: i18n.language === "ar" ? "0" : "0",
+                textTransform: i18n.language === "ar" ? "none" : "lowercase"
               }}
             >
               {t(key)}
