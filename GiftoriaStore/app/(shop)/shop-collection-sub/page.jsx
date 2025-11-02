@@ -40,9 +40,12 @@ export default function Page() {
     ? (i18n.language === 'ar' && occasion.arabic_name ? occasion.arabic_name : occasion.name)
     : "New Arrival";
 
-  const displayDescription = occasion?.description 
-    ? occasion.description 
+    const displayDescription = occasion 
+    ? (i18n.language === 'ar' && occasion.arabic_description 
+        ? occasion.arabic_description 
+        : occasion.description)
     : "Shop through our latest selection of Fashion";
+  ;
 
   return (
     <>

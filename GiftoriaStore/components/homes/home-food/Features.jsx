@@ -12,12 +12,25 @@ export default function Features() {
   return (
     <section className="flat-spacing-18 bg_beige-4">
       <div className="container">
-        <div className="flat-title mb-lg text-center wow fadeInUp" data-wow-delay="0s">
-          <span className={`title ${i18n.language === 'ar' ? 'bell-medium' : 'bell-medium'} heading-30`}>
-            {t("features_title_line1")} <br />
-            <span style={{ marginTop: '10px', display: 'inline-block' }}>{t("features_title_line2")}</span>
-          </span>
-        </div>
+      <div className="flat-title mb-lg text-center wow fadeInUp" data-wow-delay="0s">
+  <span className={`title bell-medium heading-30`}>
+    {i18n.language === "ar" ? (
+      // Arabic — 1 line
+      <>
+        {t("features_title_line1")} {t("features_title_line2")}
+      </>
+    ) : (
+      // English — 2 lines
+      <>
+        {t("features_title_line1")} <br />
+        <span style={{ marginTop: "10px", display: "inline-block" }}>
+          {t("features_title_line2")}
+        </span>
+      </>
+    )}
+  </span>
+</div>
+
         <div className="row justify-content-center wow fadeInUp" data-wow-delay="0s">
           {features.map((slide, idx) => (
             <div className="col-12 col-md-6 mb-4 d-flex align-items-stretch justify-content-center" key={idx}>
