@@ -319,6 +319,58 @@
   "shop_page": {
     "our_products": "Our Products",
     "shop_latest_selection": "Shop through our latest selection of Gifts"
+  },
+  
+  "product_details": {
+    "tabs": {
+      "description": "Description",
+      "shipping": "Shipping",
+      "return_policies": "Return Policies"
+    },
+    "default_description": "Button-up shirt sleeves and a relaxed silhouette. It's tailored with drapey, crinkle-texture fabric that's made from LENZING™ ECOVERO™ Viscose — responsibly sourced wood-based fibres produced through a process that reduces impact on forests, biodiversity and water supply.",
+    "shipping": {
+      "title": "The Company Private Limited Policy",
+      "paragraph1": "The Company Private Limited and each of their respective subsidiary, parent and affiliated companies is deemed to operate this Website (\"we\" or \"us\") recognizes that you care how information about you is used and shared. We have created this Privacy Policy to inform you what information we collect on the Website, how we use your information and the choices you have about the way your information is collected and used. Please read this Privacy Policy carefully. Your use of the Website indicates that you have read and accepted our privacy practices, as outlined in this Privacy Policy.",
+      "paragraph2": "Please be advised that the practices described in this Privacy Policy apply to information gathered by us or our subsidiaries, affiliates or agents: (i) through this Website, (ii) where applicable, through our Customer Service Department in connection with this Website, (iii) through information provided to us in our free standing retail stores, and (iv) through information provided to us in conjunction with marketing promotions and sweepstakes.",
+      "paragraph3": "We are not responsible for the content or privacy practices on any websites.",
+      "paragraph4": "We reserve the right, in our sole discretion, to modify, update, add to, discontinue, remove or otherwise change any portion of this Privacy Policy, in whole or in part, at any time. When we amend this Privacy Policy, we will revise the \"last updated\" date located at the top of this Privacy Policy.",
+      "paragraph5": "If you provide information to us or access or use the Website in any way after this Privacy Policy has been changed, you will be deemed to have unconditionally consented and agreed to such changes. The most current version of this Privacy Policy will be available on the Website and will supersede all previous versions of this Privacy Policy.",
+      "paragraph6": "If you have any questions regarding this Privacy Policy, you should contact our Customer Service Department by email at marketing@company.com"
+    },
+    "return_policy": {
+      "title": "Flower Shop Return Policy",
+      "freshness_guarantee": "Freshness Guarantee:",
+      "freshness_text": "We take pride in delivering only the freshest flowers. All our arrangements are carefully crafted using premium, hand-selected blooms. If your flowers arrive damaged or wilted, please contact us within 24 hours of delivery with photos, and we will provide a full refund or replacement at no additional cost.",
+      "return_window": "Return Window:",
+      "return_window_text": "Due to the perishable nature of fresh flowers, returns are accepted within 24 hours of delivery. Please ensure you inspect your order immediately upon receipt and notify us of any issues.",
+      "conditions": "Conditions for Returns:",
+      "condition1": "Flowers must be in their original condition",
+      "condition2": "Photo evidence of damage or quality issues is required",
+      "condition3": "Custom or personalized arrangements may have different terms",
+      "condition4": "Seasonal flowers and special orders are final sale unless damaged",
+      "delivery_issues": "Delivery Issues:",
+      "delivery_issues_text": "If your delivery was missed or left in an inappropriate location, please contact us immediately. We will work with you to arrange a redelivery or provide an appropriate solution based on the circumstances.",
+      "refund_process": "Refund Process:",
+      "refund_process_text": "Approved refunds will be processed within 5–7 business days and credited back to your original payment method. In some cases, we may offer store credit or a replacement arrangement instead of a monetary refund.",
+      "care_instructions": "Care Instructions:",
+      "care_instructions_text": "To ensure the longevity of your flowers, please follow the care instructions provided with your delivery. Proper care includes trimming stems, changing water daily, and keeping flowers away from direct sunlight and heat sources.",
+      "contact_us": "Contact Us:",
+      "contact_us_text": "For any questions regarding returns or to report an issue with your order, please contact our customer service team at support@giftoria.com or call us at (555) 123-4567. We're here to ensure your complete satisfaction with every purchase."
+    }
+  },
+  
+  "product_detail": {
+    "best_seller": "BEST SELLER",
+    "quantity": "Quantity",
+    "add_to_cart": "Add to cart",
+    "already_added": "Already Added",
+    "add_to_wishlist": "Add to Wishlist",
+    "already_wishlisted": "Already Wishlisted",
+    "select_option": "Select {{field}}",
+    "required_field": "*",
+    "return_policy": "Return within 30 days of purchase. Duties & taxes are non-refundable.",
+    "buy_with": "Buy with",
+    "more_payment_options": "More payment options"
   }
 }
 

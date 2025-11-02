@@ -138,7 +138,7 @@ export default function Products2() {
                     </Link>
 
                     <div className="list-product-btn absolute-2">
-                      <a
+                      {/* <a
                         onClick={() => addToWishlist(product.id)}
                         className="box-icon bg_white wishlist btn-icon-action"
                       >
@@ -150,9 +150,9 @@ export default function Products2() {
                             ? t("already_wishlisted")
                             : t("add_to_wishlist")}
                         </span>
-                      </a>
+                      </a> */}
 
-                      <a
+                      {/* <a
                         href="#compare"
                         data-bs-toggle="offcanvas"
                         aria-controls="offcanvasLeft"
@@ -167,7 +167,7 @@ export default function Products2() {
                             ? t("already_compared")
                             : t("add_to_compare")}
                         </span>
-                      </a>
+                      </a> */}
 
                       <a
                         href="#quick_view"

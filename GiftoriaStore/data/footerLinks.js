@@ -4,8 +4,6 @@ export const footerLinks = [
   { href: "/shipping-delivery", textKey: "footer_shipping", text: "Shipping" },
   { href: "/terms-conditions", textKey: "footer_terms_conditions", text: "Terms & Conditions" },
   { href: "/faq-1", textKey: "footer_faq", text: "FAQ’s" },
-  { href: "/compare", textKey: "footer_compare", text: "Compare" },
-  { href: "/wishlist", textKey: "footer_wishlist", text: "My Wishlist" },
 ];
 
 export const aboutLinks = [

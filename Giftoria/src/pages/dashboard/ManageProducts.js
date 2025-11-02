@@ -16,7 +16,7 @@ const ManageProducts = () => {
     const [search, setSearch] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
     const [showModal, setShowModal] = useState(false);
-    const [modalForm, setModalForm] = useState({ name: '', arabic_name: '', description: '', price: '', stock: '', category_id: '', featured_image: null, images: [] });
+    const [modalForm, setModalForm] = useState({ name: '', arabic_name: '', description: '', arabic_description: '', price: '', stock: '', category_id: '', featured_image: null, images: [] });
     const [isEdit, setIsEdit] = useState(false);
 
     useEffect(() => {
@@ -43,7 +43,7 @@ const ManageProducts = () => {
     }, []);
 
     const handleCreate = () => {
-        setModalForm({ name: '', arabic_name: '', description: '', price: '', stock: '', category_id: '', featured_image: null, images: [], featured: false,     lead_time: '' });
+        setModalForm({ name: '', arabic_name: '', description: '', arabic_description: '', price: '', stock: '', category_id: '', featured_image: null, images: [], featured: false,     lead_time: '' });
         setIsEdit(false);
         setShowModal(true);
     };
@@ -54,6 +54,7 @@ const ManageProducts = () => {
             name: product.name || '',
             arabic_name: product.arabic_name || '',
             description: product.description || '',
+            arabic_description: product.arabic_description || '',
             price: product.price || '',
             stock: product.stock || '',
             category_id: product.category_id || '',
@@ -78,6 +79,7 @@ const ManageProducts = () => {
                     name: modalForm.name,
                     arabic_name: modalForm.arabic_name,
                     description: modalForm.description,
+                    arabic_description: modalForm.arabic_description,
                     price: modalForm.price,
                     stock: modalForm.stock,
                     category_id: modalForm.category_id,
@@ -90,6 +92,7 @@ const ManageProducts = () => {
                     name: modalForm.name,
                     arabic_name: modalForm.arabic_name,
                     description: modalForm.description,
+                    arabic_description: modalForm.arabic_description,
                     price: modalForm.price,
                     stock: modalForm.stock,
                     category_id: modalForm.category_id,

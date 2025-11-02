@@ -2,17 +2,19 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-
-const tabs = [
-  { title: "Description", active: true },
-  // { title: "Review", active: false },
-  { title: "Shiping", active: false },
-  { title: "Return Polocies", active: false },
-];
+import { useTranslation } from 'react-i18next';
 
 export default function ShopDetailsTab({ productId }) {
+  const { t } = useTranslation();
   const [currentTab, setCurrentTab] = useState(1);
   const [product, setProduct] = useState(null);
+
+  const tabs = [
+    { title: t('product_details.tabs.description'), active: true },
+    // { title: "Review", active: false },
+    { title: t('product_details.tabs.shipping'), active: false },
+    { title: t('product_details.tabs.return_policies'), active: false },
+  ];
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -66,11 +68,7 @@ export default function ShopDetailsTab({ productId }) {
                       />
                     ) : (
                       <p className="mb_30">
-                        Button-up shirt sleeves and a relaxed silhouette. It's
-                        tailored with drapey, crinkle-texture fabric that's made
-                        from LENZING™ ECOVERO™ Viscose — responsibly sourced
-                        wood-based fibres produced through a process that reduces
-                        impact on forests, biodiversity and water supply.
+                        {t('product_details.default_description')}
                       </p>
                     )}
                     {/* <div className="tf-product-des-demo">
@@ -153,56 +151,25 @@ export default function ShopDetailsTab({ productId }) {
                 >
                   <div className="tf-page-privacy-policy">
                     <div className="title">
-                      The Company Private Limited Policy
+                      {t('product_details.shipping.title')}
                     </div>
                     <p>
-                      The Company Private Limited and each of their respective
-                      subsidiary, parent and affiliated companies is deemed to
-                      operate this Website (“we” or “us”) recognizes that you
-                      care how information about you is used and shared. We have
-                      created this Privacy Policy to inform you what information
-                      we collect on the Website, how we use your information and
-                      the choices you have about the way your information is
-                      collected and used. Please read this Privacy Policy
-                      carefully. Your use of the Website indicates that you have
-                      read and accepted our privacy practices, as outlined in
-                      this Privacy Policy.
+                      {t('product_details.shipping.paragraph1')}
                     </p>
                     <p>
-                      Please be advised that the practices described in this
-                      Privacy Policy apply to information gathered by us or our
-                      subsidiaries, affiliates or agents: (i) through this
-                      Website, (ii) where applicable, through our Customer
-                      Service Department in connection with this Website, (iii)
-                      through information provided to us in our free standing
-                      retail stores, and (iv) through information provided to us
-                      in conjunction with marketing promotions and sweepstakes.
+                      {t('product_details.shipping.paragraph2')}
                     </p>
                     <p>
-                      We are not responsible for the content or privacy
-                      practices on any websites.
+                      {t('product_details.shipping.paragraph3')}
                     </p>
                     <p>
-                      We reserve the right, in our sole discretion, to modify,
-                      update, add to, discontinue, remove or otherwise change
-                      any portion of this Privacy Policy, in whole or in part,
-                      at any time. When we amend this Privacy Policy, we will
-                      revise the “last updated” date located at the top of this
-                      Privacy Policy.
+                      {t('product_details.shipping.paragraph4')}
                     </p>
                     <p>
-                      If you provide information to us or access or use the
-                      Website in any way after this Privacy Policy has been
-                      changed, you will be deemed to have unconditionally
-                      consented and agreed to such changes. The most current
-                      version of this Privacy Policy will be available on the
-                      Website and will supersede all previous versions of this
-                      Privacy Policy.
+                      {t('product_details.shipping.paragraph5')}
                     </p>
                     <p>
-                      If you have any questions regarding this Privacy Policy,
-                      you should contact our Customer Service Department by
-                      email at marketing@company.com
+                      {t('product_details.shipping.paragraph6')}
                     </p>
                   </div>
                 </div>
@@ -213,60 +180,47 @@ export default function ShopDetailsTab({ productId }) {
                 >
 <div className="tf-page-privacy-policy">
   <div className="title mb-3">
-    Flower Shop Return Policy
+    {t('product_details.return_policy.title')}
   </div>
 
   <p className="mb-3">
-    <strong>Freshness Guarantee:</strong><br />
-    We take pride in delivering only the freshest flowers. 
-    All our arrangements are carefully crafted using premium, hand-selected blooms. 
-    If your flowers arrive damaged or wilted, please contact us within 24 hours of delivery with photos, 
-    and we will provide a full refund or replacement at no additional cost.
+    <strong>{t('product_details.return_policy.freshness_guarantee')}</strong><br />
+    {t('product_details.return_policy.freshness_text')}
   </p>
 
   <p className="mb-3">
-    <strong>Return Window:</strong><br />
-    Due to the perishable nature of fresh flowers, returns are accepted 
-    within <strong>24 hours of delivery</strong>. Please ensure you inspect your order immediately upon receipt 
-    and notify us of any issues.
+    <strong>{t('product_details.return_policy.return_window')}</strong><br />
+    {t('product_details.return_policy.return_window_text')}
   </p>
 
   <p className="mb-3">
-    <strong>Conditions for Returns:</strong><br />
+    <strong>{t('product_details.return_policy.conditions')}</strong><br />
     <ul>
-      <li>Flowers must be in their original condition</li>
-      <li>Photo evidence of damage or quality issues is required</li>
-      <li>Custom or personalized arrangements may have different terms</li>
-      <li>Seasonal flowers and special orders are final sale unless damaged</li>
+      <li>{t('product_details.return_policy.condition1')}</li>
+      <li>{t('product_details.return_policy.condition2')}</li>
+      <li>{t('product_details.return_policy.condition3')}</li>
+      <li>{t('product_details.return_policy.condition4')}</li>
     </ul>
   </p>
 
   <p className="mb-3">
-    <strong>Delivery Issues:</strong><br />
-    If your delivery was missed or left in an inappropriate location, 
-    please contact us immediately. We will work with you to arrange a redelivery or provide an appropriate 
-    solution based on the circumstances.
+    <strong>{t('product_details.return_policy.delivery_issues')}</strong><br />
+    {t('product_details.return_policy.delivery_issues_text')}
   </p>
 
   <p className="mb-3">
-    <strong>Refund Process:</strong><br />
-    Approved refunds will be processed within 5–7 business days and credited 
-    back to your original payment method. In some cases, we may offer store credit or a replacement arrangement 
-    instead of a monetary refund.
+    <strong>{t('product_details.return_policy.refund_process')}</strong><br />
+    {t('product_details.return_policy.refund_process_text')}
   </p>
 
   <p className="mb-3">
-    <strong>Care Instructions:</strong><br />
-    To ensure the longevity of your flowers, please follow the care 
-    instructions provided with your delivery. Proper care includes trimming stems, changing water daily, 
-    and keeping flowers away from direct sunlight and heat sources.
+    <strong>{t('product_details.return_policy.care_instructions')}</strong><br />
+    {t('product_details.return_policy.care_instructions_text')}
   </p>
 
   <p className="mb-0">
-    <strong>Contact Us:</strong><br />
-    For any questions regarding returns or to report an issue with your order, 
-    please contact our customer service team at <strong>support@giftoria.com</strong> or call us at 
-    <strong>(555) 123-4567</strong>. We're here to ensure your complete satisfaction with every purchase.
+    <strong>{t('product_details.return_policy.contact_us')}</strong><br />
+    {t('product_details.return_policy.contact_us_text')}
   </p>
 </div>
 

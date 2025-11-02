@@ -24,6 +24,10 @@ const ProductModal = ({ show, onHide, onSubmit, form, setForm, isEdit }) => {
     setForm(f => ({ ...f, description: content }));
   };
 
+  const handleArabicDescriptionChange = (content) => {
+    setForm(f => ({ ...f, arabic_description: content }));
+  };
+
   // Quill editor modules configuration
   const modules = {
     toolbar: [
@@ -77,6 +81,19 @@ const ProductModal = ({ show, onHide, onSubmit, form, setForm, isEdit }) => {
               modules={modules}
               formats={formats}
               style={{ height: '200px', marginBottom: '100px' }}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Arabic Description</Form.Label>
+            <ReactQuill 
+              theme="snow"
+              value={form.arabic_description || ''} 
+              onChange={handleArabicDescriptionChange}
+              modules={modules}
+              formats={formats}
+              style={{ height: '200px', marginBottom: '100px' }}
+              placeholder="وصف المنتج بالعربية..."
             />
           </Form.Group>
           <Row>
