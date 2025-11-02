@@ -2,9 +2,23 @@
 import { products1 } from "@/data/products";
 import { sortingOptions } from "@/data/shop";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function Sorting({ products = products1, setFinalSorted }) {
+  const { t } = useTranslation();
   const [selectedOptions, setSelectedOptions] = useState(sortingOptions[0]);
+
+  // Map sorting option texts to translation keys
+  const getTranslatedText = (optionText) => {
+    const translationMap = {
+      "Default": t('shop.sorting.default'),
+      "Alphabetically, A-Z": t('shop.sorting.alphabetically_az'),
+      "Alphabetically, Z-A": t('shop.sorting.alphabetically_za'),
+      "Price, low to high": t('shop.sorting.price_low_high'),
+      "Price, high to low": t('shop.sorting.price_high_low')
+    };
+    return translationMap[optionText] || optionText;
+  };
 
   useEffect(() => {
     console.log('[Sorting] Running sort with option:', selectedOptions?.text, 'on products:', products?.length);
@@ -35,7 +49,7 @@ export default function Sorting({ products = products1, setFinalSorted }) {
     <>
       {" "}
       <div className="btn-select">
-        <span className="text-sort-value">{selectedOptions.text}</span>
+        <span className="text-sort-value">{getTranslatedText(selectedOptions.text)}</span>
         <span className="icon icon-arrow-down" />
       </div>
       <div className="dropdown-menu">
@@ -48,7 +62,7 @@ export default function Sorting({ products = products1, setFinalSorted }) {
             }}
             className={`select-item ${item == selectedOptions ? "active" : ""}`}
           >
-            <span className="text-value-item">{item.text}</span>
+            <span className="text-value-item">{getTranslatedText(item.text)}</span>
           </div>
         ))}
       </div>

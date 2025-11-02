@@ -6,6 +6,34 @@
     "summer_discount": "Summer sale discount off 70%",
     "refresh_wardrobe": "Time to refresh your wardrobe."
   },
+  "shop": {
+    "filter": "Filter",
+    "loading_products": "Loading products...",
+    "no_products_found": "No products found in this category.",
+    "loading_from_server": "Loading products from server...",
+    "no_products_title": "No Products Found",
+    "no_products_message": "There are currently no products available in the shop.",
+    "products_found": "product(s) found",
+    "sorting": {
+      "default": "Default",
+      "alphabetically_az": "Alphabetically, A-Z",
+      "alphabetically_za": "Alphabetically, Z-A",
+      "price_low_high": "Price, low to high",
+      "price_high_low": "Price, high to low"
+    }
+  },
+  "product_card": {
+    "sold_out": "Sold out",
+    "quick_add": "Quick Add",
+    "add_to_wishlist": "Add to Wishlist",
+    "already_wishlisted": "Already Wishlisted",
+    "add_to_compare": "Add to Compare",
+    "already_compared": "Already Compared",
+    "quick_view": "Quick View"
+  },
+  "checkout_page": {
+    "title": "Check Out"
+  },
   "ShopCollection": "Read More",
   "hero_subheading": "",
   "hero_heading": "A TOUCH OF CHARM AWAITS",
