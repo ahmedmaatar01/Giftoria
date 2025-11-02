@@ -91,10 +91,10 @@ export default function DetailsOuterZoom({ product }) {
                   </div>
 
                   <div className="tf-product-info-badges">
-                    <div className="badges">BEST SELLER</div>
+                    <div className="badges">{t("product_detail.best_seller")}</div>
                     <div className="product-status-content">
                       <i className="icon-lightning" />
-                      <p className="fw-6">
+                      <p className="fw-6 raleway-regular">
                         {t("selling_fast", { stock: product.stock })}
                       </p>
                     </div>
@@ -113,7 +113,7 @@ export default function DetailsOuterZoom({ product }) {
                     <div className="countdown-wrap">
                       <div className="countdown-title">
                         <i className="icon-time tf-ani-tada" />
-                        <p className="fw-6">
+                        <p className="fw-6 raleway-regular">
                           {t("estimated_delivery_time_label")}: {product.lead_time ? `${product.lead_time} ${t("hours")}` : t("not_available")}
                         </p>
 
@@ -141,7 +141,7 @@ export default function DetailsOuterZoom({ product }) {
                               onChange={e => handleCustomFieldChange(field.id, e.target.value)}
                               required={field.is_required}
                             >
-                              <option value="">Select {field.name}</option>
+                              <option value="">{t("product_detail.select_option", { field: field.name })}</option>
                               {opts.map(opt => (
                                 <option key={opt} value={opt}>{opt}</option>
                               ))}
@@ -174,7 +174,7 @@ export default function DetailsOuterZoom({ product }) {
                         }
                         return (
                           <div key={field.id} className="mb-2">
-                            <label className="fw-6 mb-1" htmlFor={`custom-field-${field.id}`}>{field.name}{field.is_required ? ' *' : ''}:</label>
+                            <label className="fw-6 mb-1" htmlFor={`custom-field-${field.id}`}>{field.name}{field.is_required ? ` ${t("product_detail.required_field")}` : ''}:</label>
                             {inputEl}
                           </div>
                         );
@@ -182,7 +182,7 @@ export default function DetailsOuterZoom({ product }) {
                     </div>
                   )}
                   <div className="tf-product-info-quantity">
-                    <div className="quantity-title fw-6">Quantity</div>
+                    <div className="quantity-title fw-6 "><span className="raleway-regular">{t("product_detail.quantity")}</span></div>
                     <Quantity setQuantity={setQuantity} />
                   </div>
                   <div className="tf-product-info-buy-button">
@@ -196,8 +196,8 @@ export default function DetailsOuterZoom({ product }) {
                       >
                         <span>
                           {isAddedToCartProducts(product.id)
-                            ? "Already Added"
-                            : "Add to cart"}{" "}
+                            ? t("product_detail.already_added")
+                            : t("product_detail.add_to_cart")}{" "}
                           -{" "}
                         </span>
                         <span className="tf-qty-price">
@@ -215,8 +215,8 @@ export default function DetailsOuterZoom({ product }) {
                         <span className="tooltip">
                           {" "}
                           {isAddedtoWishlist(product.id)
-                            ? "Already Wishlisted"
-                            : "Add to Wishlist"}
+                            ? t("product_detail.already_wishlisted")
+                            : t("product_detail.add_to_wishlist")}
                         </span>
                         <span className="icon icon-delete" />
                       </a>
@@ -257,8 +257,7 @@ export default function DetailsOuterZoom({ product }) {
                             <i className="icon-return-order" />
                           </div>
                           <p>
-                            Return within <span className="fw-7">30 days</span>{" "}
-                            of purchase. Duties &amp; taxes are non-refundable.
+                            {t("product_detail.return_policy")}
                           </p>
                         </div>
                       </div>

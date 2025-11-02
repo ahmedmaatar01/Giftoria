@@ -30,12 +30,12 @@ export default function Footer1({ bgColor = "" }) {
 
   return (
     <footer id="footer" className={`footer md-pb-70 ${bgColor}`}>
-      <div className="footer-wrap"  style={{
-    backgroundImage: "url('/images/footer_bg.jpg')",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-    backgroundPosition: "center"
-  }}>
+      <div className="footer-wrap" style={{
+        backgroundImage: "url('/images/footer_bg.jpg')",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: "center"
+      }}>
         <div className="footer-body">
           <div className="container">
             <div className="row">
@@ -83,7 +83,7 @@ export default function Footer1({ bgColor = "" }) {
                   {footerLinks.map((link, index) => (
                     <li key={index}>
                       <Link href={link.href} className={`footer-menu_item montserrat-regular`} style={{ fontSize: '12px' }}>
-                        <span>{t(link.textKey || link.text)}</span> {/* adjust links data to include textKey */}
+                        <span className="montserrat-regular">{t(link.textKey || link.text)}</span> {/* adjust links data to include textKey */}
                       </Link>
                     </li>
                   ))}
@@ -102,7 +102,7 @@ export default function Footer1({ bgColor = "" }) {
                   {aboutLinks.slice(0, 4).map((link, index) => (
                     <li key={index}>
                       <Link href={link.href} className={`footer-menu_item montserrat-regular`} style={{ fontSize: '12px' }}>
-                        <span>{t(link.textKey || link.text)}</span>
+                        <span className="montserrat-regular">{t(link.textKey || link.text)}</span>
                       </Link>
                     </li>
                   ))}
@@ -112,11 +112,13 @@ export default function Footer1({ bgColor = "" }) {
               {/* Language and Currency section */}
               <div className="col-xl-3 col-md-6 col-12">
                 <div className="footer-newsletter footer-col-block">
-                <h6 className="bell-t-medium text-uppercase">{t("footer_language_support")}</h6>
+                  <h6 className="bell-t-medium text-uppercase">{t("footer_language_support")}</h6>
                   <div className="tf-collapse-content">
-                  <div className="footer-menu_item montserrat-regular" style={{ fontSize: '12px' }}>
-  {t("footer_language_text")}
-</div>
+                    <div className="footer-menu_item montserrat-regular" style={{ fontSize: '12px' }}>
+                      <span className="montserrat-regular">
+                        {t("footer_language_text")}
+                      </span>
+                    </div>
                     <div className="tf-cur">
                       <div className="tf-languages" id="footer-lang">
                         <LanguageSelect />

@@ -1,6 +1,6 @@
 import Footer1 from "@/components/footers/Footer1";
 import Header10 from "@/components/headers/Header10";
-import Products from "@/components/homes/home-2/Products";
+import Products2 from "@/components/homes/home-baby/Products2";
 import RecentProducts from "@/components/shopDetails/RecentProducts";
 import ShopDetailsTab from "@/components/shopDetails/ShopDetailsTab";
 import React from "react";
@@ -18,23 +18,11 @@ export default async function page({ params }) {
   return (
     <>
       <Header10 />
-      <div className="tf-breadcrumb" style={{marginTop:"40px"}}>
-        <div className="container">
-          <div className="tf-breadcrumb-wrap d-flex justify-content-between flex-wrap align-items-center">
-            <div className="tf-breadcrumb-list">
-              <Link href={`/`} className="text">
-                Home
-              </Link>
-              <i className="icon icon-arrow-right" />
-              <span className="text">Product Details</span>
-            </div>
-            <ProductSinglePrevNext currentId={id} />
-          </div>
-        </div>
-      </div>
+      <div className="mb-5"></div>
       <ProductDetailClient productId={id} />
       <ShopDetailsTab productId={id} />
-      <Products />
+      <Products2 />
+      <div className="mb-5"></div>
       {/* <RecentProducts /> */}
       <Footer1 />
     </>
