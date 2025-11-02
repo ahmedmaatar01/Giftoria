@@ -42,7 +42,6 @@ export default function Features() {
               </SwiperSlide>
             ))}
           </Swiper>
-          <div className="sw-dots style-2 sw-pagination-mb justify-content-center spd103" />
         </div>
       </div>
     </section>

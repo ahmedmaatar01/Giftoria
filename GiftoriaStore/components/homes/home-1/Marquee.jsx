@@ -43,7 +43,7 @@ export default function Marquee() {
             </div>
             <p 
                className={`text ${
-                i18n.language === "ar" ? "muslimah-font" : "bell-font"
+                i18n.language === "ar" ? "muslimah-font" : "bell-medium"
               }`}
               style={{
                 margin: 0,

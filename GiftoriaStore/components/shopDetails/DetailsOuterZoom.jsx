@@ -100,7 +100,7 @@ export default function DetailsOuterZoom({ product }) {
                     </div>
                   </div>
                   <div className="tf-product-info-price">
-                    <div className="price-on-sale" style={{ color: "#000" }}>
+                    <div className="price-on-sale raleway-bold" style={{ color: "#000" }}>
                       ${parseFloat(product.price).toFixed(2)}
                     </div>
 

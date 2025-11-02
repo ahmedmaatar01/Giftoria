@@ -15,7 +15,7 @@ export default function page() {
       <Header10 />
       <div className="tf-page-title">
         <div className="container-full">
-          <div className="heading text-center raleway-regular text-uppercase">My Account Edit</div>
+          <div className="heading text-center raleway-regular text-uppercase" style={{ fontSize: "32px" }}>My Account Edit</div>
         </div>
       </div>
       <section className="flat-spacing-11">
