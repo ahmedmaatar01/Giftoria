@@ -2,8 +2,10 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { socialLinks } from "@/data/socials";
+import { useTranslation } from "react-i18next";
+
 export default function Sidebar({ onCategorySelect }) {
+  const { t, i18n } = useTranslation();
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState(null);
@@ -139,7 +141,7 @@ export default function Sidebar({ onCategorySelect }) {
   };
 
   return (
-    <aside className="tf-shop-sidebar wrap-sidebar-mobile">
+    <aside className="tf-shop-sidebar wrap-sidebar-mobile" style={{direction: i18n.language === 'ar' ? 'rtl' : 'ltr'}}>
       <div className="widget-facet wd-categories">
         <div
           className="facet-title"
@@ -148,17 +150,17 @@ export default function Sidebar({ onCategorySelect }) {
           aria-expanded="true"
           aria-controls="categories"
         >
-          <span>Product categories</span>
+          <span className="text-uppercase">{t("shop.sidebar.product_categories")}</span>
           <span className="icon icon-arrow-up" />
         </div>
         <div id="categories" className="collapse show">
           {loading ? (
-            <div className="text-secondary px-3 py-2">Loading categories...</div>
+            <div className="text-secondary px-3 py-2">{t("shop.sidebar.loading_categories")}</div>
           ) : (
             <ul className="list-categoris current-scrollbar mb_36">
               <li key="all" className={`cate-item ${activeCategory === null ? 'current' : ''}`}
                   style={{ cursor: 'pointer' }}>
-                <a href="#" onClick={e => { e.preventDefault(); setActiveCategory(null); if (onCategorySelect) onCategorySelect(null); }}><span>All Categories</span></a>
+                <a href="#" onClick={e => { e.preventDefault(); setActiveCategory(null); if (onCategorySelect) onCategorySelect(null); }}><span>{t("shop.sidebar.all_categories")}</span></a>
               </li>
               {categories.map((category) => (
                 <li key={category.id || category.name} className={`cate-item ${activeCategory === category.id ? 'current' : ''}`}
@@ -183,13 +185,13 @@ export default function Sidebar({ onCategorySelect }) {
           aria-expanded="true"
           aria-controls="sale-products"
         >
-          <span>You may also like</span>
+          <span className="text-uppercase">{t("shop.sidebar.you_may_also_like")}</span>
           <span className="icon icon-arrow-up" />
         </div>
         <div id="sale-products" className="collapse show">
           <div className="widget-featured-products mb_36">
             {loadingProducts ? (
-              <div className="text-secondary px-3 py-2">Loading suggestions...</div>
+              <div className="text-secondary px-3 py-2">{t("shop.sidebar.loading_suggestions")}</div>
             ) : (
               randomProducts.map((product, index) => {
                 const imgUrl = resolveProductImage(product);
@@ -239,7 +241,7 @@ export default function Sidebar({ onCategorySelect }) {
           aria-expanded="true"
           aria-controls="shipping"
         >
-          <span>Shipping &amp; Delivery</span>
+          <span className="text-uppercase">{t("shop.sidebar.shipping_delivery")}</span>
           <span className="icon icon-arrow-up" />
         </div>
         <div id="shipping" className="collapse show">
@@ -264,8 +266,8 @@ export default function Sidebar({ onCategorySelect }) {
                 </svg>
               </div>
               <div className="iconbox-content">
-                <h4 className="iconbox-title">Product customization</h4>
-                <p className="iconbox-desc">Personalize your gift with custom options</p>
+                <h4 className="iconbox-title">{t("shop.sidebar.product_customization")}</h4>
+                <p className="iconbox-desc">{t("shop.sidebar.personalize_gift")}</p>
               </div>
             </li>
             <li className="iconbox-item">
@@ -284,8 +286,8 @@ export default function Sidebar({ onCategorySelect }) {
                 </svg>
               </div>
               <div className="iconbox-content">
-                <h4 className="iconbox-title">Premium Support</h4>
-                <p className="iconbox-desc">Support 24 hours a day</p>
+                <h4 className="iconbox-title">{t("shop.sidebar.premium_support")}</h4>
+                <p className="iconbox-desc">{t("shop.sidebar.support_24_hours")}</p>
               </div>
             </li>
             <li className="iconbox-item">
@@ -304,8 +306,8 @@ export default function Sidebar({ onCategorySelect }) {
                 </svg>
               </div>
               <div className="iconbox-content">
-                <h4 className="iconbox-title">30 Days Return</h4>
-                <p className="iconbox-desc">You have 30 days to return</p>
+                <h4 className="iconbox-title">{t("shop.sidebar.days_return")}</h4>
+                <p className="iconbox-desc">{t("shop.sidebar.return_period")}</p>
               </div>
             </li>
           </ul>
@@ -319,7 +321,7 @@ export default function Sidebar({ onCategorySelect }) {
           aria-expanded="true"
           aria-controls="gallery"
         >
-          <span>Gallery</span>
+          <span className="text-uppercase">{t("shop.sidebar.gallery")}</span>
           <span className="icon icon-arrow-up" />
         </div>
         <div id="gallery" className="collapse show">
@@ -350,32 +352,6 @@ export default function Sidebar({ onCategorySelect }) {
               })
             )}
           </div>
-        </div>
-      </div>
-      <div className="widget-facet">
-        <div
-          className="facet-title"
-          data-bs-target="#follow"
-          data-bs-toggle="collapse"
-          aria-expanded="true"
-          aria-controls="follow"
-        >
-          <span>Follow us</span>
-          <span className="icon icon-arrow-up" />
-        </div>
-        <div id="follow" className="collapse show">
-          <ul className="tf-social-icon d-flex gap-10">
-            {socialLinks.map((link, index) => (
-              <li key={index}>
-                <a
-                  href={link.href}
-                  className={`box-icon w_34 round bg_line ${link.className}`}
-                >
-                  <i className={`icon ${link.iconSize} ${link.iconClass}`} />
-                </a>
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
     </aside>

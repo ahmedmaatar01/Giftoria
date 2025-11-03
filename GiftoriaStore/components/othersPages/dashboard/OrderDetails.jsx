@@ -135,9 +135,25 @@ export default function OrderDetails() {
 
   // Helper: format date
   const formatDate = (dateString) => {
-    if (!dateString) return "N/A";
+    if (!dateString) return t("order_details.not_available");
     const date = new Date(dateString);
-    return date.toLocaleString();
+    
+    if (i18n.language === 'ar') {
+      const monthNames = [
+        'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
+        'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'
+      ];
+      const day = date.getDate();
+      const month = monthNames[date.getMonth()];
+      const year = date.getFullYear();
+      return `${day} ${month} ${year}`;
+    } else {
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      });
+    }
   };
 
   // Helper: get order status badge
@@ -185,7 +201,13 @@ export default function OrderDetails() {
   };
 
   // Tab content
-  const tabTitles = ["Order History", "Item Details", "My Notes", "Status Timeline", "Order Info"];
+  const tabTitles = [
+    t("order_details.order_history"),
+    t("order_details.item_details"), 
+    t("order_details.my_notes"),
+    t("order_details.status_timeline"),
+    t("order_details.order_info")
+  ];
 
   return (
     <div className="wd-form-order">
@@ -240,7 +262,7 @@ export default function OrderDetails() {
                 <li>
                   <div className="timeline-badge success" />
                   <div className="timeline-box">
-                    <div className="text-2 fw-6">Order Placed</div>
+                    <div className="text-2 fw-6">{t("order_details.order_placed")}</div>
                     <span>{formatDate(order.placed_at || order.created_at)}</span>
                   </div>
                 </li>
@@ -252,7 +274,7 @@ export default function OrderDetails() {
                       style={history.new_status?.toLowerCase() === 'pending' ? { backgroundColor: '#967740' } : {}}
                     />
                     <div className="timeline-box">
-                      <div className="text-2 fw-6">Status: {formatStatusName(history.new_status)}</div>
+                      <div className="text-2 fw-6">{t("order_details.status")}: {formatStatusName(history.new_status)}</div>
                       <span>{formatDate(history.created_at)}</span>
                       {history.notes && (
                         <p className="mt-2 text-muted">{history.notes}</p>
@@ -266,7 +288,7 @@ export default function OrderDetails() {
           
           {/* Item Details */}
           <div className={"widget-content-inner" + (activeTab === 1 ? " active" : "")}
-            style={{display: activeTab === 1 ? 'block' : 'none'}}>
+            style={{display: activeTab === 1 ? 'block' : 'none', direction: i18n.language === 'ar' ? 'rtl' : 'ltr'}}>
             {order.products && order.products.length > 0 ? (
               <>
                 {order.products.map((product) => (
@@ -274,15 +296,15 @@ export default function OrderDetails() {
                     <div className="content">
                       <div className="text-2 fw-6">{product.name}</div>
                       <div className="mt_4">
-                        <span className="fw-6">Price :</span> ${parseFloat(product.pivot?.unit_price || product.price || 0).toFixed(2)}
+                        <span className="fw-6">{t("order_details.price")} :</span> ${parseFloat(product.pivot?.unit_price || product.price || 0).toFixed(2)}
                       </div>
                       <div className="mt_4">
-                        <span className="fw-6">Quantity :</span> {product.pivot?.quantity || 1}
+                        <span className="fw-6">{t("order_details.quantity")} :</span> {product.pivot?.quantity || 1}
                       </div>
                       {/* Custom fields if any */}
                       {product.pivot?.custom_fields && Array.isArray(JSON.parse(product.pivot.custom_fields)) && (
                         <div className="mt_4">
-                          <span className="fw-6">Custom Fields:</span>
+                          <span className="fw-6">{t("order_details.custom_fields")}:</span>
                           <ul>
                             {JSON.parse(product.pivot.custom_fields).map((cf, idx) => (
                               <li key={idx}>{cf.name}: {cf.value}</li>
@@ -295,31 +317,31 @@ export default function OrderDetails() {
                 ))}
                 <ul>
                   <li className="d-flex justify-content-between text-2">
-                    <span>Total Price</span>
+                    <span>{t("order_details.total_price")}</span>
                     <span className="fw-6">${parseFloat(order.total || 0).toFixed(2)}</span>
                   </li>
                   <li className="d-flex justify-content-between text-2 mt_8">
-                    <span>Payment Method</span>
-                    <span className="fw-6">{order.payment_method || 'N/A'}</span>
+                    <span>{t("order_details.payment_method")}</span>
+                    <span className="fw-6">{order.payment_method || t("order_details.not_available")}</span>
                   </li>
                 </ul>
               </>
             ) : (
-              <div>No products found in this order.</div>
+              <div>{t("order_details.no_products_found")}</div>
             )}
           </div>
           
           {/* My Notes */}
           <div className={"widget-content-inner" + (activeTab === 2 ? " active" : "")}
-            style={{display: activeTab === 2 ? 'block' : 'none'}}>
+            style={{display: activeTab === 2 ? 'block' : 'none', direction: i18n.language === 'ar' ? 'rtl' : 'ltr'}}>
             {/* Add note form */}
             <div className="mb-4 p-3 border rounded">
-              <h6 className="mb-3">Add a Note</h6>
+              <h6 className="mb-3">{t("order_details.add_note")}</h6>
               <div className="mb-3">
                 <textarea 
                   className="form-control"
                   rows="3"
-                  placeholder="Add your note or question about this order..."
+                  placeholder={t("order_details.note_placeholder")}
                   value={newNote}
                   onChange={(e) => setNewNote(e.target.value)}
                 />
@@ -330,17 +352,19 @@ export default function OrderDetails() {
                 onClick={addNote}
                 disabled={!newNote.trim() || addingNote}
               >
-                {addingNote ? 'Adding...' : 'Add Note'}
+                {addingNote ? t("order_details.adding_note") : t("order_details.add_note_button")}
               </button>
             </div>
             
             {/* Notes list */}
             <div>
-              <h6 className="mb-3">Order Notes</h6>
+              <h6 className="mb-3">{t("order_details.order_notes")}</h6>
               {notesLoading ? (
-                <div className="text-center py-3">Loading notes...</div>
+                <div className="text-center py-3">{t("order_details.loading_notes")}</div>
               ) : notes.length === 0 ? (
-                <div className="alert alert-info" style={{ backgroundColor: '#F1ECE4', borderColor: '#F1ECE4', color: '#000000' }}>No notes yet. Add your first note above!</div>
+                <div className="alert alert-info" style={{ backgroundColor: '#F1ECE4', borderColor: '#F1ECE4', color: '#000000' }}>
+                  {t("order_details.no_notes_yet")}
+                </div>
               ) : (
                 <div className="notes-list">
                   {notes.map(note => (
@@ -348,7 +372,7 @@ export default function OrderDetails() {
                       <div className="d-flex justify-content-between align-items-start mb-2">
                         <div>
                           <span className={`badge ${note.note_type === 'customer' ? 'bg-primary' : 'bg-warning'}`}>
-                            {note.note_type === 'customer' ? 'You' : 'Admin'}
+                            {note.note_type === 'customer' ? t("order_details.you") : t("order_details.admin")}
                           </span>
                         </div>
                         <small className="text-muted">{formatDate(note.created_at)}</small>
@@ -363,12 +387,14 @@ export default function OrderDetails() {
           
           {/* Status Timeline */}
           <div className={"widget-content-inner" + (activeTab === 3 ? " active" : "")}
-            style={{display: activeTab === 3 ? 'block' : 'none'}}>
-            <h6 className="mb-3">Order Status Timeline</h6>
+            style={{display: activeTab === 3 ? 'block' : 'none', direction: i18n.language === 'ar' ? 'rtl' : 'ltr'}}>
+            <h6 className="mb-3">{t("order_details.order_status_timeline")}</h6>
             {historyLoading ? (
-              <div className="text-center py-3">Loading status history...</div>
+              <div className="text-center py-3">{t("order_details.loading_status_history")}</div>
             ) : statusHistory.length === 0 ? (
-              <div className="alert alert-info" style={{ backgroundColor: '#F1ECE4', borderColor: '#F1ECE4', color: '#000000' }}>No status changes recorded yet.</div>
+              <div className="alert alert-info" style={{ backgroundColor: '#F1ECE4', borderColor: '#F1ECE4', color: '#000000' }}>
+                {t("order_details.no_status_changes")}
+              </div>
             ) : (
               <div className="timeline-vertical">
                 {statusHistory.map((history, index) => (
@@ -392,7 +418,7 @@ export default function OrderDetails() {
                             <strong>{formatStatusName(history.new_status)}</strong>
                             {history.old_status && (
                               <small className="text-muted ms-2">
-                                (from {formatStatusName(history.old_status)})
+                                ({t("order_details.from")} {formatStatusName(history.old_status)})
                               </small>
                             )}
                           </div>
@@ -402,7 +428,7 @@ export default function OrderDetails() {
                           <p className="mb-2 text-muted">{history.notes}</p>
                         )}
                         <small className="text-muted">
-                          Changed by: {history.changed_by_system ? 'System' : 'Admin'}
+                          {t("order_details.changed_by")}: {history.changed_by_system ? t("order_details.system") : t("order_details.admin")}
                         </small>
                       </div>
                     </div>
@@ -414,30 +440,30 @@ export default function OrderDetails() {
           
           {/* Order Info */}
           <div className={"widget-content-inner" + (activeTab === 4 ? " active" : "")}
-            style={{display: activeTab === 4 ? 'block' : 'none'}}>
+            style={{display: activeTab === 4 ? 'block' : 'none', direction: i18n.language === 'ar' ? 'rtl' : 'ltr'}}>
             <ul className="mt_20">
               <li>
-                Order Number : <span className="fw-7">#{order.id}</span>
+                {t("order_details.order_number")} : <span className="fw-7">#{order.id}</span>
               </li>
               <li>
-                Date : <span className="fw-7">{formatDate(order.placed_at || order.created_at)}</span>
+                {t("order_details.date")} : <span className="fw-7">{formatDate(order.placed_at || order.created_at)}</span>
               </li>
               <li>
-                Total : <span className="fw-7">${parseFloat(order.total || 0).toFixed(2)}</span>
+                {t("order_details.total")} : <span className="fw-7">${parseFloat(order.total || 0).toFixed(2)}</span>
               </li>
               <li>
-                Payment Method : <span className="fw-7">{order.payment_method || 'N/A'}</span>
+                {t("order_details.payment_method")} : <span className="fw-7">{order.payment_method || t("order_details.not_available")}</span>
               </li>
               <li>
-                Shipping Address : <span className="fw-7">{order.shipping_address}</span>
+                {t("order_details.shipping_address")} : <span className="fw-7">{order.shipping_address}</span>
               </li>
               {order.desired_delivery_at && (
                 <li>
-                  Desired Delivery : <span className="fw-7">{formatDate(order.desired_delivery_at)}</span>
+                  {t("order_details.desired_delivery")} : <span className="fw-7">{formatDate(order.desired_delivery_at)}</span>
                 </li>
               )}
               <li>
-                Phone : <span className="fw-7">{order.customer_phone}</span>
+                {t("order_details.phone")} : <span className="fw-7">{order.customer_phone}</span>
               </li>
             </ul>
           </div>

@@ -14,12 +14,30 @@
     "no_products_title": "No Products Found",
     "no_products_message": "There are currently no products available in the shop.",
     "products_found": "product(s) found",
+    "page_title": "Our Products",
+    "page_description": "Feel free to choose your products from our wide range of categories and collections.",
     "sorting": {
       "default": "Default",
       "alphabetically_az": "Alphabetically, A-Z",
       "alphabetically_za": "Alphabetically, Z-A",
       "price_low_high": "Price, low to high",
       "price_high_low": "Price, high to low"
+    },
+    "sidebar": {
+      "product_categories": "Product categories",
+      "loading_categories": "Loading categories...",
+      "all_categories": "All Categories",
+      "you_may_also_like": "You may also like",
+      "loading_suggestions": "Loading suggestions...",
+      "shipping_delivery": "Shipping & Delivery",
+      "product_customization": "Product customization",
+      "personalize_gift": "Personalize your gift with custom options",
+      "premium_support": "Premium Support",
+      "support_24_hours": "Support 24 hours a day",
+      "days_return": "30 Days Return",
+      "return_period": "You have 30 days to return",
+      "gallery": "Gallery",
+      "follow_us": "Follow us"
     }
   },
   "product_card": {
@@ -399,6 +417,146 @@
     "return_policy": "Return within 30 days of purchase. Duties & taxes are non-refundable.",
     "buy_with": "Buy with",
     "more_payment_options": "More payment options"
+  },
+  
+  "my_account_title": "My Account",
+  
+  "my_orders_title": "My Orders",
+  
+  "my_account_edit_title": "My Account Edit",
+  
+  "order_details_title": "Order Details",
+  
+  "dashboard_nav": {
+    "dashboard": "Dashboard",
+    "orders": "Orders",
+    "account_details": "Account Details", 
+    "logout": "Logout"
+  },
+  
+  "dashboard": {
+    "hello": "Hello",
+    "guest": "Guest",
+    "description_part1": "From your account dashboard you can view your",
+    "recent_orders": "recent orders",
+    "description_part2": "and",
+    "edit_account": "edit your password and account details",
+    "description_part3": "."
+  },
+  
+  "orders_table": {
+    "order": "Order",
+    "date": "Date",
+    "status": "Status", 
+    "total": "Total",
+    "actions": "Actions",
+    "view_details": "View Details",
+    "for": "for",
+    "items": "item(s)",
+    "loading": "Loading your orders...",
+    "no_orders_title": "No orders yet!",
+    "no_orders_message": "You haven't placed any orders yet.",
+    "login_required": "Please log in to view your orders.",
+    "not_available": "N/A"
+  },
+  
+  "order_details": {
+    "order_history": "Order History",
+    "item_details": "Item Details",
+    "my_notes": "My Notes", 
+    "status_timeline": "Status Timeline",
+    "order_info": "Order Info",
+    "order_placed": "Order Placed",
+    "status": "Status",
+    "not_available": "N/A",
+    "status_pending": "Pending",
+    "status_processing": "Processing",
+    "status_shipped": "Shipped",
+    "status_delivered": "Delivered",
+    "status_cancelled": "Cancelled",
+    "status_completed": "Completed",
+    "price": "Price",
+    "quantity": "Quantity",
+    "custom_fields": "Custom Fields",
+    "total_price": "Total Price",
+    "payment_method": "Payment Method",
+    "no_products_found": "No products found in this order.",
+    "add_note": "Add a Note",
+    "note_placeholder": "Add your note or question about this order...",
+    "add_note_button": "Add Note",
+    "adding_note": "Adding...",
+    "order_notes": "Order Notes",
+    "loading_notes": "Loading notes...",
+    "no_notes_yet": "No notes yet. Add your first note above!",
+    "you": "You",
+    "admin": "Admin",
+    "order_status_timeline": "Order Status Timeline",
+    "loading_status_history": "Loading status history...",
+    "no_status_changes": "No status changes recorded yet.",
+    "from": "from",
+    "changed_by": "Changed by",
+    "system": "System",
+    "order_number": "Order Number",
+    "date": "Date",
+    "total": "Total",
+    "shipping_address": "Shipping Address",
+    "desired_delivery": "Desired Delivery",
+    "phone": "Phone"
+  },
+  "account_edit": {
+    "first_name": "First name",
+    "last_name": "Last name",
+    "email": "Email",
+    "country": "Country",
+    "address": "Address",
+    "select_country": "Select country",
+    "password_change": "Password Change",
+    "current_password": "Current password",
+    "new_password": "New password",
+    "confirm_password": "Confirm password",
+    "save_changes": "Save Changes",
+    "saving": "Saving...",
+    "update_success": "Profile updated successfully!",
+    "update_failed": "Failed to update profile",
+    "password_mismatch": "New passwords do not match",
+    "countries": {
+      "qatar": "Qatar",
+      "algeria": "Algeria",
+      "morocco": "Morocco",
+      "tunisia": "Tunisia",
+      "egypt": "Egypt",
+      "france": "France",
+      "united_states": "United States",
+      "united_kingdom": "United Kingdom",
+      "germany": "Germany",
+      "italy": "Italy",
+      "spain": "Spain",
+      "turkey": "Turkey",
+      "saudi_arabia": "Saudi Arabia",
+      "uae": "UAE",
+      "other": "Other"
+    }
+  },
+  "login_modal": {
+    "title": "Log in",
+    "email": "Email",
+    "password": "Password",
+    "forgot_password": "Forgot your password?",
+    "login_button": "Log in",
+    "logging_in": "Logging in...",
+    "create_account": "New customer? Create your account",
+    "login_failed": "Login failed"
+  },
+  "register_modal": {
+    "title": "REGISTER",
+    "first_name": "First name",
+    "last_name": "Last name",
+    "email": "Email",
+    "password": "Password",
+    "register_button": "Register",
+    "registering": "Registering...",
+    "already_have_account": "Already have an account? Log in here",
+    "registration_failed": "Registration failed"
   }
 }
 

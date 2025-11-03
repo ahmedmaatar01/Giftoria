@@ -14,12 +14,30 @@
     "no_products_title": "لم يتم العثور على منتجات",
     "no_products_message": "لا توجد منتجات متاحة حالياً في المتجر.",
     "products_found": "منتج تم العثور عليمه",
+    "page_title": "منتجاتنا",
+    "page_description": "لا تتردد في اختيار منتجاتك من مجموعتنا الواسعة من الفئات والمجموعات.",
     "sorting": {
       "default": "افتراضي",
       "alphabetically_az": "أبجدياً، أ-ي",
       "alphabetically_za": "أبجدياً، ي-أ",
       "price_low_high": "السعر، من المنخفض إلى المرتفع",
       "price_high_low": "السعر، من المرتفع إلى المنخفض"
+    },
+    "sidebar": {
+      "product_categories": "فئات المنتجات",
+      "loading_categories": "جاري تحميل الفئات...",
+      "all_categories": "جميع الفئات",
+      "you_may_also_like": "قد يعجبك أيضاً",
+      "loading_suggestions": "جاري تحميل الاقتراحات...",
+      "shipping_delivery": "الشحن والتوصيل",
+      "product_customization": "تخصيص المنتج",
+      "personalize_gift": "خصص هديتك مع خيارات مخصصة",
+      "premium_support": "دعم مميز",
+      "support_24_hours": "دعم على مدار 24 ساعة يومياً",
+      "days_return": "إرجاع خلال 30 يوم",
+      "return_period": "لديك 30 يوماً لإرجاع المنتج",
+      "gallery": "المعرض",
+      "follow_us": "تابعنا"
     }
   },
   "product_card": {
@@ -396,5 +414,145 @@
     "return_policy": "الإرجاع خلال 30 يوماً من الشراء. الرسوم والضرائب غير قابلة للاسترداد.",
     "buy_with": "اشتر باستخدام",
     "more_payment_options": "المزيد من خيارات الدفع"
+  },
+  
+  "my_account_title": "حسابي",
+  
+  "my_orders_title": "طلباتي",
+  
+  "my_account_edit_title": "تعديل حسابي",
+  
+  "order_details_title": "تفاصيل الطلب",
+  
+  "dashboard_nav": {
+    "dashboard": "لوحة الإعدادات",
+    "orders": "الطلبات",
+    "account_details": "تفاصيل الحساب",
+    "logout": "تسجيل الخروج"
+  },
+  
+  "dashboard": {
+    "hello": "مرحبًا",
+    "guest": "ضيف",
+    "description_part1": "من لوحة الحساب يمكنك عرض",
+    "recent_orders": "الطلبات الأخيرة",
+    "description_part2": "و",
+    "edit_account": "تعديل كلمة المرور وتفاصيل الحساب",
+    "description_part3": "."
+  },
+  
+  "orders_table": {
+    "order": "الطلب",
+    "date": "التاريخ", 
+    "status": "الحالة",
+    "total": "المجموع",
+    "actions": "الإجراءات",
+    "view_details": "عرض التفاصيل",
+    "for": "لـ",
+    "items": "عنصر",
+    "loading": "جاري تحميل طلباتك...",
+    "no_orders_title": "لا توجد طلبات بعد!",
+    "no_orders_message": "لم تقم بوضع أي طلبات بعد.",
+    "login_required": "يرجى تسجيل الدخول لعرض طلباتك.",
+    "not_available": "غير متوفر"
+  },
+  
+  "order_details": {
+    "order_history": "تاريخ الطلب",
+    "item_details": "تفاصيل العناصر",
+    "my_notes": "ملاحظاتي",
+    "status_timeline": "الجدول الزمني للحالة",
+    "order_info": "معلومات الطلب",
+    "order_placed": "تم وضع الطلب",
+    "status": "الحالة",
+    "not_available": "غير متوفر",
+    "status_pending": "في الانتظار",
+    "status_processing": "قيد المعالجة",
+    "status_shipped": "تم الشحن",
+    "status_delivered": "تم التسليم",
+    "status_cancelled": "تم الإلغاء",
+    "status_completed": "مكتمل",
+    "price": "السعر",
+    "quantity": "الكمية",
+    "custom_fields": "الحقول المخصصة",
+    "total_price": "السعر الإجمالي",
+    "payment_method": "طريقة الدفع",
+    "no_products_found": "لم يتم العثور على منتجات في هذا الطلب.",
+    "add_note": "إضافة ملاحظة",
+    "note_placeholder": "أضف ملاحظتك أو سؤالك حول هذا الطلب...",
+    "add_note_button": "إضافة ملاحظة",
+    "adding_note": "جاري الإضافة...",
+    "order_notes": "ملاحظات الطلب",
+    "loading_notes": "جاري تحميل الملاحظات...",
+    "no_notes_yet": "لا توجد ملاحظات بعد. أضف ملاحظتك الأولى أعلاه!",
+    "you": "أنت",
+    "admin": "المدير",
+    "order_status_timeline": "الجدول الزمني لحالة الطلب",
+    "loading_status_history": "جاري تحميل تاريخ الحالة...",
+    "no_status_changes": "لم يتم تسجيل أي تغييرات في الحالة بعد.",
+    "from": "من",
+    "changed_by": "تم التغيير بواسطة",
+    "system": "النظام",
+    "order_number": "رقم الطلب",
+    "date": "التاريخ",
+    "total": "المجموع",
+    "shipping_address": "عنوان الشحن",
+    "desired_delivery": "التسليم المرغوب",
+    "phone": "الهاتف"
+  },
+  "account_edit": {
+    "first_name": "الاسم الأول",
+    "last_name": "اسم العائلة",
+    "email": "البريد الإلكتروني",
+    "country": "البلد",
+    "address": "العنوان",
+    "select_country": "اختر البلد",
+    "password_change": "تغيير كلمة المرور",
+    "current_password": "كلمة المرور الحالية",
+    "new_password": "كلمة المرور الجديدة",
+    "confirm_password": "تأكيد كلمة المرور",
+    "save_changes": "حفظ التغييرات",
+    "saving": "جاري الحفظ...",
+    "update_success": "تم تحديث الملف الشخصي بنجاح!",
+    "update_failed": "فشل في تحديث الملف الشخصي",
+    "password_mismatch": "كلمتا المرور الجديدتان غير متطابقتان",
+    "countries": {
+      "qatar": "قطر",
+      "algeria": "الجزائر",
+      "morocco": "المغرب",
+      "tunisia": "تونس",
+      "egypt": "مصر",
+      "france": "فرنسا",
+      "united_states": "الولايات المتحدة",
+      "united_kingdom": "المملكة المتحدة",
+      "germany": "ألمانيا",
+      "italy": "إيطاليا",
+      "spain": "إسبانيا",
+      "turkey": "تركيا",
+      "saudi_arabia": "المملكة العربية السعودية",
+      "uae": "الإمارات العربية المتحدة",
+      "other": "أخرى"
+    }
+  },
+  "login_modal": {
+    "title": "تسجيل الدخول",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "forgot_password": "نسيت كلمة المرور؟",
+    "login_button": "تسجيل الدخول",
+    "logging_in": "جاري تسجيل الدخول...",
+    "create_account": "عميل جديد؟ أنشئ حسابك",
+    "login_failed": "فشل تسجيل الدخول"
+  },
+  "register_modal": {
+    "title": "التسجيل",
+    "first_name": "الاسم الأول",
+    "last_name": "اسم العائلة",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "register_button": "تسجيل",
+    "registering": "جاري التسجيل...",
+    "already_have_account": "لديك حساب بالفعل؟ سجل دخولك هنا",
+    "registration_failed": "فشل التسجيل"
   }
 }

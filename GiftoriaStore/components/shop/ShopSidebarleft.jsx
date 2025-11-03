@@ -5,9 +5,11 @@ import { layouts, sortingOptions } from "@/data/shop";
 import ProductGrid from "./ProductGrid";
 import Pagination from "../common/Pagination";
 import Sorting from "./Sorting";
+import { useTranslation } from "react-i18next";
 // import { products1 } from "@/data/products";
 
 export default function ShopSidebarleft() {
+  const { t, i18n } = useTranslation();
   const [gridItems, setGridItems] = useState(3);
   const [products, setProducts] = useState([]);
   const [finalSorted, setFinalSorted] = useState([]);
@@ -59,7 +61,7 @@ export default function ShopSidebarleft() {
 
   return (
     <>
-      <section className="flat-spacing-1">
+      <section className="flat-spacing-1" style={{direction: i18n.language === 'ar' ? 'rtl' : 'ltr'}}>
         <div className="container">
           <div className="tf-shop-control grid-3 align-items-center">
             <div className="tf-control-filter"></div>
@@ -89,7 +91,7 @@ export default function ShopSidebarleft() {
             <div className="tf-shop-content">
               {loading ? (
                 <div className="text-center py-5">
-                  <p>Loading products...</p>
+                  <p>{t("shop.loading_products")}</p>
                 </div>
               ) : paginatedProducts.length > 0 ? (
                 <>
@@ -119,7 +121,7 @@ export default function ShopSidebarleft() {
                 </>
               ) : (
                 <div className="text-center py-5">
-                  <p>No products found.</p>
+                  <p>{t("shop.no_products_found")}</p>
                 </div>
               )}
             </div>
