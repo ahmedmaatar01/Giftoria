@@ -126,28 +126,44 @@ export default function DetailsOuterZoom({ product }) {
                       {product.custom_fields.map((field) => {
                         const value = customFieldValues[field.id] || '';
                         let inputEl = null;
-                        if (field.type === 'select') {
+                        if (field.type === "select") {
                           let opts = [];
-                          try {
-                            opts = JSON.parse(field.options);
-                          } catch { opts = []; }
+
+                          if (Array.isArray(field.options)) {
+                            opts = field.options;
+                          } else {
+                            try {
+                              opts = JSON.parse(field.options || "[]");
+                            } catch {
+                              opts = [];
+                            }
+                          }
+                          
+                        
                           inputEl = (
                             <select
                               id={`custom-field-${field.id}`}
                               name={`custom-field-${field.id}`}
                               className="form-control"
                               value={value}
-                              style={{ paddingTop: "0.75rem", paddingBottom: "0.75rem" }}
-                              onChange={e => handleCustomFieldChange(field.id, e.target.value)}
+                              onChange={(e) => handleCustomFieldChange(field.id, e.target.value)}
                               required={field.is_required}
                             >
-                              <option value="">{t("product_detail.select_option", { field: field.name })}</option>
-                              {opts.map(opt => (
-                                <option key={opt} value={opt}>{opt}</option>
-                              ))}
+                              <option value="">
+                                {i18n.language === "ar" ? `اختر خيار` : `Select an option`}
+                              </option>
+                        
+                              {Array.isArray(opts) &&
+                                opts.map((opt, idx) => (
+                                  <option key={idx} value={i18n.language === "ar" ? opt.ar : opt.en}>
+                                    {i18n.language === "ar" ? opt.ar : opt.en}
+                                  </option>
+                                ))}
                             </select>
                           );
-                        } else if (field.type === 'text') {
+                        }
+                        
+                         else if (field.type === 'text') {
                           inputEl = (
                             <input
                               id={`custom-field-${field.id}`}
@@ -174,7 +190,10 @@ export default function DetailsOuterZoom({ product }) {
                         }
                         return (
                           <div key={field.id} className="mb-2">
-                            <label className="fw-6 mb-1" htmlFor={`custom-field-${field.id}`}>{field.name}{field.is_required ? ` ${t("product_detail.required_field")}` : ''}:</label>
+<label className="fw-6 mb-1" htmlFor={`custom-field-${field.id}`}>
+  {i18n.language === "ar" && field.name_ar ? field.name_ar : field.name}
+  {field.is_required ? ` ${t("product_detail.required_field")}` : ''}:
+</label>
                             {inputEl}
                           </div>
                         );

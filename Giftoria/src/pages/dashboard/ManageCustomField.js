@@ -9,7 +9,7 @@ const ManageCustomField = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [form, setForm] = useState({ category_id: '', name: '', type: 'text', options: '', is_required: false, affects_price: false, price_type: '', price_value: '' });
+  const [form, setForm] = useState({ category_id: '', name: '',  name_ar: '',   type: 'text', options: '', is_required: false, affects_price: false, price_type: '', price_value: '' });
 
   // Unified change handler for all fields
   const handleChange = e => {
@@ -28,10 +28,11 @@ const ManageCustomField = () => {
 
   const handleShowModal = (field = null) => {
     if (field) {
-      setForm({ ...field, options: Array.isArray(field.options) ? field.options.join(',') : (field.options || '') });
+      setForm({ ...field,    name_ar: field.name_ar || "",  options: field.options ? JSON.stringify(field.options, null, 2) : ""
+    });
       setIsEdit(true);
     } else {
-      setForm({ category_id: '', name: '', type: 'text', options: '', is_required: false, affects_price: false, price_type: '', price_value: '' });
+      setForm({ category_id: '', name: '',    name_ar: '', type: 'text', options: '', is_required: false, affects_price: false, price_type: '', price_value: '' });
       setIsEdit(false);
     }
     setShowModal(true);
@@ -39,19 +40,31 @@ const ManageCustomField = () => {
 
   const handleSubmit = async () => {
     try {
-      const submitData = { ...form, options: form.options ? form.options.split(',').map(o => o.trim()) : [] };
+      let parsedOptions = [];
+      try {
+        parsedOptions = form.options ? JSON.parse(form.options) : [];
+      } catch {
+        alert("❌ Invalid JSON format for options.\nPlease follow the example format in placeholder.");
+        return;
+      }
+  
+      const submitData = { ...form, options: parsedOptions };
+  
       if (isEdit) {
         await axios.put(`${API_URL}/custom-fields/${form.id}`, submitData);
       } else {
         await axios.post(`${API_URL}/custom-fields`, submitData);
       }
+  
       setShowModal(false);
       setLoading(true);
       const res = await axios.get(`${API_URL}/custom-fields`);
       setFields(res.data);
-    } catch {}
+    } catch (err) {
+      alert("Error saving field.");
+    }
   };
-
+  
   return (
     <Card border="light" className="shadow-sm mb-4">
       <Card.Header>
@@ -66,7 +79,11 @@ const ManageCustomField = () => {
           <tbody>
             {fields.map(field => (
               <tr key={field.id}>
-                <td>{field.name}</td>
+                <td>
+  {field.name}
+  {field.name_ar && <div style={{ fontSize: "12px", color: "#888" }}>{field.name_ar}</div>}
+</td>
+
                 <td>{field.type}</td>
                 <td>{categories.find(c => c.id === field.category_id)?.name || ''}</td>
              
@@ -106,6 +123,16 @@ const ManageCustomField = () => {
               <Form.Control name="name" value={form.name} onChange={handleChange} required />
             </Form.Group>
             <Form.Group className="mb-3">
+              <Form.Label>Arabic Name</Form.Label>
+              <Form.Control
+                name="name_ar"
+                value={form.name_ar}
+                onChange={handleChange}
+                placeholder="الاسم بالعربية"
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
               <Form.Label>Type</Form.Label>
               <Form.Select name="type" value={form.type} onChange={handleChange}>
                 <option value="text">Text</option>
@@ -115,9 +142,26 @@ const ManageCustomField = () => {
               </Form.Select>
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Options (comma separated)</Form.Label>
-              <Form.Control name="options" value={form.options} onChange={handleChange} disabled={form.type !== 'select'} />
-            </Form.Group>
+  <Form.Label>Options (English / Arabic)</Form.Label>
+  <Form.Control
+    name="options"
+    value={form.options}
+    onChange={handleChange}
+    disabled={form.type !== 'select'}
+    placeholder='Example: 
+[
+  {"en":"Pink","ar":"وردي"},
+  {"en":"Red","ar":"أحمر"},
+  {"en":"Blue","ar":"أزرق"}
+]'
+    as="textarea"
+    rows={3}
+  />
+  <small className="text-muted">
+    Format: {"{ en: 'Value English', ar: 'Value Arabic' }"}
+  </small>
+</Form.Group>
+
            
             {form.affects_price && (
               <Row>

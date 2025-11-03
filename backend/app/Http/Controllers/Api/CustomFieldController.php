@@ -7,6 +7,25 @@ use App\Models\CustomField;
 
 class CustomFieldController extends Controller
 {
+    private function normalizeOptions($options)
+    {
+        return array_map(function ($opt) {
+            // If backend receives only English string
+            if (is_string($opt)) {
+                return [
+                    'en' => $opt,
+                    'ar' => ''
+                ];
+            }
+
+            // If frontend sends {en:"Small", ar:"صغير"}
+            return [
+                'en' => $opt['en'] ?? '',
+                'ar' => $opt['ar'] ?? ''
+            ];
+        }, $options);
+    }
+
     public function index()
     {
         return response()->json(CustomField::with('category')->get());
@@ -17,6 +36,7 @@ class CustomFieldController extends Controller
         $data = $request->validate([
             'category_id' => 'required|exists:categories,id',
             'name' => 'required|string',
+            'name_ar' => 'nullable|string',
             'type' => 'required|in:text,number,select,checkbox,file',
             'options' => 'nullable|array',
             'is_required' => 'boolean',
@@ -24,9 +44,11 @@ class CustomFieldController extends Controller
             'price_type' => 'nullable|in:fixed,percentage',
             'price_value' => 'nullable|numeric',
         ]);
-        if (isset($data['options'])) {
-            $data['options'] = json_encode($data['options']);
+
+        if (!empty($data['options'])) {
+            $data['options'] = $this->normalizeOptions($data['options']);
         }
+
         $field = CustomField::create($data);
         return response()->json($field, 201);
     }
@@ -40,9 +62,11 @@ class CustomFieldController extends Controller
     public function update(Request $request, $id)
     {
         $field = CustomField::findOrFail($id);
+
         $data = $request->validate([
             'category_id' => 'sometimes|exists:categories,id',
             'name' => 'sometimes|string',
+            'name_ar' => 'sometimes|string',
             'type' => 'sometimes|in:text,number,select,checkbox,file',
             'options' => 'nullable|array',
             'is_required' => 'boolean',
@@ -50,9 +74,11 @@ class CustomFieldController extends Controller
             'price_type' => 'nullable|in:fixed,percentage',
             'price_value' => 'nullable|numeric',
         ]);
+
         if (isset($data['options'])) {
-            $data['options'] = json_encode($data['options']);
+            $data['options'] = $this->normalizeOptions($data['options']);
         }
+
         $field->update($data);
         return response()->json($field);
     }
