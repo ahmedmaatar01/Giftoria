@@ -153,7 +153,7 @@ export default function ShopCart() {
 
                           </div>
                           <div className="msgAndbutton mt-4">
-                            <div className="col-12 fs-18 text-center">
+                            <div className="col-12 fs-18 text-center bell-medium">
                               {t("cart.empty_message")}
                             </div>
                             <div className="col-12 mt-3">
@@ -284,7 +284,7 @@ export default function ShopCart() {
                 </div> */}
                 <div className="tf-mini-cart-bottom-wrap">
                   <div className="tf-cart-totals-discounts">
-                    <div className="tf-cart-total">{t("cart.subtotal")}</div>
+                    <div className="tf-cart-total  text-uppercase">{t("cart.subtotal")}</div>
                     <div className="tf-totals-total-value fw-6">
                       ${totalPrice.toFixed(2)} USD
                     </div>

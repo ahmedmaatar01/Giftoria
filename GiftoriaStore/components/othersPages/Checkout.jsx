@@ -218,7 +218,7 @@ export default function Checkout() {
       <div className="container">
         <div className="tf-page-cart-wrap layout-2">
           <div className="tf-page-cart-item">
-            <h5 className="fw-5 mb_20 raleway-regular text-uppercase">{t('checkout.title_billing_details')}</h5>
+            <h5 className="fw-5 mb_20 raleway-regular text-uppercase pfs-4">{t('checkout.title_billing_details')}</h5>
 
             {error && (
               <div className="alert alert-danger mb-3" role="alert">
@@ -358,8 +358,8 @@ export default function Checkout() {
             </form>
           </div>
           <div className="tf-page-cart-footer">
-            <div className="tf-cart-footer-inner raleway-regular text-uppercase">
-              <h5 className="fw-5 mb_20">{t('checkout.your_order')}</h5>
+            <div className="tf-cart-footer-inner raleway-regular">
+              <h5 className="fw-5 mb_20  text-uppercase pfs-4">{t('checkout.your_order')}</h5>
               <form
                 onSubmit={handleSubmitOrder}
                 className="tf-page-cart-checkout widget-wrap-checkout"
