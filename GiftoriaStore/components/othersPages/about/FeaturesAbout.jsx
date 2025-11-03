@@ -13,7 +13,7 @@ export default function FeaturesAbout({ title, subtitle, items }) {
           <div className="flat-title lg p-0">
             <span className="title bell-medium heading-30 mb-4">{t(title)}</span> {/* Translate title */}
             <div>
-              <p className="sub-title text_black-2 raleway-light " style={{ lineHeight: '2', textAlign: 'justify', fontSize: '15px' }}>
+              <p className="sub-title text_black-2 raleway-light text-justify " style={{ lineHeight: '2', textAlign: 'justify', fontSize: '15px' }}>
                 {t(subtitle)} {/* Translate subtitle */}
               </p>
             </div>
@@ -23,11 +23,11 @@ export default function FeaturesAbout({ title, subtitle, items }) {
    
                 <div className="box3">
                   {items.map((box, index) => (
-                    <div className="box">
+                    <div className="boxabout">
                       <div className="tf-icon-box text-center">
                         <div className="content content ">
-                          <div className="raleway-medium title  fw-normal d-block fs-4 text-uppercase text-start" style={{ fontSize: '28px' ,marginBottom:"0px"}}>{t(box.title)}</div> {/* Translate item title */}
-                          <p className="text_black-2 raleway-light raleway-light  text-uppercase text-start" style={{ fontSize: '15px' }}>{t(box.description)}</p> {/* Translate item description */}
+                          <div className="raleway-medium title  fw-normal d-block pfs-4 text-uppercase text-start" style={{ marginBottom:"0px"}}>{t(box.title)}</div> {/* Translate item title */}
+                          <p className="text_black-2 raleway-light raleway-light  text-uppercase text-justify" style={{ fontSize: '15px' }}>{t(box.description)}</p> {/* Translate item description */}
                         </div>
                       </div>
                     </div>

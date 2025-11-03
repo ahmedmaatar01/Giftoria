@@ -45,13 +45,25 @@ export default function Orders() {
   }, [user, authToken]);
 
   const formatDate = (dateString) => {
-    if (!dateString) return 'N/A';
+    if (!dateString) return t("orders_table.not_available");
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    });
+    
+    if (i18n.language === 'ar') {
+      const monthNames = [
+        'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
+        'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'
+      ];
+      const day = date.getDate();
+      const month = monthNames[date.getMonth()];
+      const year = date.getFullYear();
+      return `${day} ${month} ${year}`;
+    } else {
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      });
+    }
   };
 
   const getStatusBadgeClass = (status) => {
@@ -95,7 +107,7 @@ export default function Orders() {
             <div className="spinner-border" role="status">
               <span className="visually-hidden">Loading...</span>
             </div>
-            <p className="mt-3">Loading your orders...</p>
+            <p className="mt-3">{t("orders_table.loading")}</p>
           </div>
         </div>
       </div>
@@ -119,7 +131,7 @@ export default function Orders() {
       <div className="my-account-content account-order">
         <div className="wrap-account-order">
           <div className="alert alert-warning">
-            Please log in to view your orders.
+            {t("orders_table.login_required")}
           </div>
         </div>
       </div>
@@ -131,18 +143,18 @@ export default function Orders() {
       <div className="wrap-account-order">
         {orders.length === 0 ? (
           <div className="alert alert-info">
-            <strong>No orders yet!</strong> You haven't placed any orders yet.
+            <strong>{t("orders_table.no_orders_title")}</strong> {t("orders_table.no_orders_message")}
           </div>
         ) : (
           <div className="table-responsive">
             <table className="table">
               <thead>
                 <tr>
-                  <th className="fw-6">Order</th>
-                  <th className="fw-6">Date</th>
-                  <th className="fw-6">Status</th>
-                  <th className="fw-6">Total</th>
-                  <th className="fw-6">Actions</th>
+                  <th className="fw-6">{t("orders_table.order")}</th>
+                  <th className="fw-6">{t("orders_table.date")}</th>
+                  <th className="fw-6">{t("orders_table.status")}</th>
+                  <th className="fw-6">{t("orders_table.total")}</th>
+                  <th className="fw-6">{t("orders_table.actions")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -159,14 +171,14 @@ export default function Orders() {
                       </span>
                     </td>
                     <td>
-                      ${parseFloat(order.total || 0).toFixed(2)} for {countItems(order)} item(s)
+                      ${parseFloat(order.total || 0).toFixed(2)} {t("orders_table.for")} {countItems(order)} {t("orders_table.items")}
                     </td>
                     <td>
                       <Link
                         href={`/my-account-orders-details?id=${order.id}`}
                         className="btn btn-dark btn-sm"
                       >
-                        View Details
+                        {t("orders_table.view_details")}
                       </Link>
                     </td>
                   </tr>

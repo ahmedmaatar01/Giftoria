@@ -124,15 +124,15 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
         </Link>
       </li>
      <li className="menu-item" >
-        <a
-          href="#"
+        <Link
+          href="/shop-left-sidebar"
           className={`item-link raleway-regular ${Linkfs} ${textColor} ${
             pathname.includes('/shop') || pathname.includes('/category') || pathname.includes('/occasion') ? "activeMenu" : ""
           } `}
         >
           {t("menu.shop")}
           {isArrow ? <i className="icon icon-arrow-down" /> : ""}
-        </a>
+        </Link>
         <div className="sub-menu mega-menu" style={{marginTop:"-8px"}}>
           <div className="container">
             <div className="row">

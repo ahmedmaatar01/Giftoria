@@ -14,12 +14,30 @@
     "no_products_title": "No Products Found",
     "no_products_message": "There are currently no products available in the shop.",
     "products_found": "product(s) found",
+    "page_title": "Our Products",
+    "page_description": "Feel free to choose your products from our wide range of categories and collections.",
     "sorting": {
       "default": "Default",
       "alphabetically_az": "Alphabetically, A-Z",
       "alphabetically_za": "Alphabetically, Z-A",
       "price_low_high": "Price, low to high",
       "price_high_low": "Price, high to low"
+    },
+    "sidebar": {
+      "product_categories": "Product categories",
+      "loading_categories": "Loading categories...",
+      "all_categories": "All Categories",
+      "you_may_also_like": "You may also like",
+      "loading_suggestions": "Loading suggestions...",
+      "shipping_delivery": "Shipping & Delivery",
+      "product_customization": "Product customization",
+      "personalize_gift": "Personalize your gift with custom options",
+      "premium_support": "Premium Support",
+      "support_24_hours": "Support 24 hours a day",
+      "days_return": "30 Days Return",
+      "return_period": "You have 30 days to return",
+      "gallery": "Gallery",
+      "follow_us": "Follow us"
     }
   },
   "product_card": {
@@ -151,22 +169,22 @@
   "company": {
     "brand_presentation_title": "BRAND PRESENTATION",
     "premium_quality_title": "Premium Quality",
-    "premium_quality_description": "Only the finest materials and craftsmanship.",
+    "premium_quality_description": "Crafted with care and precision.",
     "thoughtful_curation_title": "Thoughtful Curation",
     "thoughtful_curation_description": "Handpicked gifts for every occasion.",
     "personalized_touch_title": "Personalized Touch",
-    "personalized_touch_description": "Custom options for a unique experience.",
+    "personalized_touch_description": "Your individuality, our design.",
     "brand_presentation_subtitle": "GIFTORIA.me is a luxury brand born from a desire to transform the art of gifting into an unforgettable, emotional experience. Every detail, from the design of our products to the personal touch behind each gift, is carefully crafted to reflect elegance, intention, and meaning. At GIFTORIA, we believe that a gift is never just a gift — it is a gesture, a story, a memory in the making. That’s why we offer a curated universe of personalized and refined creations, designed to celebrate life’s most precious moments in a deeply thoughtful way. Whether it’s a symbolic token of love, a timeless expression of gratitude, or a meaningful surprise, GIFTORIA turns each gift into an exceptional experience — one that’s tailored, elegant, and emotionally resonant. Our brand is dedicated to those who seek to offer more than an object: a lasting impression."
   },
   "productFeatures": {
     "title": "Quality is our priority",
     "subtitle": "Our gifted curators have gathered treasures perfect for every season. They’ve crafted a world of thoughtful delights to inspire your next heartfelt gesture.",
     "high_quality_materials_title": "High-Quality Materials",
-    "high_quality_materials_description": "Crafted with precision and excellence, our activewear is meticulously engineered using premium materials to ensure unmatched comfort and durability.",
+    "high_quality_materials_description": "Crafted with precision and excellence, our activewear is meticulously engineered using premium materials.",
     "laconic_design_title": "Laconic Design",
     "laconic_design_description": "Simplicity refined. Our activewear embodies the essence of minimalistic design, delivering effortless style that speaks volumes.",
     "various_sizes_title": "Various Sizes",
-    "various_sizes_description": "Designed for every body and anyone, our activewear embraces diversity with a wide range of sizes and shapes, celebrating the beauty of individuality."
+    "various_sizes_description": "Designed for every body and anyone, our activewear embraces diversity with a wide range of sizes and shapes."
   },
   "store_info": {
     "address": "Address",
@@ -399,6 +417,146 @@
     "return_policy": "Return within 30 days of purchase. Duties & taxes are non-refundable.",
     "buy_with": "Buy with",
     "more_payment_options": "More payment options"
+  },
+  
+  "my_account_title": "My Account",
+  
+  "my_orders_title": "My Orders",
+  
+  "my_account_edit_title": "My Account Edit",
+  
+  "order_details_title": "Order Details",
+  
+  "dashboard_nav": {
+    "dashboard": "Dashboard",
+    "orders": "Orders",
+    "account_details": "Account Details", 
+    "logout": "Logout"
+  },
+  
+  "dashboard": {
+    "hello": "Hello",
+    "guest": "Guest",
+    "description_part1": "From your account dashboard you can view your",
+    "recent_orders": "recent orders",
+    "description_part2": "and",
+    "edit_account": "edit your password and account details",
+    "description_part3": "."
+  },
+  
+  "orders_table": {
+    "order": "Order",
+    "date": "Date",
+    "status": "Status", 
+    "total": "Total",
+    "actions": "Actions",
+    "view_details": "View Details",
+    "for": "for",
+    "items": "item(s)",
+    "loading": "Loading your orders...",
+    "no_orders_title": "No orders yet!",
+    "no_orders_message": "You haven't placed any orders yet.",
+    "login_required": "Please log in to view your orders.",
+    "not_available": "N/A"
+  },
+  
+  "order_details": {
+    "order_history": "Order History",
+    "item_details": "Item Details",
+    "my_notes": "My Notes", 
+    "status_timeline": "Status Timeline",
+    "order_info": "Order Info",
+    "order_placed": "Order Placed",
+    "status": "Status",
+    "not_available": "N/A",
+    "status_pending": "Pending",
+    "status_processing": "Processing",
+    "status_shipped": "Shipped",
+    "status_delivered": "Delivered",
+    "status_cancelled": "Cancelled",
+    "status_completed": "Completed",
+    "price": "Price",
+    "quantity": "Quantity",
+    "custom_fields": "Custom Fields",
+    "total_price": "Total Price",
+    "payment_method": "Payment Method",
+    "no_products_found": "No products found in this order.",
+    "add_note": "Add a Note",
+    "note_placeholder": "Add your note or question about this order...",
+    "add_note_button": "Add Note",
+    "adding_note": "Adding...",
+    "order_notes": "Order Notes",
+    "loading_notes": "Loading notes...",
+    "no_notes_yet": "No notes yet. Add your first note above!",
+    "you": "You",
+    "admin": "Admin",
+    "order_status_timeline": "Order Status Timeline",
+    "loading_status_history": "Loading status history...",
+    "no_status_changes": "No status changes recorded yet.",
+    "from": "from",
+    "changed_by": "Changed by",
+    "system": "System",
+    "order_number": "Order Number",
+    "date": "Date",
+    "total": "Total",
+    "shipping_address": "Shipping Address",
+    "desired_delivery": "Desired Delivery",
+    "phone": "Phone"
+  },
+  "account_edit": {
+    "first_name": "First name",
+    "last_name": "Last name",
+    "email": "Email",
+    "country": "Country",
+    "address": "Address",
+    "select_country": "Select country",
+    "password_change": "Password Change",
+    "current_password": "Current password",
+    "new_password": "New password",
+    "confirm_password": "Confirm password",
+    "save_changes": "Save Changes",
+    "saving": "Saving...",
+    "update_success": "Profile updated successfully!",
+    "update_failed": "Failed to update profile",
+    "password_mismatch": "New passwords do not match",
+    "countries": {
+      "qatar": "Qatar",
+      "algeria": "Algeria",
+      "morocco": "Morocco",
+      "tunisia": "Tunisia",
+      "egypt": "Egypt",
+      "france": "France",
+      "united_states": "United States",
+      "united_kingdom": "United Kingdom",
+      "germany": "Germany",
+      "italy": "Italy",
+      "spain": "Spain",
+      "turkey": "Turkey",
+      "saudi_arabia": "Saudi Arabia",
+      "uae": "UAE",
+      "other": "Other"
+    }
+  },
+  "login_modal": {
+    "title": "Log in",
+    "email": "Email",
+    "password": "Password",
+    "forgot_password": "Forgot your password?",
+    "login_button": "Log in",
+    "logging_in": "Logging in...",
+    "create_account": "New customer? Create your account",
+    "login_failed": "Login failed"
+  },
+  "register_modal": {
+    "title": "REGISTER",
+    "first_name": "First name",
+    "last_name": "Last name",
+    "email": "Email",
+    "password": "Password",
+    "register_button": "Register",
+    "registering": "Registering...",
+    "already_have_account": "Already have an account? Log in here",
+    "registration_failed": "Registration failed"
   }
 }
 

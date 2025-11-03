@@ -2,7 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { useContextElement } from "@/context/Context";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
+
 export default function Register() {
+  const { t, i18n } = useTranslation();
   const { register, authLoading } = useContextElement();
   const router = useRouter();
   const [firstName, setFirstName] = useState("");
@@ -49,7 +52,7 @@ export default function Register() {
       }
       router.push("/my-account");
     } else {
-      setError(res.error || "Registration failed");
+      setError(res.error || t("register_modal.registration_failed"));
     }
   };
   return (
@@ -58,9 +61,9 @@ export default function Register() {
       id="register"
     >
       <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content">
+        <div className="modal-content" style={{direction: i18n.language === 'ar' ? 'rtl' : 'ltr'}}>
           <div className="header">
-            <div className="demo-title">REGISTER</div>
+            <div className="demo-title">{t("register_modal.title")}</div>
             <span
               className="icon-close icon-close-popup"
               data-bs-dismiss="modal"
@@ -83,7 +86,7 @@ export default function Register() {
                   onChange={e => setFirstName(e.target.value)}
                 />
                 <label className="tf-field-label" htmlFor="firstName">
-                  First name
+                  {t("register_modal.first_name")}
                 </label>
               </div>
               <div className="tf-field style-1">
@@ -97,7 +100,7 @@ export default function Register() {
                   onChange={e => setLastName(e.target.value)}
                 />
                 <label className="tf-field-label" htmlFor="lastName">
-                  Last name
+                  {t("register_modal.last_name")}
                 </label>
               </div>
               <div className="tf-field style-1">
@@ -112,7 +115,7 @@ export default function Register() {
                   onChange={e => setEmail(e.target.value)}
                 />
                 <label className="tf-field-label" htmlFor="email">
-                  Email *
+                  {t("register_modal.email")} *
                 </label>
               </div>
               <div className="tf-field style-1">
@@ -127,7 +130,7 @@ export default function Register() {
                   onChange={e => setPassword(e.target.value)}
                 />
                 <label className="tf-field-label" htmlFor="password">
-                  Password *
+                  {t("register_modal.password")} *
                 </label>
               </div>
               {error && (
@@ -140,17 +143,16 @@ export default function Register() {
                     className="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
                     disabled={authLoading}
                   >
-                    <span>{authLoading ? "Registering..." : "Register"}</span>
+                    <span>{authLoading ? t("register_modal.registering") : t("register_modal.register_button")}</span>
                   </button>
                 </div>
                 <div className="w-100">
                   <a
                     href="#login"
                     data-bs-toggle="modal"
-                    className="btn-link fw-6 w-100 link"
+                    className="btn-link w-100 link"
                   >
-                    Already have an account? Log in here
-                    <i className="icon icon-arrow1-top-left" />
+                    {t("register_modal.already_have_account")}
                   </a>
                 </div>
               </div>

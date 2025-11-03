@@ -3,8 +3,10 @@
 import React, { useEffect, useState } from "react";
 import { useContextElement } from "@/context/Context";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 export default function Login() {
+  const { t, i18n } = useTranslation();
   const { login, authLoading } = useContextElement();
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -50,7 +52,7 @@ export default function Login() {
       }
       router.push("/my-account");
     } else {
-      setError(res.error || "Login failed");
+      setError(res.error || t("login_modal.login_failed"));
     }
   };
   return (
@@ -59,9 +61,9 @@ export default function Login() {
       id="login"
     >
       <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content">
+        <div className="modal-content" style={{direction: i18n.language === 'ar' ? 'rtl' : 'ltr'}}>
           <div className="header">
-            <div className="demo-title">Log in</div>
+            <div className="demo-title">{t("login_modal.title")}</div>
             <span
               className="icon-close icon-close-popup"
               data-bs-dismiss="modal"
@@ -85,7 +87,7 @@ export default function Login() {
                   onChange={e => setEmail(e.target.value)}
                 />
                 <label className="tf-field-label" htmlFor="email">
-                  Email *
+                  {t("login_modal.email")} *
                 </label>
               </div>
               <div className="tf-field style-1">
@@ -100,7 +102,7 @@ export default function Login() {
                   onChange={e => setPassword(e.target.value)}
                 />
                 <label className="tf-field-label" htmlFor="password">
-                  Password *
+                  {t("login_modal.password")} *
                 </label>
               </div>
               {error && (
@@ -112,7 +114,7 @@ export default function Login() {
                   data-bs-toggle="modal"
                   className="btn-link link"
                 >
-                  Forgot your password?
+                  {t("login_modal.forgot_password")}
                 </a>
               </div>
               <div className="bottom">
@@ -122,7 +124,7 @@ export default function Login() {
                     className="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
                     disabled={authLoading}
                   >
-                    <span>{authLoading ? "Logging in..." : "Log in"}</span>
+                    <span>{authLoading ? t("login_modal.logging_in") : t("login_modal.login_button")}</span>
                   </button>
                 </div>
                 <div className="w-100">
@@ -131,8 +133,7 @@ export default function Login() {
                     data-bs-toggle="modal"
                     className="btn-link fw-6 w-100 link"
                   >
-                    New customer? Create your account
-                    <i className="icon icon-arrow1-top-left" />
+                    {t("login_modal.create_account")}
                   </a>
                 </div>
               </div>
