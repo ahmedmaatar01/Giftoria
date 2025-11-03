@@ -1,8 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useContextElement } from "@/context/Context";
+import { useTranslation } from "react-i18next";
 
 export default function AccountEdit() {
+  const { t, i18n } = useTranslation();
   const { user, authToken, setUser } = useContextElement();
   const [formData, setFormData] = useState({
     name: '',
@@ -49,7 +51,7 @@ export default function AccountEdit() {
 
     // Validate passwords match if changing password
     if (formData.password && formData.password !== formData.password_confirmation) {
-      setError('New passwords do not match');
+      setError(t("account_edit.password_mismatch"));
       return;
     }
 
@@ -84,7 +86,7 @@ export default function AccountEdit() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Failed to update profile');
+        throw new Error(data.message || t("account_edit.update_failed"));
       }
 
       // Update user in context
@@ -93,7 +95,7 @@ export default function AccountEdit() {
       // Update localStorage
       localStorage.setItem('auth_user', JSON.stringify(data.user));
 
-      setMessage('Profile updated successfully!');
+      setMessage(t("account_edit.update_success"));
       
       // Clear password fields
       setFormData(prev => ({
@@ -105,14 +107,14 @@ export default function AccountEdit() {
 
     } catch (err) {
       console.error('Error updating profile:', err);
-      setError(err.message || 'Failed to update profile');
+      setError(err.message || t("account_edit.update_failed"));
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="my-account-content account-edit">
+    <div className="my-account-content account-edit" style={{direction: i18n.language === 'ar' ? 'rtl' : 'ltr'}}>
       <div className="">
         <form
             onSubmit={handleSubmit}
@@ -146,7 +148,7 @@ export default function AccountEdit() {
               className="tf-field-label fw-4 text_black-2"
               htmlFor="property1"
             >
-              First name
+              {t("account_edit.first_name")}
             </label>
           </div>
           <div className="tf-field style-1 mb_15">
@@ -163,7 +165,7 @@ export default function AccountEdit() {
               className="tf-field-label fw-4 text_black-2"
               htmlFor="property2"
             >
-              Last name
+              {t("account_edit.last_name")}
             </label>
           </div>
           <div className="tf-field style-1 mb_15">
@@ -182,7 +184,7 @@ export default function AccountEdit() {
               className="tf-field-label fw-4 text_black-2"
               htmlFor="property3"
             >
-              Email
+              {t("account_edit.email")}
             </label>
           </div>
           <div className="tf-field style-1 mb_15">
@@ -194,25 +196,25 @@ export default function AccountEdit() {
               onChange={handleChange}
               required
             >
-              <option value="">Select country</option>
-              <option value="Qatar">Qatar</option>
-              <option value="Algeria">Algeria</option>
-              <option value="Morocco">Morocco</option>
-              <option value="Tunisia">Tunisia</option>
-              <option value="Egypt">Egypt</option>
-              <option value="France">France</option>
-              <option value="United States">United States</option>
-              <option value="United Kingdom">United Kingdom</option>
-              <option value="Germany">Germany</option>
-              <option value="Italy">Italy</option>
-              <option value="Spain">Spain</option>
-              <option value="Turkey">Turkey</option>
-              <option value="Saudi Arabia">Saudi Arabia</option>
-              <option value="UAE">UAE</option>
-              <option value="Other">Other</option>
+              <option value="">{t("account_edit.select_country")}</option>
+              <option value="Qatar">{t("account_edit.countries.qatar")}</option>
+              <option value="Algeria">{t("account_edit.countries.algeria")}</option>
+              <option value="Morocco">{t("account_edit.countries.morocco")}</option>
+              <option value="Tunisia">{t("account_edit.countries.tunisia")}</option>
+              <option value="Egypt">{t("account_edit.countries.egypt")}</option>
+              <option value="France">{t("account_edit.countries.france")}</option>
+              <option value="United States">{t("account_edit.countries.united_states")}</option>
+              <option value="United Kingdom">{t("account_edit.countries.united_kingdom")}</option>
+              <option value="Germany">{t("account_edit.countries.germany")}</option>
+              <option value="Italy">{t("account_edit.countries.italy")}</option>
+              <option value="Spain">{t("account_edit.countries.spain")}</option>
+              <option value="Turkey">{t("account_edit.countries.turkey")}</option>
+              <option value="Saudi Arabia">{t("account_edit.countries.saudi_arabia")}</option>
+              <option value="UAE">{t("account_edit.countries.uae")}</option>
+              <option value="Other">{t("account_edit.countries.other")}</option>
             </select>
             <label className="tf-field-label fw-4 text_black-2" htmlFor="country">
-              Country
+              {t("account_edit.country")}
             </label>
           </div>
           <div className="tf-field style-1 mb_15">
@@ -226,10 +228,10 @@ export default function AccountEdit() {
               onChange={handleChange}
             />
             <label className="tf-field-label fw-4 text_black-2" htmlFor="address">
-              Address
+              {t("account_edit.address")}
             </label>
           </div>
-          <h6 className="mb_20">Password Change</h6>
+          <h6 className="mb_20">{t("account_edit.password_change")}</h6>
           <div className="tf-field style-1 mb_30">
             <input
               className="tf-field-input tf-input"
@@ -245,7 +247,7 @@ export default function AccountEdit() {
               className="tf-field-label fw-4 text_black-2"
               htmlFor="property4"
             >
-              Current password
+              {t("account_edit.current_password")}
             </label>
           </div>
           <div className="tf-field style-1 mb_30">
@@ -263,7 +265,7 @@ export default function AccountEdit() {
               className="tf-field-label fw-4 text_black-2"
               htmlFor="property5"
             >
-              New password
+              {t("account_edit.new_password")}
             </label>
           </div>
           <div className="tf-field style-1 mb_30">
@@ -281,7 +283,7 @@ export default function AccountEdit() {
               className="tf-field-label fw-4 text_black-2"
               htmlFor="property6"
             >
-              Confirm password
+              {t("account_edit.confirm_password")}
             </label>
           </div>
           <div className="mb_20">
@@ -290,7 +292,7 @@ export default function AccountEdit() {
               className="tf-btn w-100 radius-3 btn-fill animate-hover-btn justify-content-center"
               disabled={loading}
             >
-              {loading ? 'Saving...' : 'Save Changes'}
+              {loading ? t("account_edit.saving") : t("account_edit.save_changes")}
             </button>
           </div>
         </form>

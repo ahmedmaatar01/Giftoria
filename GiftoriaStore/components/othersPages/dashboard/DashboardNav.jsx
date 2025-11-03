@@ -2,16 +2,19 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useContextElement } from "@/context/Context";
-const accountLinks = [
-  { href: "/my-account", label: "Dashboard" },
-  { href: "/my-account-orders", label: "Orders" },
-  { href: "/my-account-edit", label: "Account Details" },
-];
+import { useTranslation } from "react-i18next";
 
 export default function DashboardNav() {
+  const { t } = useTranslation();
   const pathname = usePathname();
   const router = useRouter();
   const { logout } = useContextElement();
+
+  const accountLinks = [
+    { href: "/my-account", label: t("dashboard_nav.dashboard") },
+    { href: "/my-account-orders", label: t("dashboard_nav.orders") },
+    { href: "/my-account-edit", label: t("dashboard_nav.account_details") },
+  ];
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -34,7 +37,7 @@ export default function DashboardNav() {
       ))}
       <li>
         <a href="#logout" className="my-account-nav-item raleway-medium" onClick={handleLogout}>
-          Logout
+          {t("dashboard_nav.logout")}
         </a>
       </li>
     </ul>
