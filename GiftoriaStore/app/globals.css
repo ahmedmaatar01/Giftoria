@@ -114,7 +114,9 @@
   src: url("/fonts/beINNormal.ttf") format("opentype");
   font-style: normal;
 }
-
+.widget-wrap-checkout{
+  background-color: #f8f4f0 !important;
+}
 /* be IN Normal font will be used from system fonts or web fonts if available */
 .header-style-10 .filter-option-inner-inner,
 .header-style-10 .dropdown.bootstrap-select.image-select.style-default>button::after {
