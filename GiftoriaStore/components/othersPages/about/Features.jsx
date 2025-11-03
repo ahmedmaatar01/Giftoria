@@ -15,7 +15,7 @@ export default function Features() {
           <div className="flat-title lg p-0">
             <span className="title bell-medium heading-30 mb-4" style={{ textTransform: 'uppercase' }}>{t("productFeatures.title")}</span> {/* Translate title */}
             <div>
-              <p className="sub-title text_black-2 raleway-light text-uppercase text-start" style={{ fontSize: '15px' }}>
+              <p className="sub-title text_black-2 raleway-light text-uppercase text-justify" style={{ fontSize: '15px' }}>
                 {t("productFeatures.subtitle")}
               </p> {/* Translate subtitle */}
 
@@ -25,11 +25,11 @@ export default function Features() {
             <div className="wrap-carousel wrap-mobile">
               <div className="box3">
                 {iconBoxes4.map((box, index) => (
-                  <div className="box">
+                  <div className="boxabout">
                     <div className="tf-icon-box text-center">
                       <div className="content content ">
-                        <div className="raleway-medium title  fw-normal d-block fs-4 text-uppercase text-start " >{t(box.title)}</div> {/* Translate item title */}
-                        <p className="text_black-2 raleway-light raleway-light  text-uppercase text-start" >{t(box.description)}</p> {/* Translate item description */}
+                        <div className="raleway-medium title  fw-normal d-block pfs-4 text-uppercase text-start " >{t(box.title)}</div> {/* Translate item title */}
+                        <p className="text_black-2 raleway-light raleway-light  text-uppercase text-justify" >{t(box.description)}</p> {/* Translate item description */}
                       </div>
                     </div>
                   </div>

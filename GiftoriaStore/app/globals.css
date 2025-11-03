@@ -130,7 +130,12 @@
 header#header {
   padding: 4px 0px;
 }
-
+.text-justify {
+  text-align: justify !important;
+}
+.pfs-4 {
+    font-size: 1.4rem !important;
+}
 .filter-option-inner-inner,
 .dropdown.bootstrap-select.image-select.style-default>button::after {
 
@@ -146,13 +151,26 @@ header#header {
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
-
+.boxabout{
+  display: flex;
+      justify-content: center;
+}
 @media (max-width: 992px) {
   .box3 {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-
+.tf-page-title {
+    padding: 34px 0px;
+    background: #f8f4f0 !important;
+}
+.tf-page-title .heading.text-center {
+    font-size: 24px !important;
+    letter-spacing: 3px;
+}
+.tf-page-title .container-full p{
+    font-size: 14px !important;
+}
 @media (max-width: 576px) {
   .box3 {
     grid-template-columns: 1fr;
