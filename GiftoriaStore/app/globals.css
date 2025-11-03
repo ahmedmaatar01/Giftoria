@@ -131,6 +131,14 @@ header#header {
   padding: 4px 0px;
 }
 
+.text-justify {
+  text-align: justify !important;
+}
+
+.pfs-4 {
+  font-size: 1.4rem !important;
+}
+
 .filter-option-inner-inner,
 .dropdown.bootstrap-select.image-select.style-default>button::after {
 
@@ -141,10 +149,16 @@ header#header {
   width: 110px !important;
 
 }
+
 .box3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+}
+
+.boxabout {
+  display: flex;
+  justify-content: center;
 }
 
 @media (max-width: 992px) {
@@ -153,14 +167,32 @@ header#header {
   }
 }
 
+.tf-page-title {
+  padding: 34px 0px;
+  background: #f8f4f0 !important;
+}
+
+.tf-page-title .heading.text-center {
+  font-size: 24px !important;
+  letter-spacing: 3px;
+}
+
+.tf-page-title .container-full p {
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  text-transform: uppercase;
+}
+
 @media (max-width: 576px) {
   .box3 {
     grid-template-columns: 1fr;
   }
 }
+
 .c-paragraph {
-    line-height: 2;
+  line-height: 2;
 }
+
 .occasions.flat-spacing-15 {
   max-height: 600px;
 }
@@ -168,14 +200,18 @@ header#header {
 html.arabic-font .invert-arabic {
   transform: scaleX(-1);
 }
+
 html.arabic-font .invert-arabic .c-titre {
   font-size: 52px !important;
   font-weight: 600 !important;
 }
-html.arabic-font .products-homeP .raleway-light.productName,html.arabic-font .viewAllCategs{
+
+html.arabic-font .products-homeP .raleway-light.productName,
+html.arabic-font .viewAllCategs {
   font-family: "be IN Normal", sans-serif !important;
   font-weight: 500 !important;
 }
+
 html.arabic-font .invert-arabic .c-paragraph {
   font-size: 27px;
   line-height: 2;
@@ -203,10 +239,12 @@ html.arabic-font body {
 html.arabic-font *:not(p):not(span):not(i):not(.icon):not([class*="icon-"]):not([class*="arabic_div"]) {
   font-family: "Muslimah Thin", sans-serif !important;
 }
-html.arabic-font .arabic_div{
+
+html.arabic-font .arabic_div {
   font-family: "be IN Normal", sans-serif !important;
 
 }
+
 /* Apply be IN Normal font specifically to paragraphs and spans when Arabic is selected */
 html.arabic-font p:not(i):not(.icon):not([class^="icon-"]),
 html.arabic-font .raleway-regular:span:not(i):not(.icon):not([class^="icon-"]) {
@@ -297,18 +335,19 @@ html.arabic-font {
 .sub-menu {
   box-shadow: none !important;
 }
+
 /* Fix header menu font in Arabic mode to be normal */
-html.arabic-font header#header .menu-item > a,
+html.arabic-font header#header .menu-item>a,
 html.arabic-font header#header nav a,
-html.arabic-font header#header .main-menu > li > a {
+html.arabic-font header#header .main-menu>li>a {
   font-family: "be IN Normal", sans-serif !important;
   text-transform: none !important;
   letter-spacing: 0 !important;
 }
+
 /* ✅ Apply be IN Normal ONLY inside the Shop Details page when Arabic */
 
 /* ✅ In product page, Arabic paragraphs use be IN Normal ONLY */
-html.arabic-font .shop-details-page p  {
+html.arabic-font .shop-details-page p {
   font-family: "be IN Normal", sans-serif !important;
 }
-
