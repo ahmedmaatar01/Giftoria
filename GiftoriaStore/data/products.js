@@ -12,6 +12,10 @@ const mapProductToFrontend = (backendProduct) => {
     imgSrc: featuredImage ? `http://localhost:8000${featuredImage.image_path}` : "/images/products/placeholder.jpg",
     imgHoverSrc: otherImages.length > 0 ? `http://localhost:8000${otherImages[0].image_path}` : "/images/products/placeholder.jpg",
     title: backendProduct.name,
+    name: backendProduct.name, // Keep original name field
+    name_ar: backendProduct.arabic_name, // Map arabic_name to name_ar
+    arabic_name: backendProduct.arabic_name, // Preserve original field
+    title_ar: backendProduct.arabic_name, // Also map to title_ar for compatibility
     price: parseFloat(backendProduct.price),
     filterCategories: backendProduct.category ? [backendProduct.category.name] : [],
     isAvailable: backendProduct.stock > 0,

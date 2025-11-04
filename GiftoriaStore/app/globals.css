@@ -115,14 +115,17 @@
   font-style: normal;
 }
 .widget-wrap-checkout{
-  background-color: #f8f4f0 !important;
+  background-color: #efeae3 !important;
 }
 /* be IN Normal font will be used from system fonts or web fonts if available */
 .header-style-10 .filter-option-inner-inner,
 .header-style-10 .dropdown.bootstrap-select.image-select.style-default>button::after {
   color: #000000;
 }
+.modalDemo .modal-dialog {
 
+    height: calc(100vh + 50px) !important;
+}
 .header-shadow .filter-option-inner-inner,
 .header-shadow .dropdown.bootstrap-select.image-select.style-default>button::after {
   color: #000000;
@@ -171,7 +174,7 @@ header#header {
 
 .tf-page-title {
   padding: 34px 0px;
-  background: #f8f4f0 !important;
+  background: #efeae3 !important;
 }
 
 .tf-page-title .heading.text-center {

@@ -1,9 +1,9 @@
 import Footer1 from "@/components/footers/Footer1";
-import Header6 from "@/components/headers/Header6";
+import Header10 from "@/components/headers/Header10";
 import ContactForm2 from "@/components/othersPages/contact/ContactForm2";
 import Map2 from "@/components/othersPages/contact/Map2";
 import React from "react";
-import HeroContact from "@/components/othersPages/contact/HeroContact";
+// import HeroContact from "@/components/othersPages/contact/HeroContact";
 
 export const metadata = {
   title: "Contact 2 || Ecomus - Ultimate Nextjs Ecommerce Template",
@@ -12,8 +12,8 @@ export const metadata = {
 export default function page() {
   return (
     <>
-      <Header6 />
-      <HeroContact />
+      <Header10 />
+      {/* <HeroContact /> */}
       {/* <Map2 /> */}
       <ContactForm2 />
       <Footer1 />

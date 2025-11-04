@@ -450,7 +450,11 @@ const filteredCommands = commands.filter(cmd => {
                             <tbody>
                               {cp.custom_fields.map((cf, i) => (
                                 <tr key={i}>
-                                  <th className="bg-light w-50">{cf.name}</th>
+                                  <th className="bg-light w-50">
+                                    {typeof cf.name === 'object' 
+                                      ? (cf.name.ar || cf.name.en) 
+                                      : cf.name}
+                                  </th>
                                   <td>{cf.value}</td>
                                 </tr>
                               ))}

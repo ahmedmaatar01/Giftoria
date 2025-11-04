@@ -13,7 +13,7 @@
     "loading_from_server": "جاري تحميل المنتجات من الخادم...",
     "no_products_title": "لم يتم العثور على منتجات",
     "no_products_message": "لا توجد منتجات متاحة حالياً في المتجر.",
-    "products_found": "منتج تم العثور عليمه",
+    "products_found": "منتج تم العثور عليه",
     "page_title": "منتجاتنا",
     "page_description": "لا تتردد في اختيار منتجاتك من مجموعتنا الواسعة من الفئات والمجموعات.",
     "sorting": {
@@ -263,7 +263,8 @@
     "estimate_shipping": "تقدير الشحن",
     "country": "الدولة",
     "zip_code": "الرمز البريدي",
-    "estimate": "تقدير"
+    "estimate": "تقدير",
+    "currency": "دولار"
   }
   ,
   "checkout": {
@@ -498,7 +499,13 @@
     "total": "المجموع",
     "shipping_address": "عنوان الشحن",
     "desired_delivery": "التسليم المرغوب",
-    "phone": "الهاتف"
+    "phone": "الهاتف",
+    "loading_order_details": "جاري تحميل تفاصيل الطلب...",
+    "order_not_found": "لم يتم العثور على الطلب.",
+    "customer": "العميل",
+    "email": "البريد الإلكتروني",
+    "placed_at": "تم الوضع في",
+    "order_hash": "الطلب #"
   },
   "account_edit": {
     "first_name": "الاسم الأول",
@@ -570,5 +577,49 @@
     "clear": "مسح التصفية",
     "available": "متوفر",
     "out_of_stock": "غير متوفر"
+  },
+  "quick_view_modal": {
+    "quantity": "الكمية",
+    "view_full_details": "عرض التفاصيل الكاملة",
+    "no_description_available": "لا يوجد وصف متاح.",
+    "select": "اختر",
+    "product": "منتج"
+  },
+  "cart_modal": {
+    "you_may_also_like": "قد يعجبك أيضاً"
+  },
+  "cart_page": {
+    "table_headers": {
+      "product": "المنتج",
+      "price": "السعر",
+      "quantity": "الكمية",
+      "total": "المجموع"
+    },
+    "remove": "إزالة",
+    "empty_message": "سلة التسوق فارغة",
+    "explore_products": "استكشف المنتجات!",
+    "shipping": {
+      "estimate_title": "تقدير الشحن",
+      "country": "البلد",
+      "zip_code": "الرمز البريدي",
+      "estimate_button": "تقدير"
+    },
+    "gift_wrap": {
+      "question": "هل تريد تغليف هدية؟",
+      "only": "فقط"
+    },
+    "totals": {
+      "subtotal": "المجموع الفرعي",
+      "currency": "دولار",
+      "taxes_shipping": "الضرائب و",
+      "shipping_link": "الشحن",
+      "calculated_checkout": "محسوبة عند الدفع"
+    },
+    "agreement": {
+      "agree_text": "أوافق على",
+      "terms_link": "الشروط والأحكام"
+    },
+    "checkout_button": "الدفع",
+    "guarantee_text": "دفع آمن مضمون"
   }
 }
