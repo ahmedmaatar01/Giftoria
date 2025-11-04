@@ -10,7 +10,7 @@ class CustomField extends Model
     use HasFactory;
 
     protected $fillable = [
-        'category_id', 'name', 'type', 'options', 'is_required', 'affects_price', 'price_type', 'price_value'
+        'category_id', 'name','name_ar', 'type', 'options', 'is_required', 'affects_price', 'price_type', 'price_value'
     ];
 
     protected $casts = [
