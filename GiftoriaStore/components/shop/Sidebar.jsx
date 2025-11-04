@@ -166,7 +166,12 @@ export default function Sidebar({ onCategorySelect }) {
                 <li key={category.id || category.name} className={`cate-item ${activeCategory === category.id ? 'current' : ''}`}
                     style={{ cursor: 'pointer' }}>
                   <a href="#" onClick={e => handleCategoryClick(e, category)}>
-                    <span>{category.name}</span>
+                  <span>
+  {i18n.language === "ar"
+    ? (category?.name_ar || category?.name)
+    : (category?.name || category?.name_ar)
+  }
+</span>
                     {typeof category.count !== 'undefined' && (
                       <span>&nbsp;({category.count})</span>
                     )}
@@ -220,8 +225,10 @@ export default function Sidebar({ onCategorySelect }) {
                         href={`/product-detail/${product.id}`}
                         className="title link"
                       >
-                        {product?.name || product?.title || 'Product'}
-                      </Link>
+ {i18n.language === "ar"
+    ? (product?.arabic_name || product?.name)
+    : (product?.name || product?.arabic_name)
+  }                      </Link>
                       {priceText && (
                         <span className="price">{priceText}</span>
                       )}

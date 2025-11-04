@@ -554,5 +554,21 @@
     "registering": "جاري التسجيل...",
     "already_have_account": "لديك حساب بالفعل؟ سجل دخولك هنا",
     "registration_failed": "فشل التسجيل"
+  },
+  "category": {
+    "fashion": "موضة",
+    "men": "رجال"
+  },
+  "filter": {
+    "title": "تصفية",
+    "categories": "تصنيفات المنتجات",
+    "availability": "التوفر",
+    "color": "اللون",
+    "brand": "العلامة التجارية",
+    "size": "المقاس",
+    "price": "السعر",
+    "clear": "مسح التصفية",
+    "available": "متوفر",
+    "out_of_stock": "غير متوفر"
   }
 }

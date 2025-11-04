@@ -557,6 +557,25 @@
     "registering": "Registering...",
     "already_have_account": "Already have an account? Log in here",
     "registration_failed": "Registration failed"
+  },
+  
+    "category": {
+      "fashion": "Fashion",
+      "men": "Men"
+    },
+    "filter": {
+      "title": "Filter",
+      "categories": "Product Categories",
+      "availability": "Availability",
+      "color": "Color",
+      "brand": "Brand",
+      "size": "Size",
+      "price": "Price",
+      "clear": "Clear Filter",
+      "available": "Available",
+      "out_of_stock": "Out of Stock"
+    }
   }
-}
+  
+
 

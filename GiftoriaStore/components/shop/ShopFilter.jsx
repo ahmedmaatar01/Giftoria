@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+
 const categories = [
   { id: 1, name: "Fashion", isActive: true, link: "/shop-default" },
   { id: 2, name: "Men", isActive: false, link: "/shop-men" },
@@ -35,6 +37,7 @@ import Slider from "rc-slider";
 import { products1 } from "@/data/products";
 import Link from "next/link";
 export default function ShopFilter({ setProducts, products = products1 }) {
+  const { i18n, t } = useTranslation();
   const [price, setPrice] = useState([10, 20]);
   const handlePrice = (value) => {
     setPrice(value);
@@ -165,7 +168,7 @@ export default function ShopFilter({ setProducts, products = products1 }) {
         <header className="canvas-header">
           <div className="filter-icon">
             <span className="icon icon-filter" />
-            <span>Filter</span>
+            <span>{t("filter.title")}</span>
           </div>
           <span
             className="icon-close icon-close-popup"
@@ -191,11 +194,22 @@ export default function ShopFilter({ setProducts, products = products1 }) {
                   <li key={category.id} className={`cate-item`}>
                     {category.link ? (
                       <Link href={category.link}>
-                        <span>{category.name}</span>
+<span>
+  {i18n.language === "ar"
+    ? (category.name_ar || category.name)
+    : (category.name || category.name_ar)
+  }
+</span>
                       </Link>
                     ) : (
                       <a href="#">
-                        <span>{category.name}</span>
+                        <span>
+  {i18n.language === "ar"
+    ? (category.name_ar || category.name)
+    : (category.name || category.name_ar)
+  }
+</span>
+
                       </a>
                     )}
                   </li>
@@ -235,7 +249,7 @@ export default function ShopFilter({ setProducts, products = products1 }) {
                         checked={selectedAvailabilities.includes(availability)}
                       />
                       <label className="label">
-                        <span>{availability.text}</span>&nbsp;
+                        <span>{t(`filter.${availability.isAvailable ? "available" : "out_of_stock"}`)}</span>&nbsp;
                         <span>
                           (
                           {
