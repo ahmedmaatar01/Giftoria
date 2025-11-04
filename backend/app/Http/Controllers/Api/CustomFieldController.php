@@ -46,8 +46,9 @@ class CustomFieldController extends Controller
         ]);
 
         if (!empty($data['options'])) {
-            $data['options'] = $this->normalizeOptions($data['options']);
+            $data['options'] = json_encode($this->normalizeOptions($data['options']));
         }
+
 
         $field = CustomField::create($data);
         return response()->json($field, 201);
