@@ -2,7 +2,10 @@
 import { useContextElement } from "@/context/Context";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
+
 export default function Cart() {
+  const { t, i18n } = useTranslation();
   const { cartProducts, setCartProducts, totalPrice } = useContextElement();
   const getItemImage = (elm) => {
     if (elm?.images && elm.images.length > 0) {
@@ -13,7 +16,17 @@ export default function Cart() {
     if (elm?.featured_image) return `http://localhost:8000${elm.featured_image}`;
     return elm?.imgSrc || "/images/no-image.png";
   };
-  const getItemName = (elm) => elm?.name || elm?.title || "Product";
+  const getItemName = (elm) => {
+    // Handle bilingual product names
+    if (i18n.language === 'ar') {
+      // Try different Arabic name fields
+      const arabicName = elm?.name_ar || elm?.title_ar || elm?.arabic_name;
+      if (arabicName) {
+        return arabicName;
+      }
+    }
+    return elm?.name || elm?.title || "Product";
+  };
   const setQuantity = (id, quantity) => {
     if (quantity >= 1) {
       const item = cartProducts.filter((elm) => elm.id == id)[0];
@@ -65,10 +78,10 @@ export default function Cart() {
               <table className="tf-table-page-cart">
                 <thead>
                   <tr>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
+                    <th>{t("cart_page.table_headers.product")}</th>
+                    <th>{t("cart_page.table_headers.price")}</th>
+                    <th>{t("cart_page.table_headers.quantity")}</th>
+                    <th>{t("cart_page.table_headers.total")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -98,11 +111,14 @@ export default function Cart() {
                               {Object.entries(elm.customFieldValues).map(([fieldId, value]) => {
                                 const fid = Number(fieldId);
                                 const label = Array.isArray(elm.custom_fields)
-                                  ? elm.custom_fields.find((f) => f.id === fid)?.name
+                                  ? elm.custom_fields.find((f) => f.id === fid)
                                   : undefined;
+                                const fieldName = label ? (
+                                  i18n.language === 'ar' && label.name_ar ? label.name_ar : label.name
+                                ) : '';
                                 return (
                                   <div key={fieldId}>
-                                    {label ? `${label}: ` : ""}{String(value)}
+                                    {fieldName ? `${fieldName}: ` : ""}{String(value)}
                                   </div>
                                 );
                               })}
@@ -112,7 +128,7 @@ export default function Cart() {
                             className="remove-cart link remove"
                             onClick={() => removeItem(elm.id)}
                           >
-                            Remove
+                            {t("cart_page.remove")}
                           </span>
                         </div>
                       </td>
@@ -192,14 +208,14 @@ export default function Cart() {
               {!cartProducts.length && (
                 <>
                   <div className="row align-items-center mb-5">
-                    <div className="col-6 fs-18">Your shop cart is empty</div>
+                    <div className="col-6 fs-18">{t("cart_page.empty_message")}</div>
                     <div className="col-6">
                       <Link
                         href={`/shop-default`}
                         className="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
                         style={{ width: "fit-content" }}
                       >
-                        Explore Products!
+                        {t("cart_page.explore_products")}
                       </Link>
                     </div>
                   </div>
@@ -244,14 +260,14 @@ export default function Cart() {
                     aria-controls="shipping"
                   >
                     <h3 className="shipping-calculator-title">
-                      Estimate Shipping
+                      {t("cart_page.shipping.estimate_title")}
                     </h3>
                     <span className="shipping-calculator_accordion-icon" />
                   </summary>
                   <div className="collapse" id="shipping">
                     <div className="accordion-shipping-content">
                       <fieldset className="field">
-                        <label className="label">Country</label>
+                        <label className="label">{t("cart_page.shipping.country")}</label>
                         <select
                           className="tf-select w-100"
                           id="ShippingCountry_CartDrawer-Form"
@@ -393,11 +409,11 @@ export default function Cart() {
                         </select>
                       </fieldset>
                       <fieldset className="field">
-                        <label className="label">Zip code</label>
+                        <label className="label">{t("cart_page.shipping.zip_code")}</label>
                         <input type="text" name="text" placeholder="" />
                       </fieldset>
                       <button className="tf-btn btn-fill animate-hover-btn radius-3 justify-content-center">
-                        <span>Estimate</span>
+                        <span>{t("cart_page.shipping.estimate_button")}</span>
                       </button>
                     </div>
                   </div>
@@ -409,20 +425,19 @@ export default function Cart() {
                     id="cart-gift-checkbox"
                   />
                   <label htmlFor="cart-gift-checkbox" className="fw-4">
-                    <span>Do you want a gift wrap?</span> Only
+                    <span>{t("cart_page.gift_wrap.question")}</span> {t("cart_page.gift_wrap.only")}
                     <span className="fw-5">$5.00</span>
                   </label>
                 </div>
                 <div className="tf-cart-totals-discounts">
-                  <h3>Subtotal</h3>
+                  <h3>{t("cart_page.totals.subtotal")}</h3>
                   <span className="total-value">
-                    ${totalPrice.toFixed(2)} USD
+                    ${totalPrice.toFixed(2)} {t("cart_page.totals.currency")}
                   </span>
                 </div>
                 <p className="tf-cart-tax">
-                  Taxes and
-                  <Link href={`/shipping-delivery`}>shipping</Link> calculated
-                  at checkout
+                  {t("cart_page.totals.taxes_shipping")}
+                  <Link href={`/shipping-delivery`}>{t("cart_page.totals.shipping_link")}</Link> {t("cart_page.totals.calculated_checkout")}
                 </p>
                 <div className="cart-checkbox">
                   <input
@@ -431,8 +446,8 @@ export default function Cart() {
                     id="check-agree"
                   />
                   <label htmlFor="check-agree" className="fw-4">
-                    I agree with the
-                    <Link href={`/terms-conditions`}>terms and conditions</Link>
+                    {t("cart_page.agreement.agree_text")}
+                    <Link href={`/terms-conditions`}>{t("cart_page.agreement.terms_link")}</Link>
                   </label>
                 </div>
                 <div className="cart-checkout-btn">
@@ -440,11 +455,11 @@ export default function Cart() {
                     href={`/checkout`}
                     className="tf-btn w-100 btn-fill animate-hover-btn radius-3 justify-content-center"
                   >
-                    <span>Check out</span>
+                    <span>{t("cart_page.checkout_button")}</span>
                   </Link>
                 </div>
                 <div className="tf-page-cart_imgtrust">
-                  <p className="text-center fw-6">Guarantee Safe Checkout</p>
+                  <p className="text-center fw-6">{t("cart_page.guarantee_text")}</p>
                   <div className="cart-list-social">
                     <div className="payment-item">
                       <svg

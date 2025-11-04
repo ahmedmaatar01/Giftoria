@@ -235,6 +235,11 @@ export default function Context({ children }) {
       }
       const item = {
         ...base,
+        // Preserve original API fields if they exist
+        name: base.name || base.title,
+        arabic_name: base.arabic_name,
+        name_ar: base.name_ar || base.arabic_name,
+        title_ar: base.title_ar || base.arabic_name,
         quantity: qty ? qty : 1,
         customFieldValues: { ...customFieldValues }, // Store custom fields in cart item
       };

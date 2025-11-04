@@ -12,24 +12,24 @@ export default function Banner() {
       <div className="container">
         <div
           className="tf-grid-layout md-col-2 tf-img-with-text style-5"
-          style={{ background: '#ffffff', borderRadius: '50px' }}
+          style={{ background: '#ffffff' }}
         >
           <div
             className="tf-content-wrap w-100 pe-xl-5 wow fadeInUp"
             data-wow-delay="0s"
           >
             <div className="heading">
-              <span className="bell-medium" style={{ fontSize: '30px', textTransform: 'uppercase' }}>
+              <span className="bell-medium bell-medium fs-2 mb-5" style={{ fontSize: '30px', textTransform: 'uppercase' }}>
                 {t("partners_heading")}
               </span>
             </div>
-            <p className="description text_black-2 montserrat-regular" style={{ fontSize: '15px' }}>
+            <p className="description text_black-2 montserrat-regular mb-5" style={{ fontSize: '17px',maxWidth: '600px',lineHeight: '2' }}>
               {t("partners_description")}
             </p>
 
             <div
-              className="partners-logos d-flex justify-content-center gap-30 mb_30"
-              style={{ marginTop: '50px' }}
+              className="partners-logos d-flex  gap-30 mb_30"
+              style={{ marginTop: '70px' }}
             >
               <div className="partner-logo">
                 <Image

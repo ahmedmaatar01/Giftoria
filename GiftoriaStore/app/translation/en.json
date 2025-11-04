@@ -266,7 +266,8 @@
     "estimate_shipping": "Estimate Shipping",
     "country": "Country",
     "zip_code": "Zip code",
-    "estimate": "Estimate"
+    "estimate": "Estimate",
+    "currency": "USD"
   }
   ,
   "checkout": {
@@ -501,7 +502,13 @@
     "total": "Total",
     "shipping_address": "Shipping Address",
     "desired_delivery": "Desired Delivery",
-    "phone": "Phone"
+    "phone": "Phone",
+    "loading_order_details": "Loading order details...",
+    "order_not_found": "Order not found.",
+    "customer": "Customer",
+    "email": "Email",
+    "placed_at": "Placed At",
+    "order_hash": "Order #"
   },
   "account_edit": {
     "first_name": "First name",
@@ -563,19 +570,61 @@
       "fashion": "Fashion",
       "men": "Men"
     },
-    "filter": {
-      "title": "Filter",
-      "categories": "Product Categories",
-      "availability": "Availability",
-      "color": "Color",
-      "brand": "Brand",
-      "size": "Size",
+  "filter": {
+    "title": "Filter",
+    "categories": "Product Categories",
+    "availability": "Availability",
+    "color": "Color",
+    "brand": "Brand",
+    "size": "Size",
+    "price": "Price",
+    "clear": "Clear Filter",
+    "available": "Available",
+    "out_of_stock": "Out of Stock"
+  },
+  "quick_view_modal": {
+    "quantity": "Quantity",
+    "view_full_details": "View full details",
+    "no_description_available": "No description available.",
+    "select": "Select",
+    "product": "Product"
+  },
+  "cart_modal": {
+    "you_may_also_like": "You may also like"
+  },
+  "cart_page": {
+    "table_headers": {
+      "product": "Product",
       "price": "Price",
-      "clear": "Clear Filter",
-      "available": "Available",
-      "out_of_stock": "Out of Stock"
-    }
+      "quantity": "Quantity",
+      "total": "Total"
+    },
+    "remove": "Remove",
+    "empty_message": "Your shop cart is empty",
+    "explore_products": "Explore Products!",
+    "shipping": {
+      "estimate_title": "Estimate Shipping",
+      "country": "Country",
+      "zip_code": "Zip code",
+      "estimate_button": "Estimate"
+    },
+    "gift_wrap": {
+      "question": "Do you want a gift wrap?",
+      "only": "Only"
+    },
+    "totals": {
+      "subtotal": "Subtotal",
+      "currency": "USD",
+      "taxes_shipping": "Taxes and",
+      "shipping_link": "shipping",
+      "calculated_checkout": "calculated at checkout"
+    },
+    "agreement": {
+      "agree_text": "I agree with the",
+      "terms_link": "terms and conditions"
+    },
+    "checkout_button": "Check out",
+    "guarantee_text": "Guarantee Safe Checkout"
   }
-  
-
+}
 
