@@ -32,6 +32,23 @@ class Product extends Model
     }
 
     /**
+     * Get the gift cards associated with this product.
+     */
+    public function giftCards()
+    {
+        return $this->belongsToMany(GiftCard::class, 'product_gift_cards')
+                    ->withTimestamps();
+    }
+
+    /**
+     * Check if this product has any gift cards.
+     */
+    public function hasGiftCards()
+    {
+        return $this->giftCards()->exists();
+    }
+
+    /**
      * Accessor: expose category custom fields directly on product as custom_fields
      */
     public function getCustomFieldsAttribute()

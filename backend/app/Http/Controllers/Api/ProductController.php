@@ -12,7 +12,7 @@ class ProductController extends Controller
     {
         // Eager load category.customFields so the Product accessor for custom_fields
         // (which surfaces category custom fields) does not trigger N+1 queries.
-        $products = Product::with(['category.customFields', 'images', 'customValues'])->get();
+        $products = Product::with(['category.customFields', 'images', 'customValues', 'giftCards'])->get();
         return response()->json($products);
     }
 
@@ -29,15 +29,29 @@ class ProductController extends Controller
             'featured_image' => 'nullable|string',
             'featured' => 'boolean',
             'lead_time' => 'nullable|string',
+            'gift_card_ids' => 'nullable|array',
+            'gift_card_ids.*' => 'exists:gift_cards,id',
         ]);
-        $product = Product::create($data);
+
+        // Create product
+        $productData = collect($data)->except('gift_card_ids')->toArray();
+        $product = Product::create($productData);
+
+        // Attach gift cards if provided
+        if (isset($data['gift_card_ids'])) {
+            $product->giftCards()->sync($data['gift_card_ids']);
+        }
+
+        // Load relationships for response
+        $product->load(['category.customFields', 'images', 'customValues', 'giftCards']);
+        
         return response()->json($product, 201);
     }
 
     public function show($id)
     {
         // Include category.customFields for the appended custom_fields attribute
-        $product = Product::with(['category.customFields', 'images', 'customValues'])->findOrFail($id);
+        $product = Product::with(['category.customFields', 'images', 'customValues', 'giftCards'])->findOrFail($id);
         return response()->json($product);
     }
 
@@ -55,8 +69,22 @@ class ProductController extends Controller
             'featured_image' => 'nullable|string',
             'featured' => 'boolean',
             'lead_time' => 'nullable|string',
+            'gift_card_ids' => 'nullable|array',
+            'gift_card_ids.*' => 'exists:gift_cards,id',
         ]);
-        $product->update($data);
+
+        // Update product data
+        $productData = collect($data)->except('gift_card_ids')->toArray();
+        $product->update($productData);
+
+        // Update gift cards if provided
+        if (array_key_exists('gift_card_ids', $data)) {
+            $product->giftCards()->sync($data['gift_card_ids'] ?? []);
+        }
+
+        // Load relationships for response
+        $product->load(['category.customFields', 'images', 'customValues', 'giftCards']);
+        
         return response()->json($product);
     }
 
@@ -69,7 +97,7 @@ class ProductController extends Controller
     public function featured()
     {
         $featuredProducts = Product::where('featured', 1)
-            ->with(['category.customFields', 'images', 'customValues'])
+            ->with(['category.customFields', 'images', 'customValues', 'giftCards'])
             ->get();
 
         return response()->json($featuredProducts);

@@ -8,10 +8,16 @@ const API_URL = 'http://localhost:8000/api';
 
 const ProductModal = ({ show, onHide, onSubmit, form, setForm, isEdit }) => {
   const [categories, setCategories] = useState([]);
+  const [giftCards, setGiftCards] = useState([]);
 
   useEffect(() => {
     if (show) {
       axios.get(`${API_URL}/categories`).then(res => setCategories(res.data));
+      axios.get(`${API_URL}/gift-cards`).then(res => {
+        if (res.data.success) {
+          setGiftCards(res.data.data.filter(gc => gc.is_active));
+        }
+      }).catch(err => console.log('Error fetching gift cards:', err));
     }
   }, [show]);
 
@@ -135,6 +141,34 @@ const ProductModal = ({ show, onHide, onSubmit, form, setForm, isEdit }) => {
             value={form.lead_time}
             onChange={(e) => setForm({ ...form, lead_time: e.target.value })}
           />
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Gift Cards</Form.Label>
+          {giftCards.length > 0 ? (
+            <div>
+              {giftCards.map(giftCard => (
+                <Form.Check
+                  key={giftCard.id}
+                  type="checkbox"
+                  id={`giftCard-${giftCard.id}`}
+                  label={giftCard.title}
+                  checked={form.gift_card_ids ? form.gift_card_ids.includes(giftCard.id) : false}
+                  onChange={(e) => {
+                    const currentGiftCards = form.gift_card_ids || [];
+                    if (e.target.checked) {
+                      setForm({ ...form, gift_card_ids: [...currentGiftCards, giftCard.id] });
+                    } else {
+                      setForm({ ...form, gift_card_ids: currentGiftCards.filter(id => id !== giftCard.id) });
+                    }
+                  }}
+                  className="mb-2"
+                />
+              ))}
+            </div>
+          ) : (
+            <p className="text-muted small">No active gift cards available. Create gift cards first to attach them to products.</p>
+          )}
         </Form.Group>
 
           <Form.Group className="mb-3">
