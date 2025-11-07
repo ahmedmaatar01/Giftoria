@@ -187,7 +187,34 @@ header#header {
   font-weight: 400 !important;
   text-transform: uppercase;
 }
+/* Hide Next.js development error notifications and popups */
+#nextjs-toast-errors-parent {
+display: none !important;
+}
 
+/* Hide Next.js portal error notifications (the small popup on left) */
+nextjs-portal,
+nextjs-portal * {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Hide Next.js error overlay and dialog */
+#__next-error-overlay,
+.__next-error-overlay,
+[data-nextjs-dialog],
+[data-nextjs-dialog-overlay] {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Hide React error boundary visual notifications */
+[data-react-error-overlay],
+[data-react-error-boundary] {
+  display: none !important;
+}
 @media (max-width: 576px) {
   .box3 {
     grid-template-columns: 1fr;
