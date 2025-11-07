@@ -8,8 +8,10 @@ import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Quantity from "../shopDetails/Quantity";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function QuickView() {
+  const { t, i18n } = useTranslation();
   const {
     quickViewItem,
     addProductToCart,
@@ -19,8 +21,8 @@ export default function QuickView() {
   } = useContextElement();
   const qv = quickViewItem;
   const qvId = qv?.id;
-  // Prefer name, then title, fallback to "Product"
-  const qvTitle = qv?.name || qv?.title || "Product";
+  // Prefer name, then title, fallback to translated "Product"
+  const qvTitle = qv?.name || qv?.title || t("quick_view_modal.product");
   // Normalize price to number if possible
   const qvPrice = (() => {
     const n = parseFloat(qv?.price);
@@ -144,7 +146,7 @@ export default function QuickView() {
                       return words.slice(0, maxWords).join(' ') + '...';
                     };
                     const desc = qv?.description ? stripHtml(qv.description) : '';
-                    return desc ? limitWords(desc, 20) : 'No description available.';
+                    return desc ? limitWords(desc, 20) : t("quick_view_modal.no_description_available");
                   })()}</p>
                 </div>
                 {/* Render custom fields as input fields if present */}
@@ -168,10 +170,18 @@ export default function QuickView() {
                             onChange={e => handleCustomFieldChange(field.id, e.target.value)}
                             required={field.is_required}
                           >
-                            <option value="">Select {field.name}</option>
-                            {opts.map(opt => (
-                              <option key={opt} value={opt}>{opt}</option>
-                            ))}
+                            <option value="">
+                              {t("quick_view_modal.select")} {i18n.language === "ar" && field.name_ar ? field.name_ar : field.name}
+                            </option>
+                            {opts.map((opt, idx) => {
+                              const optionValue = i18n.language === "ar" && opt.ar ? opt.ar : opt.en;
+                              const optionText = i18n.language === "ar" && opt.ar ? opt.ar : opt.en;
+                              return (
+                                <option key={idx} value={optionValue}>
+                                  {optionText}
+                                </option>
+                              );
+                            })}
                           </select>
                         );
                       } else if (field.type === 'text') {
@@ -202,7 +212,7 @@ export default function QuickView() {
                       return (
                         <div key={field.id} className="mb-2">
                           <label className="fw-6 mb-1" htmlFor={`custom-field-${field.id}`}>
-                            {field.name}{field.is_required ? ' *' : ''}:
+                            {i18n.language === "ar" && field.name_ar ? field.name_ar : field.name}{field.is_required ? ' *' : ''}:
                           </label>
                           {inputEl}
                         </div>
@@ -211,7 +221,7 @@ export default function QuickView() {
                   </div>
                 )}
                 <div className="tf-product-info-quantity mb_15">
-                  <div className="quantity-title fw-6">Quantity</div>
+                  <div className="quantity-title fw-6">{t("quick_view_modal.quantity")}</div>
                   <Quantity setQuantity={setQuantity} />
                 </div>
                 <div className="tf-product-info-buy-button">
@@ -228,8 +238,8 @@ export default function QuickView() {
                     >
                       <span>
                         {qvId && isAddedToCartProducts(qvId)
-                          ? "Already Added - "
-                          : "Add to cart - "}
+                          ? t("product_detail.already_added") + " - "
+                          : t("product_detail.add_to_cart") + " - "}
                       </span>
                       <span className="tf-qty-price">
                         {qvPrice !== null ? `$${(qvPrice * quantity).toFixed(2)}` : ""}
@@ -246,8 +256,8 @@ export default function QuickView() {
                       />
                       <span className="tooltip">
                         {qvId && isAddedtoWishlist(qvId)
-                          ? "Already Wishlisted"
-                          : "Add to Wishlist"}
+                          ? t("product_detail.already_wishlisted")
+                          : t("product_detail.add_to_wishlist")}
                       </span>
                       <span className="icon icon-delete" />
                     </a>
@@ -260,7 +270,7 @@ export default function QuickView() {
                     aria-disabled={!qvId}
                     className="tf-btn fw-6 btn-line"
                   >
-                    View full details
+                    {t("quick_view_modal.view_full_details")}
                     <i className="icon icon-arrow1-top-left" />
                   </Link>
                 </div>

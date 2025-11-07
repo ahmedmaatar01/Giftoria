@@ -32,6 +32,7 @@ import NewsletterModal from "@/components/modals/NewsletterModal";
 import ShareModal from "@/components/modals/ShareModal";
 import ScrollTop from "@/components/common/ScrollTop";
 import RtlToggle from "@/components/common/RtlToggle";
+import ErrorBoundary from "@/components/common/ErrorBoundary";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
@@ -174,27 +175,31 @@ export default function RootLayout({ children }) {
           </div>
         </div>{" "}
         <Context>
-          <div id="wrapper">{children}</div>
+          <ErrorBoundary componentName="Main App">
+            <div id="wrapper">{children}</div>
+          </ErrorBoundary>
           <RtlToggle />
-          <HomesModal /> <QuickView />
-          <QuickAdd />
-          <ProductSidebar />
-          <Compare />
-          <ShopCart />
-          <AskQuestion />
-          <BlogSidebar />
-          <ColorCompare />
-          <DeliveryReturn />
-          <FindSize />
-          <Login />
-          <MobileMenu />
-          <Register />
-          <ResetPass />
-          <SearchModal />
-          <ToolbarBottom />
-          <ToolbarShop />
-          <NewsletterModal />
-          <ShareModal />{" "}
+          <ErrorBoundary componentName="Modals">
+            <HomesModal /> <QuickView />
+            <QuickAdd />
+            <ProductSidebar />
+            <Compare />
+            <ShopCart />
+            <AskQuestion />
+            <BlogSidebar />
+            <ColorCompare />
+            <DeliveryReturn />
+            <FindSize />
+            <Login />
+            <MobileMenu />
+            <Register />
+            <ResetPass />
+            <SearchModal />
+            <ToolbarBottom />
+            <ToolbarShop />
+            <NewsletterModal />
+            <ShareModal />{" "}
+          </ErrorBoundary>
         </Context>
         <ScrollTop />
       </body>

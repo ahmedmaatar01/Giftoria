@@ -115,14 +115,17 @@
   font-style: normal;
 }
 .widget-wrap-checkout{
-  background-color: #f8f4f0 !important;
+  background-color: #efeae3 !important;
 }
 /* be IN Normal font will be used from system fonts or web fonts if available */
 .header-style-10 .filter-option-inner-inner,
 .header-style-10 .dropdown.bootstrap-select.image-select.style-default>button::after {
   color: #000000;
 }
+.modalDemo .modal-dialog {
 
+    height: calc(100vh + 50px) !important;
+}
 .header-shadow .filter-option-inner-inner,
 .header-shadow .dropdown.bootstrap-select.image-select.style-default>button::after {
   color: #000000;
@@ -171,7 +174,7 @@ header#header {
 
 .tf-page-title {
   padding: 34px 0px;
-  background: #f8f4f0 !important;
+  background: #efeae3 !important;
 }
 
 .tf-page-title .heading.text-center {
@@ -184,7 +187,34 @@ header#header {
   font-weight: 400 !important;
   text-transform: uppercase;
 }
+/* Hide Next.js development error notifications and popups */
+#nextjs-toast-errors-parent {
+display: none !important;
+}
 
+/* Hide Next.js portal error notifications (the small popup on left) */
+nextjs-portal,
+nextjs-portal * {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Hide Next.js error overlay and dialog */
+#__next-error-overlay,
+.__next-error-overlay,
+[data-nextjs-dialog],
+[data-nextjs-dialog-overlay] {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Hide React error boundary visual notifications */
+[data-react-error-overlay],
+[data-react-error-boundary] {
+  display: none !important;
+}
 @media (max-width: 576px) {
   .box3 {
     grid-template-columns: 1fr;

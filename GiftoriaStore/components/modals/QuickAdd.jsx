@@ -4,9 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import Quantity from "../shopDetails/Quantity";
 import { useContextElement } from "@/context/Context";
+import { useTranslation } from "react-i18next";
 
 import { allProducts } from "@/data/products";
 export default function QuickAdd() {
+  const { t, i18n } = useTranslation();
   const {
     quickAddItem,
     addProductToCart,
@@ -65,8 +67,8 @@ export default function QuickAdd() {
 
   // Get product name
   const getProductName = () => {
-    if (!item) return "Product";
-    return item.name || item.title || "Product";
+    if (!item) return t("quick_view_modal.product");
+    return item.name || item.title || t("quick_view_modal.product");
   };
 
   return (
@@ -120,10 +122,18 @@ export default function QuickAdd() {
                         onChange={e => handleCustomFieldChange(field.id, e.target.value)}
                         required={field.is_required}
                       >
-                        <option value="">Select {field.name}</option>
-                        {opts.map(opt => (
-                          <option key={opt} value={opt}>{opt}</option>
-                        ))}
+                        <option value="">
+                          {t("quick_view_modal.select")} {i18n.language === "ar" && field.name_ar ? field.name_ar : field.name}
+                        </option>
+                        {opts.map((opt, idx) => {
+                          const optionValue = i18n.language === "ar" && opt.ar ? opt.ar : opt.en;
+                          const optionText = i18n.language === "ar" && opt.ar ? opt.ar : opt.en;
+                          return (
+                            <option key={idx} value={optionValue}>
+                              {optionText}
+                            </option>
+                          );
+                        })}
                       </select>
                     );
                   } else if (field.type === 'text') {
@@ -154,7 +164,7 @@ export default function QuickAdd() {
                   return (
                     <div key={field.id} className="mb-2">
                       <label className="fw-6 mb-1" htmlFor={`custom-field-${field.id}`}>
-                        {field.name}{field.is_required ? ' *' : ''}:
+                        {i18n.language === "ar" && field.name_ar ? field.name_ar : field.name}{field.is_required ? ' *' : ''}:
                       </label>
                       {inputEl}
                     </div>
@@ -176,8 +186,8 @@ export default function QuickAdd() {
                 >
                   <span>
                     {isAddedToCartProducts(item.id)
-                      ? "Already Added - "
-                      : "Add to cart - "}
+                      ? t("product_detail.already_added") + " - "
+                      : t("product_detail.add_to_cart") + " - "}
                   </span>
                   <span className="tf-qty-price">${(parseFloat(item.price || 0)* quantity).toFixed(2)} </span>
                 </a>

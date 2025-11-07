@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 
 
 export default function ShopCart() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { cartProducts, totalPrice, setCartProducts, setQuickViewItem } =
     useContextElement();
   // Resolve product image from API or static data
@@ -23,7 +23,17 @@ export default function ShopCart() {
     if (elm?.featured_image) return `http://localhost:8000${elm.featured_image}`;
     return elm?.imgSrc || "/images/no-image.png";
   };
-  const getItemName = (elm) => elm?.name || elm?.title || "Product";
+  const getItemName = (elm) => {
+    // Handle bilingual product names
+    if (i18n.language === 'ar') {
+      // Try different Arabic name fields
+      const arabicName = elm?.name_ar || elm?.title_ar || elm?.arabic_name;
+      if (arabicName) {
+        return arabicName;
+      }
+    }
+    return elm?.name || elm?.title || t("quick_view_modal.product");
+  };
   const setQuantity = (id, quantity) => {
     if (quantity >= 1) {
       const item = cartProducts.filter((elm) => elm.id == id)[0];
@@ -87,11 +97,14 @@ export default function ShopCart() {
                               {Object.entries(elm.customFieldValues).map(([fieldId, value]) => {
                                 const fid = Number(fieldId);
                                 const label = Array.isArray(elm.custom_fields)
-                                  ? elm.custom_fields.find((f) => f.id === fid)?.name
+                                  ? elm.custom_fields.find((f) => f.id === fid)
                                   : undefined;
+                                const fieldName = label ? (
+                                  i18n.language === 'ar' && label.name_ar ? label.name_ar : label.name
+                                ) : '';
                                 return (
                                   <div key={fieldId}>
-                                    {label ? `${label}: ` : ""}{String(value)}
+                                    {fieldName ? `${fieldName}: ` : ""}{String(value)}
                                   </div>
                                 );
                               })}
@@ -286,7 +299,7 @@ export default function ShopCart() {
                   <div className="tf-cart-totals-discounts">
                     <div className="tf-cart-total  text-uppercase">{t("cart.subtotal")}</div>
                     <div className="tf-totals-total-value fw-6">
-                      ${totalPrice.toFixed(2)} USD
+                      ${totalPrice.toFixed(2)} {t("cart.currency")}
                     </div>
                   </div>
                   <div className="tf-cart-tax">

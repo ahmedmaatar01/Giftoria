@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 export default function Checkout() {
   const { cartProducts, setCartProducts, totalPrice, user, authToken } = useContextElement();
   const router = useRouter();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [successMsg, setSuccessMsg] = useState(null);
@@ -68,7 +68,17 @@ export default function Checkout() {
     if (elm?.featured_image) return `http://localhost:8000${elm.featured_image}`;
     return elm?.imgSrc || "/images/no-image.png";
   };
-  const getItemName = (elm) => elm?.name || elm?.title || "Product";
+  const getItemName = (elm) => {
+    // Handle bilingual product names
+    if (i18n.language === 'ar') {
+      // Try different Arabic name fields
+      const arabicName = elm?.name_ar || elm?.title_ar || elm?.arabic_name;
+      if (arabicName) {
+        return arabicName;
+      }
+    }
+    return elm?.name || elm?.title || t("quick_view_modal.product");
+  };
 
   // Helper function to get authentication headers
   const getAuthHeaders = () => {
@@ -384,11 +394,14 @@ export default function Checkout() {
                               {Object.entries(elm.customFieldValues).map(([fieldId, value]) => {
                                 const fid = Number(fieldId);
                                 const label = Array.isArray(elm.custom_fields)
-                                  ? elm.custom_fields.find((f) => f.id === fid)?.name
+                                  ? elm.custom_fields.find((f) => f.id === fid)
                                   : undefined;
+                                const fieldName = label ? (
+                                  i18n.language === 'ar' && label.name_ar ? label.name_ar : label.name
+                                ) : '';
                                 return (
                                   <div key={fieldId}>
-                                    {label ? `${label}: ` : ""}{String(value)}
+                                    {fieldName ? `${fieldName}: ` : ""}{String(value)}
                                   </div>
                                 );
                               })}
