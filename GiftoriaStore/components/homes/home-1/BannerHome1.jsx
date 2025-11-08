@@ -31,8 +31,13 @@ export default function BannerHome1({
             </p>
             <div className="wow fadeInUp" data-wow-delay="0s">
               <Link href={buttonLink}>
-                <div className="ecomus-button-link ecomus-button em-button em-button-subtle">
-                  <span className="raleway-regular text-uppercase   c-butn"style={{textDecoration:"underline"}}  >{buttonLabel ? buttonLabel : t("banner3_button")}  </span>
+                <div className="ecomus-button-link ecomus-button em-button em-button-subtle" style={{
+                  border: '2px solid #000',
+                  borderRadius: '8px',
+                  padding: '12px 24px',
+                  display: 'inline-block'
+                }}>
+                  <span className="raleway-regular text-uppercase   c-butn"style={{textDecoration:"none"}}  >{buttonLabel ? buttonLabel : t("banner3_button")}  </span>
                 </div>
               </Link>
               {/* <a href="#" className="ecomus-button-link ecomus-button em-button em-button-subtle"> <span className="ecomus-button-text">Button Underline</span> </a>  */}

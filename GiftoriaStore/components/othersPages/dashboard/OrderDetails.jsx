@@ -124,13 +124,13 @@ export default function OrderDetails() {
   };
 
   if (loading) {
-    return <div className="py-5 text-center">{t("order_details.loading_order_details")}</div>;
+    return <div className="py-5 text-center">Loading order details...</div>;
   }
   if (error) {
     return <div className="alert alert-danger">{error}</div>;
   }
   if (!order) {
-    return <div className="alert alert-warning">{t("order_details.order_not_found")}</div>;
+    return <div className="alert alert-warning">Order not found.</div>;
   }
 
   // Helper: format date
@@ -196,7 +196,7 @@ export default function OrderDetails() {
 
   // Helper: format status name
   const formatStatusName = (status) => {
-    if (!status) return t("order_details.not_available");
+    if (!status) return "Unknown";
     return status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
   };
 
@@ -219,24 +219,24 @@ export default function OrderDetails() {
           >
             {order.status || "Pending"}
           </div>
-          <h6 className="mt-8 fw-5">{t("order_details.order_hash")}{order.id}</h6>
+          <h6 className="mt-8 fw-5">Order #{order.id}</h6>
         </div>
       </div>
       <div className="tf-grid-layout md-col-2 gap-15">
         <div className="item">
-          <div className="text-2 text_black-2">{t("order_details.customer")}</div>
+          <div className="text-2 text_black-2">Customer</div>
           <div className="text-2 mt_4 fw-6">{order.customer_first_name} {order.customer_last_name}</div>
         </div>
         <div className="item">
-          <div className="text-2 text_black-2">{t("order_details.email")}</div>
+          <div className="text-2 text_black-2">Email</div>
           <div className="text-2 mt_4 fw-6">{order.customer_email}</div>
         </div>
         <div className="item">
-          <div className="text-2 text_black-2">{t("order_details.placed_at")}</div>
+          <div className="text-2 text_black-2">Placed At</div>
           <div className="text-2 mt_4 fw-6">{formatDate(order.placed_at || order.created_at)}</div>
         </div>
         <div className="item">
-          <div className="text-2 text_black-2">{t("order_details.shipping_address")}</div>
+          <div className="text-2 text_black-2">Shipping Address</div>
           <div className="text-2 mt_4 fw-6">{order.shipping_address}</div>
         </div>
       </div>
@@ -307,11 +307,7 @@ export default function OrderDetails() {
                           <span className="fw-6">{t("order_details.custom_fields")}:</span>
                           <ul>
                             {JSON.parse(product.pivot.custom_fields).map((cf, idx) => (
-                              <li key={idx}>
-                                {typeof cf.name === 'object' 
-                                  ? (i18n.language === 'ar' && cf.name.ar ? cf.name.ar : cf.name.en) 
-                                  : cf.name}: {cf.value}
-                              </li>
+                              <li key={idx}>{cf.name}: {cf.value}</li>
                             ))}
                           </ul>
                         </div>
@@ -375,7 +371,34 @@ export default function OrderDetails() {
                     <div key={note.id} className="note-item mb-3 p-3 border rounded">
                       <div className="d-flex justify-content-between align-items-start mb-2">
                         <div>
-                          <span className={`badge ${note.note_type === 'customer' ? 'bg-primary' : 'bg-warning'}`}>
+                          <span className="badge"
+                                style={{
+                                  ...(note.note_type === 'customer' ? {
+                                    backgroundColor: '#F1ECE4',
+                                    color: '#000000',
+                                    border: '1px solid #F1ECE4',
+                                    padding: '0.375rem 0.75rem',
+                                    fontSize: '0.75rem',
+                                    fontWeight: '700',
+                                    lineHeight: '1',
+                                    textAlign: 'center',
+                                    whiteSpace: 'nowrap',
+                                    verticalAlign: 'baseline',
+                                    borderRadius: '0.375rem'
+                                  } : {
+                                    backgroundColor: '#492e11',
+                                    color: '#ffffff',
+                                    border: '1px solid #492e11',
+                                    padding: '0.375rem 0.75rem',
+                                    fontSize: '0.75rem',
+                                    fontWeight: '700',
+                                    lineHeight: '1',
+                                    textAlign: 'center',
+                                    whiteSpace: 'nowrap',
+                                    verticalAlign: 'baseline',
+                                    borderRadius: '0.375rem'
+                                  })
+                                }}>
                             {note.note_type === 'customer' ? t("order_details.you") : t("order_details.admin")}
                           </span>
                         </div>

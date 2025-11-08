@@ -55,10 +55,6 @@ export default function Footer1({ bgColor = "" }) {
                       </p>
                     </li>
                   </ul>
-                  <Link href={`/contact-1`} className={`tf-btn btn-line montserrat-regular`} style={{ fontSize: '12px' }}>
-                    {t("footer_get_direction")}
-                    <i className="icon icon-arrow1-top-left" />
-                  </Link>
                   {/* Social icons */}
                   <ul className="tf-social-icon d-flex gap-10">
                     {/* (social icons unchanged) */}

@@ -56,24 +56,38 @@ export default function Register() {
     }
   };
   return (
-    <div
-      className="modal modalCentered fade form-sign-in modal-part-content"
-      id="register"
-    >
-      <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content" style={{direction: i18n.language === 'ar' ? 'rtl' : 'ltr'}}>
-          <div className="header">
-            <div className="demo-title">{t("register_modal.title")}</div>
-            <span
-              className="icon-close icon-close-popup"
-              data-bs-dismiss="modal"
-              onClick={() => {
-                setError(null);
-                setPassword("");
-              }}
-            />
-          </div>
-          <div className="tf-login-form">
+    <>
+      <style jsx>{`
+        .tf-field-input {
+          background-color: #F1ECE4 !important;
+        }
+        .tf-field-input:-webkit-autofill,
+        .tf-field-input:-webkit-autofill:hover,
+        .tf-field-input:-webkit-autofill:focus,
+        .tf-field-input:-webkit-autofill:active {
+          -webkit-box-shadow: 0 0 0 30px #F1ECE4 inset !important;
+          -webkit-text-fill-color: #000000 !important;
+          background-color: #F1ECE4 !important;
+        }
+      `}</style>
+      <div
+        className="modal modalCentered fade form-sign-in modal-part-content"
+        id="register"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content" style={{direction: i18n.language === 'ar' ? 'rtl' : 'ltr'}}>
+            <div className="header">
+              <div className="demo-title">{t("register_modal.title")}</div>
+              <span
+                className="icon-close icon-close-popup"
+                data-bs-dismiss="modal"
+                onClick={() => {
+                  setError(null);
+                  setPassword("");
+                }}
+              />
+            </div>
+            <div className="tf-login-form">
             <form onSubmit={handleSubmit} className="">
               <div className="tf-field style-1">
                 <input
@@ -84,6 +98,10 @@ export default function Register() {
                   name="firstName"
                   value={firstName}
                   onChange={e => setFirstName(e.target.value)}
+                  style={{ 
+                    backgroundColor: '#F1ECE4 !important',
+                    WebkitBoxShadow: '0 0 0 30px #F1ECE4 inset !important'
+                  }}
                 />
                 <label className="tf-field-label" htmlFor="firstName">
                   {t("register_modal.first_name")}
@@ -98,6 +116,10 @@ export default function Register() {
                   name="lastName"
                   value={lastName}
                   onChange={e => setLastName(e.target.value)}
+                  style={{ 
+                    backgroundColor: '#F1ECE4 !important',
+                    WebkitBoxShadow: '0 0 0 30px #F1ECE4 inset !important'
+                  }}
                 />
                 <label className="tf-field-label" htmlFor="lastName">
                   {t("register_modal.last_name")}
@@ -113,6 +135,10 @@ export default function Register() {
                   name="email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
+                  style={{ 
+                    backgroundColor: '#F1ECE4 !important',
+                    WebkitBoxShadow: '0 0 0 30px #F1ECE4 inset !important'
+                  }}
                 />
                 <label className="tf-field-label" htmlFor="email">
                   {t("register_modal.email")} *
@@ -128,6 +154,10 @@ export default function Register() {
                   autoComplete="new-password"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
+                  style={{ 
+                    backgroundColor: '#F1ECE4 !important',
+                    WebkitBoxShadow: '0 0 0 30px #F1ECE4 inset !important'
+                  }}
                 />
                 <label className="tf-field-label" htmlFor="password">
                   {t("register_modal.password")} *
@@ -161,5 +191,6 @@ export default function Register() {
         </div>
       </div>
     </div>
+    </>
   );
 }
