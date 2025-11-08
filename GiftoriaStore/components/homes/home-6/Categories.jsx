@@ -59,7 +59,7 @@ export default function Categories() {
         >
           <h3 className="bell-medium heading-30">{t("categoriesAlt.sectionTitle")}</h3>
           <Link href={`/shop-left-sidebar`} className="tf-btn">
-            <span className="viewAllCategs" style={{ fontSize: "18px", fontWeight: "500" }}>
+            <span className="viewAllCategs" style={{ fontSize: "18px", fontWeight: "500", textTransform: "uppercase" }}>
               {t("categoriesAlt.viewAllCategories")}
               <i className="icon icon-arrow1-top-left" style={{ 
                 fontSize: "12px", 

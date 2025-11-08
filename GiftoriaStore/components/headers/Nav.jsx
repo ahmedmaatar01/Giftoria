@@ -210,11 +210,11 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
         </Link>
       </li>
 
-      <li className="menu-item">
+      {/* <li className="menu-item">
         <Link href="/faq-1" className={`item-link raleway-regular ${Linkfs} ${textColor}`}>
           {t("menu.faq")}
         </Link>
-      </li>
+      </li> */}
 
     </>
   );
