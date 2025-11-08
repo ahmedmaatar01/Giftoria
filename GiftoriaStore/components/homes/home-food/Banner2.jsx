@@ -35,9 +35,14 @@ export default function Banner2({
               <span className="raleway-regular c-paragraph">{t("banner2_description")}</span>
             </p>
             <Link href={buttonLink} >
-            <div className="ecomus-button-link ecomus-button em-button em-button-subtle" >
+            <div className="ecomus-button-link ecomus-button em-button em-button-subtle" style={{
+              border: '2px solid #000',
+              borderRadius: '8px',
+              padding: '12px 24px',
+              display: 'inline-block'
+            }}>
              
-                <span className="raleway-regular text-uppercase c-butn" style={{textDecoration:"underline"}}>{t("banner2_button")} </span>
+                <span className="raleway-regular text-uppercase c-butn" style={{textDecoration:"none"}}>{t("banner2_button")} </span>
               
               
             </div>

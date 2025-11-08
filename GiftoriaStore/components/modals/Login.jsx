@@ -56,24 +56,38 @@ export default function Login() {
     }
   };
   return (
-    <div
-      className="modal modalCentered fade form-sign-in modal-part-content"
-      id="login"
-    >
-      <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content" style={{direction: i18n.language === 'ar' ? 'rtl' : 'ltr'}}>
-          <div className="header">
-            <div className="demo-title">{t("login_modal.title")}</div>
-            <span
-              className="icon-close icon-close-popup"
-              data-bs-dismiss="modal"
-              onClick={() => {
-                setError(null);
-                setPassword("");
-              }}
-            />
-          </div>
-          <div className="tf-login-form">
+    <>
+      <style jsx>{`
+        .tf-field-input {
+          background-color: #F1ECE4 !important;
+        }
+        .tf-field-input:-webkit-autofill,
+        .tf-field-input:-webkit-autofill:hover,
+        .tf-field-input:-webkit-autofill:focus,
+        .tf-field-input:-webkit-autofill:active {
+          -webkit-box-shadow: 0 0 0 30px #F1ECE4 inset !important;
+          -webkit-text-fill-color: #000000 !important;
+          background-color: #F1ECE4 !important;
+        }
+      `}</style>
+      <div
+        className="modal modalCentered fade form-sign-in modal-part-content"
+        id="login"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content" style={{direction: i18n.language === 'ar' ? 'rtl' : 'ltr'}}>
+            <div className="header">
+              <div className="demo-title">{t("login_modal.title")}</div>
+              <span
+                className="icon-close icon-close-popup"
+                data-bs-dismiss="modal"
+                onClick={() => {
+                  setError(null);
+                  setPassword("");
+                }}
+              />
+            </div>
+            <div className="tf-login-form">
             <form onSubmit={handleSubmit} className="" acceptCharset="utf-8">
               <div className="tf-field style-1">
                 <input
@@ -85,6 +99,10 @@ export default function Login() {
                   autoComplete="email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
+                  style={{ 
+                    backgroundColor: '#F1ECE4 !important',
+                    WebkitBoxShadow: '0 0 0 30px #F1ECE4 inset !important'
+                  }}
                 />
                 <label className="tf-field-label" htmlFor="email">
                   {t("login_modal.email")} *
@@ -100,6 +118,10 @@ export default function Login() {
                   autoComplete="current-password"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
+                  style={{ 
+                    backgroundColor: '#F1ECE4 !important',
+                    WebkitBoxShadow: '0 0 0 30px #F1ECE4 inset !important'
+                  }}
                 />
                 <label className="tf-field-label" htmlFor="password">
                   {t("login_modal.password")} *
@@ -142,5 +164,6 @@ export default function Login() {
         </div>
       </div>
     </div>
+    </>
   );
 }
