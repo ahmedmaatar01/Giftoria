@@ -14,6 +14,8 @@ use App\Http\Controllers\Api\ProductImageController;
 use App\Http\Controllers\Api\CustomFieldController;
 use App\Http\Controllers\Api\ProductCustomValueController;
 use App\Http\Controllers\Api\OccasionController;
+use App\Http\Controllers\GiftCardController;
+use App\Http\Controllers\ProductGiftCardSelectionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +60,7 @@ Route::apiResource('custom-fields', CustomFieldController::class);
 Route::apiResource('product-custom-values', ProductCustomValueController::class);
 Route::apiResource('commands', CommandController::class)->middleware('auth:sanctum');
 Route::apiResource('occasions', OccasionController::class);
+Route::apiResource('gift-cards', GiftCardController::class);
 
 // Route for uploading images to a product
 Route::post('products/{product}/images', [ProductImageController::class, 'storeMultiple']);
@@ -79,4 +82,11 @@ Route::post('/commands/{commandId}/notes', [CommandController::class, 'addNote']
 Route::get('/commands/{commandId}/status-history', [CommandController::class, 'getStatusHistory'])->middleware('auth:sanctum');
 Route::put('/commands/{commandId}/status', [CommandController::class, 'updateStatus'])->middleware('auth:sanctum');
 Route::get('/commands/{commandId}/details', [CommandController::class, 'getCommandDetails'])->middleware('auth:sanctum');
+
+// Gift card selection routes (for end users)
+Route::get('/gift-cards/available', [ProductGiftCardSelectionController::class, 'getAvailableGiftCards']);
+Route::post('/products/gift-card-selections', [ProductGiftCardSelectionController::class, 'createSelection']);
+Route::get('/products/{product}/gift-card-selections', [ProductGiftCardSelectionController::class, 'getProductSelections']);
+Route::put('/gift-card-selections/{selection}', [ProductGiftCardSelectionController::class, 'updateSelection']);
+Route::delete('/gift-card-selections/{selection}', [ProductGiftCardSelectionController::class, 'deleteSelection']);
 

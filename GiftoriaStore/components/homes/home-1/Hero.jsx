@@ -10,7 +10,7 @@ export default function Hero() {
     <section className="tf-slideshow slider-video position-relative">
       <div className="banner-wrapper">
         <video
-          src="/images/slider/slider-video-2.mp4"
+          src="/images/slider/exp1.mp4"
           autoPlay
           muted
           playsInline

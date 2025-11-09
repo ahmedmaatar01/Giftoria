@@ -29,8 +29,15 @@ class ProductController extends Controller
             'featured_image' => 'nullable|string',
             'featured' => 'boolean',
             'lead_time' => 'nullable|string',
+            'has_gift_card' => 'boolean',
         ]);
+
+        // Create product
         $product = Product::create($data);
+
+        // Load relationships for response
+        $product->load(['category.customFields', 'images', 'customValues']);
+        
         return response()->json($product, 201);
     }
 
@@ -55,8 +62,15 @@ class ProductController extends Controller
             'featured_image' => 'nullable|string',
             'featured' => 'boolean',
             'lead_time' => 'nullable|string',
+            'has_gift_card' => 'boolean',
         ]);
+
+        // Update product data
         $product->update($data);
+
+        // Load relationships for response
+        $product->load(['category.customFields', 'images', 'customValues']);
+        
         return response()->json($product);
     }
 

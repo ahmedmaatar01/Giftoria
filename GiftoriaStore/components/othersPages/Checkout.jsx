@@ -14,6 +14,18 @@ export default function Checkout() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [successMsg, setSuccessMsg] = useState(null);
+  
+  // Gift card state
+  const [giftCardTemplates, setGiftCardTemplates] = useState([]);
+  const [giftCardSelection, setGiftCardSelection] = useState({
+    enabled: false,
+    templateId: null,
+    customDescription: '',
+    customSigning: '',
+    productIds: []
+  });
+  const [loadingTemplates, setLoadingTemplates] = useState(false);
+  const [showTemplateModal, setShowTemplateModal] = useState(false);
 
   // Helper to format a Date to input[type="datetime-local"] value (YYYY-MM-DDTHH:mm)
   const toLocalDateTimeInputValue = (date) => {
@@ -58,6 +70,48 @@ export default function Checkout() {
       }));
     }
   }, [user]);
+
+  // Check if cart has products with gift card support and load templates
+  useEffect(() => {
+    const productsWithGiftCards = cartProducts.filter(product => product.has_gift_card);
+    
+    // Temporarily always load for testing: if (productsWithGiftCards.length > 0) {
+    if (true) {
+      // Load gift card templates
+      const loadGiftCardTemplates = async () => {
+        setLoadingTemplates(true);
+        try {
+          const response = await axios.get('http://localhost:8000/api/gift-cards');
+          
+          if (response.data.success) {
+            const activeTemplates = response.data.data.filter(template => template.is_active);
+            setGiftCardTemplates(activeTemplates);
+            
+            // Set product IDs that have gift card support
+            setGiftCardSelection(prev => ({
+              ...prev,
+              productIds: productsWithGiftCards.map(p => p.id)
+            }));
+          }
+        } catch (err) {
+          console.error('Error loading gift card templates:', err);
+        } finally {
+          setLoadingTemplates(false);
+        }
+      };
+      
+      loadGiftCardTemplates();
+    } else {
+      // No products with gift cards, reset selection
+      setGiftCardSelection({
+        enabled: false,
+        templateId: null,
+        customDescription: '',
+        customSigning: '',
+        productIds: []
+      });
+    }
+  }, [cartProducts]);
   console.log(cartProducts)
   const getItemImage = (elm) => {
     if (elm?.images && elm.images.length > 0) {
@@ -112,6 +166,15 @@ export default function Checkout() {
       [name]: type === 'checkbox' ? checked : value
     }));
   };
+
+  const handleGiftCardChange = (field, value) => {
+    setGiftCardSelection(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const hasGiftCardProducts = cartProducts.some(product => product.has_gift_card);
 
   const handleSubmitOrder = async (e) => {
     e.preventDefault();
@@ -181,6 +244,16 @@ export default function Checkout() {
         desired_delivery_at: new Date(formData.desiredDelivery).toISOString(),
         products,
       };
+
+      // Add gift card data if enabled
+      if (giftCardSelection.enabled && giftCardSelection.templateId) {
+        orderPayload.gift_card = {
+          template_id: giftCardSelection.templateId === 'custom' ? null : giftCardSelection.templateId,
+          custom_description: giftCardSelection.customDescription,
+          custom_signing: giftCardSelection.customSigning,
+          product_ids: giftCardSelection.productIds
+        };
+      }
 
       const response = await axios.post(
         'http://localhost:8000/api/commands', 
@@ -365,6 +438,145 @@ export default function Checkout() {
                 />
               </fieldset>
 
+              {/* Gift Card Selection */}
+              {/* Temporarily removed condition for testing: {hasGiftCardProducts && ( */}
+              <div className="gift-card-section mb-4">
+                <h6 className="fw-5 mb-3">{t('checkout.gift_card_options', 'Gift Card Options')}</h6>
+                <p className="text-muted mb-3">
+                  {hasGiftCardProducts 
+                    ? t('checkout.gift_card_notice', 'Some products in your cart support gift cards. Add a personalized gift card to your order.')
+                    : 'Testing: Gift card section (remove condition when ready)'
+                  }
+                </p>
+                  
+                  <div className="fieldset-radio mb-3">
+                    <input
+                      type="checkbox"
+                      id="enable-gift-card"
+                      checked={giftCardSelection.enabled}
+                      onChange={(e) => handleGiftCardChange('enabled', e.target.checked)}
+                    />
+                    <label htmlFor="enable-gift-card" className="fw-5">
+                      {t('checkout.add_gift_card', 'Add Gift Card to Order')}
+                    </label>
+                  </div>
+
+                  {giftCardSelection.enabled && (
+                    <div className="gift-card-options p-3" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+                      {loadingTemplates ? (
+                        <p>{t('checkout.loading_templates', 'Loading gift card templates...')}</p>
+                      ) : (
+                        <>
+                          <h6 className="mb-3">{t('checkout.choose_design_type', 'Choose Gift Card Design')}</h6>
+                          
+                          {/* Design Type Selection */}
+                          <div className="row mb-4">
+                            {/* Custom Design Option */}
+                            <div className="col-md-6 mb-3">
+                              <div 
+                                className={`design-type-option p-4 border rounded cursor-pointer text-center ${
+                                  giftCardSelection.templateId === 'custom' ? 'border-primary bg-light' : 'border-secondary'
+                                }`}
+                                onClick={() => handleGiftCardChange('templateId', 'custom')}
+                                style={{ cursor: 'pointer', minHeight: '120px' }}
+                              >
+                                <div className="d-flex flex-column justify-content-center h-100">
+                                  <div className="mb-3">
+                                    <i className="fas fa-paint-brush fa-3x text-primary"></i>
+                                  </div>
+                                  <input
+                                    type="radio"
+                                    name="designType"
+                                    value="custom"
+                                    checked={giftCardSelection.templateId === 'custom'}
+                                    onChange={() => handleGiftCardChange('templateId', 'custom')}
+                                    className="me-2"
+                                  />
+                                  <label className="fw-bold h6 mb-2">{t('checkout.custom_design', 'Custom Design')}</label>
+                                  <small className="text-muted">
+                                    {t('checkout.custom_design_desc', 'Create your own personalized gift card message')}
+                                  </small>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Prepared Templates Option */}
+                            <div className="col-md-6 mb-3">
+                              <div 
+                                className={`design-type-option p-4 border rounded cursor-pointer text-center ${
+                                  (giftCardSelection.templateId && giftCardSelection.templateId !== 'custom') ? 'border-primary bg-light' : 'border-secondary'
+                                }`}
+                                onClick={() => setShowTemplateModal(true)}
+                                style={{ cursor: 'pointer', minHeight: '120px' }}
+                              >
+                                <div className="d-flex flex-column justify-content-center h-100">
+                                  <div className="mb-3">
+                                    <i className="fas fa-images fa-3x text-success"></i>
+                                  </div>
+                                  <button 
+                                    type="button"
+                                    className="btn btn-outline-success btn-sm mb-2"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setShowTemplateModal(true);
+                                    }}
+                                  >
+                                    {giftCardSelection.templateId && giftCardSelection.templateId !== 'custom' 
+                                      ? t('checkout.change_template', 'Change Template')
+                                      : t('checkout.choose_template', 'Choose Template')
+                                    }
+                                  </button>
+                                  <label className="fw-bold h6 mb-2">{t('checkout.prepared_templates', 'Prepared Templates')}</label>
+                                  <small className="text-muted">
+                                    {giftCardSelection.templateId && giftCardSelection.templateId !== 'custom'
+                                      ? `Selected: ${giftCardTemplates.find(t => t.id == giftCardSelection.templateId)?.name || 'Template'}`
+                                      : t('checkout.prepared_templates_desc', `Choose from ${giftCardTemplates.length} beautiful designs`)
+                                    }
+                                  </small>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Custom Message and Signing - Show for any selection */}
+                          {giftCardSelection.templateId && (
+                            <div className="gift-card-customization">
+                              <h6 className="mb-3">{t('checkout.personalize_message', 'Personalize Your Gift Card')}</h6>
+                              <div className="row">
+                                <div className="col-md-6 mb-3">
+                                  <label className="fw-5 mb-2">
+                                    {t('checkout.gift_card_description', 'Gift Card Message')}
+                                  </label>
+                                  <textarea
+                                    className="form-control"
+                                    rows="4"
+                                    placeholder={t('checkout.gift_card_description_placeholder', 'Write your personalized message here...')}
+                                    value={giftCardSelection.customDescription}
+                                    onChange={(e) => handleGiftCardChange('customDescription', e.target.value)}
+                                  />
+                                </div>
+                                <div className="col-md-6 mb-3">
+                                  <label className="fw-5 mb-2">
+                                    {t('checkout.gift_card_signature', 'Signature/From')}
+                                  </label>
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder={t('checkout.gift_card_signature_placeholder', 'Your name or signature')}
+                                    value={giftCardSelection.customSigning}
+                                    onChange={(e) => handleGiftCardChange('customSigning', e.target.value)}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  )}
+                </div>
+              {/* )} Temporarily removed closing bracket for testing */}
+
             </form>
           </div>
           <div className="tf-page-cart-footer">
@@ -517,6 +729,90 @@ export default function Checkout() {
           </div>
         </div>
       </div>
+
+      {/* Gift Card Template Selection Modal */}
+      {showTemplateModal && (
+        <div 
+          className="modal fade show d-block" 
+          tabIndex="-1" 
+          style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+          onClick={() => setShowTemplateModal(false)}
+        >
+          <div 
+            className="modal-dialog modal-lg modal-dialog-centered"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">
+                  {t('checkout.select_gift_card_template', 'Select Gift Card Template')}
+                </h5>
+                <button 
+                  type="button" 
+                  className="btn-close" 
+                  onClick={() => setShowTemplateModal(false)}
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div className="modal-body" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
+                {giftCardTemplates.length === 0 ? (
+                  <div className="text-center p-4">
+                    <p className="text-muted">{t('checkout.no_templates', 'No gift card templates available')}</p>
+                  </div>
+                ) : (
+                  <div className="row">
+                    {giftCardTemplates.map((template) => (
+                      <div key={template.id} className="col-md-4 col-sm-6 mb-3">
+                        <div 
+                          className={`template-card border rounded p-3 cursor-pointer ${
+                            giftCardSelection.templateId === template.id ? 'border-primary bg-light' : 'border-light'
+                          }`}
+                          onClick={() => {
+                            handleGiftCardChange('templateId', template.id);
+                            setShowTemplateModal(false);
+                          }}
+                          style={{ cursor: 'pointer', transition: 'all 0.2s' }}
+                        >
+                          {template.image && (
+                            <div className="template-image mb-2 text-center">
+                              <Image
+                                src={`http://localhost:8000/storage/${template.image}`}
+                                alt={template.name}
+                                width={120}
+                                height={90}
+                                style={{ objectFit: 'cover', borderRadius: '8px' }}
+                                className="w-100"
+                              />
+                            </div>
+                          )}
+                          <div className="text-center">
+                            <h6 className="mb-1 fw-bold">{template.name}</h6>
+                            {giftCardSelection.templateId === template.id && (
+                              <small className="text-primary fw-bold">
+                                <i className="fas fa-check-circle me-1"></i>
+                                {t('checkout.selected', 'Selected')}
+                              </small>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div className="modal-footer">
+                <button 
+                  type="button" 
+                  className="btn btn-secondary" 
+                  onClick={() => setShowTemplateModal(false)}
+                >
+                  {t('checkout.cancel', 'Cancel')}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

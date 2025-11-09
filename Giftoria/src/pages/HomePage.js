@@ -20,6 +20,7 @@ import ManageCategory from './dashboard/ManageCategory';
 import ManageCustomField from './dashboard/ManageCustomField';
 import ManageCommands from './dashboard/ManageCommands';
 import ManageOccasions from './dashboard/ManageOccasions';
+import ManageGiftCards from './dashboard/ManageGiftCards';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const RouteWithLoader = ({ component: Component, ...rest }) => {
@@ -143,6 +144,19 @@ export default () => {
             <Redirect to={Routes.AdminLogin.path} />
           ) : user.role === 'admin' ? (
             <RouteWithSidebar {...props} component={ManageOccasions} />
+          ) : (
+            <Redirect to={Routes.Presentation.path} />
+          )
+        }
+      />
+      <Route
+        exact
+        path={Routes.ManageGiftCards.path}
+        render={props =>
+          !user ? (
+            <Redirect to={Routes.AdminLogin.path} />
+          ) : user.role === 'admin' ? (
+            <RouteWithSidebar {...props} component={ManageGiftCards} />
           ) : (
             <Redirect to={Routes.Presentation.path} />
           )

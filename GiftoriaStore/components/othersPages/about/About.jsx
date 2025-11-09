@@ -15,9 +15,9 @@ export default function About() {
             <div className="tf-image-wrap">
               <Image
                 className="lazyload w-100"
-                data-src="/images/collections/collection-69.jpg"
+                data-src="/images/collections/a1.jpg"
                 alt={t("about.image_alt")}
-                src="/images/collections/collection-69.jpg"
+                src="/images/collections/a1.jpg"
                 width={600}
                 height={499}
               />

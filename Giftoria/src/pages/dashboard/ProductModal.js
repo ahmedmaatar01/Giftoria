@@ -137,6 +137,18 @@ const ProductModal = ({ show, onHide, onSubmit, form, setForm, isEdit }) => {
           />
         </Form.Group>
 
+        <Form.Group className="mb-3" controlId="has_gift_card">
+          <Form.Check
+            type="checkbox"
+            label="Product supports Gift Cards"
+            checked={form.has_gift_card || false}
+            onChange={(e) => setForm({ ...form, has_gift_card: e.target.checked })}
+          />
+          <Form.Text className="text-muted">
+            When enabled, customers can add personalized gift cards to this product during checkout.
+          </Form.Text>
+        </Form.Group>
+
           <Form.Group className="mb-3">
             <Form.Label>Featured Image</Form.Label>
             <Form.Control name="featured_image" type="file" accept="image/*" onChange={e => {

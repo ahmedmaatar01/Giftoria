@@ -10,7 +10,7 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
-        'category_id', 'name','arabic_name', 'description', 'arabic_description', 'price', 'stock', 'featured_image', 'featured', 'lead_time'
+        'category_id', 'name','arabic_name', 'description', 'arabic_description', 'price', 'stock', 'featured_image', 'featured', 'lead_time', 'has_gift_card'
     ];
 
     // Append virtual attribute custom_fields to JSON output
@@ -30,6 +30,21 @@ class Product extends Model
     {
         return $this->hasMany(ProductCustomValue::class);
     }
+
+    /**
+     * Get the gift card selections for this product.
+     */
+    public function giftCardSelections()
+    {
+        return $this->hasMany(ProductGiftCardSelection::class);
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     */
+    protected $casts = [
+        'has_gift_card' => 'boolean',
+    ];
 
     /**
      * Accessor: expose category custom fields directly on product as custom_fields
