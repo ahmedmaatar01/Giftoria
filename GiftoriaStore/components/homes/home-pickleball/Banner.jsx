@@ -28,14 +28,14 @@ export default function Banner() {
             </p>
 
             <div
-              className="partners-logos d-flex justify-content-center gap-30 mb_30"
+              className="partners-logos d-flex gap-30 mb_30"
               style={{ marginTop: '50px' }}
             >
               <div className="partner-logo">
                 <Image
                   src="/images/logo/partner1.png"
                   alt="Partner 1"
-                  width={179}
+                  width={130}
                   height={64}
                 />
               </div>
@@ -43,7 +43,7 @@ export default function Banner() {
                 <Image
                   src="/images/logo/partner2.png"
                   alt="Partner 2"
-                  width={179}
+                  width={140}
                   height={64}
                 />
               </div>

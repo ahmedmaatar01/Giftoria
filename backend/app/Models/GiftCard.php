@@ -16,9 +16,7 @@ class GiftCard extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'title',
-        'description',
-        'signing',
+        'name',
         'image',
         'is_active',
     ];
@@ -33,12 +31,11 @@ class GiftCard extends Model
     ];
 
     /**
-     * Get the products that have this gift card.
+     * Get the product gift card selections that use this template.
      */
-    public function products(): BelongsToMany
+    public function selections()
     {
-        return $this->belongsToMany(Product::class, 'product_gift_cards')
-                    ->withTimestamps();
+        return $this->hasMany(ProductGiftCardSelection::class);
     }
 
     /**

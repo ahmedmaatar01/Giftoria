@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\CustomFieldController;
 use App\Http\Controllers\Api\ProductCustomValueController;
 use App\Http\Controllers\Api\OccasionController;
 use App\Http\Controllers\GiftCardController;
+use App\Http\Controllers\ProductGiftCardSelectionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,8 +83,10 @@ Route::get('/commands/{commandId}/status-history', [CommandController::class, 'g
 Route::put('/commands/{commandId}/status', [CommandController::class, 'updateStatus'])->middleware('auth:sanctum');
 Route::get('/commands/{commandId}/details', [CommandController::class, 'getCommandDetails'])->middleware('auth:sanctum');
 
-// Gift card specific routes
-Route::post('/gift-cards/{giftCard}/attach-product', [GiftCardController::class, 'attachToProduct']);
-Route::post('/gift-cards/{giftCard}/detach-product', [GiftCardController::class, 'detachFromProduct']);
-Route::get('/products/{product}/gift-cards', [GiftCardController::class, 'getProductGiftCards']);
+// Gift card selection routes (for end users)
+Route::get('/gift-cards/available', [ProductGiftCardSelectionController::class, 'getAvailableGiftCards']);
+Route::post('/products/gift-card-selections', [ProductGiftCardSelectionController::class, 'createSelection']);
+Route::get('/products/{product}/gift-card-selections', [ProductGiftCardSelectionController::class, 'getProductSelections']);
+Route::put('/gift-card-selections/{selection}', [ProductGiftCardSelectionController::class, 'updateSelection']);
+Route::delete('/gift-card-selections/{selection}', [ProductGiftCardSelectionController::class, 'deleteSelection']);
 

@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Col, Row, Nav, Card, Button, Table, Container, Modal, Form, Alert, Image, Spinner } from '@themesberg/react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEdit, faTrashAlt, faPlus, faUpload } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
+
+const API_URL = 'http://localhost:8000/api';
 
 const GiftCardModal = ({ show, onHide, giftCard, onSave, isLoading }) => {
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    signing: '',
+    name: '',
     is_active: true
   });
   const [imageFile, setImageFile] = useState(null);
@@ -17,17 +18,13 @@ const GiftCardModal = ({ show, onHide, giftCard, onSave, isLoading }) => {
   useEffect(() => {
     if (giftCard) {
       setFormData({
-        title: giftCard.title || '',
-        description: giftCard.description || '',
-        signing: giftCard.signing || '',
+        name: giftCard.name || '',
         is_active: giftCard.is_active !== undefined ? giftCard.is_active : true
       });
-      setImagePreview(giftCard.image_url);
+      setImagePreview(giftCard.image ? `http://localhost:8000/storage/${giftCard.image}` : null);
     } else {
       setFormData({
-        title: '',
-        description: '',
-        signing: '',
+        name: '',
         is_active: true
       });
       setImagePreview(null);
@@ -58,14 +55,7 @@ const GiftCardModal = ({ show, onHide, giftCard, onSave, isLoading }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const submitData = new FormData();
-    Object.keys(formData).forEach(key => {
-      submitData.append(key, formData[key]);
-    });
-    if (imageFile) {
-      submitData.append('image', imageFile);
-    }
-    onSave(submitData, giftCard?.id);
+    onSave(formData, imageFile, giftCard?.id);
   };
 
   return (
@@ -80,49 +70,22 @@ const GiftCardModal = ({ show, onHide, giftCard, onSave, isLoading }) => {
           <Row>
             <Col md={6}>
               <Form.Group className="mb-3">
-                <Form.Label>Title *</Form.Label>
+                <Form.Label>Gift Card Template Name *</Form.Label>
                 <Form.Control
                   type="text"
-                  name="title"
-                  value={formData.title}
+                  name="name"
+                  value={formData.name}
                   onChange={handleInputChange}
+                  placeholder="e.g. Birthday Card, Holiday Card"
                   required
-                  isInvalid={!!errors.title}
+                  isInvalid={!!errors.name}
                 />
                 <Form.Control.Feedback type="invalid">
-                  {errors.title}
+                  {errors.name}
                 </Form.Control.Feedback>
-              </Form.Group>
-
-              <Form.Group className="mb-3">
-                <Form.Label>Description</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  name="description"
-                  value={formData.description}
-                  onChange={handleInputChange}
-                  isInvalid={!!errors.description}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.description}
-                </Form.Control.Feedback>
-              </Form.Group>
-
-              <Form.Group className="mb-3">
-                <Form.Label>Signing</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={2}
-                  name="signing"
-                  value={formData.signing}
-                  onChange={handleInputChange}
-                  placeholder="e.g. Happy Holidays!"
-                  isInvalid={!!errors.signing}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.signing}
-                </Form.Control.Feedback>
+                <Form.Text className="text-muted">
+                  This is the template name that customers will see when selecting gift cards.
+                </Form.Text>
               </Form.Group>
 
               <Form.Group className="mb-3">
@@ -131,8 +94,11 @@ const GiftCardModal = ({ show, onHide, giftCard, onSave, isLoading }) => {
                   name="is_active"
                   checked={formData.is_active}
                   onChange={handleInputChange}
-                  label="Active"
+                  label="Active Template"
                 />
+                <Form.Text className="text-muted">
+                  Only active templates will be available for customers to select.
+                </Form.Text>
               </Form.Group>
             </Col>
 
@@ -197,11 +163,10 @@ export default function ManageGiftCards() {
   const fetchGiftCards = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/gift-cards');
-      const result = await response.json();
+      const response = await axios.get(`${API_URL}/gift-cards`);
       
-      if (result.success) {
-        setGiftCards(result.data);
+      if (response.data.success) {
+        setGiftCards(response.data.data);
       } else {
         showAlert('Failed to fetch gift cards', 'danger');
       }
@@ -228,32 +193,47 @@ export default function ManageGiftCards() {
     setShowModal(true);
   };
 
-  const handleSave = async (formData, giftCardId) => {
+  const handleSave = async (formData, imageFile, giftCardId) => {
     try {
       setIsLoading(true);
-      const url = giftCardId ? `/api/gift-cards/${giftCardId}` : '/api/gift-cards';
-      const method = giftCardId ? 'PUT' : 'POST';
-      
-      const response = await fetch(url, {
-        method,
-        body: formData
-      });
-      
-      const result = await response.json();
-      
-      if (result.success) {
-        showAlert(
-          giftCardId ? 'Gift card updated successfully' : 'Gift card created successfully',
-          'success'
-        );
-        setShowModal(false);
-        fetchGiftCards();
+      let cardId = null;
+
+      // Step 1: Create or update gift card data (without image)
+      const giftCardData = {
+        name: formData.name,
+        is_active: formData.is_active
+      };
+
+      if (giftCardId) {
+        await axios.put(`${API_URL}/gift-cards/${giftCardId}`, giftCardData);
+        cardId = giftCardId;
       } else {
-        showAlert(result.message || 'Operation failed', 'danger');
+        const giftCardRes = await axios.post(`${API_URL}/gift-cards`, giftCardData);
+        cardId = giftCardRes.data.data.id;
       }
+
+      // Step 2: Handle image upload separately if there's an image
+      if (imageFile) {
+        const imageFormData = new FormData();
+        imageFormData.append('image', imageFile);
+        imageFormData.append('name', formData.name);
+        imageFormData.append('is_active', formData.is_active ? '1' : '0');
+
+        // Update gift card with image
+        await axios.post(`${API_URL}/gift-cards/${cardId}?_method=PUT`, imageFormData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+      }
+
+      showAlert(
+        giftCardId ? 'Gift card updated successfully' : 'Gift card created successfully',
+        'success'
+      );
+      setShowModal(false);
+      fetchGiftCards();
     } catch (error) {
       console.error('Error saving gift card:', error);
-      showAlert('Error saving gift card', 'danger');
+      showAlert(error.response?.data?.message || 'Error saving gift card', 'danger');
     } finally {
       setIsLoading(false);
     }
@@ -265,17 +245,13 @@ export default function ManageGiftCards() {
     }
 
     try {
-      const response = await fetch(`/api/gift-cards/${giftCardId}`, {
-        method: 'DELETE'
-      });
+      const response = await axios.delete(`${API_URL}/gift-cards/${giftCardId}`);
       
-      const result = await response.json();
-      
-      if (result.success) {
+      if (response.data.success) {
         showAlert('Gift card deleted successfully', 'success');
         fetchGiftCards();
       } else {
-        showAlert(result.message || 'Failed to delete gift card', 'danger');
+        showAlert(response.data.message || 'Failed to delete gift card', 'danger');
       }
     } catch (error) {
       console.error('Error deleting gift card:', error);
@@ -330,11 +306,9 @@ export default function ManageGiftCards() {
                 <thead>
                   <tr>
                     <th className="border-bottom">Image</th>
-                    <th className="border-bottom">Title</th>
-                    <th className="border-bottom">Description</th>
-                    <th className="border-bottom">Signing</th>
+                    <th className="border-bottom">Template Name</th>
                     <th className="border-bottom">Status</th>
-                    <th className="border-bottom">Products</th>
+                    <th className="border-bottom">Selections</th>
                     <th className="border-bottom">Actions</th>
                   </tr>
                 </thead>
@@ -343,10 +317,10 @@ export default function ManageGiftCards() {
                     giftCards.map((giftCard) => (
                       <tr key={giftCard.id}>
                         <td>
-                          {giftCard.image_url ? (
+                          {giftCard.image ? (
                             <Image 
-                              src={giftCard.image_url} 
-                              alt={giftCard.title}
+                              src={`http://localhost:8000/storage/${giftCard.image}`} 
+                              alt={giftCard.name}
                               style={{ width: '50px', height: '40px', objectFit: 'cover' }}
                               rounded
                             />
@@ -362,24 +336,9 @@ export default function ManageGiftCards() {
                         <td>
                           <div className="d-flex align-items-center">
                             <div>
-                              <span className="fw-normal">{giftCard.title}</span>
+                              <span className="fw-normal">{giftCard.name}</span>
                             </div>
                           </div>
-                        </td>
-                        <td>
-                          <span className="fw-normal">
-                            {giftCard.description ? 
-                              (giftCard.description.length > 50 ? 
-                                giftCard.description.substring(0, 50) + '...' : 
-                                giftCard.description
-                              ) : '-'
-                            }
-                          </span>
-                        </td>
-                        <td>
-                          <span className="fw-normal">
-                            {giftCard.signing || '-'}
-                          </span>
                         </td>
                         <td>
                           <span className={`badge bg-${giftCard.is_active ? 'success' : 'secondary'}`}>
@@ -388,7 +347,7 @@ export default function ManageGiftCards() {
                         </td>
                         <td>
                           <span className="fw-normal">
-                            {giftCard.products ? giftCard.products.length : 0} products
+                            {giftCard.selections ? giftCard.selections.length : 0} customer selections
                           </span>
                         </td>
                         <td>
@@ -412,10 +371,10 @@ export default function ManageGiftCards() {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="7" className="text-center py-4">
+                      <td colSpan="5" className="text-center py-4">
                         <div className="text-muted">
                           <FontAwesomeIcon icon={faUpload} size="3x" className="mb-3" />
-                          <p>No gift cards found. Create your first gift card to get started.</p>
+                          <p>No gift card templates found. Create your first template to get started.</p>
                         </div>
                       </td>
                     </tr>

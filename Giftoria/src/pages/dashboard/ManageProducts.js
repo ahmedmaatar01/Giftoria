@@ -43,7 +43,7 @@ const ManageProducts = () => {
     }, []);
 
     const handleCreate = () => {
-        setModalForm({ name: '', arabic_name: '', description: '', arabic_description: '', price: '', stock: '', category_id: '', featured_image: null, images: [], featured: false, lead_time: '', gift_card_ids: [] });
+        setModalForm({ name: '', arabic_name: '', description: '', arabic_description: '', price: '', stock: '', category_id: '', featured_image: null, images: [], featured: false, lead_time: '', has_gift_card: false });
         setIsEdit(false);
         setShowModal(true);
     };
@@ -62,7 +62,7 @@ const ManageProducts = () => {
             images: [],
             featured: product.featured || false,     
             lead_time: product.lead_time || '',  
-            gift_card_ids: product.gift_cards ? product.gift_cards.map(gc => gc.id) : [],
+            has_gift_card: product.has_gift_card || false,
             existing_featured_image: product.images && product.images.find(i => i.is_featured)?.image_path || '',
             existing_images: product.images ? product.images.filter(i => !i.is_featured).map(i => i.image_path) : []
         });
@@ -86,7 +86,7 @@ const ManageProducts = () => {
                     category_id: modalForm.category_id,
                     featured: modalForm.featured,     
                     lead_time: modalForm.lead_time,
-                    gift_card_ids: modalForm.gift_card_ids || []
+                    has_gift_card: modalForm.has_gift_card
                 });
                 productId = modalForm.id;
             } else {
@@ -100,7 +100,7 @@ const ManageProducts = () => {
                     category_id: modalForm.category_id,
                     featured: modalForm.featured,     
                     lead_time: modalForm.lead_time,
-                    gift_card_ids: modalForm.gift_card_ids || []
+                    has_gift_card: modalForm.has_gift_card
                 });
                 productId = productRes.data.id;
             }

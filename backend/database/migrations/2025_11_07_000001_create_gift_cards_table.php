@@ -13,10 +13,8 @@ return new class extends Migration
     {
         Schema::create('gift_cards', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('description')->nullable();
-            $table->text('signing')->nullable();
-            $table->string('image')->nullable(); // Path to gift card image
+            $table->string('name'); // Template name (e.g., "Birthday Card", "Holiday Card")
+            $table->string('image')->nullable(); // Path to gift card template image
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
