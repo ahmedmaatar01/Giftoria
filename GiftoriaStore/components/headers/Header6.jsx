@@ -126,7 +126,7 @@ export default function Header6({ isArrow, uppercase = false }) {
               </li>
               
              
-              <li className="nav-cart">
+              <li className="nav-cart " id="cart-no">
                 <a href="#shoppingCart" data-bs-toggle="modal" className="nav-icon-item" aria-label={t("header.cart")}>
                   <i className="icon icon-bag" />
                   <span className="count-box">
