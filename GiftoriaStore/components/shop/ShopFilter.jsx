@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-
 const categories = [
   { id: 1, name: "Fashion", isActive: true, link: "/shop-default" },
   { id: 2, name: "Men", isActive: false, link: "/shop-men" },
@@ -37,7 +35,6 @@ import Slider from "rc-slider";
 import { products1 } from "@/data/products";
 import Link from "next/link";
 export default function ShopFilter({ setProducts, products = products1 }) {
-  const { i18n, t } = useTranslation();
   const [price, setPrice] = useState([10, 20]);
   const handlePrice = (value) => {
     setPrice(value);
@@ -168,7 +165,7 @@ export default function ShopFilter({ setProducts, products = products1 }) {
         <header className="canvas-header">
           <div className="filter-icon">
             <span className="icon icon-filter" />
-            <span>{t("filter.title")}</span>
+            <span>Filter</span>
           </div>
           <span
             className="icon-close icon-close-popup"
@@ -189,27 +186,16 @@ export default function ShopFilter({ setProducts, products = products1 }) {
               <span className="icon icon-arrow-up" />
             </div>
             <div id="categories" className="collapse show">
-              <ul className="list-categoris current-scrollbar mb_36">
+              <ul className="list-categoris current-scrollbar mb_36"> 
                 {categories.map((category) => (
                   <li key={category.id} className={`cate-item`}>
                     {category.link ? (
                       <Link href={category.link}>
-<span>
-  {i18n.language === "ar"
-    ? (category.name_ar || category.name)
-    : (category.name || category.name_ar)
-  }
-</span>
+                        <span>{category.name}</span>
                       </Link>
                     ) : (
                       <a href="#">
-                        <span>
-  {i18n.language === "ar"
-    ? (category.name_ar || category.name)
-    : (category.name || category.name_ar)
-  }
-</span>
-
+                        <span>{category.name}</span>
                       </a>
                     )}
                   </li>
@@ -249,7 +235,7 @@ export default function ShopFilter({ setProducts, products = products1 }) {
                         checked={selectedAvailabilities.includes(availability)}
                       />
                       <label className="label">
-                        <span>{t(`filter.${availability.isAvailable ? "available" : "out_of_stock"}`)}</span>&nbsp;
+                        <span>{availability.text}</span>&nbsp;
                         <span>
                           (
                           {

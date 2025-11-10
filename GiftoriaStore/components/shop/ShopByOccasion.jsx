@@ -6,11 +6,13 @@ import Pagination from "../common/Pagination";
 import ShopFilterOccasion from "./ShopFilterOccasion";
 import Sorting from "./Sorting";
 import { useSearchParams } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 // Pagination: 30 items per page
 const ITEMS_PER_PAGE = 30;
 
 export default function ShopByOccasion() {
+  const { i18n } = useTranslation();
   const searchParams = useSearchParams();
   const occasionId = searchParams.get('occasion');
   const [gridItems, setGridItems] = useState(4);
@@ -84,7 +86,7 @@ export default function ShopByOccasion() {
                 className="tf-btn-filter"
               >
                 <span className="icon icon-filter" />
-                <span className="text">Filter</span>
+                <span className="text">{i18n.language === 'ar' ? 'تصفية' : 'Filter'}</span>
               </a>
             </div>
             <ul className="tf-control-layout d-flex justify-content-center">

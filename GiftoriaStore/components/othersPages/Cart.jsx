@@ -213,7 +213,7 @@ export default function Cart() {
                       <Link
                         href={`/shop-default`}
                         className="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
-                        style={{ width: "fit-content" }}
+                        style={{ width: "fit-content", backgroundColor: '#F1ECE4', borderColor: '#F1ECE4', color: '#000000' }}
                       >
                         {t("cart_page.explore_products")}
                       </Link>
@@ -251,7 +251,7 @@ export default function Cart() {
                   <span className="fw-6">Free Shipping</span>
                 </div>
               </div> */}
-              <div className="tf-page-cart-checkout">
+              <div className="tf-page-cart-checkout" style={{ backgroundColor: '#F1ECE4', padding: '20px', borderRadius: '8px' }}>
                 <div className="shipping-calculator">
                   <summary
                     className="accordion-shipping-header d-flex justify-content-between align-items-center collapsed"
@@ -454,6 +454,7 @@ export default function Cart() {
                   <Link
                     href={`/checkout`}
                     className="tf-btn w-100 btn-fill animate-hover-btn radius-3 justify-content-center"
+                    style={{ backgroundColor: '#492e11', borderColor: '#492e11', color: '#ffffff' }}
                   >
                     <span>{t("cart_page.checkout_button")}</span>
                   </Link>

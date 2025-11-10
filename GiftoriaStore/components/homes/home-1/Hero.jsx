@@ -34,13 +34,13 @@ export default function Hero() {
             >
                <div className="ecomus-button-link ecomus-button em-button em-button-subtle"  style={{
                     marginTop: "20px",
-                    padding: "22px 45px",     
+                    padding: i18n.language === 'ar' ? "26px 55px" : "22px 45px",     
                     borderRadius: "8px",      
-                    fontSize: "20px",         
+                    fontSize: i18n.language === 'ar' ? "24px" : "20px",         
                     display: "inline-flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    minWidth: "280px"         
+                    minWidth: i18n.language === 'ar' ? "320px" : "280px"         
                   }} >
               <span  className="raleway-regular text-uppercase  "style={{textDecoration:"underline", color: "#fff" }}>{t("hero_button")} </span>
               </div>

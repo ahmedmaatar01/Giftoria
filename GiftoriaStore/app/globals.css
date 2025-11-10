@@ -269,13 +269,17 @@ html.arabic-font body {
 
 
 /* Apply Muslimah Thin to all elements except paragraphs and spans */
-html.arabic-font *:not(p):not(span):not(i):not(.icon):not([class*="icon-"]):not([class*="arabic_div"]) {
+html.arabic-font *:not(p):not(span):not(i):not(.icon):not([class*="icon-"]):not([class*="arabic_div"]):not([class*="arabic_vip"]) {
   font-family: "VIP Rawy Bold", sans-serif !important;
 }
 
 
 html.arabic-font .arabic_div {
   font-family: "be IN Normal", sans-serif !important;
+
+}
+html.arabic-font .arabic_vip {
+  font-family: "VIP Rawy Bold", sans-serif !important;
 
 }
 
@@ -374,7 +378,7 @@ html.arabic-font {
 html.arabic-font header#header .menu-item>a,
 html.arabic-font header#header nav a,
 html.arabic-font header#header .main-menu>li>a {
-  font-family: "be IN Normal", sans-serif !important;
+font-family: "VIP Rawy Bold", sans-serif !important;
   text-transform: none !important;
   letter-spacing: 0 !important;
 }

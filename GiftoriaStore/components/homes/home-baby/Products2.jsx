@@ -8,7 +8,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 
-export default function Products2() {
+export default function Products2({ isProductDetail = false }) {
   const { t } = useTranslation(); // ✅ use translation hook
 
   // Backend API base (env override with sensible fallback)
@@ -101,7 +101,9 @@ export default function Products2() {
       <div className="container">
         <div className="flat-title flex-row justify-content-center">
           <span className="title fw-6 wow fadeInUp" data-wow-delay="0s">
-            <span className="bell-medium heading-30" style={{ textTransform: 'uppercase', fontSize: '30px' }}>{t("products2_title")}</span>
+            <span className="bell-medium heading-30" style={{ textTransform: 'uppercase', fontSize: '30px' }}>
+              {isProductDetail ? t("best_seller_title") : t("products2_title")}
+            </span>
           </span>
         </div>
 

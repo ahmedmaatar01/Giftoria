@@ -118,7 +118,7 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
       <li className="menu-item">
         <Link
           href="/"
-          className={`item-link raleway-regular ${Linkfs} ${textColor} ${pathname === "/" ? "activeMenu" : ""}`}
+          className={`item-link raleway-regular arabic_vip ${Linkfs} ${textColor} ${pathname === "/" ? "activeMenu" : ""}`}
         >
           {t("menu.home")}
         </Link>

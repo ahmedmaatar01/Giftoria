@@ -637,7 +637,7 @@ export default function Checkout() {
                         <Link
                           href={`/shop-default`}
                           className="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
-                          style={{ width: "fit-content" }}
+                          style={{ width: "fit-content", backgroundColor: '#492e11', borderColor: '#492e11', color: '#ffffff' }}
                         >
                           {t('cart.explore_products')}
                         </Link>
@@ -721,6 +721,7 @@ export default function Checkout() {
                   type="submit"
                   disabled={loading || cartProducts.length === 0}
                   className="tf-btn radius-3 btn-fill btn-icon animate-hover-btn justify-content-center"
+                  style={{ backgroundColor: '#492e11', borderColor: '#492e11', color: '#ffffff' }}
                 >
                   {loading ? t('checkout.processing') : t('checkout.place_order')}
                 </button>
