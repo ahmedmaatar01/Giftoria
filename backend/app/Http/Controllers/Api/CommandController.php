@@ -13,20 +13,71 @@ use App\Models\ProductCustomValue;
 use App\Models\OrderNote;
 use App\Models\OrderStatusHistory;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class CommandController extends Controller
 {
     public function index()
     {
-        // Return all commands with user, products, notes, and status history
+        // Return all commands with user, products, notes, status history, and gift card template
         return Command::with([
             'user', 
             'products', 
             'commandProducts.product',
             'notes.user',
             'notes.admin',
-            'statusHistory.changedBy'
+            'statusHistory.changedBy',
+            'giftCardTemplate'
         ])->get();
+    }
+
+    /**
+     * Process signature: save base64 image to storage or return text as-is
+     * Returns array with ['signature' => path/text, 'type' => 'image'/'text']
+     */
+    private function processSignature($signature)
+    {
+        if (empty($signature)) {
+            return ['signature' => null, 'type' => null];
+        }
+
+        // Check if it's a base64 image (drawn signature)
+        if (Str::startsWith($signature, 'data:image')) {
+            try {
+                // Extract the base64 data
+                $image = $signature;
+                
+                // Get the image type and data
+                preg_match('/data:image\/(\w+);base64,/', $image, $type);
+                $imageType = $type[1] ?? 'png';
+                
+                // Remove the data URL part
+                $image = substr($image, strpos($image, ',') + 1);
+                $image = base64_decode($image);
+                
+                // Generate unique filename
+                $fileName = 'signature_' . uniqid() . '_' . time() . '.' . $imageType;
+                
+                // Save to storage/app/public/signatures
+                Storage::disk('public')->put('signatures/' . $fileName, $image);
+                
+                // Return the path (relative to storage/app/public)
+                return [
+                    'signature' => 'signatures/' . $fileName,
+                    'type' => 'image'
+                ];
+            } catch (\Exception $e) {
+                Log::error('Failed to save signature image: ' . $e->getMessage());
+                return ['signature' => null, 'type' => null];
+            }
+        }
+        
+        // It's a text signature, return as-is
+        return [
+            'signature' => $signature,
+            'type' => 'text'
+        ];
     }
 
     public function store(Request $request)
@@ -50,6 +101,12 @@ class CommandController extends Controller
             'products.*.custom_fields' => 'nullable|array',
             'products.*.custom_fields.*.field_id' => 'nullable|integer',
             'products.*.custom_fields.*.value' => 'nullable|string',
+            // Gift card validation
+            'gift_card' => 'nullable|array',
+            'gift_card.template_id' => 'nullable|exists:gift_cards,id',
+            'gift_card.custom_description' => 'nullable|string',
+            'gift_card.custom_signing' => 'nullable|string',
+            'gift_card.product_ids' => 'nullable|array',
         ]);
 
         // Calculate total with custom field pricing
@@ -87,22 +144,51 @@ class CommandController extends Controller
             ];
         }
 
+        // Process signature (save image if base64, or keep text)
+        $signatureData = ['signature' => null, 'type' => null];
+        
+        // Debug logging
+        Log::info('Gift Card Data Received:', [
+            'has_gift_card' => isset($validated['gift_card']),
+            'gift_card_data' => $validated['gift_card'] ?? null,
+            'custom_signing' => $validated['gift_card']['custom_signing'] ?? 'NOT SET'
+        ]);
+        
+        if (isset($validated['gift_card']['custom_signing']) && !empty($validated['gift_card']['custom_signing'])) {
+            Log::info('Processing signature...', [
+                'signature_length' => strlen($validated['gift_card']['custom_signing']),
+                'starts_with_data_image' => Str::startsWith($validated['gift_card']['custom_signing'], 'data:image')
+            ]);
+            $signatureData = $this->processSignature($validated['gift_card']['custom_signing']);
+            Log::info('Signature processed:', $signatureData);
+        } else {
+            Log::warning('No signature to process');
+        }
+
+                // Create the command
         $command = Command::create([
-            'user_id' => $validated['user_id'] ?? null,
-            'customer_first_name' => $validated['customer_first_name'] ?? null,
-            'customer_last_name' => $validated['customer_last_name'] ?? null,
-            'customer_email' => $validated['customer_email'] ?? null,
-            'customer_phone' => $validated['customer_phone'] ?? null,
+            'name' => trim(($validated['customer_first_name'] ?? '') . ' ' . ($validated['customer_last_name'] ?? '')),
+            'user_id' => $validated['user_id'],
+            'customer_first_name' => $validated['customer_first_name'],
+            'customer_last_name' => $validated['customer_last_name'],
+            'customer_email' => $validated['customer_email'],
+            'customer_phone' => $validated['customer_phone'],
             'status' => $validated['status'] ?? 'pending',
-            'shipping_address' => $validated['shipping_address'] ?? null,
-            'billing_address' => $validated['billing_address'] ?? null,
-            'payment_method' => $validated['payment_method'] ?? null,
+            'shipping_address' => $validated['shipping_address'],
+            'billing_address' => $validated['billing_address'],
+            'payment_method' => $validated['payment_method'] ?? 'cod',
             'source' => $validated['source'] ?? 'website',
-            'description' => $validated['description'] ?? null,
-            'total' => $total,
-            'name' => ($validated['customer_first_name'] ?? '') . ' ' . ($validated['customer_last_name'] ?? ''),
-            'placed_at' => now(),
-            'desired_delivery_at' => $validated['desired_delivery_at'] ?? null,
+            'description' => $validated['description'],
+            'desired_delivery_at' => $validated['desired_delivery_at'],
+            'placed_at' => now(), // Add placed_at timestamp
+            'total' => round($total, 2),
+            // Gift card fields
+            'has_gift_card' => isset($validated['gift_card']) && $validated['gift_card'] !== null,
+            'gift_card_template_id' => $validated['gift_card']['template_id'] ?? null,
+            'gift_card_message' => $validated['gift_card']['custom_description'] ?? null,
+            'gift_card_signature' => $signatureData['signature'], // Use processed signature (path or text)
+            'gift_card_signature_type' => $signatureData['type'], // 'image' or 'text'
+            'gift_card_is_custom' => isset($validated['gift_card']['template_id']) ? false : true,
         ]);
 
         // Attach products with custom selections and computed prices
@@ -116,13 +202,13 @@ class CommandController extends Controller
             ]);
         }
 
-        return response()->json($command->load(['user', 'products', 'commandProducts.product']), 201);
+        return response()->json($command->load(['user', 'products', 'commandProducts.product', 'giftCardTemplate']), 201);
     }
 
     public function show($id)
     {
-        // Return command with user and products (with pivot data)
-        return Command::with(['user', 'products', 'commandProducts.product'])->findOrFail($id);
+        // Return command with user, products (with pivot data), and gift card template
+        return Command::with(['user', 'products', 'commandProducts.product', 'giftCardTemplate'])->findOrFail($id);
     }
 
     public function update(Request $request, $id)
@@ -148,9 +234,15 @@ class CommandController extends Controller
             'products.*.custom_fields.*.value' => 'required_with:products.*.custom_fields|string',
         ]);
 
+        // Update name if first or last name changed
+        $firstName = $validated['customer_first_name'] ?? $command->customer_first_name;
+        $lastName = $validated['customer_last_name'] ?? $command->customer_last_name;
+        $name = trim($firstName . ' ' . $lastName);
+
         $command->update([
-            'customer_first_name' => $validated['customer_first_name'] ?? $command->customer_first_name,
-            'customer_last_name' => $validated['customer_last_name'] ?? $command->customer_last_name,
+            'name' => $name,
+            'customer_first_name' => $firstName,
+            'customer_last_name' => $lastName,
             'customer_email' => $validated['customer_email'] ?? $command->customer_email,
             'customer_phone' => $validated['customer_phone'] ?? $command->customer_phone,
             'status' => $validated['status'] ?? $command->status,
@@ -187,7 +279,7 @@ class CommandController extends Controller
             $command->update(['total' => $total]);
         }
 
-        return response()->json($command->load(['user', 'products', 'commandProducts.product']));
+        return response()->json($command->load(['user', 'products', 'commandProducts.product', 'giftCardTemplate']));
     }
 
     public function destroy($id)
@@ -397,7 +489,8 @@ public function getCommandsByUser($userId)
             'commandProducts.product',
             'notes.user',
             'notes.admin',
-            'statusHistory.changedBy'
+            'statusHistory.changedBy',
+            'giftCardTemplate'
         ])->findOrFail($commandId);
 
         return response()->json($command);

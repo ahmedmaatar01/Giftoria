@@ -9,6 +9,7 @@ const API_URL = 'http://localhost:8000/api';
 const GiftCardModal = ({ show, onHide, giftCard, onSave, isLoading }) => {
   const [formData, setFormData] = useState({
     name: '',
+    name_ar: '',
     is_active: true
   });
   const [imageFile, setImageFile] = useState(null);
@@ -19,12 +20,14 @@ const GiftCardModal = ({ show, onHide, giftCard, onSave, isLoading }) => {
     if (giftCard) {
       setFormData({
         name: giftCard.name || '',
+        name_ar: giftCard.name_ar || '',
         is_active: giftCard.is_active !== undefined ? giftCard.is_active : true
       });
       setImagePreview(giftCard.image ? `http://localhost:8000/storage/${giftCard.image}` : null);
     } else {
       setFormData({
         name: '',
+        name_ar: '',
         is_active: true
       });
       setImagePreview(null);
@@ -70,7 +73,7 @@ const GiftCardModal = ({ show, onHide, giftCard, onSave, isLoading }) => {
           <Row>
             <Col md={6}>
               <Form.Group className="mb-3">
-                <Form.Label>Gift Card Template Name *</Form.Label>
+                <Form.Label>Gift Card Template Name (English) *</Form.Label>
                 <Form.Control
                   type="text"
                   name="name"
@@ -84,7 +87,26 @@ const GiftCardModal = ({ show, onHide, giftCard, onSave, isLoading }) => {
                   {errors.name}
                 </Form.Control.Feedback>
                 <Form.Text className="text-muted">
-                  This is the template name that customers will see when selecting gift cards.
+                  English name that customers will see when selecting gift cards.
+                </Form.Text>
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Label>Gift Card Template Name (Arabic)</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="name_ar"
+                  value={formData.name_ar}
+                  onChange={handleInputChange}
+                  placeholder="مثال: بطاقة عيد ميلاد، بطاقة العطلة"
+                  isInvalid={!!errors.name_ar}
+                  dir="rtl"
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.name_ar}
+                </Form.Control.Feedback>
+                <Form.Text className="text-muted">
+                  Arabic name for Arabic-speaking customers (optional).
                 </Form.Text>
               </Form.Group>
 
@@ -201,6 +223,7 @@ export default function ManageGiftCards() {
       // Step 1: Create or update gift card data (without image)
       const giftCardData = {
         name: formData.name,
+        name_ar: formData.name_ar,
         is_active: formData.is_active
       };
 
@@ -217,6 +240,7 @@ export default function ManageGiftCards() {
         const imageFormData = new FormData();
         imageFormData.append('image', imageFile);
         imageFormData.append('name', formData.name);
+        imageFormData.append('name_ar', formData.name_ar);
         imageFormData.append('is_active', formData.is_active ? '1' : '0');
 
         // Update gift card with image
@@ -306,7 +330,7 @@ export default function ManageGiftCards() {
                 <thead>
                   <tr>
                     <th className="border-bottom">Image</th>
-                    <th className="border-bottom">Template Name</th>
+                    <th className="border-bottom">Template Names</th>
                     <th className="border-bottom">Status</th>
                     <th className="border-bottom">Selections</th>
                     <th className="border-bottom">Actions</th>
@@ -336,7 +360,12 @@ export default function ManageGiftCards() {
                         <td>
                           <div className="d-flex align-items-center">
                             <div>
-                              <span className="fw-normal">{giftCard.name}</span>
+                              <div className="fw-normal">{giftCard.name}</div>
+                              {giftCard.name_ar && (
+                                <div className="text-muted small" dir="rtl" style={{ fontSize: '0.95em', fontWeight: 500 }}>
+                                  {giftCard.name_ar}
+                                </div>
+                              )}
                             </div>
                           </div>
                         </td>
