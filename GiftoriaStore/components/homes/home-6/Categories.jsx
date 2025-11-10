@@ -61,11 +61,12 @@ export default function Categories() {
           <Link href={`/shop-left-sidebar`} className="tf-btn">
             <span className="viewAllCategs" style={{ fontSize: "18px", fontWeight: "500", textTransform: "uppercase" }}>
               {t("categoriesAlt.viewAllCategories")}
-              <i className="icon icon-arrow1-top-left" style={{ 
-                fontSize: "12px", 
-                marginLeft: i18n.language === "ar" ? "25px" : "8px",
-                marginRight: i18n.language === "ar" ? "10px" : "0"
-              }} />
+              {i18n.language !== "ar" && (
+                <i className="icon icon-arrow1-top-left" style={{ 
+                  fontSize: "12px", 
+                  marginLeft: "8px"
+                }} />
+              )}
             </span>
           </Link>
         </div>
@@ -132,7 +133,7 @@ export default function Categories() {
                           href={`/shop-default?category=${cat.id}`}
                           className="link title fw-5"
                         >
-                          <p className="raleway-medium" style={{ letterSpacing: "1px", textTransform: "uppercase" }}>{title}</p>
+                          <p className="arabic_vip" style={{ letterSpacing: "1px", textTransform: "uppercase" }}>{title}</p>
                         </Link>
                       </div>
                     </div>

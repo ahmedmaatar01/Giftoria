@@ -52,10 +52,22 @@ export default function Page() {
       <Header10 />
       <div className="tf-page-title">
         <div className="container-full">
-          <div className="heading text-center raleway-regular text-uppercase">
+          <h1 
+            style={{ 
+              fontSize: i18n.language === "ar" ? "36px" : "32px",
+              textAlign: "center",
+              textTransform: "uppercase",
+              fontFamily: "Raleway, sans-serif",
+              fontWeight: "400",
+              margin: "20px 0",
+              padding: "0",
+              lineHeight: "1.2",
+              color: "#000"
+            }}
+          >
             {loading ? "Loading..." : displayName}
-          </div>
-          <p className="text-center text-2 text_black-2 mt_5 montserrat-regular text-uppercase">
+          </h1>
+          <p className={`text-center text-2 text_black-2 mt_5 ${i18n.language === "ar" ? "arabic_vip" : "montserrat-regular"} text-uppercase`}>
             {loading ? "" : displayDescription}
           </p>
         </div>

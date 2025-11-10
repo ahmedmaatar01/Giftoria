@@ -6,7 +6,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 export default function Page() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   
   return (
     <>
@@ -15,7 +15,21 @@ export default function Page() {
         <div className="container-full">
           <div className="row">
             <div className="col-12">
-              <div className="heading text-center raleway-regular 0" style={{  textTransform: "uppercase" }}>{t("shop.page_title")}</div>
+              <h1 
+                style={{ 
+                  fontSize: i18n.language === "ar" ? "36px" : "32px",
+                  textAlign: "center",
+                  textTransform: "uppercase",
+                  fontFamily: "Raleway, sans-serif",
+                  fontWeight: "400",
+                  margin: "20px 0",
+                  padding: "0",
+                  lineHeight: "1.2",
+                  color: "#000"
+                }}
+              >
+                {t("shop.page_title")}
+              </h1>
               <p className="text-center text-2 text_black-2 mt_5 raleway-medium">
                 {t("shop.page_description")}
               </p>

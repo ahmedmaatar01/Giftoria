@@ -37,6 +37,7 @@ export default function Wishlist() {
                 <Link
                   href={`/shop-default`}
                   className="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
+                  style={{ backgroundColor: '#F1ECE4', borderColor: '#F1ECE4' }}
                 >
                   Explore Products!
                 </Link>
