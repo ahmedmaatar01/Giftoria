@@ -296,7 +296,27 @@
     "agree_terms_prefix": "لقد قرأت وأوافق على",
     "terms_and_conditions": "الشروط والأحكام",
     "processing": "جارٍ المعالجة...",
-    "place_order": "إتمام الطلب"
+    "place_order": "إتمام الطلب",
+    
+    "gift_card_options": "خيارات بطاقة الهدايا",
+    "add_gift_card": "إضافة بطاقة هدايا للطلب",
+    "loading_templates": "جاري تحميل قوالب بطاقات الهدايا...",
+    "choose_design_type": "اختر تصميم بطاقة الهدايا",
+    "custom_design": "تصميم مخصص",
+    "custom_design_desc": "اكتب رسالتك الخاصة",
+    "prepared_templates": "القوالب الجاهزة",
+    "prepared_templates_desc": "اختر من التصاميم المتاحة",
+    "personalize_message": "خصص بطاقة الهدايا الخاصة بك",
+    "gift_card_signature": "التوقيع/من",
+    "gift_card_signature_placeholder": "اسمك أو توقيعك",
+    "gift_card_description": "رسالة بطاقة الهدايا",
+    "gift_card_description_placeholder": "اكتب رسالتك الشخصية هنا...",
+    "select_gift_card_template": "اختر قالب بطاقة الهدايا",
+    "no_templates": "لا توجد قوالب بطاقات هدايا متاحة",
+    "selected": "مُحدد",
+    "selected_template": "محدد",
+    "template_name": "قالب",
+    "cancel": "إلغاء"
   }
   ,
   "footer_language_support": "دعم اللغة",
