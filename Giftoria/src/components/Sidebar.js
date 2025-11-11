@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import SimpleBar from 'simplebar-react';
 import { useLocation } from "react-router-dom";
 import { CSSTransition } from 'react-transition-group';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook, faBoxOpen, faChartPie, faCog, faHandHoldingUsd, faSignOutAlt, faTable, faTimes, faCartArrowDown, faGift } from "@fortawesome/free-solid-svg-icons";
+import { faBook, faBoxOpen, faChartPie, faCog, faHandHoldingUsd, faSignOutAlt, faTable, faTimes, faCartArrowDown, faGift, faUsers, faUserShield } from "@fortawesome/free-solid-svg-icons";
 import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
 import { Nav, Badge, Image, Button, Dropdown, Accordion, Navbar } from '@themesberg/react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import { Routes } from "../routes";
+import { AuthContext } from '../context/AuthContext';
 import ThemesbergLogo from "../assets/img/themesberg.svg";
 import ReactHero from "../assets/img/technologies/react-hero-logo.svg";
 import ProfilePicture from "../assets/img/team/profile-picture-3.jpg";
@@ -69,6 +70,8 @@ export default (props = {}) => {
     );
   };
 
+  const { user } = useContext(AuthContext);
+  console.log(user);
   return (
     <>
       <Navbar expand={false} collapseOnSelect variant="dark" className="navbar-theme-primary px-4 d-md-none">
@@ -111,6 +114,10 @@ export default (props = {}) => {
               <NavItem title="Occasions" icon={faCalendarAlt} link={Routes.ManageOccasions.path} />
               <NavItem title="Gift Cards" icon={faGift} link={Routes.ManageGiftCards.path} />
               <NavItem title="Commands" icon={faCartArrowDown} link={Routes.ManageCommands.path} />
+              <NavItem title="Users" icon={faUsers} link={Routes.ManageUsers.path} />
+              {user && user.is_super === 7 && (
+                <NavItem title="Manage Admins" icon={faUserShield} link={Routes.ManageAdmins?.path || '/dashboard/manage-admins'} />
+              )}
             </Nav>
           </div>
         </SimpleBar>

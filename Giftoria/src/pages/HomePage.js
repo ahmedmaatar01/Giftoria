@@ -7,6 +7,7 @@ import Presentation from "./Presentation";
 import DashboardOverview from "./dashboard/DashboardOverview";
 import Transactions from "./Transactions";
 import BootstrapTables from "./tables/BootstrapTables";
+import Settings from "./Settings";
 import Login from "../components/Auth/Login";
 import Register from "../components/Auth/Register";
 import AdminRegister from "../components/Auth/AdminRegister";
@@ -21,7 +22,19 @@ import ManageCustomField from './dashboard/ManageCustomField';
 import ManageCommands from './dashboard/ManageCommands';
 import ManageOccasions from './dashboard/ManageOccasions';
 import ManageGiftCards from './dashboard/ManageGiftCards';
+import ManageUsers from './dashboard/ManageUsers';
+import ManageAdmins from './dashboard/ManageAdmins';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+
+// Decides where root ("/") should go based on auth state
+const RootRedirect = () => {
+  const { user, loading } = useContext(AuthContext);
+  if (loading) return <Preloader show={true} />;
+  if (user && user.role === 'admin') {
+    return <Redirect to={Routes.DashboardOverview.path} />;
+  }
+  return <Redirect to={Routes.AdminLogin.path} />;
+};
 
 const RouteWithLoader = ({ component: Component, ...rest }) => {
   const [loaded, setLoaded] = useState(false);
@@ -78,11 +91,26 @@ export default () => {
   if (loading) return <div>Loading...</div>;
   return (
     <Switch>
-      <RouteWithLoader exact path={Routes.Presentation.path} component={Presentation} />
+      {/* Root now redirects to dashboard if admin logged in, else to admin login */}
+      <Route exact path={Routes.Presentation.path} render={() => <RootRedirect />} />
       <RouteWithLoader exact path={Routes.Login.path} component={Login} />
       <RouteWithLoader exact path={Routes.Register.path} component={Register} />
       <RouteWithLoader exact path={Routes.AdminRegister.path} component={AdminRegister} />
       <RouteWithLoader exact path={Routes.AdminLogin.path} component={AdminLogin} />
+
+      <Route
+        exact
+        path={Routes.Settings.path}
+        render={props =>
+          !user ? (
+            <Redirect to={Routes.AdminLogin.path} />
+          ) : user.role === 'admin' ? (
+            <RouteWithSidebar {...props} component={Settings} />
+          ) : (
+            <Redirect to={Routes.Presentation.path} />
+          )
+        }
+      />
 
       <Route
         exact
@@ -190,6 +218,32 @@ export default () => {
       />
       <Route
         exact
+        path={Routes.ManageUsers.path}
+        render={props =>
+          !user ? (
+            <Redirect to={Routes.AdminLogin.path} />
+          ) : user.role === 'admin' ? (
+            <RouteWithSidebar {...props} component={ManageUsers} />
+          ) : (
+            <Redirect to={Routes.Presentation.path} />
+          )
+        }
+      />
+      <Route
+        exact
+        path={Routes.ManageAdmins.path}
+        render={props =>
+          !user ? (
+            <Redirect to={Routes.AdminLogin.path} />
+          ) : user.role === 'admin' && user.is_super === 7 ? (
+            <RouteWithSidebar {...props} component={ManageAdmins} />
+          ) : (
+            <Redirect to={Routes.Presentation.path} />
+          )
+        }
+      />
+      <Route
+        exact
         path={Routes.BootstrapTables.path}
         render={props =>
           !user ? (
@@ -202,6 +256,7 @@ export default () => {
         }
       />
 
+      {/* For any unknown route, go to root and let RootRedirect decide */}
       <Redirect to={Routes.Presentation.path} />
     </Switch>
   );

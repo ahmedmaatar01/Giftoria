@@ -1,89 +1,134 @@
-import React from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBoxOpen, faCartArrowDown, faChartPie, faChevronDown, faClipboard, faCommentDots, faFileAlt, faPlus, faRocket, faStore } from '@fortawesome/free-solid-svg-icons';
-import { Col, Row, Button, Dropdown } from '@themesberg/react-bootstrap';
-import { ChoosePhotoWidget, ProfileCardWidget } from "../components/Widgets";
-import { GeneralInfoForm } from "../components/Forms";
+import React, { useContext, useState } from "react";
+import { Col, Row, Button, Dropdown, Card, Form, InputGroup, Alert } from '@themesberg/react-bootstrap';
+import { AuthContext } from "../context/AuthContext";
+import { updateAdmin, changeAdminPassword } from "../api/auth";
 
 import Profile3 from "../assets/img/team/profile-picture-3.jpg";
 
 
 export default () => {
+  const { user, setUser } = useContext(AuthContext);
+  const [name, setName] = useState(user?.name || "");
+  const [email, setEmail] = useState(user?.email || "");
+  const [saving, setSaving] = useState(false);
+  const [saveMsg, setSaveMsg] = useState("");
+  const [saveErr, setSaveErr] = useState("");
+
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [newPasswordConfirm, setNewPasswordConfirm] = useState("");
+  const [pwdMsg, setPwdMsg] = useState("");
+  const [pwdErr, setPwdErr] = useState("");
+  const [pwdSaving, setPwdSaving] = useState(false);
+
+  const handleSaveProfile = async (e) => {
+    e.preventDefault();
+    setSaveMsg(""); setSaveErr(""); setSaving(true);
+    try {
+      const payload = {};
+      if (name && name !== user?.name) payload.name = name;
+      if (email && email !== user?.email) payload.email = email;
+      const res = await updateAdmin(payload);
+      const updatedUser = { ...user, ...res.user };
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      setSaveMsg(res.message || 'Profile updated successfully');
+    } catch (err) {
+      const msg = err?.message || err?.error || 'Failed to update profile';
+      setSaveErr(typeof msg === 'string' ? msg : JSON.stringify(msg));
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleChangePassword = async (e) => {
+    e.preventDefault();
+    setPwdMsg(""); setPwdErr(""); setPwdSaving(true);
+    try {
+      const res = await changeAdminPassword({
+        current_password: currentPassword,
+        new_password: newPassword,
+        new_password_confirmation: newPasswordConfirm
+      });
+      setPwdMsg(res.message || 'Password changed successfully');
+      setCurrentPassword(""); setNewPassword(""); setNewPasswordConfirm("");
+    } catch (err) {
+      const msg = err?.message || err?.error || 'Failed to change password';
+      setPwdErr(typeof msg === 'string' ? msg : JSON.stringify(msg));
+    } finally {
+      setPwdSaving(false);
+    }
+  };
+
   return (
     <>
-      <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-        <Dropdown>
-          <Dropdown.Toggle as={Button} variant="secondary" className="text-dark me-2">
-            <FontAwesomeIcon icon={faPlus} className="me-2" />
-            <span>New</span>
-          </Dropdown.Toggle>
-          <Dropdown.Menu className="dashboard-dropdown dropdown-menu-left mt-2">
-            <Dropdown.Item>
-              <FontAwesomeIcon icon={faFileAlt} className="me-2" /> Document
-            </Dropdown.Item>
-            <Dropdown.Item>
-              <FontAwesomeIcon icon={faCommentDots} className="me-2" /> Message
-            </Dropdown.Item>
-            <Dropdown.Item>
-              <FontAwesomeIcon icon={faBoxOpen} className="me-2" /> Product
-            </Dropdown.Item>
-
-            <Dropdown.Divider />
-
-            <Dropdown.Item>
-              <FontAwesomeIcon icon={faRocket} className="text-danger me-2" /> Subscription Plan
-              </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-
-        <div className="d-flex">
-          <Dropdown>
-            <Dropdown.Toggle as={Button} variant="primary">
-              <FontAwesomeIcon icon={faClipboard} className="me-2" /> Reports
-              <span className="icon icon-small ms-1"><FontAwesomeIcon icon={faChevronDown} /></span>
-            </Dropdown.Toggle>
-            <Dropdown.Menu className="dashboard-dropdown dropdown-menu-left mt-1">
-              <Dropdown.Item>
-                <FontAwesomeIcon icon={faBoxOpen} className="me-2" /> Products
-              </Dropdown.Item>
-              <Dropdown.Item>
-                <FontAwesomeIcon icon={faStore} className="me-2" /> Customers
-              </Dropdown.Item>
-              <Dropdown.Item>
-                <FontAwesomeIcon icon={faCartArrowDown} className="me-2" /> Orders
-              </Dropdown.Item>
-              <Dropdown.Item>
-                <FontAwesomeIcon icon={faChartPie} className="me-2" /> Console
-              </Dropdown.Item>
-
-              <Dropdown.Divider />
-
-              <Dropdown.Item>
-                <FontAwesomeIcon icon={faRocket} className="text-success me-2" /> All Reports
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-      </div>
 
       <Row>
-        <Col xs={12} xl={8}>
-          <GeneralInfoForm />
+        <Col xs={12} xl={12}>
+          <Card border="light" className="bg-white shadow-sm mb-4 mt-5">
+            <Card.Body>
+              <h5 className="mb-4">Profile</h5>
+              {saveMsg && <Alert variant="success">{saveMsg}</Alert>}
+              {saveErr && <Alert variant="danger">{saveErr}</Alert>}
+              <Form onSubmit={handleSaveProfile}>
+                <Row>
+                  <Col md={6} className="mb-3">
+                    <Form.Group id="name">
+                      <Form.Label>Name</Form.Label>
+                      <Form.Control required type="text" placeholder="Full name" value={name} onChange={(e)=>setName(e.target.value)} />
+                    </Form.Group>
+                  </Col>
+                  <Col md={6} className="mb-3">
+                    <Form.Group id="email">
+                      <Form.Label>Email</Form.Label>
+                      <Form.Control required type="email" placeholder="admin@example.com" value={email} onChange={(e)=>setEmail(e.target.value)} />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <div className="mt-3">
+                  <Button variant="primary" type="submit" disabled={saving}>{saving ? 'Saving…' : 'Save Changes'}</Button>
+                </div>
+              </Form>
+            </Card.Body>
+          </Card>
+
+          <Card border="light" className="bg-white shadow-sm mb-4">
+            <Card.Body>
+              <h5 className="mb-4">Change Password</h5>
+              {pwdMsg && <Alert variant="success">{pwdMsg}</Alert>}
+              {pwdErr && <Alert variant="danger">{pwdErr}</Alert>}
+              <Form onSubmit={handleChangePassword}>
+                <Row>
+                  <Col md={12} className="mb-3">
+                    <Form.Group id="currentPassword">
+                      <Form.Label>Current Password</Form.Label>
+                      <Form.Control required type="password" placeholder="Current password" value={currentPassword} onChange={(e)=>setCurrentPassword(e.target.value)} />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={6} className="mb-3">
+                    <Form.Group id="newPassword">
+                      <Form.Label>New Password</Form.Label>
+                      <Form.Control required type="password" placeholder="New password" value={newPassword} onChange={(e)=>setNewPassword(e.target.value)} />
+                    </Form.Group>
+                  </Col>
+                  <Col md={6} className="mb-3">
+                    <Form.Group id="newPasswordConfirm">
+                      <Form.Label>Confirm New Password</Form.Label>
+                      <Form.Control required type="password" placeholder="Confirm new password" value={newPasswordConfirm} onChange={(e)=>setNewPasswordConfirm(e.target.value)} />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <div className="mt-3">
+                  <Button variant="primary" type="submit" disabled={pwdSaving}>{pwdSaving ? 'Updating…' : 'Update Password'}</Button>
+                </div>
+              </Form>
+            </Card.Body>
+          </Card>
         </Col>
 
-        <Col xs={12} xl={4}>
-          <Row>
-            <Col xs={12}>
-              <ProfileCardWidget />
-            </Col>
-            <Col xs={12}>
-              <ChoosePhotoWidget
-                title="Select profile photo"
-                photo={Profile3}
-              />
-            </Col>
-          </Row>
-        </Col>
+
       </Row>
     </>
   );
