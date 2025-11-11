@@ -554,5 +554,20 @@ header,
   .flat-spacing-12 .collection-content p {
     font-size: 13px !important;
   }
+  .footer-newsletter h6{
+    display: none !important;
+    
+  }
+  .space {
+    display: none  !important;
+  }
 }
+
+@media (max-width: 768px) {
+  header#header {
+    overflow: visible !important; /* ✅ allow dropdown to escape */
+  }
+}
+
+
 

@@ -25,7 +25,7 @@ export default function Home() {
       <Marquee />
       <Collection></Collection>
       {/* <HeroCamp /> */}
-      <div style={{ marginTop: '140px' }} />
+      <div className ="space"  style={{ marginTop: '140px' }} />
       <Categories />
       <Banner2 />
       <div style={{ marginTop: '60px' }} />

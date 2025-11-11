@@ -315,6 +315,157 @@ export default function OrderDetails() {
                     </div>
                   </div>
                 ))}
+                
+                {/* Gift Card Section */}
+                {order.has_gift_card && (
+                  <div className="order-head mb-3" >
+                    <div className="content">
+                      <div className="text-2 fw-6" style={{ color: '#495057', marginBottom: '10px' }}>
+                         {t("order_details.gift_card_details", "Gift Card Details")}
+                      </div>
+                      
+                      <div className="mt_4">
+                        <span className="fw-6">{t("order_details.gift_card_type", "Type")}: </span>
+                        <span className>
+                          {(order.gift_card_is_custom === true || order.gift_card_is_custom === 1)
+                            ? t("order_details.custom_design", "Custom Design") 
+                            : t("order_details.template_design", "Template Design")
+                          }
+                        </span>
+                      </div>
+                      
+                      {/* Debug log to see the exact values */}
+                      {console.log('Gift Card Debug:', {
+                        has_gift_card: order.has_gift_card,
+                        gift_card_is_custom: order.gift_card_is_custom,
+                        gift_card_template: order.gift_card_template,
+                        typeof_is_custom: typeof order.gift_card_is_custom
+                      })}
+                      
+                      {(order.gift_card_is_custom === false || order.gift_card_is_custom === 0 || order.gift_card_is_custom === null) && order.gift_card_template && (
+                        <>
+                          <div className="mt_4">
+                            <span className="fw-6">{t("order_details.template_name", "Template")}: </span>
+                            <span>{order.gift_card_template.name}</span>
+                          </div>
+                          
+                          <div className="mt_4">
+                            <span className="fw-6">{t("order_details.template_image", "Template Image")}: </span>
+                            <br />
+                            {(order.gift_card_template.image_url || order.gift_card_template.image) ? (
+                              <img 
+                                src={
+                                  order.gift_card_template.image_url || 
+                                  `http://localhost:8000/storage/${order.gift_card_template.image}`
+                                } 
+                                alt={order.gift_card_template.name}
+                                style={{ 
+                                  maxWidth: '200px', 
+                                  maxHeight: '150px', 
+                                  borderRadius: '8px',
+                                  border: '1px solid #DEE2E6',
+                                  marginTop: '8px',
+                                  display: 'block'
+                                }}
+                                onError={(e) => {
+                                  console.log('Image failed to load:', e.target.src);
+                                  e.target.style.display = 'none';
+                                  // Show fallback text
+                                  const fallback = document.createElement('div');
+                                  fallback.textContent = t("order_details.image_not_available", "Image not available");
+                                  fallback.style.cssText = 'color: #6c757d; font-style: italic; margin-top: 8px;';
+                                  e.target.parentNode.appendChild(fallback);
+                                }}
+                                onLoad={(e) => {
+                                  console.log('Image loaded successfully:', e.target.src);
+                                }}
+                              />
+                            ) : (
+                              <div style={{ color: '#6c757d', fontStyle: 'italic', marginTop: '8px' }}>
+                                {t("order_details.no_template_image", "No template image available")}
+                              </div>
+                            )}
+                            {/* Debug info - remove in production */}
+                            {console.log('Gift Card Template Data:', order.gift_card_template)}
+                          </div>
+                        </>
+                      )}
+                      
+                      {order.gift_card_message && (
+                        <div className="mt_4">
+                          <span className="fw-6">{t("order_details.gift_card_message", "Message")}: </span>
+                          <div style={{ 
+                            backgroundColor: '#FFFFFF', 
+                            padding: '10px', 
+                            borderRadius: '6px', 
+                            border: '1px solid #DEE2E6',
+                            marginTop: '5px',
+                            whiteSpace: 'pre-wrap'
+                          }}>
+                            "{order.gift_card_message}"
+                          </div>
+                        </div>
+                      )}
+                      
+                      {order.gift_card_signature && (
+                        <div className="mt_4">
+                          <span className="fw-6">{t("order_details.gift_card_signature", "From")}: </span>
+                          <div style={{ marginTop: '8px' }}>
+                            {order.gift_card_signature_type === 'image' ? (
+                              <div>
+                                <img 
+                                  src={order.gift_card_signature_url || `http://localhost:8000/storage/${order.gift_card_signature}`}
+                                  alt="Signature"
+                                  style={{ 
+                                    maxWidth: '300px', 
+                                    maxHeight: '100px', 
+                                    border: '1px solid #DEE2E6',
+                                    borderRadius: '6px',
+                                    backgroundColor: '#FFFFFF',
+                                    padding: '8px',
+                                    display: 'block'
+                                  }}
+                                  onError={(e) => {
+                                    console.log('Signature image failed to load:', e.target.src);
+                                    e.target.style.display = 'none';
+                                    const fallback = document.createElement('div');
+                                    fallback.textContent = t("order_details.signature_image_not_available", "Signature image not available");
+                                    fallback.style.cssText = 'color: #6c757d; font-style: italic;';
+                                    e.target.parentNode.appendChild(fallback);
+                                  }}
+                                />
+                                <small className="text-muted d-block mt-2">
+                                  <i className="fas fa-signature me-1"></i>
+                                  {t("order_details.drawn_signature", "Drawn signature")}
+                                </small>
+                              </div>
+                            ) : (
+                              <div>
+                                <span style={{ 
+                                  fontStyle: 'italic', 
+                                  fontSize: '1.1em',
+                                  color: '#495057',
+                                  display: 'inline-block',
+                                  padding: '8px 12px',
+                                  backgroundColor: '#FFFFFF',
+                                  border: '1px solid #DEE2E6',
+                                  borderRadius: '6px'
+                                }}>
+                                  — {order.gift_card_signature}
+                                </span>
+                                <small className="text-muted d-block mt-2">
+                                  <i className="fas fa-pen me-1"></i>
+                                  {t("order_details.text_signature", "Text signature")}
+                                </small>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+                
                 <ul>
                   <li className="d-flex justify-content-between text-2">
                     <span>{t("order_details.total_price")}</span>

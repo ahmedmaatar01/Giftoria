@@ -24,13 +24,39 @@ class Command extends Model
         'desired_delivery_at',
         'payment_method',
         'source',
-        'description'
+        'description',
+        'has_gift_card',
+        'gift_card_template_id',
+        'gift_card_message',
+        'gift_card_signature',
+        'gift_card_signature_type',
+        'gift_card_is_custom'
     ];
 
     protected $casts = [
         'placed_at' => 'datetime',
         'desired_delivery_at' => 'datetime',
     ];
+
+    protected $appends = ['gift_card_signature_url'];
+
+    /**
+     * Get the full URL for the signature (if it's an image)
+     */
+    public function getGiftCardSignatureUrlAttribute()
+    {
+        if (!$this->gift_card_signature) {
+            return null;
+        }
+
+        // If it's a file path (image), return the full URL
+        if ($this->gift_card_signature_type === 'image' || str_starts_with($this->gift_card_signature, 'signatures/')) {
+            return url('storage/' . $this->gift_card_signature);
+        }
+
+        // Otherwise it's text, return as-is
+        return $this->gift_card_signature;
+    }
 
     public function user()
     {
@@ -47,6 +73,14 @@ class Command extends Model
         return $this->belongsToMany(Product::class, 'command_products')
             ->withPivot('quantity', 'price_at_order_time', 'custom_fields', 'unit_price', 'line_total')
             ->withTimestamps();
+    }
+
+    /**
+     * Get the gift card template for this command.
+     */
+    public function giftCardTemplate()
+    {
+        return $this->belongsTo(\App\Models\GiftCard::class, 'gift_card_template_id');
     }
 
     /**

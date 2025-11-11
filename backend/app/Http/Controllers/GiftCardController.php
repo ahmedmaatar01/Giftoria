@@ -38,6 +38,7 @@ class GiftCardController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
+            'name_ar' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_active' => 'boolean'
         ]);
@@ -51,8 +52,8 @@ class GiftCardController extends Controller
         }
 
         try {
-            $giftCardData = $request->only(['name', 'is_active']);
-            
+            $giftCardData = $request->only(['name', 'name_ar', 'is_active']);
+
             // Handle image upload
             if ($request->hasFile('image')) {
                 $imagePath = $request->file('image')->store('gift_cards', 'public');
@@ -100,6 +101,7 @@ class GiftCardController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
+            'name_ar' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_active' => 'boolean'
         ]);
@@ -113,15 +115,15 @@ class GiftCardController extends Controller
         }
 
         try {
-            $giftCardData = $request->only(['name', 'is_active']);
-            
+            $giftCardData = $request->only(['name', 'name_ar', 'is_active']);
+
             // Handle image upload
             if ($request->hasFile('image')) {
                 // Delete old image if exists
                 if ($giftCard->image && Storage::disk('public')->exists($giftCard->image)) {
                     Storage::disk('public')->delete($giftCard->image);
                 }
-                
+
                 $imagePath = $request->file('image')->store('gift_cards', 'public');
                 $giftCardData['image'] = $imagePath;
             }

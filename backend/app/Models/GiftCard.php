@@ -17,6 +17,7 @@ class GiftCard extends Model
      */
     protected $fillable = [
         'name',
+        'name_ar',
         'image',
         'is_active',
     ];
@@ -28,6 +29,15 @@ class GiftCard extends Model
      */
     protected $casts = [
         'is_active' => 'boolean',
+    ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array<int, string>
+     */
+    protected $appends = [
+        'image_url',
     ];
 
     /**

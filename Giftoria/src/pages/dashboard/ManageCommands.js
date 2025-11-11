@@ -298,6 +298,7 @@ const filteredCommands = commands.filter(cmd => {
                             <th>Name</th>
                             <th>Status</th>
                             <th>Total</th>
+                            <th>Gift Card</th>
                             <th>Placed At</th>
                             <th>Payment</th>
                             <th>Customer Phone</th>
@@ -317,6 +318,15 @@ const filteredCommands = commands.filter(cmd => {
                                     </Badge>
                                 </td>
                                 <td>{cmd.total}</td>
+                                <td>
+                                    {cmd.has_gift_card ? (
+                                        <span className="text-success" title="Gift card included">
+                                            🎁 {cmd.gift_card_is_custom ? 'Custom' : 'Template'}
+                                        </span>
+                                    ) : (
+                                        <span className="text-muted">—</span>
+                                    )}
+                                </td>
                                 <td>{formatDate(cmd.placed_at)}</td>
                                 <td>{formatPayment(cmd.payment_method)}</td>
                                 <td>{cmd.customer_phone || '-'}</td>
@@ -420,6 +430,130 @@ const filteredCommands = commands.filter(cmd => {
               <tr><th>Billing Address</th><td>{selectedCommand.billing_address}</td></tr>
             </tbody>
           </table>
+
+          {/* Gift Card Info */}
+          {selectedCommand.has_gift_card && (
+            <>
+              <h6 className="fw-semibold mb-3 mt-5 text-primary">🎁 Gift Card Details</h6>
+              {/* Debug gift card template data */}
+              {selectedCommand.gift_card_template && console.log('Gift Card Template:', selectedCommand.gift_card_template)}
+              <table className="table table-striped table-hover table-bordered align-middle bg-white rounded">
+                <tbody>
+                  <tr>
+                    <th className="w-25">Gift Card Type</th>
+                    <td>
+                      {selectedCommand.gift_card_is_custom ? (
+                        <span className="badge bg-warning">Custom Design</span>
+                      ) : (
+                        <span className="badge bg-info">Template Design</span>
+                      )}
+                    </td>
+                  </tr>
+                  {!selectedCommand.gift_card_is_custom && selectedCommand.gift_card_template && (
+                    <>
+                      <tr>
+                        <th>Template Name</th>
+                        <td>{selectedCommand.gift_card_template.name}</td>
+                      </tr>
+                      <tr>
+                        <th>Template Image</th>
+                        <td>
+                          {selectedCommand.gift_card_template && (selectedCommand.gift_card_template.image_url || selectedCommand.gift_card_template.image) ? (
+                            <img 
+                              src={
+                                selectedCommand.gift_card_template.image_url || 
+                                (selectedCommand.gift_card_template.image 
+                                  ? `http://localhost:8000/storage/${selectedCommand.gift_card_template.image}` 
+                                  : '')
+                              } 
+                              alt={selectedCommand.gift_card_template.name}
+                              className="img-thumbnail"
+                              style={{ maxWidth: '150px', maxHeight: '100px' }}
+                              onError={(e) => {
+                                e.target.style.display = 'none';
+                                e.target.nextSibling.style.display = 'inline';
+                              }}
+                            />
+                          ) : null}
+                          <span 
+                            className="text-muted" 
+                            style={{ display: selectedCommand.gift_card_template && (selectedCommand.gift_card_template.image_url || selectedCommand.gift_card_template.image) ? 'none' : 'inline' }}
+                          >
+                            No image available
+                          </span>
+                        </td>
+                      </tr>
+                    </>
+                  )}
+                  {selectedCommand.gift_card_message && (
+                    <tr>
+                      <th>Custom Message</th>
+                      <td style={{ whiteSpace: 'pre-wrap' }}>{selectedCommand.gift_card_message}</td>
+                    </tr>
+                  )}
+                  {selectedCommand.gift_card_signature && (
+                    <tr>
+                      <th>Signature</th>
+                      <td>
+                        {selectedCommand.gift_card_signature_type === 'image' ? (
+                          <div>
+                            <img 
+                              src={
+                                selectedCommand.gift_card_signature_url || 
+                                `http://localhost:8000/storage/${selectedCommand.gift_card_signature}`
+                              }
+                              alt="Customer Signature"
+                              className="img-thumbnail"
+                              style={{ 
+                                maxWidth: '300px', 
+                                maxHeight: '100px',
+                                backgroundColor: '#fff',
+                                padding: '8px'
+                              }}
+                              onError={(e) => {
+                                console.log('Signature image failed to load:', e.target.src);
+                                e.target.style.display = 'none';
+                                const fallback = document.createElement('div');
+                                fallback.textContent = 'Signature image not available';
+                                fallback.className = 'text-muted fst-italic';
+                                e.target.parentNode.appendChild(fallback);
+                              }}
+                            />
+                            <div className="mt-2">
+                              <small className="text-muted">
+                                <i className="fas fa-signature me-1"></i>
+                                Drawn signature
+                              </small>
+                            </div>
+                          </div>
+                        ) : (
+                          <div>
+                            <span style={{ 
+                              fontStyle: 'italic', 
+                              fontSize: '1.1em',
+                              display: 'inline-block',
+                              padding: '8px 12px',
+                              backgroundColor: '#f8f9fa',
+                              border: '1px solid #dee2e6',
+                              borderRadius: '6px'
+                            }}>
+                              — {selectedCommand.gift_card_signature}
+                            </span>
+                            <div className="mt-2">
+                              <small className="text-muted">
+                                <i className="fas fa-pen me-1"></i>
+                                Text signature
+                              </small>
+                            </div>
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </>
+          )}
 
           {/* Products */}
           <h6 className="fw-semibold mb-3 mt-5 text-primary">Products</h6>

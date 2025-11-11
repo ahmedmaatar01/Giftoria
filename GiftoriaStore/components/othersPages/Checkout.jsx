@@ -2,7 +2,7 @@
 import { useContextElement } from "@/context/Context";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
@@ -14,12 +14,24 @@ export default function Checkout() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [successMsg, setSuccessMsg] = useState(null);
-  
+
+  // Signature type: 'text' or 'draw'
+  const [signatureType, setSignatureType] = useState('text');
+
+  // Signature drawing refs
+  const canvasRef = useRef(null);
+  const ctxRef = useRef(null);
+  const dprRef = useRef(1);
+  const isDrawingRef = useRef(false);
+  const hasDrawnRef = useRef(false);
+  const lastPointRef = useRef({ x: 0, y: 0 });
+  const [signaturePadReady, setSignaturePadReady] = useState(false);
+
   // Gift card state
   const [giftCardTemplates, setGiftCardTemplates] = useState([]);
   const [giftCardSelection, setGiftCardSelection] = useState({
-    enabled: false,
-    templateId: null,
+    enabled: true,
+    templateId: 'custom',
     customDescription: '',
     customSigning: '',
     productIds: []
@@ -74,7 +86,7 @@ export default function Checkout() {
   // Check if cart has products with gift card support and load templates
   useEffect(() => {
     const productsWithGiftCards = cartProducts.filter(product => product.has_gift_card);
-    
+
     // Temporarily always load for testing: if (productsWithGiftCards.length > 0) {
     if (true) {
       // Load gift card templates
@@ -82,11 +94,11 @@ export default function Checkout() {
         setLoadingTemplates(true);
         try {
           const response = await axios.get('http://localhost:8000/api/gift-cards');
-          
+
           if (response.data.success) {
             const activeTemplates = response.data.data.filter(template => template.is_active);
             setGiftCardTemplates(activeTemplates);
-            
+
             // Set product IDs that have gift card support
             setGiftCardSelection(prev => ({
               ...prev,
@@ -99,7 +111,7 @@ export default function Checkout() {
           setLoadingTemplates(false);
         }
       };
-      
+
       loadGiftCardTemplates();
     } else {
       // No products with gift cards, reset selection
@@ -112,7 +124,131 @@ export default function Checkout() {
       });
     }
   }, [cartProducts]);
-  console.log(cartProducts)
+
+  // Initialize custom canvas drawing when in draw mode (client-side only)
+  useEffect(() => {
+    if (typeof window === 'undefined' || signatureType !== 'draw') return;
+    
+    const initSignaturePad = async () => {
+      // Small delay to ensure canvas is fully rendered
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      const canvas = canvasRef.current;
+      if (!canvas) {
+        console.error('❌ Canvas ref is null');
+        return;
+      }
+
+      console.log('📐 Canvas offsetWidth:', canvas.offsetWidth, 'offsetHeight:', canvas.offsetHeight);
+      // Setup canvas DPR scaling for crisp lines
+      const ratio = Math.max(window.devicePixelRatio || 1, 1);
+      dprRef.current = ratio;
+      canvas.width = canvas.offsetWidth * ratio;
+      canvas.height = canvas.offsetHeight * ratio;
+      const ctx = canvas.getContext("2d", { willReadFrequently: true });
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0); // equivalent to scale(ratio, ratio) but resets
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.strokeStyle = '#222';
+      ctxRef.current = ctx;
+
+      console.log('📐 Canvas dimensions set - width:', canvas.width, 'height:', canvas.height, 'ratio:', ratio);
+      setSignaturePadReady(true);
+      console.log('✅ Canvas drawing initialized in Checkout');
+
+      // Test if canvas is receiving events
+      const onMouseDown = (e) => {
+        console.log('🖱️ Canvas mousedown detected at:', e.clientX, e.clientY);
+      };
+      const onPointerDown = (e) => {
+        console.log('🖱️ Canvas pointerdown detected type:', e.pointerType, 'at:', e.clientX, e.clientY);
+      };
+      const onTouchStart = () => { console.log('👆 Canvas touchstart detected'); };
+      const getPos = (e) => {
+        const rect = canvas.getBoundingClientRect();
+        return {
+          x: (e.clientX - rect.left),
+          y: (e.clientY - rect.top)
+        };
+      };
+      const onPointerDownDraw = (e) => {
+        if (e.button !== undefined && e.button !== 0) return; // left button only
+        canvas.setPointerCapture?.(e.pointerId);
+        isDrawingRef.current = true;
+        hasDrawnRef.current = false;
+        const { x, y } = getPos(e);
+        lastPointRef.current = { x, y };
+        ctxRef.current.beginPath();
+        ctxRef.current.moveTo(x, y);
+        console.log('🎯 Drawing started');
+      };
+      const onPointerMoveDraw = (e) => {
+        if (!isDrawingRef.current) return;
+        const { x, y } = getPos(e);
+        ctxRef.current.lineTo(x, y);
+        ctxRef.current.stroke();
+        lastPointRef.current = { x, y };
+        hasDrawnRef.current = true;
+      };
+      const onPointerUpDraw = (e) => {
+        if (!isDrawingRef.current) return;
+        isDrawingRef.current = false;
+        try { canvas.releasePointerCapture?.(e.pointerId); } catch {}
+        console.log('🎯 Drawing ended');
+        // Export image if something was drawn
+        const dataURL = hasDrawnRef.current ? canvas.toDataURL('image/png') : '';
+        console.log('�️ Signature captured, length:', dataURL.length);
+        handleGiftCardChange('customSigning', dataURL);
+      };
+  canvas.addEventListener('mousedown', onMouseDown);
+  canvas.addEventListener('pointerdown', onPointerDown, { passive: true });
+  canvas.addEventListener('touchstart', onTouchStart, { passive: true });
+  // Drawing listeners
+  canvas.addEventListener('pointerdown', onPointerDownDraw);
+  canvas.addEventListener('pointermove', onPointerMoveDraw);
+  canvas.addEventListener('pointerup', onPointerUpDraw);
+  canvas.addEventListener('pointerleave', onPointerUpDraw);
+
+      // Restore existing signature if any
+      const existingSignature = giftCardSelection.customSigning;
+      if (existingSignature && existingSignature.startsWith("data:image")) {
+        const img = new window.Image();
+        img.onload = () => {
+          // Clear and draw scaled to visible size (CSS pixels)
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0, canvas.offsetWidth, canvas.offsetHeight);
+        };
+        img.src = existingSignature;
+      }
+    };
+
+    initSignaturePad();
+
+    return () => {
+      // Remove debug listeners and drawing listeners
+      const c = canvasRef.current;
+      if (c) {
+        c.removeEventListener('mousedown', onMouseDown);
+        c.removeEventListener('pointerdown', onPointerDown);
+        c.removeEventListener('touchstart', onTouchStart);
+        c.removeEventListener('pointerdown', onPointerDownDraw);
+        c.removeEventListener('pointermove', onPointerMoveDraw);
+        c.removeEventListener('pointerup', onPointerUpDraw);
+        c.removeEventListener('pointerleave', onPointerUpDraw);
+      }
+      setSignaturePadReady(false);
+    };
+  }, [signatureType]);
+
+  const handleClearSignature = () => {
+    const canvas = canvasRef.current;
+    const ctx = ctxRef.current;
+    if (!canvas || !ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    handleGiftCardChange('customSigning', '');
+  };
+
   const getItemImage = (elm) => {
     if (elm?.images && elm.images.length > 0) {
       const featured = elm.images.find((img) => img.is_featured);
@@ -139,11 +275,11 @@ export default function Checkout() {
     const headers = {
       'Content-Type': 'application/json',
     };
-    
+
     if (authToken) {
       headers['Authorization'] = `Bearer ${authToken}`;
     }
-    
+
     return headers;
   };
 
@@ -152,12 +288,6 @@ export default function Checkout() {
     return !!(user && authToken);
   };
 
-  console.log('Auth Debug:', {
-    user: user,
-    authToken: authToken ? 'Token exists' : 'No token',
-    isAuthenticated: isAuthenticated(),
-    userId: user?.id
-  });
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -168,6 +298,7 @@ export default function Checkout() {
   };
 
   const handleGiftCardChange = (field, value) => {
+    console.log('🎁 handleGiftCardChange called:', { field, valueLength: value?.length || 0, valuePreview: typeof value === 'string' ? value.substring(0, 50) : value });
     setGiftCardSelection(prev => ({
       ...prev,
       [field]: value
@@ -247,16 +378,43 @@ export default function Checkout() {
 
       // Add gift card data if enabled
       if (giftCardSelection.enabled && giftCardSelection.templateId) {
+        let giftCardMessage = '';
+
+        if (giftCardSelection.templateId === 'custom') {
+          // Use custom message for custom design
+          giftCardMessage = giftCardSelection.customDescription;
+        } else {
+          // Use template message for prepared templates
+          const selectedTemplate = giftCardTemplates.find(t => t.id == giftCardSelection.templateId);
+          giftCardMessage = selectedTemplate?.message || 'Template message';
+        }
+
         orderPayload.gift_card = {
           template_id: giftCardSelection.templateId === 'custom' ? null : giftCardSelection.templateId,
-          custom_description: giftCardSelection.customDescription,
+          custom_description: giftCardMessage,
           custom_signing: giftCardSelection.customSigning,
           product_ids: giftCardSelection.productIds
         };
+
+        // Debug logging
+        console.log('=== GIFT CARD DEBUG ===');
+        console.log('Gift Card Selection State:', giftCardSelection);
+        console.log('Signature Type:', signatureType);
+        console.log('Gift Card Payload:', {
+          template_id: orderPayload.gift_card.template_id,
+          custom_description: orderPayload.gift_card.custom_description,
+          custom_signing_length: orderPayload.gift_card.custom_signing?.length || 0,
+          custom_signing_value: orderPayload.gift_card.custom_signing,
+          custom_signing_preview: orderPayload.gift_card.custom_signing?.substring(0, 50) || 'EMPTY',
+          is_base64: orderPayload.gift_card.custom_signing?.startsWith('data:image') || false
+        });
+        console.log('=== END DEBUG ===');
       }
 
+      console.log('Full Order Payload:', orderPayload);
+
       const response = await axios.post(
-        'http://localhost:8000/api/commands', 
+        'http://localhost:8000/api/commands',
         orderPayload,
         {
           headers: getAuthHeaders()
@@ -272,7 +430,7 @@ export default function Checkout() {
       setTimeout(() => {
         if (!user) {
           // check this authentification conditon 
-          router.push(`/order-success?order_id=${orderId}`);
+           router.push(`/order-success?order_id=${orderId}`);
         } else {
           // Logged-in user → go to My Orders page
           router.push("my-account-orders");
@@ -442,108 +600,178 @@ export default function Checkout() {
               {/* Temporarily removed condition for testing: {hasGiftCardProducts && ( */}
               <div className="gift-card-section mb-4">
                 <h6 className="fw-5 mb-3">{t('checkout.gift_card_options', 'Gift Card Options')}</h6>
-                <p className="text-muted mb-3">
-                  {hasGiftCardProducts 
-                    ? t('checkout.gift_card_notice', 'Some products in your cart support gift cards. Add a personalized gift card to your order.')
-                    : 'Testing: Gift card section (remove condition when ready)'
-                  }
-                </p>
-                  
-                  <div className="fieldset-radio mb-3">
-                    <input
-                      type="checkbox"
-                      id="enable-gift-card"
-                      checked={giftCardSelection.enabled}
-                      onChange={(e) => handleGiftCardChange('enabled', e.target.checked)}
-                    />
-                    <label htmlFor="enable-gift-card" className="fw-5">
-                      {t('checkout.add_gift_card', 'Add Gift Card to Order')}
-                    </label>
-                  </div>
 
-                  {giftCardSelection.enabled && (
-                    <div className="gift-card-options p-3" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
-                      {loadingTemplates ? (
-                        <p>{t('checkout.loading_templates', 'Loading gift card templates...')}</p>
-                      ) : (
-                        <>
-                          <h6 className="mb-3">{t('checkout.choose_design_type', 'Choose Gift Card Design')}</h6>
-                          
-                          {/* Design Type Selection */}
-                          <div className="row mb-4">
-                            {/* Custom Design Option */}
-                            <div className="col-md-6 mb-3">
-                              <div 
-                                className={`design-type-option p-4 border rounded cursor-pointer text-center ${
-                                  giftCardSelection.templateId === 'custom' ? 'border-primary bg-light' : 'border-secondary'
-                                }`}
-                                onClick={() => handleGiftCardChange('templateId', 'custom')}
-                                style={{ cursor: 'pointer', minHeight: '120px' }}
-                              >
-                                <div className="d-flex flex-column justify-content-center h-100">
-                                  <div className="mb-3">
-                                    <i className="fas fa-paint-brush fa-3x text-primary"></i>
-                                  </div>
-                                  <input
-                                    type="radio"
-                                    name="designType"
-                                    value="custom"
-                                    checked={giftCardSelection.templateId === 'custom'}
-                                    onChange={() => handleGiftCardChange('templateId', 'custom')}
-                                    className="me-2"
-                                  />
-                                  <label className="fw-bold h6 mb-2">{t('checkout.custom_design', 'Custom Design')}</label>
-                                  <small className="text-muted">
-                                    {t('checkout.custom_design_desc', 'Create your own personalized gift card message')}
+                <div className="box-checkbox fieldset-radio mb-3 d-flex align-items-center">
+                  <input
+                    type="checkbox"
+                    id="enable-gift-card"
+                    className="tf-check"
+                    checked={giftCardSelection.enabled}
+                    onChange={(e) => handleGiftCardChange('enabled', e.target.checked)}
+                  />
+                  <label htmlFor="enable-gift-card" className="text_black-2 fw-6 p-0" style={{ margin: "0 5px" }}>
+                    {t('checkout.add_gift_card', 'Add Gift Card to Order')}
+                  </label>
+
+                </div>
+
+                {giftCardSelection.enabled && (
+                  <div className="gift-card-options">
+                    {loadingTemplates ? (
+                      <p>{t('checkout.loading_templates', 'Loading gift card templates...')}</p>
+                    ) : (
+                      <>
+                        <h6 className="mb-3">{t('checkout.choose_design_type', 'Choose Gift Card Design')}</h6>
+
+                        {/* Design Type Selection - Template Style */}
+                        <div className="mb-4">
+                          <div className="d-flex gap-3 flex-wrap">
+                            {/* Custom Design Button */}
+                            <button
+                              type="button"
+                              className="btn flex-fill radius-3"
+                              onClick={() => handleGiftCardChange('templateId', 'custom')}
+                              style={{
+                                minHeight: '50px',
+                                backgroundColor: giftCardSelection.templateId === 'custom' ? '#967740' : 'transparent',
+                                borderColor: '#967740',
+                                borderWidth: '2px',
+                                color: giftCardSelection.templateId === 'custom' ? 'white' : '#967740',
+                                transition: 'all 0.2s ease'
+                              }}
+                            >
+                              <div className="d-flex align-items-center justify-content-center">
+                                <i className="fas fa-edit me-2"></i>
+                                <div className="text-start">
+                                  <div className="fw-bold">{t('checkout.custom_design', 'Custom Design')}</div>
+                                  <small style={{
+                                    color: giftCardSelection.templateId === 'custom' ? 'rgba(255,255,255,0.8)' : '#6c757d'
+                                  }}>
+                                    {t('checkout.custom_design_desc', 'Write your own message')}
                                   </small>
                                 </div>
                               </div>
-                            </div>
+                            </button>
 
-                            {/* Prepared Templates Option */}
-                            <div className="col-md-6 mb-3">
-                              <div 
-                                className={`design-type-option p-4 border rounded cursor-pointer text-center ${
-                                  (giftCardSelection.templateId && giftCardSelection.templateId !== 'custom') ? 'border-primary bg-light' : 'border-secondary'
-                                }`}
-                                onClick={() => setShowTemplateModal(true)}
-                                style={{ cursor: 'pointer', minHeight: '120px' }}
-                              >
-                                <div className="d-flex flex-column justify-content-center h-100">
-                                  <div className="mb-3">
-                                    <i className="fas fa-images fa-3x text-success"></i>
-                                  </div>
-                                  <button 
+                            {/* Prepared Templates Button */}
+                            <button
+                              type="button"
+                              className="btn flex-fill radius-3"
+                              onClick={() => setShowTemplateModal(true)}
+                              style={{
+                                minHeight: '50px',
+                                backgroundColor: (giftCardSelection.templateId && giftCardSelection.templateId !== 'custom') ? '#967740' : 'transparent',
+                                borderColor: '#967740',
+                                borderWidth: '2px',
+                                color: (giftCardSelection.templateId && giftCardSelection.templateId !== 'custom') ? 'white' : '#967740',
+                                transition: 'all 0.2s ease'
+                              }}
+                            >
+                              <div className="d-flex align-items-center justify-content-center">
+                                <i className="fas fa-images me-2"></i>
+                                <div className="text-start">
+                                  <div className="fw-bold">{t('checkout.prepared_templates', 'Prepared Templates')}</div>
+                                  <small style={{
+                                    color: (giftCardSelection.templateId && giftCardSelection.templateId !== 'custom') ? 'rgba(255,255,255,0.8)' : '#6c757d'
+                                  }}>
+                                    {giftCardSelection.templateId && giftCardSelection.templateId !== 'custom'
+                                      ? `${t('checkout.selected_template', 'Selected')}: ${(() => {
+                                        const selected = giftCardTemplates.find(t => t.id == giftCardSelection.templateId);
+                                        if (!selected) return t('checkout.template_name', 'Template');
+                                        if (i18n.language === 'ar' && selected.name_ar) return selected.name_ar;
+                                        return selected.name;
+                                      })()}`
+                                      : t('checkout.prepared_templates_desc', 'Choose from designs') + ` (${giftCardTemplates.length})`
+                                    }
+                                  </small>
+                                </div>
+                              </div>
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Custom Message and Signing - Show for any selection */}
+                        {giftCardSelection.templateId && (
+                          <div className="gift-card-customization">
+                            <h6 className="mb-3">{t('checkout.personalize_message', 'Personalize Your Gift Card')}</h6>
+                            <div className="row">
+                              <div className={`col-md-12 mb-3`}>
+                                <label className="fw-5 mb-2">
+                                  {t('checkout.gift_card_signature', 'Signature/From')}
+                                  {!giftCardSelection.customSigning && (
+                                    <small className="text-danger ms-2">
+                                      ({t('checkout.signature_optional', 'Optional - Add your signature')})
+                                    </small>
+                                  )}
+                                  {giftCardSelection.customSigning && (
+                                    <small className="text-success ms-2">
+                                      ✓ {signatureType === 'text' ? t('checkout.text_added', 'Text added') : t('checkout.signature_drawn', 'Signature drawn')}
+                                    </small>
+                                  )}
+                                </label>
+                                <div className="d-flex gap-3 mb-2">
+                                  <button
                                     type="button"
-                                    className="btn btn-outline-success btn-sm mb-2"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setShowTemplateModal(true);
+                                    className="btn  radius-3"
+                                    onClick={() => setSignatureType('text')}
+                                    style={{
+                                      backgroundColor: signatureType === 'text' ? '#967740' : 'transparent',
+                                      borderColor: '#967740',
+                                      borderWidth: '2px',
+                                      color: signatureType === 'text' ? 'white' : '#967740',
+                                      transition: 'all 0.2s ease',
+                                      height: 'min-content',
+                                      padding: '2px 16px',
                                     }}
                                   >
-                                    {giftCardSelection.templateId && giftCardSelection.templateId !== 'custom' 
-                                      ? t('checkout.change_template', 'Change Template')
-                                      : t('checkout.choose_template', 'Choose Template')
-                                    }
+                                    {t('checkout.signature_text', 'Text')}
                                   </button>
-                                  <label className="fw-bold h6 mb-2">{t('checkout.prepared_templates', 'Prepared Templates')}</label>
-                                  <small className="text-muted">
-                                    {giftCardSelection.templateId && giftCardSelection.templateId !== 'custom'
-                                      ? `Selected: ${giftCardTemplates.find(t => t.id == giftCardSelection.templateId)?.name || 'Template'}`
-                                      : t('checkout.prepared_templates_desc', `Choose from ${giftCardTemplates.length} beautiful designs`)
-                                    }
-                                  </small>
+                                  <button
+                                    type="button"
+                                    className="btn radius-3"
+                                    onClick={() => setSignatureType('draw')}
+                                    style={{
+                                      backgroundColor: signatureType === 'draw' ? '#967740' : 'transparent',
+                                      borderColor: '#967740',
+                                      borderWidth: '2px',
+                                      color: signatureType === 'draw' ? 'white' : '#967740',
+                                      transition: 'all 0.2s ease',
+                                      height: 'min-content',
+                                      padding: '2px 16px',
+                                    }}
+                                  >
+                                    {t('checkout.signature_draw', 'Draw')}
+                                  </button>
                                 </div>
+                                {signatureType === 'text' ? (
+                                  <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder={t('checkout.gift_card_signature_placeholder', 'Your name or signature')}
+                                    value={giftCardSelection.customSigning && !giftCardSelection.customSigning.startsWith('data:image') ? giftCardSelection.customSigning : ''}
+                                    onChange={(e) => handleGiftCardChange('customSigning', e.target.value)}
+                                  />
+                                ) : (
+                                  <div style={{ width: "100%" }}>
+                                    <div style={{ border: "1px solid #ccc", borderRadius: 8, width: "100%", height: 120, background: "#fff" }}>
+                                      <canvas
+                                        ref={canvasRef}
+                                        style={{ width: "100%", height: 120, display: "block", touchAction: "none", userSelect: "none", pointerEvents: "auto", cursor: "crosshair", position: "relative", zIndex: 1 }}
+                                      />
+                                    </div>
+                                    <button 
+                                      type="button" 
+                                      className="btn btn-sm btn-outline-secondary mt-2" 
+                                      onClick={handleClearSignature}
+                                    >
+                                      Clear Signature
+                                    </button>
+                                  </div>
+                                )}
                               </div>
-                            </div>
-                          </div>
-
-                          {/* Custom Message and Signing - Show for any selection */}
-                          {giftCardSelection.templateId && (
-                            <div className="gift-card-customization">
-                              <h6 className="mb-3">{t('checkout.personalize_message', 'Personalize Your Gift Card')}</h6>
-                              <div className="row">
-                                <div className="col-md-6 mb-3">
+                              {/* Only show custom message field for custom design */}
+                              {giftCardSelection.templateId === 'custom' && (
+                                <div className="col-md-12 mb-3">
                                   <label className="fw-5 mb-2">
                                     {t('checkout.gift_card_description', 'Gift Card Message')}
                                   </label>
@@ -555,26 +783,17 @@ export default function Checkout() {
                                     onChange={(e) => handleGiftCardChange('customDescription', e.target.value)}
                                   />
                                 </div>
-                                <div className="col-md-6 mb-3">
-                                  <label className="fw-5 mb-2">
-                                    {t('checkout.gift_card_signature', 'Signature/From')}
-                                  </label>
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder={t('checkout.gift_card_signature_placeholder', 'Your name or signature')}
-                                    value={giftCardSelection.customSigning}
-                                    onChange={(e) => handleGiftCardChange('customSigning', e.target.value)}
-                                  />
-                                </div>
-                              </div>
+                              )}
+
+
                             </div>
-                          )}
-                        </>
-                      )}
-                    </div>
-                  )}
-                </div>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
               {/* )} Temporarily removed closing bracket for testing */}
 
             </form>
@@ -733,13 +952,13 @@ export default function Checkout() {
 
       {/* Gift Card Template Selection Modal */}
       {showTemplateModal && (
-        <div 
-          className="modal fade show d-block" 
-          tabIndex="-1" 
+        <div
+          className="modal fade show d-block"
+          tabIndex="-1"
           style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
           onClick={() => setShowTemplateModal(false)}
         >
-          <div 
+          <div
             className="modal-dialog modal-lg modal-dialog-centered"
             onClick={(e) => e.stopPropagation()}
           >
@@ -748,9 +967,9 @@ export default function Checkout() {
                 <h5 className="modal-title">
                   {t('checkout.select_gift_card_template', 'Select Gift Card Template')}
                 </h5>
-                <button 
-                  type="button" 
-                  className="btn-close" 
+                <button
+                  type="button"
+                  className="btn-close"
                   onClick={() => setShowTemplateModal(false)}
                   aria-label="Close"
                 ></button>
@@ -764,10 +983,8 @@ export default function Checkout() {
                   <div className="row">
                     {giftCardTemplates.map((template) => (
                       <div key={template.id} className="col-md-4 col-sm-6 mb-3">
-                        <div 
-                          className={`template-card border rounded p-3 cursor-pointer ${
-                            giftCardSelection.templateId === template.id ? 'border-primary bg-light' : 'border-light'
-                          }`}
+                        <div
+                          className={`template-card border rounded p-3 cursor-pointer ${giftCardSelection.templateId === template.id ? 'border-primary bg-light' : 'border-light'}`}
                           onClick={() => {
                             handleGiftCardChange('templateId', template.id);
                             setShowTemplateModal(false);
@@ -778,7 +995,7 @@ export default function Checkout() {
                             <div className="template-image mb-2 text-center">
                               <Image
                                 src={`http://localhost:8000/storage/${template.image}`}
-                                alt={template.name}
+                                alt={i18n.language === 'ar' && template.name_ar ? template.name_ar : template.name}
                                 width={120}
                                 height={90}
                                 style={{ objectFit: 'cover', borderRadius: '8px' }}
@@ -787,7 +1004,9 @@ export default function Checkout() {
                             </div>
                           )}
                           <div className="text-center">
-                            <h6 className="mb-1 fw-bold">{template.name}</h6>
+                            <h6 className="mb-1 fw-bold">
+                              {i18n.language === 'ar' && template.name_ar ? template.name_ar : template.name}
+                            </h6>
                             {giftCardSelection.templateId === template.id && (
                               <small className="text-primary fw-bold">
                                 <i className="fas fa-check-circle me-1"></i>
@@ -802,9 +1021,9 @@ export default function Checkout() {
                 )}
               </div>
               <div className="modal-footer">
-                <button 
-                  type="button" 
-                  className="btn btn-secondary" 
+                <button
+                  type="button"
+                  className="btn btn-secondary"
                   onClick={() => setShowTemplateModal(false)}
                 >
                   {t('checkout.cancel', 'Cancel')}

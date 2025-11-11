@@ -234,7 +234,11 @@
     "contact": "CONTACT",
     "faq": "FAQ",
     "men": "MEN",
-    "women": "WOMEN"
+    "women": "WOMEN",
+    "email":"Email",
+    "phone":"Phone",
+    "login":"LOGIN",
+    "need_help":"NEED_HELP"
   },
 
   "marquee": {
@@ -300,7 +304,27 @@
     "agree_terms_prefix": "I have read and agree to the website",
     "terms_and_conditions": "terms and conditions",
     "processing": "Processing...",
-    "place_order": "Place order"
+    "place_order": "Place order",
+    
+    "gift_card_options": "Gift Card Options",
+    "add_gift_card": "Add Gift Card to Order",
+    "loading_templates": "Loading gift card templates...",
+    "choose_design_type": "Choose Gift Card Design",
+    "custom_design": "Custom Design",
+    "custom_design_desc": "Write your own message",
+    "prepared_templates": "Prepared Templates",
+    "prepared_templates_desc": "Choose from available designs",
+    "personalize_message": "Personalize Your Gift Card",
+    "gift_card_signature": "Signature/From",
+    "gift_card_signature_placeholder": "Your name or signature",
+    "gift_card_description": "Gift Card Message",
+    "gift_card_description_placeholder": "Write your personalized message here...",
+    "select_gift_card_template": "Select Gift Card Template",
+    "no_templates": "No gift card templates available",
+    "selected": "Selected",
+    "selected_template": "Selected",
+    "template_name": "Template",
+    "cancel": "Cancel"
   },
  
   "footer_language_support": "Language Support",
@@ -626,6 +650,12 @@
     },
     "checkout_button": "Check out",
     "guarantee_text": "Guarantee Safe Checkout"
-  }
+  },
+  
+    "toolbar_shop": "Shop",
+    "toolbar_account": "Account",
+    "toolbar_cart": "Cart"
+
+  
 }
 
