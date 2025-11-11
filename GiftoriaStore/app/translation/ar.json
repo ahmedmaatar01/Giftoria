@@ -231,7 +231,12 @@
     "contact": "اتصل بنا",
     "faq": "الأسئلة الشائعة",
     "men": "رجال",
-    "women": "نساء"
+    "women": "نساء",
+    "email":"البريد الإلكتروني",
+    "phone":"الهاتف",
+    "login":"حسابي",
+    "need_help":"بحاجة إلى مساعدة"
+
   }
   ,
   "marquee": {
@@ -643,4 +648,8 @@
     "checkout_button": "الدفع",
     "guarantee_text": "دفع آمن مضمون"
   }
+  ,
+  "toolbar_shop": "المتجر",
+  "toolbar_account": "الحساب",
+  "toolbar_cart": "السلة"
 }

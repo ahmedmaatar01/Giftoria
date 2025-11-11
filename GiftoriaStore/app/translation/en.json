@@ -234,7 +234,11 @@
     "contact": "CONTACT",
     "faq": "FAQ",
     "men": "MEN",
-    "women": "WOMEN"
+    "women": "WOMEN",
+    "email":"Email",
+    "phone":"Phone",
+    "login":"LOGIN",
+    "need_help":"NEED_HELP"
   },
 
   "marquee": {
@@ -646,6 +650,12 @@
     },
     "checkout_button": "Check out",
     "guarantee_text": "Guarantee Safe Checkout"
-  }
+  },
+  
+    "toolbar_shop": "Shop",
+    "toolbar_account": "Account",
+    "toolbar_cart": "Cart"
+
+  
 }
 
