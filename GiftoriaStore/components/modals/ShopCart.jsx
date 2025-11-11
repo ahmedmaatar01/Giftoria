@@ -173,7 +173,7 @@ export default function ShopCart() {
                               <Link
                                 href={`/shop-left-sidebar`}
                                 className="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
-                                style={{ width: "fit-content" }}
+                                style={{ width: "fit-content", backgroundColor: '#F1ECE4', borderColor: '#F1ECE4', color: '#000000' }}
                               >
                                 {t("cart.explore_products")}
                               </Link>
@@ -317,6 +317,7 @@ export default function ShopCart() {
                     <Link
                       href={`/checkout`}
                       className="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
+                      style={{ backgroundColor: '#F1ECE4', borderColor: '#F1ECE4', color: '#000000' }}
                     >
                       <span>{t("cart.checkout")}</span>
                     </Link>

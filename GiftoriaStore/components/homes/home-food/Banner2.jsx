@@ -73,13 +73,13 @@ export default function Banner2({
               <span className="raleway-regular c-paragraph text-white text-uppercase">{t("banner2_description")}</span>
             </p>
             <Link href={buttonLink} >
-              <div className="ecomus-button-link ecomus-button em-button em-button-subtle" style={{
+              <div className="ecomus-button-link ecomus-button em-button em-button-subtle " style={{
                 borderBottom: '1px solid #ffffffff',
                 display: 'inline-block',
                 paddingBottom: '2px'
               }}>
 
-                <span className="raleway-regular text-uppercase c-butn text-white" style={{ textDecoration: "none" }}>{t("banner2_button")} </span>
+                <span className={`${isArabic ? "arabic_vip" : "raleway-regular"} text-uppercase c-butn text-white`} style={{ textDecoration: "none" }}>{t("banner2_button")} </span>
               </div>
             </Link>
           </div>

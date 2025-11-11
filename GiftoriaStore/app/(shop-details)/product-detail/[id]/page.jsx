@@ -21,7 +21,7 @@ export default async function page({ params }) {
       <div className="mb-5"></div>
       <ProductDetailClient productId={id} />
       <ShopDetailsTab productId={id} />
-      <Products2 />
+      <Products2 isProductDetail={true} />
       <div className="mb-5"></div>
       {/* <RecentProducts /> */}
       <Footer1 />

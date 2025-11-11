@@ -172,6 +172,7 @@ export default function Register() {
                     type="submit"
                     className="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
                     disabled={authLoading}
+                    style={{ backgroundColor: '#F1ECE4', borderColor: '#F1ECE4', color: '#000000' }}
                   >
                     <span>{authLoading ? t("register_modal.registering") : t("register_modal.register_button")}</span>
                   </button>

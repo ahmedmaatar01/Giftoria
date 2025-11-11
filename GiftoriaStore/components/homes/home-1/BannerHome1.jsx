@@ -59,7 +59,7 @@ export default function BannerHome1({
                 fontSize: isArabic ? "20px" : "15px"
               }}
             >
-              <span className="raleway-regular c-paragraph text-white text-uppercase">{description ? description : t("banner3_description")}</span>
+              <span className={`${isArabic ? "arabic_vip" : "raleway-regular"} c-paragraph text-white text-uppercase`}>{description ? description : t("banner3_description")}</span>
             </p>
             <Link href={buttonLink} >
               <div className="ecomus-button-link ecomus-button em-button em-button-subtle" style={{
@@ -68,7 +68,7 @@ export default function BannerHome1({
                 paddingBottom: '2px'
               }}>
 
-                <span className="raleway-regular text-uppercase c-butn text-white" style={{ textDecoration: "none" }}>{t("banner3_button")} </span>
+                <span className={`${isArabic ? "arabic_vip" : "raleway-regular"} text-uppercase c-butn text-white`} style={{ textDecoration: "none" }}>{t("banner3_button")} </span>
               </div>
             </Link>
           </div>

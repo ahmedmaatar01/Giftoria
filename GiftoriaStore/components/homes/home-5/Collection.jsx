@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Navigation, Autoplay } from "swiper/modules";
 import { useTranslation } from "react-i18next";
 
 const resolveOccasionImage = (o) => {
@@ -59,28 +59,62 @@ export default function Collection() {
 
           <div className="box-sw-navigation">
             <div className="nav-sw nav-next-slider nav-next-collection snbp123">
-              <span className="icon icon-arrow-left" />
+              <span className={`icon ${i18n.language === "ar" ? "icon-arrow-right" : "icon-arrow-left"}`} />
             </div>
             <div className="nav-sw nav-prev-slider nav-prev-collection snbn123">
-              <span className="icon icon-arrow-right" />
+              <span className={`icon ${i18n.language === "ar" ? "icon-arrow-left" : "icon-arrow-right"}`} />
             </div>
           </div>
         </div>
 
         <Swiper
+          key={`collection-swiper-${i18n.language}`}
           dir={i18n.language === "ar" ? "rtl" : "ltr"}
           slidesPerView={3.5}
           spaceBetween={30}
-          loop={false}
+          loop={occasions.length > 3}
+          centeredSlides={false}
+          allowTouchMove={true}
+          grabCursor={true}
+          watchSlidesProgress={true}
+          watchOverflow={true}
+          speed={800}
+          freeMode={false}
+          slidesPerGroup={1}
+          touchRatio={1}
+          touchAngle={45}
+          simulateTouch={true}
+          followFinger={true}
+          shortSwipes={true}
+          longSwipes={true}
+          longSwipesRatio={0.5}
+          longSwipesMs={300}
+          resistance={true}
+          resistanceRatio={0.85}
+          threshold={0}
+          touchMoveStopPropagation={false}
           breakpoints={{
-            1200: { slidesPerView: 3.5 },
-            768: { slidesPerView: 2.4 },
-            0: { slidesPerView: 1.2 },
+            1200: { slidesPerView: 3.5, spaceBetween: 30 },
+            768: { slidesPerView: 2.4, spaceBetween: 25 },
+            0: { slidesPerView: 1.2, spaceBetween: 20 },
           }}
           modules={[Navigation]}
           navigation={{
-            prevEl: ".snbp123",
-            nextEl: ".snbn123",
+            prevEl: i18n.language === "ar" ? ".snbn123" : ".snbp123",
+            nextEl: i18n.language === "ar" ? ".snbp123" : ".snbn123",
+          }}
+          onSwiper={(swiper) => {
+            // Force update navigation after swiper initialization
+            setTimeout(() => {
+              swiper.navigation.update();
+              swiper.update();
+              if (i18n.language === "ar") {
+                swiper.changeLanguageDirection("rtl");
+              }
+            }, 150);
+          }}
+          onSlideChange={() => {
+            // Additional smoothness on slide change
           }}
         >
           {loading
@@ -128,11 +162,21 @@ export default function Collection() {
 
                       </div>
 
-                      {/* ✅ Text left-aligned under image */}
-                      <div className="collection-content text-left mt-4 px-1" >
+                      {/* Text alignment based on language direction */}
+                      <div 
+                        className="collection-content mt-4 px-1" 
+                        style={{ 
+                          textAlign: i18n.language === "ar" ? "right" : "left",
+                          direction: i18n.language === "ar" ? "rtl" : "ltr"
+                        }}
+                      >
                       <h3
                           className="raleway-bold uppercase text-lg mb-2"
-                          style={{ letterSpacing: "1px", textTransform: "uppercase" }}
+                          style={{ 
+                            letterSpacing: "1px", 
+                            textTransform: "uppercase",
+                            direction: i18n.language === "ar" ? "rtl" : "ltr"
+                          }}
                         >
                           {title}
                         </h3>
@@ -140,16 +184,21 @@ export default function Collection() {
                         {desc && (
                           <p
                             className="raleway-light text-base mb-3 leading-relaxed"
-                            style={{ color: "#555"  }}
+                            style={{ 
+                              color: "#555",
+                              direction: i18n.language === "ar" ? "rtl" : "ltr"
+                            }}
                           >
                             {desc}
                           </p>
                         )}
                         <Link
                           href={`/shop-collection-sub?occasion=${occasion.id}`}
-                          className="raleway-light uppercase  text-sm"
-                          style={{ textDecoration:"underline" }}
-                          
+                          className="raleway-light uppercase text-sm"
+                          style={{ 
+                            textDecoration:"underline",
+                            direction: i18n.language === "ar" ? "rtl" : "ltr"
+                          }}
                         >
                           {i18n.language === "ar" ? "اقرأ المزيد" : "READ MORE"}
                         </Link>

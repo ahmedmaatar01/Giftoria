@@ -22,7 +22,7 @@ export default function ContactForm2() {
   };
 
   return (
-    <section className="bg_grey-7 flat-spacing-9">
+    <section className="flat-spacing-9" style={{ backgroundColor: '#ffffff' }}>
       <div className="container">
         <div className="flat-title text-center">
           <span className="title bell-medium text-uppercase">{t("contact_form.title")}</span>
@@ -48,6 +48,7 @@ export default function ContactForm2() {
                   id="name"
                   required
                   placeholder={t("contact_form.name_placeholder")}
+                  style={{ border: '2px solid #F1ECE4' }}
                 />
               </fieldset>
               <fieldset className="w-100">
@@ -58,6 +59,7 @@ export default function ContactForm2() {
                   id="email"
                   required
                   placeholder={t("contact_form.email_placeholder")}
+                  style={{ border: '2px solid #F1ECE4' }}
                 />
               </fieldset>
             </div>
@@ -69,6 +71,7 @@ export default function ContactForm2() {
                 required
                 cols={30}
                 rows={10}
+                style={{ border: '2px solid #F1ECE4' }}
               />
             </div>
             <div className="send-wrap">
@@ -86,6 +89,7 @@ export default function ContactForm2() {
               <button
                 type="submit"
                 className="tf-btn radius-3 btn-fill animate-hover-btn justify-content-center"
+                style={{ backgroundColor: '#F1ECE4', border: '1px solid #F1ECE4', color: '#000000' }}
               >
                 {t("contact_form.send_button")}
               </button>
