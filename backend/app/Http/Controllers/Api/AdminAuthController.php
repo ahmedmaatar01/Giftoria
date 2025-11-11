@@ -29,7 +29,10 @@ class AdminAuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'user' => array_merge($admin->toArray(), ['role' => 'admin'])
+            'user' => array_merge($admin->toArray(), [
+                'role' => 'admin',
+                'is_super' => $admin->is_super
+            ])
         ]);
     }
 
@@ -55,13 +58,23 @@ class AdminAuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'user' => array_merge($admin->toArray(), ['role' => 'admin'])
+            'user' => array_merge($admin->toArray(), [
+                'role' => 'admin',
+                'is_super' => $admin->is_super
+            ])
         ]);
     }
 
     public function me(Request $request)
     {
-        return response()->json($request->user());
+        $admin = $request->user();
+        if ($admin) {
+            return response()->json(array_merge($admin->toArray(), [
+                'role' => 'admin',
+                'is_super' => $admin->is_super
+            ]));
+        }
+        return response()->json(null, 404);
     }
 
     public function logout(Request $request)
@@ -76,5 +89,44 @@ class AdminAuthController extends Controller
     public function dashboard(Request $request)
     {
         return response()->json(['message' => 'Welcome, Admin!', 'admin' => $request->user()]);
+    }
+
+    public function update(Request $request)
+    {
+        $admin = $request->user();
+        $validated = $request->validate([
+            'name' => 'sometimes|string|max:255',
+            'email' => 'sometimes|email|max:255|unique:admins,email,' . $admin->id,
+        ]);
+
+        $admin->fill($validated);
+        $admin->save();
+
+        return response()->json([
+            'message' => 'Profile updated successfully',
+            'user' => array_merge($admin->toArray(), [
+                'role' => 'admin',
+                'is_super' => $admin->is_super
+            ])
+        ]);
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required|string',
+            'new_password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $admin = $request->user();
+
+        if (! Hash::check($request->current_password, $admin->password)) {
+            return response()->json(['error' => 'Current password is incorrect'], 422);
+        }
+
+        $admin->password = Hash::make($request->new_password);
+        $admin->save();
+
+        return response()->json(['message' => 'Password changed successfully']);
     }
 }

@@ -98,3 +98,35 @@ export const registerAdmin = async (adminData) => {
         throw error.response.data;
     }
 };
+
+export const updateAdmin = async (payload) => {
+    try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        const token = (user && (user.access_token || user.token || user.accessToken)) || localStorage.getItem('access_token');
+        if (!token) throw new Error('No access token found.');
+        const response = await axios.put(`${API_URL}/admin/update`, payload, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : error;
+    }
+};
+
+export const changeAdminPassword = async ({ current_password, new_password, new_password_confirmation }) => {
+    try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        const token = (user && (user.access_token || user.token || user.accessToken)) || localStorage.getItem('access_token');
+        if (!token) throw new Error('No access token found.');
+        const response = await axios.post(`${API_URL}/admin/change-password`, {
+            current_password,
+            new_password,
+            new_password_confirmation
+        }, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : error;
+    }
+};
