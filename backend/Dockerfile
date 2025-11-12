@@ -73,11 +73,11 @@ echo "Skipping route cache for development flexibility"\n\
 # php artisan route:cache || true\n\
 # php artisan view:cache || true\n\
 \n\
-echo "Starting Laravel server on 0.0.0.0:8000"\n\
-exec php artisan serve --host=0.0.0.0 --port=8000\n\
+echo "Starting Laravel server on 0.0.0.0:3000"\n\
+exec php artisan serve --host=0.0.0.0 --port=3000\n\
 ' > /entrypoint.sh && chmod +x /entrypoint.sh
 
-EXPOSE 8000
+EXPOSE 3000
 
 # Simple startup for debugging
-CMD ["sh", "-c", "echo 'Starting app...' && php artisan config:cache || true && php artisan route:clear || true && php artisan migrate --force || true && php artisan storage:link || true && echo 'Server starting...' && php artisan serve --host=0.0.0.0 --port=8000"]
+CMD ["sh", "-c", "echo 'Starting app...' && php artisan config:cache || true && php artisan route:clear || true && php artisan migrate --force || true && php artisan storage:link || true && echo 'Server starting...' && php artisan serve --host=0.0.0.0 --port=3000"]
