@@ -37,6 +37,21 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/health', function () {
     return response()->json(['status' => 'ok', 'timestamp' => now()]);
 });
+
+// Debug endpoint to test routing
+Route::get('/test', function () {
+    return response()->json(['message' => 'API routing works', 'timestamp' => now()]);
+});
+
+// Debug categories without controller
+Route::get('/categories-test', function () {
+    try {
+        $count = \App\Models\Category::count();
+        return response()->json(['message' => 'Categories table accessible', 'count' => $count]);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+});
 // Admin notifications
 Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('notifications/unseen', [\App\Http\Controllers\Api\NotificationController::class, 'unseen']);
