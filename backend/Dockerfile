@@ -24,17 +24,26 @@ WORKDIR /var/www/html
 # Copy application files
 COPY . .
 
-# Install dependencies
+# Create required directories and set permissions BEFORE composer install
+RUN mkdir -p bootstrap/cache storage/logs storage/framework/cache storage/framework/sessions storage/framework/views \
+    && chmod -R 775 storage bootstrap/cache
+
+# Install dependencies (now that directories exist)
 RUN composer install --no-dev --optimize-autoloader
 
-# Set permissions
-RUN chmod -R 775 storage bootstrap/cache
+# Set final permissions
+RUN chown -R www-data:www-data /var/www/html 2>/dev/null || true \
+    && chmod -R 775 storage bootstrap/cache
 
 # Create entrypoint script
 RUN echo '#!/bin/bash\n\
 set -e\n\
 \n\
 echo "Starting Laravel application..."\n\
+\n\
+# Ensure directories exist and have correct permissions\n\
+mkdir -p storage/logs storage/framework/cache storage/framework/sessions storage/framework/views bootstrap/cache\n\
+chmod -R 775 storage bootstrap/cache\n\
 \n\
 # Generate app key if needed\n\
 if [ -z "$APP_KEY" ] || [ "$APP_KEY" = "base64:" ]; then\n\
