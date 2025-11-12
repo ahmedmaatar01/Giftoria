@@ -1,6 +1,6 @@
-FROM php:8.1-cli
+FROM php:8.2-cli
 
-# Install system dependencies
+# Install system dependencies and clean up in same layer to reduce image size
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -8,7 +8,9 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
     zip \
-    unzip
+    unzip \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
