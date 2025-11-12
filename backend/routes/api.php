@@ -52,6 +52,21 @@ Route::get('/categories-test', function () {
         return response()->json(['error' => $e->getMessage()], 500);
     }
 });
+
+// Cache management route for debugging
+Route::get('/clear-cache', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('route:clear');
+        \Illuminate\Support\Facades\Artisan::call('config:clear');
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+        return response()->json([
+            'message' => 'Cache cleared successfully',
+            'timestamp' => now()
+        ]);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+});
 // Admin notifications
 Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('notifications/unseen', [\App\Http\Controllers\Api\NotificationController::class, 'unseen']);
