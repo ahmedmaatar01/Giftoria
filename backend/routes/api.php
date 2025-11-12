@@ -32,6 +32,11 @@ use App\Http\Controllers\ProductGiftCardSelectionController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Health check endpoint for Docker
+Route::get('/health', function () {
+    return response()->json(['status' => 'ok', 'timestamp' => now()]);
+});
 // Admin notifications
 Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('notifications/unseen', [\App\Http\Controllers\Api\NotificationController::class, 'unseen']);
