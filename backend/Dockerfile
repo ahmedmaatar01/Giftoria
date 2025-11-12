@@ -78,5 +78,5 @@ exec php artisan serve --host=0.0.0.0 --port=8000\n\
 
 EXPOSE 8000
 
-# Use entrypoint script
-CMD ["/entrypoint.sh"]
+# Simple startup for debugging
+CMD ["sh", "-c", "echo 'Starting app...' && php artisan config:cache || true && php artisan migrate --force || true && php artisan storage:link || true && echo 'Server starting...' && php artisan serve --host=0.0.0.0 --port=8000"]
