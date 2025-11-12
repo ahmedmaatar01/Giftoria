@@ -35,7 +35,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // Health check endpoint for Docker
 Route::get('/health', function () {
-    return response()->json(['status' => 'ok', 'timestamp' => now()]);
+    return response()->json(['status' => 'ok', 'timestamp' => now(), 'version' => '1.1']);
 });
 
 // Debug endpoint to test routing
