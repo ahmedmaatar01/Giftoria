@@ -73,11 +73,11 @@ echo "Skipping route cache for development flexibility"\n\
 # php artisan route:cache || true\n\
 # php artisan view:cache || true\n\
 \n\
-echo "Starting Laravel server on 0.0.0.0:3000"\n\
-exec php artisan serve --host=0.0.0.0 --port=3000\n\
+echo "Starting Laravel server on 0.0.0.0:8000"\n\
+exec php artisan serve --host=0.0.0.0 --port=8000\n\
 ' > /entrypoint.sh && chmod +x /entrypoint.sh
 
-EXPOSE 3000
+EXPOSE 8000
 
 # Simple startup for debugging
-CMD ["sh", "-c", "echo 'Starting app debug mode...' && echo 'PHP Version:' && php -v && echo 'Current directory:' && pwd && ls -la && echo 'Cache clearing...' && php artisan config:cache || echo 'Config cache failed' && php artisan route:clear || echo 'Route clear failed' && echo 'Storage linking...' && php artisan storage:link || echo 'Storage link failed' && echo 'Starting server on 0.0.0.0:3000 (skipping migrations for now)...' && timeout 120 php artisan serve --host=0.0.0.0 --port=3000 || echo 'Server start failed'"]
+CMD ["sh", "-c", "echo 'Starting app debug mode...' && echo 'PHP Version:' && php -v && echo 'Current directory:' && pwd && ls -la && echo 'Cache clearing...' && php artisan config:cache || echo 'Config cache failed' && php artisan route:clear || echo 'Route clear failed' && echo 'Storage linking...' && php artisan storage:link || echo 'Storage link failed' && echo 'Starting server on 0.0.0.0:8000 (skipping migrations for now)...' && timeout 120 php artisan serve --host=0.0.0.0 --port=8000 || echo 'Server start failed'"]
