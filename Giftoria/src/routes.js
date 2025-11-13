@@ -11,6 +11,8 @@ export const Routes = {
     ManageCommands: { path: "/dashboard/manage-commands" },
     ManageOccasions: { path: "/dashboard/manage-occasions" },
     ManageGiftCards: { path: "/dashboard/manage-gift-cards" },
+    ManageUsers: { path: "/dashboard/manage-users" },
+    ManageAdmins: { path: "/dashboard/manage-admins" },
         NotFound: { path: "/notfound" },
         ServerError: { path: "/server-error" },
         Login: { path: "/login" },

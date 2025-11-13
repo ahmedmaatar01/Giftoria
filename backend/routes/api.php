@@ -1,4 +1,5 @@
 
+
 <?php
 
 use App\Http\Controllers\Api\CommandController;
@@ -32,6 +33,46 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// Health check endpoint for Docker
+Route::get('/health', function () {
+    return response()->json(['status' => 'ok', 'timestamp' => now(), 'version' => '1.1']);
+});
+
+// Debug endpoint to test routing
+Route::get('/test', function () {
+    return response()->json(['message' => 'API routing works', 'timestamp' => now()]);
+});
+
+// Debug categories without controller
+Route::get('/categories-test', function () {
+    try {
+        $count = \App\Models\Category::count();
+        return response()->json(['message' => 'Categories table accessible', 'count' => $count]);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+});
+
+// Cache management route for debugging
+Route::get('/clear-cache', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('route:clear');
+        \Illuminate\Support\Facades\Artisan::call('config:clear');
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+        return response()->json([
+            'message' => 'Cache cleared successfully',
+            'timestamp' => now()
+        ]);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+});
+// Admin notifications
+Route::middleware('auth:admin')->prefix('admin')->group(function () {
+    Route::get('notifications/unseen', [\App\Http\Controllers\Api\NotificationController::class, 'unseen']);
+    Route::post('notifications/commands/{id}/seen', [\App\Http\Controllers\Api\NotificationController::class, 'markCommandSeen']);
+    Route::post('notifications/order-notes/{id}/seen', [\App\Http\Controllers\Api\NotificationController::class, 'markNoteSeen']);
+});
 Route::prefix('user')->group(function () {
     Route::post('register', [UserAuthController::class, 'register']);
     Route::post('login', [UserAuthController::class, 'login']);
@@ -46,6 +87,13 @@ Route::prefix('admin')->group(function () {
     Route::middleware('auth:admin')->get('me', [AdminAuthController::class, 'me']);
     Route::middleware('auth:admin')->post('logout', [AdminAuthController::class, 'logout']);
     Route::middleware('auth:admin')->get('dashboard', [AdminAuthController::class, 'dashboard']);
+    Route::middleware('auth:admin')->put('update', [AdminAuthController::class, 'update']);
+    Route::middleware('auth:admin')->post('change-password', [AdminAuthController::class, 'changePassword']);
+
+    // Super admin management routes
+    Route::middleware('auth:admin')->get('admins', [\App\Http\Controllers\Api\AdminController::class, 'index']);
+    Route::middleware('auth:admin')->post('admins', [\App\Http\Controllers\Api\AdminController::class, 'store']);
+    Route::middleware('auth:admin')->delete('admins/{id}', [\App\Http\Controllers\Api\AdminController::class, 'destroy']);
 });
 
 // Featured products must be defined BEFORE the products resource to avoid

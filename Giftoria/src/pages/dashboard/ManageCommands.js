@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 
 const API_URL = 'http://localhost:8000/api';
+const ADMIN_API = `${API_URL}/admin`;
 
 // Helper function to get auth headers
 const getAuthHeaders = () => {
@@ -15,6 +16,8 @@ const getAuthHeaders = () => {
 
 const ManageCommands = () => {
     const [commands, setCommands] = useState([]);
+  const [unseenCommandIds, setUnseenCommandIds] = useState(new Set());
+  const [unseenNotesCommandIds, setUnseenNotesCommandIds] = useState(new Set());
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [filterStatus, setFilterStatus] = useState("");
@@ -76,19 +79,22 @@ const ManageCommands = () => {
     };
 
     // New functions for notes and status history
-    const fetchNotes = async (commandId) => {
-        setNotesLoading(true);
-        try {
-            const res = await axios.get(`${API_URL}/commands/${commandId}/notes`, {
-                headers: getAuthHeaders()
-            });
-            setNotes(res.data.notes);
-        } catch (err) {
-            console.error('Error fetching notes:', err);
-        } finally {
-            setNotesLoading(false);
-        }
-    };
+  const fetchNotes = async (commandId) => {
+    setNotesLoading(true);
+    try {
+      const res = await axios.get(`${API_URL}/commands/${commandId}/notes`, {
+        headers: getAuthHeaders()
+      });
+      const list = res.data?.notes || [];
+      setNotes(list);
+      return list;
+    } catch (err) {
+      console.error('Error fetching notes:', err);
+      return [];
+    } finally {
+      setNotesLoading(false);
+    }
+  };
 
     const fetchStatusHistory = async (commandId) => {
         setHistoryLoading(true);
@@ -103,6 +109,20 @@ const ManageCommands = () => {
             setHistoryLoading(false);
         }
     };
+
+  // Fetch unseen summary to drive indicators
+  const fetchUnseenSummary = async () => {
+    try {
+      const res = await axios.get(`${ADMIN_API}/notifications/unseen`, { headers: getAuthHeaders() });
+      const { commands = [], order_notes = [] } = res.data || {};
+      const unseenCmdIds = new Set(commands.map(c => c.id));
+      const unseenNotesByCmd = new Set(order_notes.map(n => n.command_id).filter(Boolean));
+      setUnseenCommandIds(unseenCmdIds);
+      setUnseenNotesCommandIds(unseenNotesByCmd);
+    } catch (e) {
+      // ignore
+    }
+  };
 
     const addNote = async () => {
         if (!newNote.trim() || !selectedCommand) return;
@@ -183,17 +203,56 @@ const ManageCommands = () => {
         }
     };
 
-    const openNotesModal = (command) => {
-        setSelectedCommand(command);
-        setShowNotesModal(true);
-        fetchNotes(command.id);
-    };
+  const openNotesModal = async (command) => {
+    setSelectedCommand(command);
+    setShowNotesModal(true);
+    // Fetch notes and get list immediately
+    const currentNotes = await fetchNotes(command.id);
+    // Mark unseen ones as seen
+    try {
+      const unseenForCommand = currentNotes.filter(n => !n.seen_by_admin);
+      if (unseenForCommand.length) {
+        await Promise.all(unseenForCommand.map(n => axios.post(`${ADMIN_API}/notifications/order-notes/${n.id}/seen`, {}, { headers: getAuthHeaders() })));
+        // Re-fetch to reflect updates
+        await fetchNotes(command.id);
+      }
+    } catch (e) {
+      // ignore errors marking as seen
+    } finally {
+      setUnseenNotesCommandIds(prev => {
+        const next = new Set([...prev]);
+        next.delete(command.id);
+        return next;
+      });
+      try { window.dispatchEvent(new Event('admin-notifications-updated')); } catch (_) {}
+    }
+  };
 
-    const openHistoryModal = (command) => {
+  const openHistoryModal = (command) => {
         setSelectedCommand(command);
         setShowHistoryModal(true);
         fetchStatusHistory(command.id);
     };
+
+  // Open details and mark command as seen
+  const openDetailsModal = async (command) => {
+    setSelectedCommand(command);
+    setShowModal(true);
+    if (unseenCommandIds.has(command.id)) {
+      try {
+        await axios.post(`${ADMIN_API}/notifications/commands/${command.id}/seen`, {}, { headers: getAuthHeaders() });
+      } catch (e) {
+        // ignore
+      } finally {
+        setUnseenCommandIds(prev => {
+          const next = new Set([...prev]);
+          next.delete(command.id);
+          return next;
+        });
+        try { window.dispatchEvent(new Event('admin-notifications-updated')); } catch (_) {}
+      }
+    }
+  };
 
     const getStatusBadgeVariant = (status) => {
         switch (status?.toLowerCase()) {
@@ -210,7 +269,7 @@ const ManageCommands = () => {
     };
 
     useEffect(() => {
-        const fetchCommands = async () => {
+    const fetchCommands = async () => {
             try {
                 const res = await axios.get(`${API_URL}/commands`, {
                     headers: getAuthHeaders()
@@ -225,7 +284,10 @@ const ManageCommands = () => {
                 setLoading(false);
             }
         };
-        fetchCommands();
+    fetchCommands();
+    fetchUnseenSummary();
+    const interval = setInterval(fetchUnseenSummary, 60000);
+    return () => clearInterval(interval);
     }, []);
 
    // Filter commands by search (name, description, customer name, phone) and status
@@ -334,9 +396,14 @@ const filteredCommands = commands.filter(cmd => {
                                 <td>{cmd.customer_first_name} {cmd.customer_last_name}</td>
                                 <td>{cmd.description}</td>
                                 <td>
-                                    <Button variant="primary" size="sm" className="me-1 mb-1" onClick={() => { setSelectedCommand(cmd); setShowModal(true); }}>
-                                        <FontAwesomeIcon icon={faEye} /> Details
-                                    </Button>
+                  <Button variant="primary" size="sm" className="me-1 mb-1 position-relative" onClick={() => openDetailsModal(cmd)}>
+                    <FontAwesomeIcon icon={faEye} /> Details
+                    {unseenCommandIds.has(cmd.id) && (
+                      <span className="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+                        <span className="visually-hidden">Unseen</span>
+                      </span>
+                    )}
+                  </Button>
                                     <Button variant="warning" size="sm" className="me-1 mb-1" onClick={() => {
                                         setSelectedCommand(cmd);
                                         setEditForm({
@@ -355,9 +422,14 @@ const filteredCommands = commands.filter(cmd => {
                                     }}>
                                         <FontAwesomeIcon icon={faEdit} /> Manage
                                     </Button>
-                                    <Button variant="info" size="sm" className="me-1 mb-1" onClick={() => openNotesModal(cmd)}>
-                                        <FontAwesomeIcon icon={faCommentDots} /> Notes
-                                    </Button>
+                  <Button variant="info" size="sm" className="me-1 mb-1 position-relative" onClick={() => openNotesModal(cmd)}>
+                    <FontAwesomeIcon icon={faCommentDots} /> Notes
+                    {unseenNotesCommandIds.has(cmd.id) && (
+                      <span className="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+                        <span className="visually-hidden">Unseen notes</span>
+                      </span>
+                    )}
+                  </Button>
                                     <Button variant="secondary" size="sm" className="mb-1" onClick={() => openHistoryModal(cmd)}>
                                         <FontAwesomeIcon icon={faHistory} /> History
                                     </Button>

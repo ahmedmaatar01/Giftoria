@@ -101,7 +101,7 @@ giftoriaWeb
 
 ### Backend
 - **Laravel 10+** - PHP framework
-- **MySQL/MariaDB** - Database
+- **MySQL** - Database
 - **Laravel Sanctum** - API authentication
 - **Storage** - File uploads with symlinks
 - **Eloquent ORM** - Database relationships
