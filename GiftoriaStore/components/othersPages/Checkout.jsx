@@ -361,7 +361,7 @@ export default function Checkout() {
       });
 
       const orderPayload = {
-        user_id: user && user.id ? user.id : null, // Set to user.id if logged in, else null
+        user_id: user?.id ?? -1,
         customer_first_name: formData.firstName,
         customer_last_name: formData.lastName,
         customer_email: formData.email,
@@ -416,10 +416,11 @@ export default function Checkout() {
       const response = await axios.post(
         'http://localhost:8000/api/commands',
         orderPayload,
-        {
-          headers: getAuthHeaders()
-        }
+        user
+          ? { headers: getAuthHeaders() } // logged in → send token
+          : {}                            // guest → no token
       );
+      
 
       // Success! Clear cart and show message
       setCartProducts([]);
@@ -724,7 +725,7 @@ export default function Checkout() {
                                       padding: '2px 16px',
                                     }}
                                   >
-                                    {t('checkout.signature_text', 'Text')}
+                                    {t('checkout.signature_text')}
                                   </button>
                                   <button
                                     type="button"
@@ -740,7 +741,7 @@ export default function Checkout() {
                                       padding: '2px 16px',
                                     }}
                                   >
-                                    {t('checkout.signature_draw', 'Draw')}
+                                    {t('checkout.signature_draw')}
                                   </button>
                                 </div>
                                 {signatureType === 'text' ? (

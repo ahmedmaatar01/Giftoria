@@ -58,7 +58,13 @@ Route::apiResource('products', ProductController::class);
 Route::apiResource('product-images', ProductImageController::class);
 Route::apiResource('custom-fields', CustomFieldController::class);
 Route::apiResource('product-custom-values', ProductCustomValueController::class);
-Route::apiResource('commands', CommandController::class)->middleware('auth:sanctum');
+// Public route for creating a command (guest checkout allowed)
+Route::post('/commands', [CommandController::class, 'store']);
+
+// Protected routes for admins or logged-in users
+Route::apiResource('commands', CommandController::class)
+    ->except(['store'])
+    ->middleware('auth:sanctum');
 Route::apiResource('occasions', OccasionController::class);
 Route::apiResource('gift-cards', GiftCardController::class);
 
@@ -73,7 +79,7 @@ Route::patch('categories/{category}/images/{image}/featured', [CategoryControlle
 Route::delete('occasions/{occasion}/images/{image}', [OccasionController::class, 'deleteImage']);
 Route::patch('occasions/{occasion}/images/{image}/featured', [OccasionController::class, 'setFeaturedImage']);
 // (moved) featured product route now defined above products resource
-//get commandes by user 
+//get commandes by user
 Route::get('/users/{userId}/commands', [CommandController::class, 'getCommandsByUser'])->middleware('auth:sanctum');
 
 // Order notes and status history routes

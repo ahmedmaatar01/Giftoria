@@ -651,5 +651,9 @@
   ,
   "toolbar_shop": "المتجر",
   "toolbar_account": "الحساب",
-  "toolbar_cart": "السلة"
+  "toolbar_cart": "السلة",
+  "checkout.signature_draw":"ارسم ",
+  "checkout.signature_text" :"نص"
+
+
 }

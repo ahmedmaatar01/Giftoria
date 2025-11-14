@@ -11,17 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('commands', function (Blueprint $table) {
-            // Gift card related fields
-            $table->boolean('has_gift_card')->default(false)->after('description');
-            $table->unsignedBigInteger('gift_card_template_id')->nullable()->after('has_gift_card');
-            $table->text('gift_card_message')->nullable()->after('gift_card_template_id');
-            $table->string('gift_card_signature')->nullable()->after('gift_card_message');
-            $table->boolean('gift_card_is_custom')->default(false)->after('gift_card_signature');
-            
-            // Foreign key constraint for gift card template
-            $table->foreign('gift_card_template_id')->references('id')->on('gift_cards')->onDelete('set null');
-        });
+        // Schema::table('commands', function (Blueprint $table) {
+        //     // Gift card related fields
+        //     $table->boolean('has_gift_card')->default(false)->after('description');
+        //     $table->unsignedBigInteger('gift_card_template_id')->nullable()->after('has_gift_card');
+        //     $table->text('gift_card_message')->nullable()->after('gift_card_template_id');
+        //     $table->string('gift_card_signature')->nullable()->after('gift_card_message');
+        //     $table->boolean('gift_card_is_custom')->default(false)->after('gift_card_signature');
+
+        //     // Foreign key constraint for gift card template
+        //     $table->foreign('gift_card_template_id')->references('id')->on('gift_cards')->onDelete('set null');
+        // });
     }
 
     /**
@@ -32,7 +32,7 @@ return new class extends Migration
         Schema::table('commands', function (Blueprint $table) {
             // Drop foreign key first
             $table->dropForeign(['gift_card_template_id']);
-            
+
             // Drop columns
             $table->dropColumn([
                 'has_gift_card',

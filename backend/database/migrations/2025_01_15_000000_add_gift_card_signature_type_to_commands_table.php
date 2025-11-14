@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('commands', function (Blueprint $table) {
-            // Add column to track signature type (text or image)
-            $table->enum('gift_card_signature_type', ['text', 'image'])->nullable()->after('gift_card_signature');
-        });
+        // Schema::table('commands', function (Blueprint $table) {
+        //     // Add column to track signature type (text or image)
+        //     $table->enum('gift_card_signature_type', ['text', 'image'])->nullable()->after('gift_card_signature');
+        // });
     }
 
     /**
