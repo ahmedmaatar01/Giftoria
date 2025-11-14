@@ -16,3 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Debug route to test if web routes work
+Route::get('/debug-web', function () {
+    return response()->json(['message' => 'Web routing works', 'timestamp' => now()]);
+});
+
+// Debug API route in web.php to test
+Route::get('/debug-api', function () {
+    return response()->json(['message' => 'API in web routing works', 'timestamp' => now()]);
+});
