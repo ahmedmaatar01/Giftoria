@@ -20,6 +20,8 @@ class GiftCard extends Model
         'name_ar',
         'image',
         'is_active',
+        'occasion_id',
+
     ];
 
     /**
@@ -47,6 +49,11 @@ class GiftCard extends Model
     {
         return $this->hasMany(ProductGiftCardSelection::class);
     }
+    public function occasion()
+{
+    return $this->belongsTo(Occasion::class);
+}
+
 
     /**
      * Scope a query to only include active gift cards.

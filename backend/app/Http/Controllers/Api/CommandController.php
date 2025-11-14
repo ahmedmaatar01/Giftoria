@@ -22,8 +22,8 @@ class CommandController extends Controller
     {
         // Return all commands with user, products, notes, status history, and gift card template
         return Command::with([
-            'user', 
-            'products', 
+            'user',
+            'products',
             'commandProducts.product',
             'notes.user',
             'notes.admin',
@@ -47,21 +47,21 @@ class CommandController extends Controller
             try {
                 // Extract the base64 data
                 $image = $signature;
-                
+
                 // Get the image type and data
                 preg_match('/data:image\/(\w+);base64,/', $image, $type);
                 $imageType = $type[1] ?? 'png';
-                
+
                 // Remove the data URL part
                 $image = substr($image, strpos($image, ',') + 1);
                 $image = base64_decode($image);
-                
+
                 // Generate unique filename
                 $fileName = 'signature_' . uniqid() . '_' . time() . '.' . $imageType;
-                
+
                 // Save to storage/app/public/signatures
                 Storage::disk('public')->put('signatures/' . $fileName, $image);
-                
+
                 // Return the path (relative to storage/app/public)
                 return [
                     'signature' => 'signatures/' . $fileName,
@@ -72,7 +72,7 @@ class CommandController extends Controller
                 return ['signature' => null, 'type' => null];
             }
         }
-        
+
         // It's a text signature, return as-is
         return [
             'signature' => $signature,
@@ -83,7 +83,6 @@ class CommandController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'user_id' => 'nullable|exists:users,id',
             'customer_first_name' => 'nullable|string|max:255',
             'customer_last_name' => 'nullable|string|max:255',
             'customer_email' => 'nullable|email|max:255',
@@ -146,14 +145,14 @@ class CommandController extends Controller
 
         // Process signature (save image if base64, or keep text)
         $signatureData = ['signature' => null, 'type' => null];
-        
+
         // Debug logging
         Log::info('Gift Card Data Received:', [
             'has_gift_card' => isset($validated['gift_card']),
             'gift_card_data' => $validated['gift_card'] ?? null,
             'custom_signing' => $validated['gift_card']['custom_signing'] ?? 'NOT SET'
         ]);
-        
+
         if (isset($validated['gift_card']['custom_signing']) && !empty($validated['gift_card']['custom_signing'])) {
             Log::info('Processing signature...', [
                 'signature_length' => strlen($validated['gift_card']['custom_signing']),
@@ -164,11 +163,12 @@ class CommandController extends Controller
         } else {
             Log::warning('No signature to process');
         }
+        $userId = $request->user()?->id ?? null; // logged-in user ID, or null if guest
 
                 // Create the command
         $command = Command::create([
             'name' => trim(($validated['customer_first_name'] ?? '') . ' ' . ($validated['customer_last_name'] ?? '')),
-            'user_id' => $validated['user_id'],
+            'user_id' => $userId, // null for guest
             'customer_first_name' => $validated['customer_first_name'],
             'customer_last_name' => $validated['customer_last_name'],
             'customer_email' => $validated['customer_email'],
@@ -293,7 +293,7 @@ public function getCommandsByUser($userId)
 {
     // Check if user exists
     $user = User::findOrFail($userId);
-    
+
     // Optional: Add security check to ensure users can only see their own orders
     // $authUser = auth()->user();
     // if ($authUser && $authUser->id != $userId) {
@@ -302,7 +302,7 @@ public function getCommandsByUser($userId)
 
     // Retrieve all commands for that user, with related products, notes, and status history
     $commands = Command::with([
-        'products', 
+        'products',
         'commandProducts.product',
         'notes.user',
         'notes.admin',
@@ -323,7 +323,7 @@ public function getCommandsByUser($userId)
     public function getNotes(Request $request, $commandId)
     {
         $command = Command::findOrFail($commandId);
-        
+
         // Check permissions - users can only see their own order notes
         $user = $request->user();
         if ($user && $command->user_id !== $user->id) {
@@ -356,12 +356,12 @@ public function getCommandsByUser($userId)
 
         $command = Command::findOrFail($commandId);
         $user = $request->user();
-        
+
         // Check if user is authenticated
         if (!$user) {
             return response()->json(['error' => 'Unauthorized - Authentication required'], 403);
         }
-        
+
         // Determine note type and permissions
         $noteData = [
             'command_id' => $commandId,
@@ -373,18 +373,18 @@ public function getCommandsByUser($userId)
         // Check if the authenticated user is an admin
         // Method 1: Check if user has 'role' attribute set to 'admin'
         $isAdminByRole = isset($user->role) && $user->role === 'admin';
-        
+
         // Method 2: Check if user email indicates admin (common pattern)
         $isAdminByEmail = str_contains($user->email, 'admin') || str_ends_with($user->email, '@admin.com');
-        
+
         // Method 3: Check if admin guard is being used
         $isAdminByGuard = $request->user('admin') !== null;
-        
+
         // Method 4: Check if user exists in admins table (fallback)
         $isAdminByTable = \App\Models\Admin::where('email', $user->email)->exists();
-        
+
         $isAdmin = $isAdminByRole || $isAdminByEmail || $isAdminByGuard || $isAdminByTable;
-        
+
         // Debug logging to see which method detects admin
         Log::info('Admin detection debug', [
             'user_id' => $user->id,
@@ -397,14 +397,14 @@ public function getCommandsByUser($userId)
             'final_isAdmin' => $isAdmin,
             'note_type' => $noteData['note_type']
         ]);
-        
+
         // Authorization logic
         if ($noteData['note_type'] === 'customer') {
             // For customer notes: allow if user is the customer OR if user is admin
             if (!$isAdmin && $command->user_id !== $user->id) {
                 return response()->json(['error' => 'Unauthorized - Only order customer or admin can add customer notes'], 403);
             }
-            
+
             if ($isAdmin) {
                 // Admin adding customer-visible note - store as admin note
                 $noteData['admin_id'] = $user->id;
@@ -457,7 +457,7 @@ public function getCommandsByUser($userId)
         ]);
 
         $command = Command::findOrFail($commandId);
-        
+
         // Use the model method to update status and create history
         $command->updateStatus(
             $validated['status'],

@@ -654,7 +654,10 @@
   
     "toolbar_shop": "Shop",
     "toolbar_account": "Account",
-    "toolbar_cart": "Cart"
+    "toolbar_cart": "Cart",
+    "checkout.signature_draw":"Draw",
+    "checkout.signature_text" :"Text"
+
 
   
 }
