@@ -11,25 +11,54 @@ const GiftCardModal = ({ show, onHide, giftCard, onSave, isLoading }) => {
   const [formData, setFormData] = useState({
     name: '',
     name_ar: '',
-    is_active: true
+    is_active: true,
+    occasion_id: ''
   });
+  const [occasions, setOccasions] = useState([]);
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    const fetchOccasions = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/occasions`);
+        console.log("Fetched occasions response:", res.data);
+
+        // ✅ Adapt this line depending on your API response structure
+        // Example 1: if backend returns { success: true, data: [...] }
+        if (Array.isArray(res.data.data)) {
+          setOccasions(res.data.data);
+        }
+        // Example 2: if backend returns just [...]
+        else if (Array.isArray(res.data)) {
+          setOccasions(res.data);
+        } else {
+          console.warn("Unexpected response format:", res.data);
+        }
+      } catch (err) {
+        console.error('Error fetching occasions:', err);
+      }
+    };
+
+    fetchOccasions();
+  }, []);
 
   useEffect(() => {
     if (giftCard) {
       setFormData({
         name: giftCard.name || '',
         name_ar: giftCard.name_ar || '',
-        is_active: giftCard.is_active !== undefined ? giftCard.is_active : true
+        is_active: giftCard.is_active !== undefined ? giftCard.is_active : true,
+        occasion_id: giftCard.occasion_id || ''
       });
       setImagePreview(giftCard.image ? `${BACKEND_URL}/storage/${giftCard.image}` : null);
     } else {
       setFormData({
         name: '',
         name_ar: '',
-        is_active: true
+        is_active: true,
+        occasion_id: ''
       });
       setImagePreview(null);
     }
@@ -50,9 +79,7 @@ const GiftCardModal = ({ show, onHide, giftCard, onSave, isLoading }) => {
     if (file) {
       setImageFile(file);
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
+      reader.onloadend = () => setImagePreview(reader.result);
       reader.readAsDataURL(file);
     }
   };
@@ -87,9 +114,6 @@ const GiftCardModal = ({ show, onHide, giftCard, onSave, isLoading }) => {
                 <Form.Control.Feedback type="invalid">
                   {errors.name}
                 </Form.Control.Feedback>
-                <Form.Text className="text-muted">
-                  English name that customers will see when selecting gift cards.
-                </Form.Text>
               </Form.Group>
 
               <Form.Group className="mb-3">
@@ -106,8 +130,24 @@ const GiftCardModal = ({ show, onHide, giftCard, onSave, isLoading }) => {
                 <Form.Control.Feedback type="invalid">
                   {errors.name_ar}
                 </Form.Control.Feedback>
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Label>Occasion</Form.Label>
+                <Form.Select
+                  name="occasion_id"
+                  value={formData.occasion_id}
+                  onChange={handleInputChange}
+                >
+                  <option value="">-- Select Occasion --</option>
+                  {occasions.map((occ) => (
+                    <option key={occ.id} value={occ.id}>
+                      {occ.name}
+                    </option>
+                  ))}
+                </Form.Select>
                 <Form.Text className="text-muted">
-                  Arabic name for Arabic-speaking customers (optional).
+                  Select the occasion this gift card belongs to.
                 </Form.Text>
               </Form.Group>
 
@@ -119,9 +159,6 @@ const GiftCardModal = ({ show, onHide, giftCard, onSave, isLoading }) => {
                   onChange={handleInputChange}
                   label="Active Template"
                 />
-                <Form.Text className="text-muted">
-                  Only active templates will be available for customers to select.
-                </Form.Text>
               </Form.Group>
             </Col>
 
@@ -133,16 +170,13 @@ const GiftCardModal = ({ show, onHide, giftCard, onSave, isLoading }) => {
                   accept="image/*"
                   onChange={handleImageChange}
                 />
-                <Form.Text className="text-muted">
-                  Upload an image for the gift card (JPEG, PNG, GIF)
-                </Form.Text>
               </Form.Group>
 
               {imagePreview && (
                 <div className="text-center">
-                  <Image 
-                    src={imagePreview} 
-                    alt="Gift Card Preview" 
+                  <Image
+                    src={imagePreview}
+                    alt="Gift Card Preview"
                     style={{ maxWidth: '200px', maxHeight: '150px' }}
                     thumbnail
                   />
@@ -171,6 +205,7 @@ const GiftCardModal = ({ show, onHide, giftCard, onSave, isLoading }) => {
   );
 };
 
+
 export default function ManageGiftCards() {
   const [giftCards, setGiftCards] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -178,10 +213,34 @@ export default function ManageGiftCards() {
   const [selectedGiftCard, setSelectedGiftCard] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [alert, setAlert] = useState({ show: false, message: '', variant: 'success' });
+  const [occasions, setOccasions] = useState([]);
+  const [selectedOccasion, setSelectedOccasion] = useState("");
 
+
+  const fetchOccasions = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/occasions`);
+      if (Array.isArray(res.data.data)) {
+        setOccasions(res.data.data);
+      } else if (Array.isArray(res.data)) {
+        setOccasions(res.data);
+      } else {
+        console.warn("Unexpected response format:", res.data);
+      }
+    } catch (err) {
+      console.error('Error fetching occasions:', err);
+    }
+  };
+  
   useEffect(() => {
     fetchGiftCards();
+    fetchOccasions();
+
   }, []);
+const getOccasionName = (id) => {
+  const occasion = occasions.find((o) => o.id === id);
+  return occasion ? occasion.name : "—";
+};
 
   const fetchGiftCards = async () => {
     try {
@@ -225,7 +284,8 @@ export default function ManageGiftCards() {
       const giftCardData = {
         name: formData.name,
         name_ar: formData.name_ar,
-        is_active: formData.is_active
+        is_active: formData.is_active,
+        occasion_id: formData.occasion_id
       };
 
       if (giftCardId) {
@@ -243,6 +303,8 @@ export default function ManageGiftCards() {
         imageFormData.append('name', formData.name);
         imageFormData.append('name_ar', formData.name_ar);
         imageFormData.append('is_active', formData.is_active ? '1' : '0');
+        imageFormData.append('occasion_id', formData.occasion_id);
+
 
         // Update gift card with image
         await axios.post(`${API_URL}/gift-cards/${cardId}?_method=PUT`, imageFormData, {
@@ -295,6 +357,10 @@ export default function ManageGiftCards() {
       </Container>
     );
   }
+  const filteredGiftCards = selectedOccasion
+  ? giftCards.filter((g) => String(g.occasion_id) === String(selectedOccasion))
+  : giftCards;
+
 
   return (
     <Container fluid className="py-4">
@@ -322,6 +388,21 @@ export default function ManageGiftCards() {
           </Col>
         </Row>
       )}
+  <Row className="mb-3">
+  <Col md={4}>
+    <Form.Select
+      value={selectedOccasion}
+      onChange={(e) => setSelectedOccasion(e.target.value)}
+    >
+      <option value="">-- All Occasions --</option>
+      {occasions.map((occ) => (
+        <option key={occ.id} value={occ.id}>
+          {occ.name}
+        </option>
+      ))}
+    </Form.Select>
+  </Col>
+</Row>
 
       <Row>
         <Col xs={12}>
