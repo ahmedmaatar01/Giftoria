@@ -3,8 +3,9 @@ import { Modal, Button, Form, Row, Col } from '@themesberg/react-bootstrap';
 import axios from 'axios';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { BACKEND_URL } from '../../api/config';
 
-const API_URL = 'http://localhost:8000/api';
+const API_URL = `${BACKEND_URL}/api`;
 
 const ProductModal = ({ show, onHide, onSubmit, form, setForm, isEdit }) => {
   const [categories, setCategories] = useState([]);
@@ -161,7 +162,7 @@ const ProductModal = ({ show, onHide, onSubmit, form, setForm, isEdit }) => {
             }} />
             {isEdit && form.existing_featured_image && (
               <div style={{marginTop:8}}>
-                <img src={`http://localhost:8000${form.existing_featured_image}`} alt="Featured Preview" style={{maxWidth:100, maxHeight:100, borderRadius:8}} />
+                <img src={`${BACKEND_URL}${form.existing_featured_image}`} alt="Featured Preview" style={{maxWidth:100, maxHeight:100, borderRadius:8}} />
               </div>
             )}
           </Form.Group>
@@ -178,7 +179,7 @@ const ProductModal = ({ show, onHide, onSubmit, form, setForm, isEdit }) => {
             {isEdit && form.existing_images && form.existing_images.length > 0 && (
               <div style={{marginTop:8, display:'flex', gap:8, flexWrap:'wrap'}}>
                 {form.existing_images.map((img, idx) => (
-                  <img key={idx} src={`http://localhost:8000${img}`} alt={`Preview ${idx+1}`} style={{maxWidth:80, maxHeight:80, borderRadius:6}} />
+                  <img key={idx} src={`${BACKEND_URL}${img}`} alt={`Preview ${idx+1}`} style={{maxWidth:80, maxHeight:80, borderRadius:6}} />
                 ))}
               </div>
             )}

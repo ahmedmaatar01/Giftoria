@@ -3,8 +3,9 @@ import { Card, Table, Button, Breadcrumb, InputGroup, Form, Row, Col, Modal, Bad
 import { faHome, faSearch, faEye, faEdit, faHistory, faCommentDots, faPlus, faClock, faUser, faUserTie } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
+import { BACKEND_URL } from '../../api/config';
 
-const API_URL = 'http://localhost:8000/api';
+const API_URL = `${BACKEND_URL}/api`;
 const ADMIN_API = `${API_URL}/admin`;
 
 // Helper function to get auth headers
@@ -535,7 +536,7 @@ const filteredCommands = commands.filter(cmd => {
                               src={
                                 selectedCommand.gift_card_template.image_url || 
                                 (selectedCommand.gift_card_template.image 
-                                  ? `http://localhost:8000/storage/${selectedCommand.gift_card_template.image}` 
+                                  ? `${BACKEND_URL}/storage/${selectedCommand.gift_card_template.image}` 
                                   : '')
                               } 
                               alt={selectedCommand.gift_card_template.name}
@@ -572,7 +573,7 @@ const filteredCommands = commands.filter(cmd => {
                             <img 
                               src={
                                 selectedCommand.gift_card_signature_url || 
-                                `http://localhost:8000/storage/${selectedCommand.gift_card_signature}`
+                                `${BACKEND_URL}/storage/${selectedCommand.gift_card_signature}`
                               }
                               alt="Customer Signature"
                               className="img-thumbnail"

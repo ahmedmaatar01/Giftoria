@@ -7,6 +7,7 @@ import { faAngleLeft, faEnvelope, faUnlockAlt } from "@fortawesome/free-solid-sv
 import { Col, Row, Form, Card, Button, FormCheck, Container, InputGroup } from '@themesberg/react-bootstrap';
 import { Routes } from "../../routes";
 import BgImage from "../../assets/img/illustrations/signin.svg";
+import { BACKEND_URL } from "../../api/config";
 
 const AdminLogin = () => {
     const [email, setEmail] = useState("");
@@ -21,7 +22,7 @@ const AdminLogin = () => {
         setError("");
         setLoading(true);
         try {
-            const response = await axios.post("http://localhost:8000/api/admin/login", { email, password });
+            const response = await axios.post(`${BACKEND_URL}/api/admin/login`, { email, password });
             const { user, access_token } = response.data || {};
             const userWithToken = access_token ? { ...user, access_token } : user;
             // Persist user and token

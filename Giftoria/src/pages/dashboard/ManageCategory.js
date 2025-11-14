@@ -3,8 +3,9 @@ import { Card, Table, Button, Form, Modal, Row, Col, InputGroup, Image, Dropdown
 import { faEdit, faTrashAlt, faEye, faHome, faSearch, faEllipsisV, faCog, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
+import { BACKEND_URL } from '../../api/config';
 
-const API_URL = 'http://localhost:8000/api';
+const API_URL = `${BACKEND_URL}/api`;
 
 const ManageCategory = () => {
   const [categories, setCategories] = useState([]);
@@ -258,7 +259,7 @@ const ManageCategory = () => {
                   <td>
                     {cat.featured_image || (cat.images && cat.images.length > 0) ? (
                       <Image 
-                        src={`http://localhost:8000/storage/${cat.featured_image || cat.images.find(i => i.is_featured)?.image_path || cat.images[0]?.image_path}`} 
+                        src={`${BACKEND_URL}/storage/${cat.featured_image || cat.images.find(i => i.is_featured)?.image_path || cat.images[0]?.image_path}`} 
                         alt="Category image" 
                         width={40} 
                         rounded 
@@ -341,7 +342,7 @@ const ManageCategory = () => {
                     <small className="text-muted">Current image:</small>
                     <br />
                     <Image 
-                      src={`http://localhost:8000/storage/${safeForm.existing_featured_image}`} 
+                      src={`${BACKEND_URL}/storage/${safeForm.existing_featured_image}`} 
                       alt="Current" 
                       width={100} 
                       rounded 

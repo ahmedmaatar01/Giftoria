@@ -8,9 +8,10 @@ import { CounterWidget, CircleChartWidget, BarChartWidget, TeamMembersWidget, Pr
 import { BarChart } from "../../components/Charts";
 import { PageVisitsTable } from "../../components/Tables";
 import { trafficShares, totalOrders } from "../../data/charts";
+import { BACKEND_URL } from "../../api/config";
 
 export default () => {
-  const API_URL = 'http://localhost:8000/api';
+  const API_URL = `${BACKEND_URL}/api`;
   const getAuthHeaders = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     const token = (user && (user.access_token || user.token || user.accessToken)) || localStorage.getItem('access_token');

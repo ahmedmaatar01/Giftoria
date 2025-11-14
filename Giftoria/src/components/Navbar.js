@@ -10,9 +10,10 @@ import { Row, Col, Nav, Form, Image, Navbar, Dropdown, Container, ListGroup, Inp
 import Profile3 from "../assets/img/team/profile-picture-3.jpg";
 import { Routes } from '../routes';
 import axios from 'axios';
+import { BACKEND_URL } from '../api/config';
 
 
-const API_URL = 'http://localhost:8000/api/admin';
+const API_URL = `${BACKEND_URL}/api/admin`;
 
 const getAuthHeaders = () => {
   const stored = JSON.parse(localStorage.getItem('user'));
@@ -165,7 +166,7 @@ export default (props) => {
       
                 <Dropdown.Divider />
 
-                <Dropdown.Item className="fw-bold" onClick={() => { logout(); history.push('/login'); }}>
+                <Dropdown.Item className="fw-bold" onClick={() => { logout(); history.push('/admin-login'); }}>
                   <FontAwesomeIcon icon={faSignOutAlt} className="text-danger me-2" /> Logout
                 </Dropdown.Item>
               </Dropdown.Menu>

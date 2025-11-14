@@ -3,8 +3,9 @@ import { Card, Table, Button, Breadcrumb, InputGroup, Form, Row, Col, Modal, Bad
 import { faHome, faSearch, faEye, faEnvelope, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
+import { BACKEND_URL } from '../../api/config';
 
-const API_URL = 'http://localhost:8000/api';
+const API_URL = `${BACKEND_URL}/api`;
 
 const getAuthHeaders = () => {
     const user = JSON.parse(localStorage.getItem('user'));

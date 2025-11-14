@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Card, Table, Button, Form, Modal, Row, Col } from '@themesberg/react-bootstrap';
 import axios from 'axios';
+import { BACKEND_URL } from '../../api/config';
 
-const API_URL = 'http://localhost:8000/api';
+const API_URL = `${BACKEND_URL}/api`;
 
 const ManageCustomField = () => {
   const [fields, setFields] = useState([]);

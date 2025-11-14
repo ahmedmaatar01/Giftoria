@@ -6,8 +6,9 @@ import { faCheck, faCog, faHome, faSearch, faEllipsisV } from '@fortawesome/free
 
 import axios from 'axios';
 import ProductModal from './ProductModal';
+import { BACKEND_URL } from '../../api/config';
 
-const API_URL = 'http://localhost:8000/api';
+const API_URL = `${BACKEND_URL}/api`;
 
 const ManageProducts = () => {
     const [products, setProducts] = useState([]);
@@ -242,7 +243,7 @@ const ManageProducts = () => {
       <td>
         {prod.images && prod.images.length > 0 ? (
           <Image
-            src={`http://localhost:8000${prod.images.find(i => i.is_featured)?.image_path || prod.images[0].image_path}`}
+            src={`${BACKEND_URL}${prod.images.find(i => i.is_featured)?.image_path || prod.images[0].image_path}`}
             alt="img"
             width={40}
             rounded

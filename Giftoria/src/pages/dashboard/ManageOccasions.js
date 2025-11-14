@@ -3,8 +3,9 @@ import { Card, Table, Button, Form, Modal, Row, Col, InputGroup, Image, Dropdown
 import { faEdit, faTrashAlt, faHome, faSearch, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
+import { BACKEND_URL } from '../../api/config';
 
-const API_URL = 'http://localhost:8000/api';
+const API_URL = `${BACKEND_URL}/api`;
 
 const ManageOccasions = () => {
   const [occasions, setOccasions] = useState([]);
@@ -215,7 +216,7 @@ const ManageOccasions = () => {
                   <td>
                     {occ.featured_image || (occ.images && occ.images.length > 0) ? (
                       <Image 
-                        src={`http://localhost:8000/storage/${occ.featured_image || occ.images.find(i => i.is_featured)?.image_path || occ.images[0]?.image_path}`} 
+                        src={`${BACKEND_URL}/storage/${occ.featured_image || occ.images.find(i => i.is_featured)?.image_path || occ.images[0]?.image_path}`} 
                         alt="Occasion image" 
                         width={40} 
                         rounded 
@@ -310,7 +311,7 @@ const ManageOccasions = () => {
                 <div className="mt-2">
                   <small className="text-muted">Current image:</small>
                   <br />
-                  <Image src={`http://localhost:8000/storage/${safeForm.existing_featured_image}`} alt="Current" width={100} rounded className="mt-1" />
+                  <Image src={`${BACKEND_URL}/storage/${safeForm.existing_featured_image}`} alt="Current" width={100} rounded className="mt-1" />
                 </div>
               )}
             </Form.Group>
