@@ -6,6 +6,7 @@ import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useTranslation } from "react-i18next";
 
+import { API_BASE_URL_WITH_API, API_STORAGE_URL } from "@/utils/config";
 // Helper to resolve occasion image similar to categories/sidebars
 const resolveOccasionImage = (o) => {
   const featured = o?.images?.find?.((img) => img?.is_featured == 1);
@@ -17,19 +18,14 @@ const resolveOccasionImage = (o) => {
     o?.image ||
     o?.thumbnail;
   if (!candidate || typeof candidate !== "string") return null;
-
-  // Already absolute
   if (/^https?:\/\//i.test(candidate)) return candidate;
-
-  // Normalize leading slashes
-  candidate = candidate.replace(/^\/+/, "");
-
-  if (candidate.startsWith("storage/")) return `http://localhost:8000/${candidate}`;
+  candidate = candidate.replace(/^\/\//, "");
+  if (candidate.startsWith("storage/")) return `${API_STORAGE_URL}/${candidate.replace(/^storage\//, "")}`;
   if (candidate.startsWith("public/")) {
     const normalized = candidate.replace(/^public\//, "storage/");
-    return `http://localhost:8000/${normalized}`;
+    return `${API_STORAGE_URL}/${normalized.replace(/^storage\//, "")}`;
   }
-  return `http://localhost:8000/storage/${candidate}`;
+  return `${API_STORAGE_URL}/${candidate}`;
 };
 
 export default function Hero() {
@@ -41,7 +37,7 @@ export default function Hero() {
     const fetchOccasions = async () => {
       setLoading(true);
       try {
-        const res = await fetch("http://localhost:8000/api/occasions");
+        const res = await fetch(`${API_BASE_URL_WITH_API}/occasions`);
         const data = await res.json();
         const items = Array.isArray(data) ? data : (data?.data || []);
         setOccasions(items);

@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { useContextElement } from "@/context/Context";
 import { useTranslation } from "react-i18next";
+    import { API_BASE_URL, API_STORAGE_URL } from '../../utils/config';
 
 export default function Productcard23({ product }) {
   const { t, i18n } = useTranslation();
@@ -37,8 +38,9 @@ export default function Productcard23({ product }) {
     if (!p) return "/images/no-image.png";
     if (typeof p !== 'string') return "/images/no-image.png";
     if (p.startsWith('http')) return p;
-    if (p.startsWith('/')) return `http://localhost:8000${p}`;
-    return `http://localhost:8000/storage/${p}`;
+    // ...existing code...
+    if (p.startsWith('/')) return `${API_BASE_URL}${p}`;
+    return `${API_STORAGE_URL}/${p}`;
   };
   const getPrimaryImage = (prod) => {
     const featured = prod?.images?.find((img) => img.is_featured);

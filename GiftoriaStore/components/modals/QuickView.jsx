@@ -3,6 +3,7 @@ import { useContextElement } from "@/context/Context";
 
 import Image from "next/image";
 import Link from "next/link";
+    import { API_BASE_URL, API_STORAGE_URL } from '../../utils/config';
 
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -34,8 +35,8 @@ export default function QuickView() {
     if (!p) return "/images/no-image.png";
     if (typeof p !== 'string') return "/images/no-image.png";
     if (p.startsWith('http')) return p;
-    if (p.startsWith('/')) return `http://localhost:8000${p}`;
-    return `http://localhost:8000/storage/${p}`;
+    if (p.startsWith('/')) return `${API_BASE_URL}${p}`;
+    return `${API_STORAGE_URL}/${p}`;
   };
   const getPrimaryImage = (prod) => {
     const featured = prod?.images?.find((img) => img.is_featured);

@@ -7,12 +7,13 @@ import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
+  import { API_BASE_URL } from "@/utils/config";
 
 export default function Products2({ isProductDetail = false }) {
   const { t } = useTranslation(); // ✅ use translation hook
 
   // Backend API base (env override with sensible fallback)
-  const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+  const API_BASE = API_BASE_URL;
 
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [loading, setLoading] = useState(true);

@@ -6,6 +6,7 @@ import ShopFilterOccasion from "./ShopFilterOccasion";
 import Sorting from "./Sorting";
 import { useSearchParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
+import { API_BASE_URL_WITH_API } from '../../utils/config';
 
 // Pagination: 30 items per page
 const ITEMS_PER_PAGE = 30;
@@ -31,7 +32,7 @@ export default function ShopByCategory() {
       }
       try {
         console.log('[ShopByCategory] Fetching products for category:', categoryId);
-        const response = await fetch(`http://localhost:8000/api/products?category_id=${categoryId}`);
+        const response = await fetch(`${API_BASE_URL_WITH_API}/products?category_id=${categoryId}`);
         const data = await response.json();
         const items = Array.isArray(data) ? data : (data?.data || []); // handle pagination payloads if any
         // Safety: ensure only products from this category are included even if API ignores the query param
@@ -83,9 +84,8 @@ export default function ShopByCategory() {
               {layouts.map((layout, index) => (
                 <li
                   key={index}
-                  className={`tf-view-layout-switch ${layout.className} ${
-                    gridItems == layout.dataValueGrid ? "active" : ""
-                  }`}
+                  className={`tf-view-layout-switch ${layout.className} ${gridItems == layout.dataValueGrid ? "active" : ""
+                    }`}
                   onClick={() => setGridItems(layout.dataValueGrid)}
                 >
                   <div className="item">

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { API_BASE_URL_WITH_API, API_BASE_URL, API_STORAGE_URL } from '../../utils/config';
 
 export default function Sidebar({ onCategorySelect }) {
   const { t, i18n } = useTranslation();
@@ -18,7 +19,7 @@ export default function Sidebar({ onCategorySelect }) {
     const fetchCategories = async () => {
       setLoading(true);
       try {
-        const response = await fetch('http://localhost:8000/api/categories');
+        const response = await fetch(`${API_BASE_URL_WITH_API}/categories`);
         const data = await response.json();
         // If API returns {data: [...]}, use data.data, else use data
         const cats = Array.isArray(data) ? data : (data?.data || []);
@@ -46,7 +47,7 @@ export default function Sidebar({ onCategorySelect }) {
     const fetchProducts = async () => {
       setLoadingProducts(true);
       try {
-        const response = await fetch('http://localhost:8000/api/products');
+        const response = await fetch(`${API_BASE_URL_WITH_API}/products`);
         const data = await response.json();
         const items = Array.isArray(data) ? data : (data?.data || []);
         const shuffled = items.slice().sort(() => 0.5 - Math.random());
@@ -78,17 +79,17 @@ export default function Sidebar({ onCategorySelect }) {
 
     // If API already returned a storage path, don't double-prefix
     if (candidate.startsWith('storage/')) {
-      return `http://localhost:8000/${candidate}`;
+      return `${API_BASE_URL}/${candidate}`;
     }
 
     // Convert common Laravel "public/" disk paths to the public storage symlink
     if (candidate.startsWith('public/')) {
       const normalized = candidate.replace(/^public\//, 'storage/');
-      return `http://localhost:8000/${normalized}`;
+      return `${API_BASE_URL}/${normalized}`;
     }
 
     // Default: assume file lives under the storage symlink
-    return `http://localhost:8000/storage/${candidate}`;
+    return `${API_STORAGE_URL}/${candidate}`;
   };
 
   // Fetch occasions for the Gallery section
@@ -96,7 +97,7 @@ export default function Sidebar({ onCategorySelect }) {
     const fetchOccasions = async () => {
       setLoadingOccasions(true);
       try {
-        const response = await fetch('http://localhost:8000/api/occasions');
+        const response = await fetch(`${API_BASE_URL_WITH_API}/occasions`);
         const data = await response.json();
         const items = Array.isArray(data) ? data : (data?.data || []);
         setOccasions(items);
@@ -129,19 +130,19 @@ export default function Sidebar({ onCategorySelect }) {
 
     // If path already begins with storage/
     if (candidate.startsWith('storage/')) {
-      return `http://localhost:8000/${candidate}`;
+      return `${API_BASE_URL}/${candidate}`;
     }
 
     if (candidate.startsWith('public/')) {
       const normalized = candidate.replace(/^public\//, 'storage/');
-      return `http://localhost:8000/${normalized}`;
+      return `${API_BASE_URL}/${normalized}`;
     }
 
-    return `http://localhost:8000/storage/${candidate}`;
+    return `${API_STORAGE_URL}/${candidate}`;
   };
 
   return (
-    <aside className="tf-shop-sidebar wrap-sidebar-mobile" style={{direction: i18n.language === 'ar' ? 'rtl' : 'ltr'}}>
+    <aside className="tf-shop-sidebar wrap-sidebar-mobile" style={{ direction: i18n.language === 'ar' ? 'rtl' : 'ltr' }}>
       <div className="widget-facet wd-categories">
         <div
           className="facet-title"
@@ -159,19 +160,19 @@ export default function Sidebar({ onCategorySelect }) {
           ) : (
             <ul className="list-categoris current-scrollbar mb_36">
               <li key="all" className={`cate-item ${activeCategory === null ? 'current' : ''}`}
-                  style={{ cursor: 'pointer' }}>
+                style={{ cursor: 'pointer' }}>
                 <a href="#" onClick={e => { e.preventDefault(); setActiveCategory(null); if (onCategorySelect) onCategorySelect(null); }}><span>{t("shop.sidebar.all_categories")}</span></a>
               </li>
               {categories.map((category) => (
                 <li key={category.id || category.name} className={`cate-item ${activeCategory === category.id ? 'current' : ''}`}
-                    style={{ cursor: 'pointer' }}>
+                  style={{ cursor: 'pointer' }}>
                   <a href="#" onClick={e => handleCategoryClick(e, category)}>
-                  <span>
-  {i18n.language === "ar"
-    ? (category?.name_ar || category?.name)
-    : (category?.name || category?.name_ar)
-  }
-</span>
+                    <span>
+                      {i18n.language === "ar"
+                        ? (category?.name_ar || category?.name)
+                        : (category?.name || category?.name_ar)
+                      }
+                    </span>
                     {typeof category.count !== 'undefined' && (
                       <span>&nbsp;({category.count})</span>
                     )}
@@ -217,7 +218,7 @@ export default function Sidebar({ onCategorySelect }) {
                           height={100}
                         />
                       ) : (
-                        <div style={{width:100,height:100,background:'#f3f3f3'}} />
+                        <div style={{ width: 100, height: 100, background: '#f3f3f3' }} />
                       )}
                     </Link>
                     <div className="card-product-info">
@@ -225,10 +226,10 @@ export default function Sidebar({ onCategorySelect }) {
                         href={`/product-detail/${product.id}`}
                         className="title link"
                       >
- {i18n.language === "ar"
-    ? (product?.arabic_name || product?.name)
-    : (product?.name || product?.arabic_name)
-  }                      </Link>
+                        {i18n.language === "ar"
+                          ? (product?.arabic_name || product?.name)
+                          : (product?.name || product?.arabic_name)
+                        }                      </Link>
                       {priceText && (
                         <span className="price">{priceText}</span>
                       )}
@@ -335,7 +336,7 @@ export default function Sidebar({ onCategorySelect }) {
           <div className="grid-3 gap-4 mb_36">
             {loadingOccasions ? (
               Array.from({ length: 6 }).map((_, idx) => (
-                <div key={`occ-loading-${idx}`} className="item-gallery" style={{width:100, height:100, background:'#f0f0f0', borderRadius:8}} />
+                <div key={`occ-loading-${idx}`} className="item-gallery" style={{ width: 100, height: 100, background: '#f0f0f0', borderRadius: 8 }} />
               ))
             ) : (
               occasions.slice(0, 9).map((occasion) => {

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useTranslation } from 'react-i18next';
+import { API_BASE_URL_WITH_API } from '../../utils/config';
 
 export default function ShopDetailsTab({ productId }) {
   const { t, i18n } = useTranslation();
@@ -19,7 +20,7 @@ export default function ShopDetailsTab({ productId }) {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/products/${productId}`);
+        const response = await axios.get(`${API_BASE_URL_WITH_API}/products/${productId}`);
         setProduct(response.data);
       } catch (err) {
         console.error('Error fetching product for description:', err);

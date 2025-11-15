@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
+import { API_BASE_URL_WITH_API, API_BASE_URL } from '../../utils/config';
 
 export default function Checkout() {
   const { cartProducts, setCartProducts, totalPrice, user, authToken } = useContextElement();
@@ -93,7 +94,7 @@ export default function Checkout() {
       const loadGiftCardTemplates = async () => {
         setLoadingTemplates(true);
         try {
-          const response = await axios.get('http://localhost:8000/api/gift-cards');
+          const response = await axios.get(`${API_BASE_URL_WITH_API}/gift-cards`);
 
           if (response.data.success) {
             const activeTemplates = response.data.data.filter(template => template.is_active);
@@ -128,11 +129,11 @@ export default function Checkout() {
   // Initialize custom canvas drawing when in draw mode (client-side only)
   useEffect(() => {
     if (typeof window === 'undefined' || signatureType !== 'draw') return;
-    
+
     const initSignaturePad = async () => {
       // Small delay to ensure canvas is fully rendered
       await new Promise(resolve => setTimeout(resolve, 100));
-      
+
       const canvas = canvasRef.current;
       if (!canvas) {
         console.error('❌ Canvas ref is null');
@@ -194,21 +195,21 @@ export default function Checkout() {
       const onPointerUpDraw = (e) => {
         if (!isDrawingRef.current) return;
         isDrawingRef.current = false;
-        try { canvas.releasePointerCapture?.(e.pointerId); } catch {}
+        try { canvas.releasePointerCapture?.(e.pointerId); } catch { }
         console.log('🎯 Drawing ended');
         // Export image if something was drawn
         const dataURL = hasDrawnRef.current ? canvas.toDataURL('image/png') : '';
         console.log('�️ Signature captured, length:', dataURL.length);
         handleGiftCardChange('customSigning', dataURL);
       };
-  canvas.addEventListener('mousedown', onMouseDown);
-  canvas.addEventListener('pointerdown', onPointerDown, { passive: true });
-  canvas.addEventListener('touchstart', onTouchStart, { passive: true });
-  // Drawing listeners
-  canvas.addEventListener('pointerdown', onPointerDownDraw);
-  canvas.addEventListener('pointermove', onPointerMoveDraw);
-  canvas.addEventListener('pointerup', onPointerUpDraw);
-  canvas.addEventListener('pointerleave', onPointerUpDraw);
+      canvas.addEventListener('mousedown', onMouseDown);
+      canvas.addEventListener('pointerdown', onPointerDown, { passive: true });
+      canvas.addEventListener('touchstart', onTouchStart, { passive: true });
+      // Drawing listeners
+      canvas.addEventListener('pointerdown', onPointerDownDraw);
+      canvas.addEventListener('pointermove', onPointerMoveDraw);
+      canvas.addEventListener('pointerup', onPointerUpDraw);
+      canvas.addEventListener('pointerleave', onPointerUpDraw);
 
       // Restore existing signature if any
       const existingSignature = giftCardSelection.customSigning;
@@ -253,9 +254,9 @@ export default function Checkout() {
     if (elm?.images && elm.images.length > 0) {
       const featured = elm.images.find((img) => img.is_featured);
       const src = featured ? featured.image_path : elm.images[0].image_path;
-      return src ? `http://localhost:8000${src}` : "/images/no-image.png";
+      return src ? `${API_BASE_URL}${src}` : "/images/no-image.png";
     }
-    if (elm?.featured_image) return `http://localhost:8000${elm.featured_image}`;
+    if (elm?.featured_image) return `${API_BASE_URL}${elm.featured_image}`;
     return elm?.imgSrc || "/images/no-image.png";
   };
   const getItemName = (elm) => {
@@ -414,13 +415,13 @@ export default function Checkout() {
       console.log('Full Order Payload:', orderPayload);
 
       const response = await axios.post(
-        'http://localhost:8000/api/commands',
+        `${API_BASE_URL_WITH_API}/commands`,
         orderPayload,
         user
           ? { headers: getAuthHeaders() } // logged in → send token
           : {}                            // guest → no token
       );
-      
+
 
       // Success! Clear cart and show message
       setCartProducts([]);
@@ -431,7 +432,7 @@ export default function Checkout() {
       setTimeout(() => {
         if (!user) {
           // check this authentification conditon 
-           router.push(`/order-success?order_id=${orderId}`);
+          router.push(`/order-success?order_id=${orderId}`);
         } else {
           // Logged-in user → go to My Orders page
           router.push("my-account-orders");
@@ -760,9 +761,9 @@ export default function Checkout() {
                                         style={{ width: "100%", height: 120, display: "block", touchAction: "none", userSelect: "none", pointerEvents: "auto", cursor: "crosshair", position: "relative", zIndex: 1 }}
                                       />
                                     </div>
-                                    <button 
-                                      type="button" 
-                                      className="btn btn-sm btn-outline-secondary mt-2" 
+                                    <button
+                                      type="button"
+                                      className="btn btn-sm btn-outline-secondary mt-2"
                                       onClick={handleClearSignature}
                                     >
                                       Clear Signature
@@ -995,7 +996,7 @@ export default function Checkout() {
                           {template.image && (
                             <div className="template-image mb-2 text-center">
                               <Image
-                                src={`http://localhost:8000/storage/${template.image}`}
+                                src={`${API_BASE_URL}/storage/${template.image}`}
                                 alt={i18n.language === 'ar' && template.name_ar ? template.name_ar : template.name}
                                 width={120}
                                 height={90}

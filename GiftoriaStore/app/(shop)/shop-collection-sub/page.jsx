@@ -5,6 +5,7 @@ import Topbar1 from "@/components/headers/Topbar1";
 import ShopByOccasion from "@/components/shop/ShopByOccasion";
 import Subcollections from "@/components/shop/Subcollections";
 import React, { useEffect, useState } from "react";
+import { API_BASE_URL_WITH_API } from "@/utils/config";
 import { useSearchParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
 
@@ -23,7 +24,7 @@ export default function Page() {
       }
 
       try {
-        const response = await fetch(`http://localhost:8000/api/occasions/${occasionId}`);
+        const response = await fetch(`${API_BASE_URL_WITH_API}/occasions/${occasionId}`);
         const data = await response.json();
         setOccasion(data);
       } catch (error) {

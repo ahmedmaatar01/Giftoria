@@ -1,7 +1,7 @@
 // API Configuration
-const API_BASE_URL = 'http://localhost:8000/api';
 
 // Utility function to map backend product to frontend format
+import { API_BASE_URL } from "@/utils/config";
 const mapProductToFrontend = (backendProduct) => {
   // Get the featured image
   const featuredImage = backendProduct.images?.find(img => img.is_featured == 1);
@@ -9,8 +9,8 @@ const mapProductToFrontend = (backendProduct) => {
 
   return {
     id: backendProduct.id,
-    imgSrc: featuredImage ? `http://localhost:8000${featuredImage.image_path}` : "/images/products/placeholder.jpg",
-    imgHoverSrc: otherImages.length > 0 ? `http://localhost:8000${otherImages[0].image_path}` : "/images/products/placeholder.jpg",
+    imgSrc: featuredImage ? `${API_BASE_URL}${featuredImage.image_path}` : "/images/products/placeholder.jpg",
+    imgHoverSrc: otherImages.length > 0 ? `${API_BASE_URL}${otherImages[0].image_path}` : "/images/products/placeholder.jpg",
     title: backendProduct.name,
     name: backendProduct.name, // Keep original name field
     name_ar: backendProduct.arabic_name, // Map arabic_name to name_ar

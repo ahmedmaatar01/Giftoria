@@ -13,11 +13,12 @@ import {
 } from "@/data/menu";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
+  import { API_BASE_URL } from '../../utils/config';
 
 export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
   const pathname = usePathname();
   const { t, i18n } = useTranslation();
-  const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+  const API_BASE = API_BASE_URL;
   
   const [occasions, setOccasions] = useState([]);
   const [categories, setCategories] = useState([]);

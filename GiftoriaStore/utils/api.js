@@ -2,7 +2,7 @@
 
 // Base API configuration
 export const API_CONFIG = {
-  BASE_URL: 'http://localhost:8000/api',
+  BASE_URL: require('./config').API_BASE_URL_WITH_API,
   TIMEOUT: 10000, // 10 seconds
   HEADERS: {
     'Content-Type': 'application/json',

@@ -1,6 +1,7 @@
 "use client";
 import { useContextElement } from "@/context/Context";
 import React, { useState, useEffect } from "react";
+import { API_BASE_URL_WITH_API } from "@/utils/config";
 import { ProductCard } from "../../shopCards/ProductCard";
 
 export default function Products() {
@@ -57,7 +58,7 @@ export default function Products() {
           <div className="text-center py-5">
             <div className="alert alert-info">
               <h5>No Products Available</h5>
-              <p>Please make sure your backend API is running at <code>http://localhost:8000/api</code></p>
+              <p>Please make sure your backend API is running at <code>{API_BASE_URL_WITH_API}</code></p>
               <p>Or add some products through your admin dashboard.</p>
             </div>
           </div>

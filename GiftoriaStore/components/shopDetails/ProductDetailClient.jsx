@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import DetailsOuterZoom from "./DetailsOuterZoom";
 import ProductDetailLoading from "./ProductDetailLoading";
+  import { API_BASE_URL_WITH_API } from '../../utils/config';
 
 export default function ProductDetailClient({ productId }) {
   const [product, setProduct] = useState(null);
@@ -13,7 +14,7 @@ export default function ProductDetailClient({ productId }) {
     const fetchProduct = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://localhost:8000/api/products/${productId}`);
+        const response = await axios.get(`${API_BASE_URL_WITH_API}/products/${productId}`);
         setProduct(response.data);
       } catch (err) {
         console.error('Error fetching product:', err);

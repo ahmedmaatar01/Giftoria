@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useContextElement } from "@/context/Context";
 import CountdownComponent from "../common/Countdown";
 import { useTranslation } from "react-i18next";
+  import { API_BASE_URL, API_STORAGE_URL } from '../../utils/config';
 
 export const ProductCard = ({ product }) => {
   const { t, i18n } = useTranslation();
@@ -13,9 +14,9 @@ export const ProductCard = ({ product }) => {
     if (!p) return "/images/no-image.png";
     if (typeof p !== 'string') return "/images/no-image.png";
     if (p.startsWith('http')) return p;
-    if (p.startsWith('/')) return `http://localhost:8000${p}`;
+    if (p.startsWith('/')) return `${API_BASE_URL}${p}`;
     // Assume storage path like "products/xxx.jpg"
-    return `http://localhost:8000/storage/${p}`;
+    return `${API_STORAGE_URL}/${p}`;
   };
   const getPrimaryImage = (prod) => {
     const featured = prod?.images?.find((img) => img.is_featured);

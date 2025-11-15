@@ -8,6 +8,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
+import { API_BASE_URL_WITH_API, API_STORAGE_URL } from '../../utils/config';
 
 export default function Subcollections() {
   const searchParams = useSearchParams();
@@ -25,7 +26,7 @@ export default function Subcollections() {
       }
 
       try {
-        const response = await fetch(`http://localhost:8000/api/occasions/${occasionId}`);
+        const response = await fetch(`${API_BASE_URL_WITH_API}/occasions/${occasionId}`);
         const data = await response.json();
         setCategories(data.categories || []);
       } catch (error) {
@@ -95,15 +96,15 @@ export default function Subcollections() {
               categories.map((category) => {
                 // Get the featured image or first image
                 const featuredImage = category.images?.find(img => img.is_featured);
-                const imageUrl = featuredImage 
-                  ? `http://localhost:8000/storage/${featuredImage.image_path}`
-                  : category.featured_image 
-                  ? `http://localhost:8000/storage/${category.featured_image}`
-                  : '/images/no-image.png';
+                const imageUrl = featuredImage
+                  ? `${API_STORAGE_URL}/${featuredImage.image_path}`
+                  : category.featured_image
+                    ? `${API_STORAGE_URL}/${category.featured_image}`
+                    : '/images/no-image.png';
 
                 // Get the display name based on language
-                const displayName = i18n.language === 'ar' && category.name_ar 
-                  ? category.name_ar 
+                const displayName = i18n.language === 'ar' && category.name_ar
+                  ? category.name_ar
                   : category.name;
 
                 return (

@@ -3,6 +3,7 @@ import { useContextElement } from "@/context/Context";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
+import { API_BASE_URL } from '../../utils/config';
 
 export default function Cart() {
   const { t, i18n } = useTranslation();
@@ -11,9 +12,9 @@ export default function Cart() {
     if (elm?.images && elm.images.length > 0) {
       const featured = elm.images.find((img) => img.is_featured);
       const src = featured ? featured.image_path : elm.images[0].image_path;
-      return src ? `http://localhost:8000${src}` : "/images/no-image.png";
+      return src ? `${API_BASE_URL}${src}` : "/images/no-image.png";
     }
-    if (elm?.featured_image) return `http://localhost:8000${elm.featured_image}`;
+    if (elm?.featured_image) return `${API_BASE_URL}${elm.featured_image}`;
     return elm?.imgSrc || "/images/no-image.png";
   };
   const getItemName = (elm) => {

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { API_BASE_URL_WITH_API, API_STORAGE_URL } from "@/utils/config";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 export default function Categories() {
@@ -12,7 +13,7 @@ export default function Categories() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/api/categories");
+        const res = await axios.get(`${API_BASE_URL_WITH_API}/categories`);
         setCategories(res.data);
       } catch (err) {
         setCategories([]);
@@ -87,9 +88,9 @@ export default function Categories() {
                           >
                             <Image
                               className="lazyload"
-                              data-src={item.featured_image ? `http://localhost:8000/storage/${item.featured_image}` : "/no-image.png"}
+                              data-src={item.featured_image ? `${API_STORAGE_URL}/${item.featured_image}` : "/no-image.png"}
                               alt={item.name}
-                              src={item.featured_image ? `http://localhost:8000/storage/${item.featured_image}` : "/no-image.png"}
+                              src={item.featured_image ? `${API_STORAGE_URL}/${item.featured_image}` : "/no-image.png"}
                               width="600"
                               height="721"
                             />

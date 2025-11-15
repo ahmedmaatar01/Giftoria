@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useContextElement } from "@/context/Context";
 import { useTranslation } from "react-i18next";
+import { API_BASE_URL_WITH_API } from '../../../utils/config';
 
 export default function AccountEdit() {
   const { t, i18n } = useTranslation();
@@ -73,7 +74,7 @@ export default function AccountEdit() {
         payload.password_confirmation = formData.password_confirmation;
       }
 
-      const response = await fetch('http://localhost:8000/api/user/update', {
+      const response = await fetch(`${API_BASE_URL_WITH_API}/user/update`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${authToken}`,
@@ -91,12 +92,12 @@ export default function AccountEdit() {
 
       // Update user in context
       setUser(data.user);
-      
+
       // Update localStorage
       localStorage.setItem('auth_user', JSON.stringify(data.user));
 
       setMessage(t("account_edit.update_success"));
-      
+
       // Clear password fields
       setFormData(prev => ({
         ...prev,
@@ -114,25 +115,25 @@ export default function AccountEdit() {
   };
 
   return (
-    <div className="my-account-content account-edit" style={{direction: i18n.language === 'ar' ? 'rtl' : 'ltr'}}>
+    <div className="my-account-content account-edit" style={{ direction: i18n.language === 'ar' ? 'rtl' : 'ltr' }}>
       <div className="">
         <form
-            onSubmit={handleSubmit}
+          onSubmit={handleSubmit}
           className=""
           id="form-password-change"
           action="#"
         >
-            {message && (
-              <div className="alert alert-success mb-3" role="alert">
-                {message}
-              </div>
-            )}
-            {error && (
-              <div className="alert alert-danger mb-3" role="alert">
-                {error}
-              </div>
-            )}
-            
+          {message && (
+            <div className="alert alert-success mb-3" role="alert">
+              {message}
+            </div>
+          )}
+          {error && (
+            <div className="alert alert-danger mb-3" role="alert">
+              {error}
+            </div>
+          )}
+
           <div className="tf-field style-1 mb_15">
             <input
               className="tf-field-input tf-input"

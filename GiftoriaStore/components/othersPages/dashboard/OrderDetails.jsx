@@ -4,6 +4,7 @@ import { useContextElement } from "@/context/Context";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { API_BASE_URL_WITH_API, API_STORAGE_URL } from '../../../utils/config';
 
 export default function OrderDetails() {
   const { user, authToken } = useContextElement();
@@ -14,7 +15,7 @@ export default function OrderDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState(0);
-  
+
   // New state for notes and status history
   const [notes, setNotes] = useState([]);
   const [statusHistory, setStatusHistory] = useState([]);
@@ -29,7 +30,7 @@ export default function OrderDetails() {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(`http://localhost:8000/api/commands/${orderId}/details`, {
+        const res = await fetch(`${API_BASE_URL_WITH_API}/commands/${orderId}/details`, {
           headers: {
             'Authorization': `Bearer ${authToken}`,
             'Accept': 'application/json',
@@ -38,7 +39,7 @@ export default function OrderDetails() {
         if (!res.ok) throw new Error("Failed to fetch order details");
         const data = await res.json();
         setOrder(data);
-        
+
         // Fetch notes and status history
         fetchNotes();
         fetchStatusHistory();
@@ -56,7 +57,7 @@ export default function OrderDetails() {
     if (!orderId || !authToken) return;
     setNotesLoading(true);
     try {
-      const res = await fetch(`http://localhost:8000/api/commands/${orderId}/notes`, {
+      const res = await fetch(`${API_BASE_URL_WITH_API}/commands/${orderId}/notes`, {
         headers: {
           'Authorization': `Bearer ${authToken}`,
           'Accept': 'application/json',
@@ -78,7 +79,7 @@ export default function OrderDetails() {
     if (!orderId) return;
     setHistoryLoading(true);
     try {
-      const res = await fetch(`http://localhost:8000/api/commands/${orderId}/status-history`, {
+      const res = await fetch(`${API_BASE_URL_WITH_API}/commands/${orderId}/status-history`, {
         headers: {
           'Accept': 'application/json',
         },
@@ -99,7 +100,7 @@ export default function OrderDetails() {
     if (!newNote.trim() || !orderId || !authToken) return;
     setAddingNote(true);
     try {
-      const res = await fetch(`http://localhost:8000/api/commands/${orderId}/notes`, {
+      const res = await fetch(`${API_BASE_URL_WITH_API}/commands/${orderId}/notes`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${authToken}`,
@@ -137,7 +138,7 @@ export default function OrderDetails() {
   const formatDate = (dateString) => {
     if (!dateString) return t("order_details.not_available");
     const date = new Date(dateString);
-    
+
     if (i18n.language === 'ar') {
       const monthNames = [
         'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
@@ -148,10 +149,10 @@ export default function OrderDetails() {
       const year = date.getFullYear();
       return `${day} ${month} ${year}`;
     } else {
-      return date.toLocaleDateString('en-US', { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
+      return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
       });
     }
   };
@@ -203,7 +204,7 @@ export default function OrderDetails() {
   // Tab content
   const tabTitles = [
     t("order_details.order_history"),
-    t("order_details.item_details"), 
+    t("order_details.item_details"),
     t("order_details.my_notes"),
     t("order_details.status_timeline"),
     t("order_details.order_info")
@@ -213,7 +214,7 @@ export default function OrderDetails() {
     <div className="wd-form-order">
       <div className="order-head">
         <div className="content">
-          <div 
+          <div
             className={getStatusBadgeClass(order.status)}
             style={order.status?.toLowerCase() === 'pending' ? { backgroundColor: '#967740' } : {}}
           >
@@ -247,7 +248,7 @@ export default function OrderDetails() {
               key={title}
               className={"item-title" + (activeTab === idx ? " active" : "")}
               onClick={() => setActiveTab(idx)}
-              style={{cursor:'pointer'}}
+              style={{ cursor: 'pointer' }}
             >
               <span className="inner">{title}</span>
             </li>
@@ -256,7 +257,7 @@ export default function OrderDetails() {
         <div className="widget-content-tab">
           {/* Order History */}
           <div className={"widget-content-inner" + (activeTab === 0 ? " active" : "")}
-            style={{display: activeTab === 0 ? 'block' : 'none'}}>
+            style={{ display: activeTab === 0 ? 'block' : 'none' }}>
             <div className="widget-timeline">
               <ul className="timeline">
                 <li>
@@ -269,7 +270,7 @@ export default function OrderDetails() {
                 {/* Render status history timeline */}
                 {statusHistory.map((history, index) => (
                   <li key={history.id}>
-                    <div 
+                    <div
                       className={`timeline-badge ${getTimelineBadgeClass(history.new_status)}`}
                       style={history.new_status?.toLowerCase() === 'pending' ? { backgroundColor: '#967740' } : {}}
                     />
@@ -285,10 +286,10 @@ export default function OrderDetails() {
               </ul>
             </div>
           </div>
-          
+
           {/* Item Details */}
           <div className={"widget-content-inner" + (activeTab === 1 ? " active" : "")}
-            style={{display: activeTab === 1 ? 'block' : 'none', direction: i18n.language === 'ar' ? 'rtl' : 'ltr'}}>
+            style={{ display: activeTab === 1 ? 'block' : 'none', direction: i18n.language === 'ar' ? 'rtl' : 'ltr' }}>
             {order.products && order.products.length > 0 ? (
               <>
                 {order.products.map((product) => (
@@ -315,25 +316,25 @@ export default function OrderDetails() {
                     </div>
                   </div>
                 ))}
-                
+
                 {/* Gift Card Section */}
                 {order.has_gift_card && (
                   <div className="order-head mb-3" >
                     <div className="content">
                       <div className="text-2 fw-6" style={{ color: '#495057', marginBottom: '10px' }}>
-                         {t("order_details.gift_card_details", "Gift Card Details")}
+                        {t("order_details.gift_card_details", "Gift Card Details")}
                       </div>
-                      
+
                       <div className="mt_4">
                         <span className="fw-6">{t("order_details.gift_card_type", "Type")}: </span>
                         <span className>
                           {(order.gift_card_is_custom === true || order.gift_card_is_custom === 1)
-                            ? t("order_details.custom_design", "Custom Design") 
+                            ? t("order_details.custom_design", "Custom Design")
                             : t("order_details.template_design", "Template Design")
                           }
                         </span>
                       </div>
-                      
+
                       {/* Debug log to see the exact values */}
                       {console.log('Gift Card Debug:', {
                         has_gift_card: order.has_gift_card,
@@ -341,27 +342,27 @@ export default function OrderDetails() {
                         gift_card_template: order.gift_card_template,
                         typeof_is_custom: typeof order.gift_card_is_custom
                       })}
-                      
+
                       {(order.gift_card_is_custom === false || order.gift_card_is_custom === 0 || order.gift_card_is_custom === null) && order.gift_card_template && (
                         <>
                           <div className="mt_4">
                             <span className="fw-6">{t("order_details.template_name", "Template")}: </span>
                             <span>{order.gift_card_template.name}</span>
                           </div>
-                          
+
                           <div className="mt_4">
                             <span className="fw-6">{t("order_details.template_image", "Template Image")}: </span>
                             <br />
                             {(order.gift_card_template.image_url || order.gift_card_template.image) ? (
-                              <img 
+                              <img
                                 src={
-                                  order.gift_card_template.image_url || 
-                                  `http://localhost:8000/storage/${order.gift_card_template.image}`
-                                } 
+                                  order.gift_card_template.image_url ||
+                                  `${API_STORAGE_URL}/${order.gift_card_template.image}`
+                                }
                                 alt={order.gift_card_template.name}
-                                style={{ 
-                                  maxWidth: '200px', 
-                                  maxHeight: '150px', 
+                                style={{
+                                  maxWidth: '200px',
+                                  maxHeight: '150px',
                                   borderRadius: '8px',
                                   border: '1px solid #DEE2E6',
                                   marginTop: '8px',
@@ -390,14 +391,14 @@ export default function OrderDetails() {
                           </div>
                         </>
                       )}
-                      
+
                       {order.gift_card_message && (
                         <div className="mt_4">
                           <span className="fw-6">{t("order_details.gift_card_message", "Message")}: </span>
-                          <div style={{ 
-                            backgroundColor: '#FFFFFF', 
-                            padding: '10px', 
-                            borderRadius: '6px', 
+                          <div style={{
+                            backgroundColor: '#FFFFFF',
+                            padding: '10px',
+                            borderRadius: '6px',
                             border: '1px solid #DEE2E6',
                             marginTop: '5px',
                             whiteSpace: 'pre-wrap'
@@ -406,19 +407,19 @@ export default function OrderDetails() {
                           </div>
                         </div>
                       )}
-                      
+
                       {order.gift_card_signature && (
                         <div className="mt_4">
                           <span className="fw-6">{t("order_details.gift_card_signature", "From")}: </span>
                           <div style={{ marginTop: '8px' }}>
                             {order.gift_card_signature_type === 'image' ? (
                               <div>
-                                <img 
-                                  src={order.gift_card_signature_url || `http://localhost:8000/storage/${order.gift_card_signature}`}
+                                <img
+                                  src={order.gift_card_signature_url || `${API_STORAGE_URL}/${order.gift_card_signature}`}
                                   alt="Signature"
-                                  style={{ 
-                                    maxWidth: '300px', 
-                                    maxHeight: '100px', 
+                                  style={{
+                                    maxWidth: '300px',
+                                    maxHeight: '100px',
                                     border: '1px solid #DEE2E6',
                                     borderRadius: '6px',
                                     backgroundColor: '#FFFFFF',
@@ -441,8 +442,8 @@ export default function OrderDetails() {
                               </div>
                             ) : (
                               <div>
-                                <span style={{ 
-                                  fontStyle: 'italic', 
+                                <span style={{
+                                  fontStyle: 'italic',
                                   fontSize: '1.1em',
                                   color: '#495057',
                                   display: 'inline-block',
@@ -465,7 +466,7 @@ export default function OrderDetails() {
                     </div>
                   </div>
                 )}
-                
+
                 <ul>
                   <li className="d-flex justify-content-between text-2">
                     <span>{t("order_details.total_price")}</span>
@@ -481,15 +482,15 @@ export default function OrderDetails() {
               <div>{t("order_details.no_products_found")}</div>
             )}
           </div>
-          
+
           {/* My Notes */}
           <div className={"widget-content-inner" + (activeTab === 2 ? " active" : "")}
-            style={{display: activeTab === 2 ? 'block' : 'none', direction: i18n.language === 'ar' ? 'rtl' : 'ltr'}}>
+            style={{ display: activeTab === 2 ? 'block' : 'none', direction: i18n.language === 'ar' ? 'rtl' : 'ltr' }}>
             {/* Add note form */}
             <div className="mb-4 p-3 border rounded">
               <h6 className="mb-3">{t("order_details.add_note")}</h6>
               <div className="mb-3">
-                <textarea 
+                <textarea
                   className="form-control"
                   rows="3"
                   placeholder={t("order_details.note_placeholder")}
@@ -497,7 +498,7 @@ export default function OrderDetails() {
                   onChange={(e) => setNewNote(e.target.value)}
                 />
               </div>
-              <button 
+              <button
                 className="btn btn-dark btn-sm"
                 style={{ backgroundColor: '#000000' }}
                 onClick={addNote}
@@ -506,7 +507,7 @@ export default function OrderDetails() {
                 {addingNote ? t("order_details.adding_note") : t("order_details.add_note_button")}
               </button>
             </div>
-            
+
             {/* Notes list */}
             <div>
               <h6 className="mb-3">{t("order_details.order_notes")}</h6>
@@ -523,33 +524,33 @@ export default function OrderDetails() {
                       <div className="d-flex justify-content-between align-items-start mb-2">
                         <div>
                           <span className="badge"
-                                style={{
-                                  ...(note.note_type === 'customer' ? {
-                                    backgroundColor: '#F1ECE4',
-                                    color: '#000000',
-                                    border: '1px solid #F1ECE4',
-                                    padding: '0.375rem 0.75rem',
-                                    fontSize: '0.75rem',
-                                    fontWeight: '700',
-                                    lineHeight: '1',
-                                    textAlign: 'center',
-                                    whiteSpace: 'nowrap',
-                                    verticalAlign: 'baseline',
-                                    borderRadius: '0.375rem'
-                                  } : {
-                                    backgroundColor: '#492e11',
-                                    color: '#ffffff',
-                                    border: '1px solid #492e11',
-                                    padding: '0.375rem 0.75rem',
-                                    fontSize: '0.75rem',
-                                    fontWeight: '700',
-                                    lineHeight: '1',
-                                    textAlign: 'center',
-                                    whiteSpace: 'nowrap',
-                                    verticalAlign: 'baseline',
-                                    borderRadius: '0.375rem'
-                                  })
-                                }}>
+                            style={{
+                              ...(note.note_type === 'customer' ? {
+                                backgroundColor: '#F1ECE4',
+                                color: '#000000',
+                                border: '1px solid #F1ECE4',
+                                padding: '0.375rem 0.75rem',
+                                fontSize: '0.75rem',
+                                fontWeight: '700',
+                                lineHeight: '1',
+                                textAlign: 'center',
+                                whiteSpace: 'nowrap',
+                                verticalAlign: 'baseline',
+                                borderRadius: '0.375rem'
+                              } : {
+                                backgroundColor: '#492e11',
+                                color: '#ffffff',
+                                border: '1px solid #492e11',
+                                padding: '0.375rem 0.75rem',
+                                fontSize: '0.75rem',
+                                fontWeight: '700',
+                                lineHeight: '1',
+                                textAlign: 'center',
+                                whiteSpace: 'nowrap',
+                                verticalAlign: 'baseline',
+                                borderRadius: '0.375rem'
+                              })
+                            }}>
                             {note.note_type === 'customer' ? t("order_details.you") : t("order_details.admin")}
                           </span>
                         </div>
@@ -562,10 +563,10 @@ export default function OrderDetails() {
               )}
             </div>
           </div>
-          
+
           {/* Status Timeline */}
           <div className={"widget-content-inner" + (activeTab === 3 ? " active" : "")}
-            style={{display: activeTab === 3 ? 'block' : 'none', direction: i18n.language === 'ar' ? 'rtl' : 'ltr'}}>
+            style={{ display: activeTab === 3 ? 'block' : 'none', direction: i18n.language === 'ar' ? 'rtl' : 'ltr' }}>
             <h6 className="mb-3">{t("order_details.order_status_timeline")}</h6>
             {historyLoading ? (
               <div className="text-center py-3">{t("order_details.loading_status_history")}</div>
@@ -578,15 +579,15 @@ export default function OrderDetails() {
                 {statusHistory.map((history, index) => (
                   <div key={history.id} className="timeline-item d-flex mb-4">
                     <div className="timeline-marker me-3">
-                      <div 
-                        className={`rounded-circle ${getTimelineBadgeClass(history.new_status)} d-flex align-items-center justify-content-center`} 
+                      <div
+                        className={`rounded-circle ${getTimelineBadgeClass(history.new_status)} d-flex align-items-center justify-content-center`}
                         style={{
-                          width: '30px', 
+                          width: '30px',
                           height: '30px',
                           ...(history.new_status?.toLowerCase() === 'pending' ? { backgroundColor: '#967740' } : {})
                         }}
                       >
-                        <i className="fas fa-check text-white" style={{fontSize: '12px'}}></i>
+                        <i className="fas fa-check text-white" style={{ fontSize: '12px' }}></i>
                       </div>
                     </div>
                     <div className="timeline-content flex-grow-1">
@@ -615,10 +616,10 @@ export default function OrderDetails() {
               </div>
             )}
           </div>
-          
+
           {/* Order Info */}
           <div className={"widget-content-inner" + (activeTab === 4 ? " active" : "")}
-            style={{display: activeTab === 4 ? 'block' : 'none', direction: i18n.language === 'ar' ? 'rtl' : 'ltr'}}>
+            style={{ display: activeTab === 4 ? 'block' : 'none', direction: i18n.language === 'ar' ? 'rtl' : 'ltr' }}>
             <ul className="mt_20">
               <li>
                 {t("order_details.order_number")} : <span className="fw-7">#{order.id}</span>

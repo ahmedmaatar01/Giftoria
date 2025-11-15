@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Slider from "rc-slider";
 import Link from "next/link";
 import { useTranslation } from "react-i18next"; // ✅ add this
+        import { API_BASE_URL_WITH_API } from '../../utils/config';
 
 export default function ShopFilterOccasion({ 
   setProducts, 
@@ -25,7 +26,7 @@ export default function ShopFilterOccasion({
       }
 
       try {
-        const response = await fetch('http://localhost:8000/api/categories');
+        const response = await fetch(`${API_BASE_URL_WITH_API}/categories`);
         const allCategories = await response.json();
         const filteredCategories = allCategories.filter(cat => 
           categoryIds.includes(cat.id)

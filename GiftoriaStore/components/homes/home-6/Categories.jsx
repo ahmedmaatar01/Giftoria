@@ -1,6 +1,7 @@
 "use client";
 
 import { Swiper, SwiperSlide } from "swiper/react";
+import { API_BASE_URL_WITH_API, API_STORAGE_URL } from "@/utils/config";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "react-i18next"; // ✅ Import i18n hook
@@ -17,7 +18,7 @@ export default function Categories() {
     const fetchCategories = async () => {
       setLoading(true);
       try {
-        const res = await fetch("http://localhost:8000/api/categories");
+        const res = await fetch(`${API_BASE_URL_WITH_API}/categories`);
         const data = await res.json();
         const items = Array.isArray(data) ? data : (data?.data || []);
         setCategories(items);
@@ -43,12 +44,12 @@ export default function Categories() {
     if (!candidate || typeof candidate !== "string") return null;
     if (/^https?:\/\//i.test(candidate)) return candidate;
     candidate = candidate.replace(/^\/+/, "");
-    if (candidate.startsWith("storage/")) return `http://localhost:8000/${candidate}`;
+    if (candidate.startsWith("storage/")) return `${API_STORAGE_URL}/${candidate.replace(/^storage\//, "")}`;
     if (candidate.startsWith("public/")) {
       const normalized = candidate.replace(/^public\//, "storage/");
-      return `http://localhost:8000/${normalized}`;
+      return `${API_STORAGE_URL}/${normalized.replace(/^storage\//, "")}`;
     }
-    return `http://localhost:8000/storage/${candidate}`;
+    return `${API_STORAGE_URL}/${candidate}`;
   };
   return (
     <section className="flat-spacing-12">

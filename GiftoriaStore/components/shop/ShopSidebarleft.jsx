@@ -7,6 +7,7 @@ import Pagination from "../common/Pagination";
 import Sorting from "./Sorting";
 import { useTranslation } from "react-i18next";
 // import { products1 } from "@/data/products";
+import { API_BASE_URL_WITH_API } from '../../utils/config';
 
 export default function ShopSidebarleft() {
   const { t, i18n } = useTranslation();
@@ -22,7 +23,7 @@ export default function ShopSidebarleft() {
     const fetchAllProducts = async () => {
       setLoading(true);
       try {
-        const response = await fetch('http://localhost:8000/api/products');
+        const response = await fetch(`${API_BASE_URL_WITH_API}/products`);
         const data = await response.json();
         const items = Array.isArray(data) ? data : (data?.data || []);
         setProducts(items);
@@ -61,7 +62,7 @@ export default function ShopSidebarleft() {
 
   return (
     <>
-      <section className="flat-spacing-1" style={{direction: i18n.language === 'ar' ? 'rtl' : 'ltr'}}>
+      <section className="flat-spacing-1" style={{ direction: i18n.language === 'ar' ? 'rtl' : 'ltr' }}>
         <div className="container">
           <div className="tf-shop-control grid-3 align-items-center">
             <div className="tf-control-filter"></div>
@@ -69,9 +70,8 @@ export default function ShopSidebarleft() {
               {layouts.slice(0, 4).map((layout, index) => (
                 <li
                   key={index}
-                  className={`tf-view-layout-switch ${layout.className} ${
-                    gridItems == layout.dataValueGrid ? "active" : ""
-                  }`}
+                  className={`tf-view-layout-switch ${layout.className} ${gridItems == layout.dataValueGrid ? "active" : ""
+                    }`}
                   onClick={() => setGridItems(layout.dataValueGrid)}
                 >
                   <div className="item">

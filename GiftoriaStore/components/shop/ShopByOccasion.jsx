@@ -7,6 +7,7 @@ import ShopFilterOccasion from "./ShopFilterOccasion";
 import Sorting from "./Sorting";
 import { useSearchParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
+        import { API_BASE_URL_WITH_API } from '../../utils/config';
 
 // Pagination: 30 items per page
 const ITEMS_PER_PAGE = 30;
@@ -33,7 +34,7 @@ export default function ShopByOccasion() {
 
       try {
         console.log('[ShopByOccasion] Fetching occasion details for id:', occasionId);
-        const response = await fetch(`http://localhost:8000/api/occasions/${occasionId}`);
+        const response = await fetch(`${API_BASE_URL_WITH_API}/occasions/${occasionId}`);
         const data = await response.json();
         console.log('[ShopByOccasion] Occasion loaded. Categories count:', data?.categories?.length || 0);
         
@@ -43,7 +44,7 @@ export default function ShopByOccasion() {
         
         // Fetch all products
         console.log('[ShopByOccasion] Fetching all products to filter by occasion categories...');
-        const productsResponse = await fetch('http://localhost:8000/api/products');
+        const productsResponse = await fetch(`${API_BASE_URL_WITH_API}/products`);
         const allProducts = await productsResponse.json();
         console.log('[ShopByOccasion] Total products loaded:', Array.isArray(allProducts) ? allProducts.length : 0);
         

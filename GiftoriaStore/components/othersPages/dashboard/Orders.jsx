@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useContextElement } from "@/context/Context";
 import { useTranslation } from "react-i18next";
+import { API_BASE_URL_WITH_API } from '../../../utils/config';
 
 export default function Orders() {
   const { user, authToken } = useContextElement();
@@ -20,7 +21,7 @@ export default function Orders() {
 
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:8000/api/users/${user.id}/commands`, {
+        const response = await fetch(`${API_BASE_URL_WITH_API}/users/${user.id}/commands`, {
           headers: {
             'Authorization': `Bearer ${authToken}`,
             'Accept': 'application/json',
@@ -47,7 +48,7 @@ export default function Orders() {
   const formatDate = (dateString) => {
     if (!dateString) return t("orders_table.not_available");
     const date = new Date(dateString);
-    
+
     if (i18n.language === 'ar') {
       const monthNames = [
         'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
@@ -58,10 +59,10 @@ export default function Orders() {
       const year = date.getFullYear();
       return `${day} ${month} ${year}`;
     } else {
-      return date.toLocaleDateString('en-US', { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
+      return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
       });
     }
   };
@@ -163,7 +164,7 @@ export default function Orders() {
                     <td>#{order.id}</td>
                     <td>{formatDate(order.placed_at || order.created_at)}</td>
                     <td>
-                      <span 
+                      <span
                         className={getStatusBadgeClass(order.status)}
                         style={order.status?.toLowerCase() === 'pending' ? { backgroundColor: '#967740' } : {}}
                       >

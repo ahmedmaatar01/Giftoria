@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { API_BASE_URL_WITH_API, API_STORAGE_URL } from "@/utils/config";
 import Image from "next/image";
 import Link from "next/link";
 import { collectionCircles } from "@/data/categories";
@@ -17,7 +18,7 @@ export default function Categories() {
     // Fetch occasions from API
     const fetchOccasions = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/occasions');
+        const response = await fetch(`${API_BASE_URL_WITH_API}/occasions`);
         const data = await response.json();
         setOccasions(data);
       } catch (error) {
@@ -92,9 +93,9 @@ export default function Categories() {
                       // Get the featured image or first image
                       const featuredImage = occasion.images?.find(img => img.is_featured);
                       const imageUrl = featuredImage 
-                        ? `http://localhost:8000/storage/${featuredImage.image_path}`
+                        ? `${API_STORAGE_URL}/${featuredImage.image_path}`
                         : occasion.featured_image 
-                        ? `http://localhost:8000/storage/${occasion.featured_image}`
+                        ? `${API_STORAGE_URL}/${occasion.featured_image}`
                         : '/images/no-image.png';
 
                       // Use arabic name if current language is arabic, otherwise use regular name

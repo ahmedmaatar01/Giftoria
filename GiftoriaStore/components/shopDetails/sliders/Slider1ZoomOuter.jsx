@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import { Gallery, Item } from "react-photoswipe-gallery";
 import { Navigation, Thumbs, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { API_BASE_URL } from '../../../utils/config';
+
 const imagesDefault = [
   {
     id: 1,
@@ -153,21 +155,21 @@ const imagesDefault = [
 ];
 export default function Slider1ZoomOuter({
   currentColor = "Beige",
-  handleColor = () => {},
+  handleColor = () => { },
   firstImage,
   images = imagesDefault,
   productImages = []
 }) {
   // Create images array from API data or use provided images
-  const apiImages = productImages.length > 0 
+  const apiImages = productImages.length > 0
     ? productImages.map((img, index) => ({
-        id: index + 1,
-        src: `http://localhost:8000${img.image_path}`,
-        alt: `Product image ${index + 1}`,
-        width: 770,
-        height: 1075,
-        dataValue: "default",
-      }))
+      id: index + 1,
+      src: `${API_BASE_URL}${img.image_path}`,
+      alt: `Product image ${index + 1}`,
+      width: 770,
+      height: 1075,
+      dataValue: "default",
+    }))
     : images;
 
   const [updatedImages, setfirst] = useState(
@@ -328,7 +330,7 @@ export default function Slider1ZoomOuter({
           {/* Navigation buttons */}
           {/* <div className="swiper-button-next button-style-arrow thumbs-next"></div>
           <div className="swiper-button-prev button-style-arrow thumbs-prev"></div> */}
-          
+
           {/* Pagination dots */}
           <div className="swiper-pagination-custom"></div>
         </Swiper>{" "}
