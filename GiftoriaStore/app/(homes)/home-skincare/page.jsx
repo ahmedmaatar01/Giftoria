@@ -15,6 +15,9 @@ import ShopGram from "@/components/homes/home-skincare/ShopGram";
 import Features from "@/components/homes/home-6/Features";
 import Footer1 from "@/components/footers/Footer1";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export const metadata = {
   title: "Home Skincare || Ecomus - Ultimate Nextjs Ecommerce Template",
   description: "Ecomus - Ultimate Nextjs Ecommerce Template",

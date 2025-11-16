@@ -4,7 +4,7 @@ import { fetchProducts, products1 } from "@/data/products";
 import { apiCall, API_CONFIG } from "@/utils/api";
 import { openCartModal } from "@/utlis/openCartModal";
 // import { openCart } from "@/utlis/toggleCart";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useCallback } from "react";
 import { useContext, useState } from "react";
 const dataContext = React.createContext();
 export const useContextElement = () => {
@@ -339,7 +339,8 @@ export default function Context({ children }) {
     localStorage.setItem("wishlist", JSON.stringify(wishList));
   }, [wishList]);
 
-  const contextElement = {
+  // Memoize context value to prevent unnecessary re-renders
+  const contextElement = useMemo(() => ({
     cartProducts,
     setCartProducts,
     totalPrice,
@@ -359,18 +360,32 @@ export default function Context({ children }) {
     compareItem,
     setCompareItem,
     updateQuantity,
-  apiProducts, // Add API products to context
-  loading, // Add loading state
-  // --- AUTH ---
-  user,
-  setUser,
-  authToken, // Add authToken to context
-  authLoading,
-  authError,
-  login,
-  register,
-  logout,
-  };
+    apiProducts, // Add API products to context
+    loading, // Add loading state
+    // --- AUTH ---
+    user,
+    setUser,
+    authToken, // Add authToken to context
+    authLoading,
+    authError,
+    login,
+    register,
+    logout,
+  }), [
+    cartProducts,
+    totalPrice,
+    quickViewItem,
+    wishList,
+    quickAddItem,
+    compareItem,
+    apiProducts,
+    loading,
+    user,
+    authToken,
+    authLoading,
+    authError,
+  ]);
+  
   return (
     <dataContext.Provider value={contextElement}>
       {children}

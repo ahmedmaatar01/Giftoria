@@ -10,7 +10,42 @@ export const API_CONFIG = {
   }
 };
 
-// Generic API call function with error handling
+// Simple in-memory cache
+const cache = new Map();
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+// Cache utility functions
+const getCacheKey = (endpoint, options) => {
+  return `${endpoint}-${JSON.stringify(options || {})}`;
+};
+
+const getCachedData = (cacheKey) => {
+  const cached = cache.get(cacheKey);
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+    return cached.data;
+  }
+  cache.delete(cacheKey);
+  return null;
+};
+
+const setCachedData = (cacheKey, data) => {
+  cache.set(cacheKey, { data, timestamp: Date.now() });
+};
+
+// Clear cache (useful for mutations)
+export const clearCache = (pattern = null) => {
+  if (!pattern) {
+    cache.clear();
+  } else {
+    for (const key of cache.keys()) {
+      if (key.includes(pattern)) {
+        cache.delete(key);
+      }
+    }
+  }
+};
+
+// Generic API call function with error handling and caching
 export const apiCall = async (endpoint, options = {}) => {
   const url = `${API_CONFIG.BASE_URL}${endpoint}`;
   const config = {
@@ -20,6 +55,16 @@ export const apiCall = async (endpoint, options = {}) => {
       ...options.headers,
     },
   };
+
+  // Check cache for GET requests
+  const cacheKey = getCacheKey(endpoint, options);
+  if (!options.method || options.method === 'GET') {
+    const cachedData = getCachedData(cacheKey);
+    if (cachedData) {
+      console.log('[API Cache] Hit:', endpoint);
+      return cachedData;
+    }
+  }
 
   try {
     const controller = new AbortController();
@@ -56,7 +101,19 @@ export const apiCall = async (endpoint, options = {}) => {
       throw new Error(errorMessage);
     }
 
-    return await response.json();
+    const data = await response.json();
+    
+    // Cache GET requests
+    if (!options.method || options.method === 'GET') {
+      setCachedData(cacheKey, data);
+    }
+    
+    // Clear related cache on mutations
+    if (options.method && ['POST', 'PUT', 'DELETE'].includes(options.method)) {
+      clearCache(endpoint.split('/')[1]); // Clear cache for the resource
+    }
+
+    return data;
   } catch (error) {
     if (error.name === 'AbortError') {
       throw new Error('Request timeout - please check your connection');
