@@ -63,6 +63,14 @@ export default (props) => {
 
       setNotifications([...mappedCommands, ...mappedNotes].sort((a,b) => (a.time < b.time ? 1 : -1))); // latest first
     } catch (e) {
+      if (e.response && e.response.status === 401) {
+        // Token expired or unauthorized, clear user and redirect
+        localStorage.removeItem('user');
+        localStorage.removeItem('access_token');
+        if (typeof logout === 'function') logout();
+        history.push('/admin-login');
+        return;
+      }
       setFetchError('Failed to load notifications');
     } finally {
       setLoadingNotifs(false);

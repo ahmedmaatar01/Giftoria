@@ -25,7 +25,7 @@ const AdminRegister = () => {
         setError(null);
         try {
             await registerAdmin(formData);
-            history.push('/login'); // Redirect to login after successful registration
+            history.push('/'); // Redirect to login after successful registration
         } catch (err) {
             setError(err.message || 'Admin registration failed');
         }
