@@ -397,19 +397,6 @@ export default function Checkout() {
           product_ids: giftCardSelection.productIds
         };
 
-        // Debug logging
-        console.log('=== GIFT CARD DEBUG ===');
-        console.log('Gift Card Selection State:', giftCardSelection);
-        console.log('Signature Type:', signatureType);
-        console.log('Gift Card Payload:', {
-          template_id: orderPayload.gift_card.template_id,
-          custom_description: orderPayload.gift_card.custom_description,
-          custom_signing_length: orderPayload.gift_card.custom_signing?.length || 0,
-          custom_signing_value: orderPayload.gift_card.custom_signing,
-          custom_signing_preview: orderPayload.gift_card.custom_signing?.substring(0, 50) || 'EMPTY',
-          is_base64: orderPayload.gift_card.custom_signing?.startsWith('data:image') || false
-        });
-        console.log('=== END DEBUG ===');
       }
 
       console.log('Full Order Payload:', orderPayload);
@@ -435,7 +422,7 @@ export default function Checkout() {
           router.push(`/order-success?order_id=${orderId}`);
         } else {
           // Logged-in user → go to My Orders page
-          router.push("my-account-orders");
+         // router.push("my-account-orders");
         }
       }, 500);
 

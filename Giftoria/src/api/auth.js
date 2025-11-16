@@ -26,10 +26,9 @@ export const logout = async () => {
         const user = JSON.parse(localStorage.getItem('user'));
         const token = (user && (user.access_token || user.token || user.accessToken)) || localStorage.getItem('access_token');
         if (!token) throw new Error('No access token found.');
-        let url = `${API_URL}/user/logout`;
-        if (user && user.role === 'admin') {
-            url = `${API_URL}/admin/logout`;
-        }
+
+        let url = `${API_URL}/admin/logout`;
+
         const response = await axios.post(url, {}, {
             headers: { Authorization: `Bearer ${token}` }
         });
@@ -75,7 +74,7 @@ export const getCurrentUser = async () => {
             const userObj = JSON.parse(storedUser);
             role = userObj.role;
             token = userObj.access_token || userObj.token || userObj.accessToken;
-        } catch {}
+        } catch { }
     }
     if (!token) {
         token = localStorage.getItem('access_token');

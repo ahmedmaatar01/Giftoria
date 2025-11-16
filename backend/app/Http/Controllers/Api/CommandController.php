@@ -15,6 +15,13 @@ use App\Models\OrderStatusHistory;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\PersonalAccessToken;
+use Illuminate\Http\Response;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class CommandController extends Controller
 {
@@ -82,6 +89,17 @@ class CommandController extends Controller
 
     public function store(Request $request)
     {
+        // Manually resolve user from Sanctum token if present (for guest+auth support)
+        if (!$request->user() && $request->bearerToken()) {
+            $accessToken = $request->bearerToken();
+            $tokenModel = PersonalAccessToken::findToken($accessToken);
+            if ($tokenModel && $tokenModel->tokenable) {
+                Auth::setUser($tokenModel->tokenable);
+                $request->setUserResolver(function () use ($tokenModel) {
+                    return $tokenModel->tokenable;
+                });
+            }
+        }
         $validated = $request->validate([
             'customer_first_name' => 'nullable|string|max:255',
             'customer_last_name' => 'nullable|string|max:255',

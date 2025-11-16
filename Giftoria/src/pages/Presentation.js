@@ -103,7 +103,7 @@ export default () => {
           <Row>
             <Col xs={12} className="text-center">
               <div className="react-big-icon d-none d-lg-block"><span className="fab fa-react"></span></div>
-              <h1 className="fw-bolder text-secondary">Volt React Dashboard</h1>
+              <h1 className="fw-bolder text-secondary">Giftoria Admin Center</h1>
               <p className="text-muted fw-light mb-5 h5">Open source powered by React.js and Bootstrap 5</p>
               <div className="d-flex align-items-center justify-content-center">
                 <Button variant="secondary" as={Link} to={Routes.DashboardOverview.path} className="text-dark me-3">
@@ -364,7 +364,7 @@ export default () => {
           <Row>
             <Col xs={12} lg={8}>
               <h2 className="fw-light mb-3">Download or upgrade to pro</h2>
-              <p className="lead mb-4 me-lg-6">Do you want to take React development to the next level? Check out the premium version of Volt React Dashboard in the following comparison table.</p>
+              <p className="lead mb-4 me-lg-6">Do you want to take React development to the next level? Check out the premium version of Giftoria Admin Center in the following comparison table.</p>
             </Col>
             <Col xs={12} lg={4}>
               <div className="github-big-icon">
