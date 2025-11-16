@@ -63,10 +63,6 @@ export default function Productcard23({ product }) {
   const { setQuickViewItem } = useContextElement();
   const {
     setQuickAddItem,
-    addToWishlist,
-    isAddedtoWishlist,
-    addToCompareItem,
-    isAddedtoCompareItem,
   } = useContextElement();
   useEffect(() => {
     const primary = getPrimaryImage(product);
@@ -116,37 +112,6 @@ export default function Productcard23({ product }) {
             return clean ? limitWords(clean, 20) : "";
           })()}
         </p>
-        {product.colors && (
-          <ul className="list-color-product">
-            {product.colors.map((color) => (
-              <li
-                className={`list-color-item color-swatch ${
-                  currentImage == color.imgSrc ? "active" : ""
-                } `}
-                onMouseOver={() => setCurrentImage(color.imgSrc)}
-                key={color.name}
-              >
-                <span className="tooltip">{color.name}</span>
-                <span className={`swatch-value ${color.colorClass}`} />
-                <Image
-                  className="lazyload"
-                  data-src={color.imgSrc}
-                  src={color.imgSrc}
-                  alt="image-product"
-                  width={720}
-                  height={1005}
-                />
-              </li>
-            ))}
-          </ul>
-        )}
-        {product.sizes && (
-          <div className="size-list">
-            {product.sizes.map((size) => (
-              <span key={size}>{size}</span>
-            ))}
-          </div>
-        )}
         <div className="list-product-btn">
           
           <a
@@ -157,41 +122,6 @@ export default function Productcard23({ product }) {
           >
             <span className="icon icon-bag" />
             <span className="tooltip">{t('product_card.quick_add')}</span>
-          </a>
-          <a
-            onClick={() => addToWishlist(product.id)}
-            className="box-icon wishlist style-3 hover-tooltip"
-          >
-            <span
-              className={`icon icon-heart ${
-                isAddedtoWishlist(product.id) ? "added" : ""
-              }`}
-            />
-            <span className="tooltip">
-              {isAddedtoWishlist(product.id)
-                ? t('product_card.already_wishlisted')
-                : t('product_card.add_to_wishlist')}
-            </span>
-          </a>
-
-          <a
-            href="#compare"
-            data-bs-toggle="offcanvas"
-            aria-controls="offcanvasLeft"
-            onClick={() => addToCompareItem(product.id)}
-            className="box-icon compare style-3 hover-tooltip"
-          >
-            <span
-              className={`icon icon-compare ${
-                isAddedtoCompareItem(product.id) ? "added" : ""
-              }`}
-            />
-            <span className="tooltip">
-              {" "}
-              {isAddedtoCompareItem(product.id)
-                ? t('product_card.already_compared')
-                : t('product_card.add_to_compare')}
-            </span>
           </a>
           <a
             href="#quick_view"

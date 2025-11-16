@@ -29,15 +29,17 @@ const mapProductToFrontend = (backendProduct) => {
 // Function to fetch products from API
 export const fetchProducts = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/products`);
+    const response = await fetch(`${API_BASE_URL}/api/products`);
     if (!response.ok) {
       throw new Error('Failed to fetch products');
     }
     const backendProducts = await response.json();
+    console.log('[fetchProducts] Successfully fetched', backendProducts.length, 'products from API');
     return backendProducts.map(mapProductToFrontend);
   } catch (error) {
-    console.error('Error fetching products:', error);
-    return products1Static; // Fallback to static data
+    console.error('[fetchProducts] Error fetching products:', error);
+    console.warn('[fetchProducts] Falling back to static products1');
+    return products1; // Fallback to static data
   }
 };
 

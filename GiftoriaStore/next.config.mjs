@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    // Bypass Next/Image optimization as this project often serves local API images
-    unoptimized: true,
-    // Allow loading images from local Laravel API domains just in case validation applies
+    // Enable Next/Image optimization for better performance
+    unoptimized: false,
+    // Allow loading images from local Laravel API domains
     domains: ["localhost", "127.0.0.1"],
     remotePatterns: [
       {
@@ -19,6 +19,12 @@ const nextConfig = {
         pathname: "/**",
       },
     ],
+  },
+  // Enable SWC minification for faster builds
+  swcMinify: true,
+  // Reduce bundle size
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production" ? { exclude: ['error', 'warn'] } : false,
   },
 };
 

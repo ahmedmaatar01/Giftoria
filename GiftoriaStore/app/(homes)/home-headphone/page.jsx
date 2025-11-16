@@ -13,6 +13,9 @@ import Testimonials from "@/components/homes/home-headphone/Testimonials";
 import Topbar from "@/components/homes/home-headphone/Topbar";
 import React from "react";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export const metadata = {
   title: "Home Headphone || Ecomus - Ultimate Nextjs Ecommerce Template",
   description: "Ecomus - Ultimate Nextjs Ecommerce Template",
