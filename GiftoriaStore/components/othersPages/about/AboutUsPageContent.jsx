@@ -57,7 +57,7 @@ export default function AboutUsPageContent() {
       <Header6 />
       <Hero />
       {/* New FeaturesAbout component under the header */}
-      <div style={{ marginTop: '60px' }}>
+      <div className="features-about-wrapper" style={{ marginTop: '60px' }}>
         <FeaturesAbout
           title="company.brand_presentation_title"
           subtitle="company.brand_presentation_subtitle"
@@ -74,7 +74,7 @@ export default function AboutUsPageContent() {
         <Products2 />
       </div>
       <Features />
-      <div style={{ marginTop: '60px' }} />
+      <div className="talbizsofien" style={{ marginTop: '60px' }} />
       <Banner />
       {/* <section className="flat-spacing-10">
         <div className="container">

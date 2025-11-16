@@ -459,10 +459,10 @@ header,
     font-size: 14px !important; /* base size */
   }
 
-  h1 { font-size: 26px !important; }
-  h2 { font-size: 22px !important; }
-  h3 { font-size: 20px !important; }
-  h4 { font-size: 18px !important; }
+  h1 { font-size: 22px !important; }
+  h2 { font-size: 18px !important; }
+  h3 { font-size: 16px !important; }
+  h4 { font-size: 14px !important; }
 
   p,
   span,
@@ -475,7 +475,7 @@ header,
   .box-content .ecomus-button-link {
     margin-top: 0px !important;
     padding: 8px 16px !important;
-    min-width: 200px !important;
+   
   }
 
   .box-content .ecomus-button-link span {
@@ -485,22 +485,25 @@ header,
   /* ---------- Banner Section ---------- */
   .banner-hero-collection-wrap .text-c {
     width: 100% !important;
-    padding: 0 20px;
+  
     text-align: center;
   }
 
   .banner-hero-collection-wrap .text-c .c-titre {
-    font-size: 26px !important;
+    font-size: 22px !important;
     line-height: 1.2;
   }
 
   .banner-hero-collection-wrap .text-c .c-paragraph {
-    font-size: 13px !important;
-    letter-spacing: 1px;
+    font-size: 12px !important;
+    letter-spacing: 0.5px;
   }
 
   .banner-hero-collection-wrap .text-c .c-butn {
-    font-size: 12px !important;
+    font-size: 10px !important;
+  }
+  .banner-hero-collection-wrap .box-content{
+    top: 35%;
   }
 
   /* ---------- Brand Logos ---------- */
@@ -543,11 +546,11 @@ header,
   }
 
   .flat-spacing-12 .flat-title h3 {
-    font-size: 22px !important;
+    font-size: 18px !important;
   }
 
   .flat-spacing-12 .viewAllCategs {
-    font-size: 14px !important;
+    font-size: 12px !important;
     margin-top: 8px;
   }
 
@@ -567,6 +570,8 @@ header,
   header#header {
     overflow: visible !important; /* ✅ allow dropdown to escape */
   }
+  .hover-sw-nav img{
+    display: block;  }
 }
 
 /* Force Add to Cart button style globally */
@@ -575,6 +580,282 @@ header,
   color: #000 !important;
   border: none !important;
 }
+@media (max-width: 768px) {
+  .heading-30 {
+    font-size: 22px !important;
+  }
+}
 
 
+
+/* about us responsive */
+/* hero */
+@media (max-width: 768px) {
+
+  /* Title */
+  .heading {
+    font-size: 20px !important;
+    line-height: 26px !important;
+   
+    margin-top: 60px !important;   /* adjust if needed */
+    display: block;
+  }
+
+  /* Subtitle */
+  .description {
+    font-size: 11px !important;
+    line-height: 17px !important;
+   
+    display: block;
+  }
+
+  /* Container width */
+  .container-te {
+    max-width: 300px !important;
+    margin: 0 auto !important; /* center the block */
+  }
+
+  /* Fix spacing between title and subtitle */
+  .mt-5 {
+   margin-bottom: 20px !important;
+  }
+
+ 
+}
+/* brand presentation */
+
+/* =============================== */
+/*      MOBILE ONLY (≤ 576px)      */
+/* =============================== */
+@media (max-width: 768px) {
+
+  /* Title */
+  .flat-title .title {
+    font-size: 20px !important;
+    text-align: center !important;
+    margin-bottom: 15px !important;
+    line-height: 26px !important;
+  }
+
+  /* Subtitle */
+  .flat-title .sub-title {
+    font-size: 12px !important;
+    line-height: 22px !important;
+    text-align: center !important;
+    margin-bottom: 18px !important;
+  }
+
+  /* Make icons vertical instead of 3 columns */
+  .box3 {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+
+  /* Each item full width and centered */
+  .boxabout {
+    width: 100% !important;
+    text-align: center !important;
+  }
+
+  /* Item title */
+  .tf-icon-box .title {
+    text-align: center !important;
+    font-size: 14px !important;
+    margin-bottom: 5px !important;
+  }
+
+  /* Item description */
+  .tf-icon-box p {
+    text-align: center !important;
+    font-size: 12px !important;
+    line-height: 20px !important;
+    max-width: 300px;
+    margin: 0 auto !important;
+  }
+
+  /* Fix padding of the whole card */
+  .flat-wrap-iconbox {
+    padding: 25px 15px !important;
+  }
+}
+
+
+
+/* about */
+
+@media (max-width: 768px) {
+
+  /* Stack image and text vertically */
+  .tf-grid-layout.md-col-2 {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1px !important;
+  }
+
+  /* Image full width */
+  .tf-image-wrap img {
+    width: 100% !important;
+    height: auto !important;
+    border-radius: 10px;
+  }
+
+  /* Title styling */
+  .tf-content-wrap .heading {
+    font-size: 20px !important;
+    text-align: center !important;
+    line-height: 26px !important;
+    margin-bottom: 10px !important;
+    text-transform: uppercase;
+  }
+
+  /* Description text */
+  .tf-content-wrap .text {
+    font-size: 12px !important;
+    line-height: 22px !important;
+    text-align: center !important;
+    margin: 0 auto;
+    max-width: 320px;
+  }
+
+  /* Reduce empty spacing of section on mobile */
+  .flat-spacing-23 {
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+  }
+
+  /* Remove unnecessary horizontal padding */
+  .tf-content-wrap {
+    padding: 0 !important;
+  }
+}
+@media (max-width: 768px) {
+  .products-homeP .heading-30 {
+    font-size: 20px !important;   /* title size on tablet/phone */
+    text-align: center !important;
+    margin-top: 20px !important;
+  }
+  .productName{
+    font-size: 12px !important ;
+  }
+  .card-product .productName {
+    display: block;
+    min-height: 40px; /* enough space for 2 lines */
+    line-height: 20px;
+    overflow: hidden; /* hide overflow if name is too long */
+  }
+  
+  /* Optional: keep card height consistent */
+  .card-product .inner-info {
+    min-height: 80px;
+  }
+}
+
+/* =============================== */
+/*      FEATURES (≤ 768px)         */
+/* =============================== */
+@media (max-width: 768px) {
+
+  /* Title */
+  .flat-wrap-iconbox .title {
+    font-size: 20px !important;
+    line-height: 26px !important;
+    text-align: center !important;
+    margin-bottom: 12px !important;
+  }
+
+  /* Subtitle */
+  .flat-wrap-iconbox .sub-title {
+    font-size: 12px !important;
+    line-height: 20px !important;
+    text-align: center !important;
+    max-width: 320px;
+    margin: 0 auto 20px auto !important;
+  }
+
+  /* Wrap items vertically */
+  .box3 {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+
+  /* Each item full width */
+  .boxabout {
+    width: 100% !important;
+    text-align: center !important;
+  }
+
+  /* Item title */
+  .tf-icon-box .title {
+    font-size: 14px !important;
+    line-height: 20px !important;
+    text-align: center !important; 
+  }
+
+  /* Item description */
+  .tf-icon-box p {
+    font-size: 12px !important;
+    line-height: 20px !important;
+    text-align: center !important;
+    max-width: 300px;
+    margin: 0 auto !important;
+  }
+
+  /* Section padding */
+  .flat-wrap-iconbox {
+    padding: 20px 15px !important;
+  }
+}
+
+/* last  */
+@media (max-width: 768px) {
+  /* Stack grid to column */
+  .tf-grid-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  /* Content width full */
+  .tf-content-wrap {
+    width: 100% !important;
+    padding-right: 0 !important;
+    margin-bottom: 5px;
+  }
+
+  /* Reduce heading size */
+  .tf-content-wrap .heading span {
+    font-size: 20px !important;
+  }
+
+  /* Reduce paragraph size and line height */
+  .tf-content-wrap .description {
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Logos: wrap and center */
+  .partners-logos {
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 30px !important;
+    gap: 15px !important;
+  }
+
+  /* Images: scale down if needed */
+  .tf-image-wrap img {
+    width: 100% !important;
+    height: auto !important;
+    max-width: 400px;
+  }
+  .flat-spacing-22{
+    padding: 0px !important;
+  }
+  .talbizsofien{
+    display: none;
+  }
+}
 
