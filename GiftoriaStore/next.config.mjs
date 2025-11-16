@@ -3,8 +3,8 @@ const nextConfig = {
   images: {
     // Enable Next/Image optimization for better performance
     unoptimized: false,
-    // Allow loading images from local Laravel API domains
-    domains: ["localhost", "127.0.0.1"],
+    // Allow loading images from local and production Laravel API domains
+    domains: ["localhost", "127.0.0.1", "api.giftoria.me"],
     remotePatterns: [
       {
         protocol: "http",
@@ -16,6 +16,11 @@ const nextConfig = {
         protocol: "http",
         hostname: "127.0.0.1",
         port: "8000",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "api.giftoria.me",
         pathname: "/**",
       },
     ],
