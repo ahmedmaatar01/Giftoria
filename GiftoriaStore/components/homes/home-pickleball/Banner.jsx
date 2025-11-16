@@ -23,7 +23,7 @@ export default function Banner() {
                 {t("partners_heading")}
               </span>
             </div>
-            <p className="description text_black-2 montserrat-regular" style={{ fontSize: '15px' }}>
+            <p className="description text_black-2 montserrat-regular" style={{ fontSize: '15px', lineHeight: '2.5' }}>
               {t("partners_description")}
             </p>
 

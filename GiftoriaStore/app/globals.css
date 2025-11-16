@@ -569,5 +569,12 @@ header,
   }
 }
 
+/* Force Add to Cart button style globally */
+.tf-btn.btn-fill.justify-content-center.fw-6.fs-16.flex-grow-1.animate-hover-btn {
+  background-color: #E8DBC8 !important;
+  color: #000 !important;
+  border: none !important;
+}
+
 
 

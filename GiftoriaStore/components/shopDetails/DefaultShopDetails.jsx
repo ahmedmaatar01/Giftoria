@@ -185,13 +185,13 @@ export default function DefaultShopDetails({ product }) {
                           addProductToCart(product.id, quantity ? quantity : 1);
                         }}
                         className="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn"
+                        style={{ backgroundColor: '#E8DBC8', border: 'none', color: '#000', fontWeight: 600 }}
                       >
                         <span>
-                          {" "}
                           {isAddedToCartProducts(product.id)
                             ? "Already Added"
-                            : "Add to cart"}{" "}
-                          -{" "}
+                            : "Add to cart"}
+                          -
                         </span>
                         <span className="tf-qty-price">
                           ${(product.price * quantity).toFixed(2)}
