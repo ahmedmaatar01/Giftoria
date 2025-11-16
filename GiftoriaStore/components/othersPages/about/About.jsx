@@ -26,9 +26,8 @@ export default function About() {
               <div>
                 <div>
                   <div className="heading bell-medium heading-30" style={{ fontSize: '30px', textTransform: 'uppercase' }}>{t("about.craft_title")}</div>
-                  <div className="text montserrat-regular" style={{ textAlign: 'justify', fontSize: '15px', lineHeight: '2' }}>
+                  <div className="text montserrat-regular" style={{ textAlign: 'justify', fontSize: '15px', lineHeight: '2.5' }}>
                     <span className="montserrat-regular">{t("about.craft_description")}</span>
-                    
                   </div>
                 </div>
               </div>

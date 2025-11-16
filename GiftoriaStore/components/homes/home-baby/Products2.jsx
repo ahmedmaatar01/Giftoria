@@ -7,7 +7,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
-  import { API_BASE_URL } from "@/utils/config";
+import { API_BASE_URL } from "@/utils/config";
 
 export default function Products2({ isProductDetail = false }) {
   const { t } = useTranslation(); // ✅ use translation hook
@@ -18,7 +18,10 @@ export default function Products2({ isProductDetail = false }) {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const {  i18n } = useTranslation();
+  const { i18n } = useTranslation();
+
+  // Detect if rendered on About Us page
+  const isAboutUsPage = typeof window !== "undefined" && window.location.pathname.includes("about-us");
 
   // Helper to resolve product image from API data
   const getItemImage = (product) => {
@@ -43,7 +46,7 @@ export default function Products2({ isProductDetail = false }) {
       setError(null);
       try {
         const res = await fetch(`${API_BASE}/api/products/featured`, {
-          headers: { "Accept": "application/json" },
+          headers: { Accept: "application/json" },
           cache: "no-store",
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -99,49 +102,49 @@ export default function Products2({ isProductDetail = false }) {
         }
       `}</style>
       <section className="flat-spacing-13 pb_0 products-homeP">
-      <div className="container">
-        <div className="flat-title flex-row justify-content-center">
-          <span className="title fw-6 wow fadeInUp" data-wow-delay="0s">
-            <span className="bell-medium heading-30" style={{ textTransform: 'uppercase', fontSize: '30px' }}>
-              {isProductDetail ? t("best_seller_title") : t("products2_title")}
+        <div className="container">
+          <div className="flat-title flex-row justify-content-center">
+            <span className="title fw-6 wow fadeInUp" data-wow-delay="0s">
+              <span className="bell-medium heading-30" style={{ textTransform: "uppercase", fontSize: "30px" }}>
+                {isAboutUsPage ? t("products2_title") : t("best_seller_title")}
+              </span>
             </span>
-          </span>
-        </div>
+          </div>
 
-        <div className="wrap-carousel wrap-sw-2">
-          <Swiper
-            dir="ltr"
-            modules={[Pagination, Navigation]}
-            pagination={{ el: ".spdp21" }}
-            navigation={{ prevEl: ".snbp21", nextEl: ".snbn21" }}
-            className="swiper tf-sw-product-sell-1"
-            {...swiperOptions}
-          >
-            {(loading ? [] : featuredProducts).map((product, index) => (
-              <SwiperSlide className="swiper-slide" key={index}>
-                <div className="card-product style-9">
-                  <div className="card-product-wrapper">
-                    <Link href={`/product-detail/${product.id}`} className="product-img">
-                      <Image
-                        className="lazyload img-product"
-                        data-src={getItemImage(product)}
-                        alt="image-product"
-                        src={getItemImage(product)}
-                        width={360}
-                        height={360}
-                      />
-                      <Image
-                        className="lazyload img-hover"
-                        data-src={getItemImage(product)}
-                        alt="image-product"
-                        src={getItemImage(product)}
-                        width={360}
-                        height={360}
-                      />
-                    </Link>
+          <div className="wrap-carousel wrap-sw-2">
+            <Swiper
+              dir="ltr"
+              modules={[Pagination, Navigation]}
+              pagination={{ el: ".spdp21" }}
+              navigation={{ prevEl: ".snbp21", nextEl: ".snbn21" }}
+              className="swiper tf-sw-product-sell-1"
+              {...swiperOptions}
+            >
+              {(loading ? [] : featuredProducts).map((product, index) => (
+                <SwiperSlide className="swiper-slide" key={index}>
+                  <div className="card-product style-9">
+                    <div className="card-product-wrapper">
+                      <Link href={`/product-detail/${product.id}`} className="product-img">
+                        <Image
+                          className="lazyload img-product"
+                          data-src={getItemImage(product)}
+                          alt="image-product"
+                          src={getItemImage(product)}
+                          width={360}
+                          height={360}
+                        />
+                        <Image
+                          className="lazyload img-hover"
+                          data-src={getItemImage(product)}
+                          alt="image-product"
+                          src={getItemImage(product)}
+                          width={360}
+                          height={360}
+                        />
+                      </Link>
 
-                    <div className="list-product-btn absolute-2">
-                      {/* <a
+                      <div className="list-product-btn absolute-2">
+                        {/* <a
                         onClick={() => addToWishlist(product.id)}
                         className="box-icon bg_white wishlist btn-icon-action"
                       >
@@ -155,7 +158,7 @@ export default function Products2({ isProductDetail = false }) {
                         </span>
                       </a> */}
 
-                      {/* <a
+                        {/* <a
                         href="#compare"
                         data-bs-toggle="offcanvas"
                         aria-controls="offcanvasLeft"
@@ -172,76 +175,78 @@ export default function Products2({ isProductDetail = false }) {
                         </span>
                       </a> */}
 
-                      <a
-                        href="#quick_view"
-                        data-bs-toggle="modal"
-                        onClick={() => setQuickViewItem(product)}
-                        className="box-icon bg_white quickview tf-btn-loading"
-                      >
-                        <span className="icon icon-view" />
-                        <span className="tooltip">{t("quick_view")}</span>
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="card-product-info">
-                    <div className="inner-info">
-                      <Link href={`/product-detail/${product.id}`} className="raleway-light productName" style={{ letterSpacing: "1px", textTransform: "uppercase" }}>
-                      {i18n.language === "ar" 
-                                  ? product.arabic_name || product.name 
-                                  : product.name || product.name}
-
-
-                      </Link>
-                      <div>
-                        <span className="new-price price-primary" style={{ color: '#000000ff' }}>
-                          <span style={{ fontSize: '15px' }}>$</span>
-                          <span style={{ fontSize: '20px', fontWeight: 'bold' }}>{Number(product.price || 0).toFixed(2)}</span>
-                        </span>
+                        <a
+                          href="#quick_view"
+                          data-bs-toggle="modal"
+                          onClick={() => setQuickViewItem(product)}
+                          className="box-icon bg_white quickview tf-btn-loading"
+                        >
+                          <span className="icon icon-view" />
+                          <span className="tooltip">{t("quick_view")}</span>
+                        </a>
                       </div>
                     </div>
 
-                    <div className="list-product-btn">
-                      <a
-                        href="#quick_add"
-                        data-bs-toggle="modal"
-                        className="box-icon quick-add tf-btn-loading"
-                        style={{ 
-                          backgroundColor: '#000000 !important',
-                          background: '#000000 !important',
-                          color: 'white !important'
-                        }}
-                      >
-                        <span className="icon icon-bag" style={{ color: 'white !important' }} />
-                        <span className="tooltip">{t("add_to_cart")}</span>
-                      </a>
+                    <div className="card-product-info">
+                      <div className="inner-info">
+                        <Link
+                          href={`/product-detail/${product.id}`}
+                          className="raleway-light productName"
+                          style={{ letterSpacing: "1px", textTransform: "uppercase" }}
+                        >
+                          {i18n.language === "ar" ? product.arabic_name || product.name : product.name || product.name}
+                        </Link>
+                        <div>
+                          <span className="new-price price-primary" style={{ color: "#000000ff" }}>
+                            <span style={{ fontSize: "15px" }}>$</span>
+                            <span style={{ fontSize: "20px", fontWeight: "bold" }}>
+                              {Number(product.price || 0).toFixed(2)}
+                            </span>
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="list-product-btn">
+                        <a
+                          href="#quick_add"
+                          data-bs-toggle="modal"
+                          className="box-icon quick-add tf-btn-loading"
+                          style={{
+                            backgroundColor: "#000000 !important",
+                            background: "#000000 !important",
+                            color: "white !important",
+                          }}
+                        >
+                          <span className="icon icon-bag" style={{ color: "white !important" }} />
+                          <span className="tooltip">{t("add_to_cart")}</span>
+                        </a>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+                </SwiperSlide>
+              ))}
+            </Swiper>
 
-          {!loading && featuredProducts.length === 0 && (
-            <div className="text-center mt-4">
-              <span className="text-muted">{t("no_featured_products")}</span>
-            </div>
-          )}
-          {error && (
-            <div className="text-center mt-3">
-              <span className="text-danger small">{error}</span>
-            </div>
-          )}
+            {!loading && featuredProducts.length === 0 && (
+              <div className="text-center mt-4">
+                <span className="text-muted">{t("no_featured_products")}</span>
+              </div>
+            )}
+            {error && (
+              <div className="text-center mt-3">
+                <span className="text-danger small">{error}</span>
+              </div>
+            )}
 
-          <div className="nav-sw nav-next-slider style-white-line nav-next-sell-1 box-icon w_46 round snbp21">
-            <span className="icon icon-arrow-left" />
-          </div>
-          <div className="nav-sw nav-prev-slider style-white-line nav-prev-sell-1 box-icon w_46 round snbn21">
-            <span className="icon icon-arrow-right" />
+            <div className="nav-sw nav-next-slider style-white-line nav-next-sell-1 box-icon w_46 round snbp21">
+              <span className="icon icon-arrow-left" />
+            </div>
+            <div className="nav-sw nav-prev-slider style-white-line nav-prev-sell-1 box-icon w_46 round snbn21">
+              <span className="icon icon-arrow-right" />
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
     </>
   );
 }

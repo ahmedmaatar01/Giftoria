@@ -292,6 +292,7 @@ export default function AccountEdit() {
               type="submit"
               className="tf-btn w-100 radius-3 btn-fill animate-hover-btn justify-content-center"
               disabled={loading}
+              style={{ backgroundColor: '#E8DBC8', color: 'black', border: 'none' }}
             >
               {loading ? t("account_edit.saving") : t("account_edit.save_changes")}
             </button>
