@@ -167,7 +167,8 @@ export default function Details7() {
                     <form onSubmit={(e) => e.preventDefault()} className="">
                       <a
                         href="#"
-                        className="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn "
+                        className="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn"
+                        style={{ backgroundColor: '#E8DBC8', color: 'black', border: 'none' }}
                       >
                         <span>Add to cart -&nbsp;</span>
                         <span className="tf-qty-price">

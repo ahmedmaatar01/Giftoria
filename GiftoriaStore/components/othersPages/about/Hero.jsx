@@ -25,7 +25,7 @@ export default function Hero() {
 
                 <span className="heading bell-medium text-white mb-5" style={{ fontSize: "60px", whiteSpace: "pre-line" }}>{t("hero.title")} </span> <br className="d-xl-block d-none" />
                 <div className="mt-5" style={{ lineHeight: "28px", fontWeight: "500" }}>
-                  <span className="description banner-title-montserrat text-white" >
+                  <span className="description banner-title-montserrat text-white" style={{ textShadow: '0 4px 16px rgba(0,0,0,0.45), 0 1.5px 0 #000' }}>
                     {t("hero.subtitle")}
                   </span>
                 </div>

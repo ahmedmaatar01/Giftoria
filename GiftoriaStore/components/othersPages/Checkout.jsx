@@ -753,7 +753,7 @@ export default function Checkout() {
                                       className="btn btn-sm btn-outline-secondary mt-2"
                                       onClick={handleClearSignature}
                                     >
-                                      Clear Signature
+                                      {i18n.language === 'ar' ? 'مسح التوقيع' : 'Clear Signature'}
                                     </button>
                                   </div>
                                 )}

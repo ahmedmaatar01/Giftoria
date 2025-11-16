@@ -172,7 +172,8 @@ export default function Details4({ product }) {
                           openCartModal();
                           addProductToCart(product.id, quantity ? quantity : 1);
                         }}
-                        className="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn "
+                        className="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn"
+                        style={{ backgroundColor: '#E8DBC8', color: 'black', border: 'none' }}
                       >
                         <span>
                           {" "}
