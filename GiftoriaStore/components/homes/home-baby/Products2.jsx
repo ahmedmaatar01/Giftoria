@@ -10,6 +10,11 @@ import { useEffect, useState } from "react";
 import { API_BASE_URL } from "@/utils/config";
 
 export default function Products2({ isProductDetail = false }) {
+    // Utility to wrap numbers in a string with arabic_div
+    function wrapNumbersWithArabicDiv(str) {
+      if (typeof str !== 'string') str = String(str);
+      return str.replace(/(\d+[\d\-–\.]*)/g, (num) => `<span class='arabic_div'>${num}</span>`);
+    }
   const { t } = useTranslation(); // ✅ use translation hook
 
   // Backend API base (env override with sensible fallback)
@@ -199,9 +204,12 @@ export default function Products2({ isProductDetail = false }) {
                         <div>
                           <span className="new-price price-primary" style={{ color: "#000000ff" }}>
                             <span style={{ fontSize: "15px" }}>$</span>
-                            <span style={{ fontSize: "20px", fontWeight: "bold" }}>
-                              {Number(product.price || 0).toFixed(2)}
-                            </span>
+                            <span
+                              style={{ fontSize: "20px", fontWeight: "bold" }}
+                              dangerouslySetInnerHTML={{
+                                __html: wrapNumbersWithArabicDiv(Number(product.price || 0).toFixed(2))
+                              }}
+                            />
                           </span>
                         </div>
                       </div>

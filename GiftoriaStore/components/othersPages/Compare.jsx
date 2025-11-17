@@ -52,8 +52,8 @@ export default function Compare() {
                     >
                       {elm.title}
                     </Link>
-                    <div className="price">
-                      <span className="price-on-sale">
+                    <div className="arabic_vip">
+                      <span className="arabic_vip price-on-sale">
                         ${elm.price.toFixed(2)}
                       </span>
                     </div>

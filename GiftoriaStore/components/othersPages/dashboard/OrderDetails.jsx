@@ -479,7 +479,7 @@ export default function OrderDetails() {
                 </ul>
               </>
             ) : (
-              <div>{t("order_details.no_products_found")}</div>
+              <div className="arabic_div">{t("order_details.no_products_found")} </div>
             )}
           </div>
 

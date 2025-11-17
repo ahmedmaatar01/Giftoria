@@ -101,11 +101,11 @@ export default function ProductCard22({ product }) {
         <Link href={`/product-detail/${product.id}`} className="title link">
           {product.title}
         </Link>
-        <span className="price">
+        <span className="arabic_vip">
           {product.oldPrice && (
-            <span className="old-price">{product.oldPrice}</span>
+            <span className="arabic_vip old-price">{product.oldPrice}</span>
           )}
-          <span className="new-price">${product.price.toFixed(2)}</span>
+          <span className="arabic_vip new-price">${product.price.toFixed(2)}</span>
         </span>
         {product.colors && (
           <ul className="list-color-product">

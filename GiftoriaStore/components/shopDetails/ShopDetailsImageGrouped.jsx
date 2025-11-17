@@ -173,7 +173,7 @@ export default function ShopDetailsImageGrouped({ product }) {
                   </div>
                   <div className="tf-product-info-quantity">
                     <div className="quantity-title fw-6">Quantity</div>
-                    <Quantity setQuantity={setQuantity} />
+                    <Quantity setQuantity={setQuantity} className="arabic_div" />
                   </div>
                   <div className="tf-product-info-buy-button">
                     <form onSubmit={(e) => e.preventDefault()} className="">

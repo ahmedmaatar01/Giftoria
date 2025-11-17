@@ -565,15 +565,25 @@ export default function Checkout() {
               </fieldset>
               <fieldset className="box fieldset">
                 <label htmlFor="desired-delivery">{t('checkout.desired_delivery')}</label>
-                <input
-                  required
-                  type="datetime-local"
-                  id="desired-delivery"
-                  name="desiredDelivery"
-                  min={minDesiredDeliveryLocal}
-                  value={formData.desiredDelivery}
-                  onChange={handleInputChange}
-                />
+                <div style={{position: 'relative'}}>
+                  <input
+                    required
+                    type="datetime-local"
+                    id="desired-delivery"
+                    name="desiredDelivery"
+                    min={minDesiredDeliveryLocal}
+                    value={formData.desiredDelivery}
+                    onChange={handleInputChange}
+                    style={i18n.language === 'ar' ? {paddingRight: '120px'} : {}}
+                  />
+                  {i18n.language === 'ar' && (
+                    <span
+                      className="arabic_div"
+                      style={{position: 'absolute', right: 0, top: 0, height: '100%', display: 'flex', alignItems: 'center', background: 'white', padding: '0 8px', pointerEvents: 'none', fontSize: '90%'}}
+                      dangerouslySetInnerHTML={{__html: formData.desiredDelivery.replace(/(\d+)/g, '<span class="arabic_div">$1</span>')}}
+                    />
+                  )}
+                </div>
               </fieldset>
               <fieldset className="box fieldset">
                 <label htmlFor="note">{t('checkout.order_notes_optional')}</label>
@@ -660,19 +670,21 @@ export default function Checkout() {
                                 <i className="fas fa-images me-2"></i>
                                 <div className="text-start">
                                   <div className="fw-bold">{t('checkout.prepared_templates', 'Prepared Templates')}</div>
-                                  <small style={{
-                                    color: (giftCardSelection.templateId && giftCardSelection.templateId !== 'custom') ? 'rgba(255,255,255,0.8)' : '#6c757d'
-                                  }}>
-                                    {giftCardSelection.templateId && giftCardSelection.templateId !== 'custom'
-                                      ? `${t('checkout.selected_template', 'Selected')}: ${(() => {
-                                        const selected = giftCardTemplates.find(t => t.id == giftCardSelection.templateId);
-                                        if (!selected) return t('checkout.template_name', 'Template');
-                                        if (i18n.language === 'ar' && selected.name_ar) return selected.name_ar;
-                                        return selected.name;
-                                      })()}`
-                                      : t('checkout.prepared_templates_desc', 'Choose from designs') + ` (${giftCardTemplates.length})`
-                                    }
-                                  </small>
+                                  <small
+                                    style={{
+                                      color: (giftCardSelection.templateId && giftCardSelection.templateId !== 'custom') ? 'rgba(255,255,255,0.8)' : '#6c757d'
+                                    }}
+                                    dangerouslySetInnerHTML={{
+                                      __html: giftCardSelection.templateId && giftCardSelection.templateId !== 'custom'
+                                        ? `${t('checkout.selected_template', 'Selected')}: ${(() => {
+                                            const selected = giftCardTemplates.find(t => t.id == giftCardSelection.templateId);
+                                            if (!selected) return t('checkout.template_name', 'Template');
+                                            if (i18n.language === 'ar' && selected.name_ar) return selected.name_ar;
+                                            return selected.name;
+                                          })()}`
+                                        : (t('checkout.prepared_templates_desc', 'Choose from designs') + ` (${giftCardTemplates.length})`).replace(/(\d+)/g, '<span class="arabic_div">$1</span>')
+                                    }}
+                                  />
                                 </div>
                               </div>
                             </button>
@@ -804,7 +816,7 @@ export default function Checkout() {
                           width={720}
                           height={1005}
                         />
-                        <span className="quantity">{elm.quantity}</span>
+                        <span className="quantity" dangerouslySetInnerHTML={{__html: String(elm.quantity).replace(/(\d+)/g, '<span class="arabic_div">$1</span>')}} />
                       </figure>
                       <div className="content">
                         <div className="info">
@@ -828,9 +840,7 @@ export default function Checkout() {
                             </div>
                           )}
                         </div>
-                        <span className="price">
-                          ${(elm.price * elm.quantity).toFixed(2)}
-                        </span>
+                        <span className="arabic_vip" dangerouslySetInnerHTML={{__html: (`$${(elm.price * elm.quantity).toFixed(2)}`).replace(/(\d+[.,]?\d*)/, '<span class="arabic_div">$1</span>')}} />
                       </div>
                     </li>
                   ))}
@@ -864,7 +874,7 @@ export default function Checkout() {
                 </div> */}
                 <div className="d-flex justify-content-between line pb_20">
                   <h6 className="fw-5">{t('checkout.total')}</h6>
-                  <h6 className="total fw-5 ">$<span className="raleway-medium">{totalPrice.toFixed(2)}</span></h6>
+                  <h6 className="total fw-5 ">$<span className="raleway-medium" dangerouslySetInnerHTML={{__html: totalPrice.toFixed(2).replace(/(\d+[.,]?\d*)/, '<span class=\"arabic_div\">$1</span>')}} /></h6>
                 </div>
                 <div className="wd-check-payment">
                   <div className="fieldset-radio mb_20">

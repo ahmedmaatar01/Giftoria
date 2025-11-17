@@ -11,6 +11,11 @@ import { useTranslation } from "react-i18next";
 import { API_BASE_URL } from '../../utils/config';
 
 export default function ShopCart() {
+    // Utility to wrap numbers in <span class="arabic_div">...</span> in Arabic mode
+    function wrapNumbers(str) {
+      if (i18n.language !== 'ar' || !str) return str;
+      return String(str).replace(/(\d+[\d.,]*)/g, '<span class="arabic_div">$1</span>');
+    }
   const { t, i18n } = useTranslation();
   const { cartProducts, totalPrice, setCartProducts, setQuickViewItem } =
     useContextElement();
@@ -90,9 +95,9 @@ export default function ShopCart() {
                           >
                             {getItemName(elm)}
                           </Link>
-                          <div className="price fw-6">
-                            ${parseFloat(elm.price || 0).toFixed(2)}
-                          </div>
+                          <div className="arabic_vip fw-6" dangerouslySetInnerHTML={{
+                            __html: wrapNumbers(`$${parseFloat(elm.price || 0).toFixed(2)}`)
+                          }} />
                           {elm.customFieldValues && Object.keys(elm.customFieldValues).length > 0 && (
                             <div className="mt-1 small text-muted">
                               {Object.entries(elm.customFieldValues).map(([fieldId, value]) => {
@@ -124,7 +129,8 @@ export default function ShopCart() {
                               <input
                                 type="text"
                                 name="number"
-                                value={elm.quantity}
+                                value={ elm.quantity}
+                                className="arabic_div"
                                 min={1}
                                 onChange={(e) =>
                                   setQuantity(elm.id, e.target.value / 1)
@@ -221,7 +227,7 @@ export default function ShopCart() {
                               >
                                 {elm.title}
                               </Link>
-                              <div className="price">
+                              <div className="arabic_vip">
                                 ${elm.price.toFixed(2)}
                               </div>
                             </div>
@@ -299,9 +305,9 @@ export default function ShopCart() {
                 <div className="tf-mini-cart-bottom-wrap">
                   <div className="tf-cart-totals-discounts">
                     <div className="tf-cart-total  text-uppercase">{t("cart.subtotal")}</div>
-                    <div className="tf-totals-total-value fw-6">
-                      ${totalPrice.toFixed(2)} {t("cart.currency")}
-                    </div>
+                    <div className="tf-totals-total-value fw-6" dangerouslySetInnerHTML={{
+                      __html: wrapNumbers(`$${totalPrice.toFixed(2)} ${t("cart.currency")}`)
+                    }} />
                   </div>
                   <div className="tf-cart-tax">
                     {t("cart.taxes_message")}
@@ -399,7 +405,9 @@ export default function ShopCart() {
                       <div className="tf-gift-wrap-infos">
                         <p>{t("cart.gift_wrap_question")}</p>
                         {t("cart.only")}
-                        <span className="price fw-6">$5.00</span>
+                        <span className="arabic_vip fw-6" dangerouslySetInnerHTML={{
+                          __html: wrapNumbers('$5.00')
+                        }} />
                       </div>
                     </div>
                     <div className="tf-cart-tool-btns">

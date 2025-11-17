@@ -6,6 +6,11 @@ import { useTranslation } from "react-i18next";
 import { API_BASE_URL } from '../../utils/config';
 
 export default function Cart() {
+    // Utility to wrap numbers in a string with arabic_div
+    function wrapNumbersWithArabicDiv(str) {
+      if (typeof str !== 'string') str = String(str);
+      return str.replace(/(\d+[\d\-–\.]*)/g, (num) => `<span class='arabic_div'>${num}</span>`);
+    }
   const { t, i18n } = useTranslation();
   const { cartProducts, setCartProducts, totalPrice } = useContextElement();
   const getItemImage = (elm) => {
@@ -137,8 +142,12 @@ export default function Cart() {
                         className="tf-cart-item_price"
                         cart-data-title="Price"
                       >
-                        <div className="cart-price">
-                          ${elm.price.toFixed(2)}
+                        <div className="arabic_vip cart-price">
+                          <span
+                            dangerouslySetInnerHTML={{
+                              __html: wrapNumbersWithArabicDiv(elm.price.toFixed(2))
+                            }}
+                          />
                         </div>
                       </td>
                       <td
@@ -168,6 +177,7 @@ export default function Cart() {
                               name="number"
                               value={elm.quantity}
                               min={1}
+                              className="arabic_div"
                               onChange={(e) =>
                                 setQuantity(elm.id, e.target.value / 1)
                               }
@@ -199,7 +209,11 @@ export default function Cart() {
                           className="cart-total"
                           style={{ minWidth: "60px" }}
                         >
-                          ${(elm.price * elm.quantity).toFixed(2)}
+                          <span
+                            dangerouslySetInnerHTML={{
+                              __html: wrapNumbersWithArabicDiv((elm.price * elm.quantity).toFixed(2))
+                            }}
+                          />
                         </div>
                       </td>
                     </tr>
@@ -248,7 +262,7 @@ export default function Cart() {
                   </span>
                 </div>
                 <div className="tf-progress-msg">
-                  Buy <span className="price fw-6">$75.00</span> more to enjoy{" "}
+                  Buy <span className="arabic_vip fw-6">$75.00</span> more to enjoy{" "}
                   <span className="fw-6">Free Shipping</span>
                 </div>
               </div> */}
@@ -425,22 +439,22 @@ export default function Cart() {
                     className="tf-check"
                     id="cart-gift-checkbox"
                   />
-                  <label htmlFor="cart-gift-checkbox" className="fw-4">
+                  <label htmlFor="cart-gift-checkbox" className="fw-4 arabic_div">
                     <span>{t("cart_page.gift_wrap.question")}</span> {t("cart_page.gift_wrap.only")}
                     <span className="fw-5">$5.00</span>
                   </label>
                 </div>
-                <div className="tf-cart-totals-discounts">
+                <div className="tf-cart-totals-discounts arabic_div">
                   <h3>{t("cart_page.totals.subtotal")}</h3>
                   <span className="total-value">
                     ${totalPrice.toFixed(2)} {t("cart_page.totals.currency")}
                   </span>
                 </div>
-                <p className="tf-cart-tax">
+                <p className="tf-cart-tax arabic_div">
                   {t("cart_page.totals.taxes_shipping")}
                   <Link href={`/shipping-delivery`}>{t("cart_page.totals.shipping_link")}</Link> {t("cart_page.totals.calculated_checkout")}
                 </p>
-                <div className="cart-checkbox">
+                <div className="cart-checkbox arabic_div">
                   <input
                     type="checkbox"
                     className="tf-check"
