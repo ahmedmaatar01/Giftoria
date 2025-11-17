@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-        import { API_BASE_URL } from '../../utils/config';
 
 import Image from "next/image";
 import {
@@ -43,11 +42,11 @@ export default function DetailsOuterZoom({ product }) {
     if (product.images && product.images.length > 0) {
       const featuredImage = product.images.find(img => img.is_featured);
       return featuredImage ?
-        `${API_BASE_URL}${featuredImage.image_path}` :
-        `${API_BASE_URL}${product.images[0].image_path}`;
+        `http://localhost:8000${featuredImage.image_path}` :
+        `http://localhost:8000${product.images[0].image_path}`;
     }
     return product.featured_image ?
-      `${API_BASE_URL}${product.featured_image}` :
+      `http://localhost:8000${product.featured_image}` :
       "/images/no-image.png";
   };
 
@@ -101,7 +100,7 @@ export default function DetailsOuterZoom({ product }) {
                     </div>
                   </div>
                   <div className="tf-product-info-price">
-                    <div className="price-on-sale raleway-bold" style={{ color: "#000" }}>
+                    <div className="price-on-sale raleway-bold arabic_div" style={{ color: "#000" }}>
                       ${parseFloat(product.price).toFixed(2)}
                     </div>
 
@@ -127,44 +126,28 @@ export default function DetailsOuterZoom({ product }) {
                       {product.custom_fields.map((field) => {
                         const value = customFieldValues[field.id] || '';
                         let inputEl = null;
-                        if (field.type === "select") {
+                        if (field.type === 'select') {
                           let opts = [];
-
-                          if (Array.isArray(field.options)) {
-                            opts = field.options;
-                          } else {
-                            try {
-                              opts = JSON.parse(field.options || "[]");
-                            } catch {
-                              opts = [];
-                            }
-                          }
-                          
-                        
+                          try {
+                            opts = JSON.parse(field.options);
+                          } catch { opts = []; }
                           inputEl = (
                             <select
                               id={`custom-field-${field.id}`}
                               name={`custom-field-${field.id}`}
                               className="form-control"
                               value={value}
-                              onChange={(e) => handleCustomFieldChange(field.id, e.target.value)}
+                              style={{ paddingTop: "0.75rem", paddingBottom: "0.75rem" }}
+                              onChange={e => handleCustomFieldChange(field.id, e.target.value)}
                               required={field.is_required}
                             >
-                              <option value="">
-                                {i18n.language === "ar" ? `اختر خيار` : `Select an option`}
-                              </option>
-                        
-                              {Array.isArray(opts) &&
-                                opts.map((opt, idx) => (
-                                  <option key={idx} value={i18n.language === "ar" ? opt.ar : opt.en}>
-                                    {i18n.language === "ar" ? opt.ar : opt.en}
-                                  </option>
-                                ))}
+                              <option value="">{t("product_detail.select_option", { field: field.name })}</option>
+                              {opts.map(opt => (
+                                <option key={opt} value={opt}>{opt}</option>
+                              ))}
                             </select>
                           );
-                        }
-                        
-                         else if (field.type === 'text') {
+                        } else if (field.type === 'text') {
                           inputEl = (
                             <input
                               id={`custom-field-${field.id}`}
@@ -191,10 +174,7 @@ export default function DetailsOuterZoom({ product }) {
                         }
                         return (
                           <div key={field.id} className="mb-2">
-<label className="fw-6 mb-1" htmlFor={`custom-field-${field.id}`}>
-  {i18n.language === "ar" && field.name_ar ? field.name_ar : field.name}
-  {field.is_required ? ` ${t("product_detail.required_field")}` : ''}:
-</label>
+                            <label className="fw-6 mb-1" htmlFor={`custom-field-${field.id}`}>{field.name}{field.is_required ? ` ${t("product_detail.required_field")}` : ''}:</label>
                             {inputEl}
                           </div>
                         );
@@ -203,7 +183,7 @@ export default function DetailsOuterZoom({ product }) {
                   )}
                   <div className="tf-product-info-quantity">
                     <div className="quantity-title fw-6 "><span className="raleway-regular">{t("product_detail.quantity")}</span></div>
-                    <Quantity setQuantity={setQuantity} />
+                    <Quantity setQuantity={setQuantity} className="arabic_div" />
                   </div>
                   <div className="tf-product-info-buy-button">
                     <form onSubmit={(e) => e.preventDefault()} className="">
@@ -220,7 +200,7 @@ export default function DetailsOuterZoom({ product }) {
                             : t("product_detail.add_to_cart")}{" "}
                           -{" "}
                         </span>
-                        <span className="tf-qty-price">
+                        <span className="tf-qty-price arabic_div">
                           ${(parseFloat(product.price) * quantity).toFixed(2)}
                         </span>
                       </a>
@@ -266,7 +246,12 @@ export default function DetailsOuterZoom({ product }) {
                             <i className="icon-delivery-time" />
                           </div>
                           <p>
-                            {t("estimate_delivery_international", { internationalDays: "12-26", localDays: "2-6", country: t("qatar") })}
+                            <span
+                              dangerouslySetInnerHTML={{
+                                __html: t("estimate_delivery_international", { internationalDays: "12-26", localDays: "2-6", country: t("qatar") })
+                                  .replace(/(\d+[\-–]?\d*)/g, (num) => `<span class='arabic_div'>${num}</span>`)
+                              }}
+                            />
                           </p>
 
                         </div>
@@ -277,7 +262,12 @@ export default function DetailsOuterZoom({ product }) {
                             <i className="icon-return-order" />
                           </div>
                           <p>
-                            {t("product_detail.return_policy")}
+                            <span
+                              dangerouslySetInnerHTML={{
+                                __html: t("product_detail.return_policy")
+                                  .replace(/(\d+[\-–]?\d*)/g, (num) => `<span class='arabic_div'>${num}</span>`)
+                              }}
+                            />
                           </p>
                         </div>
                       </div>

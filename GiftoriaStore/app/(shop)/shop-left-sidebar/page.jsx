@@ -11,7 +11,7 @@ export default function Page() {
   return (
     <>
       <Header10 />
-      <div className="tf-page-title" style={{ backgroundColor: '#F1ECE4' }}>
+      <div className={`tf-page-title ${i18n.language === "ar" ? "arabic_div" : ""}`} style={{ backgroundColor: '#F1ECE4' }}>
         <div className="container-full">
           <div className="row">
             <div className="col-12">

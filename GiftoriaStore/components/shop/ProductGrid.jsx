@@ -50,16 +50,7 @@ export default function ProductGrid({
   return (
     console.log('[ProductGrid] Rendering products count:', displayProducts?.length, 'gridItems:', gridItems),
     <>
-      <div
-        style={{
-          width: "fit-content",
-          margin: "0  auto",
-          fontSize: "17px",
-          marginBottom: "24px",
-        }}
-      >
-        {displayProducts.length} {t('shop.products_found')}
-      </div>
+      {/* Product count sentence removed to avoid duplicate display; now only shown in sidebar */}
       {gridItems == 1 ? (
         <div className="grid-layout" data-grid="grid-list">
           {/* card product 1 */}

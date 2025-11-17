@@ -22,6 +22,7 @@ export default function Quantity({ setQuantity = (value) => {} }) {
         onChange={(e) => setCount(e.target.value / 1)}
         name="number"
         value={count}
+        className="arabic_div"
       />
       <span
         className="btn-quantity plus-btn"

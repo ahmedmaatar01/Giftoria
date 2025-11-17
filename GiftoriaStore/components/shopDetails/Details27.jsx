@@ -306,7 +306,7 @@ export default function Details27({ product }) {
                   <div className="tf-product-info-quantity">
                     <div className="wg-quantity">
                       <span className="btn-quantity minus-btn">-</span>
-                      <input type="text" name="number" defaultValue={1} />
+                      <input min="1" type="text" name="number" defaultValue={1} className="arabic_div" />
                       <span className="btn-quantity plus-btn">+</span>
                     </div>
                   </div>

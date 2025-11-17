@@ -133,7 +133,7 @@ export default function ShopByCategory() {
                 </ul>
               </>
             ) : (
-              <div className="text-center py-5">
+              <div className="text-center py-5 arabic_div">
                 <p>{t('shop.no_products_found')}</p>
               </div>
             )}

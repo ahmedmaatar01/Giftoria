@@ -231,7 +231,12 @@ export default function Sidebar({ onCategorySelect }) {
                           : (product?.name || product?.arabic_name)
                         }                      </Link>
                       {priceText && (
-                        <span className="price">{priceText}</span>
+                        <span
+                          className="arabic_vip"
+                          dangerouslySetInnerHTML={{
+                            __html: priceText.replace(/(\d+[.,]?\d*)/, '<span class="arabic_div">$1</span>')
+                          }}
+                        />
                       )}
                     </div>
                   </div>
@@ -295,7 +300,7 @@ export default function Sidebar({ onCategorySelect }) {
               </div>
               <div className="iconbox-content">
                 <h4 className="iconbox-title">{t("shop.sidebar.premium_support")}</h4>
-                <p className="iconbox-desc">{t("shop.sidebar.support_24_hours")}</p>
+                <p className="iconbox-desc" dangerouslySetInnerHTML={{__html: t("shop.sidebar.support_24_hours").replace(/(\d+)/, '<span class="arabic_div">$1</span>')}} />
               </div>
             </li>
             <li className="iconbox-item">
@@ -313,8 +318,8 @@ export default function Sidebar({ onCategorySelect }) {
                   />
                 </svg>
               </div>
-              <div className="iconbox-content">
-                <h4 className="iconbox-title">{t("shop.sidebar.days_return")}</h4>
+              <div className="iconbox-content arabic_div">
+                <h4 className="iconbox-title " dangerouslySetInnerHTML={{__html: t("shop.sidebar.days_return").replace(/(\d+)/, '<span class="arabic_div">$1</span>')}} />
                 <p className="iconbox-desc">{t("shop.sidebar.return_period")}</p>
               </div>
             </li>
