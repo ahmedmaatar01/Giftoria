@@ -85,8 +85,9 @@ export default function Products2({ isProductDetail = false }) {
     },
   };
 
-  const { setQuickViewItem } = useContextElement();
   const {
+    setQuickViewItem,
+    setQuickAddItem,
     addToWishlist,
     isAddedtoWishlist,
     addToCompareItem,
@@ -218,6 +219,7 @@ export default function Products2({ isProductDetail = false }) {
                         <a
                           href="#quick_add"
                           data-bs-toggle="modal"
+                          onClick={() => setQuickAddItem(product.id)}
                           className="box-icon quick-add tf-btn-loading"
                           style={{
                             backgroundColor: "#000000 !important",

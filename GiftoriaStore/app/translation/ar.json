@@ -652,7 +652,7 @@
   "toolbar_account": "الحساب",
   "toolbar_cart": "السلة",
   "checkout.signature_draw":"ارسم ",
-  "checkout.signature_text" :"نص"
-
+  "checkout.signature_text" :"نص",
+  "checkout.error_fill_required_fields": "يرجى ملء جميع الحقول المطلوبة"  
 
 }

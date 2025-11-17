@@ -15,7 +15,12 @@ export default function Checkout() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [successMsg, setSuccessMsg] = useState(null);
-
+  const [occasions, setOccasions] = useState([]);
+  useEffect(() => {
+    axios.get(`${API_BASE_URL}/api/occasions`)
+      .then(res => setOccasions(res.data))
+      .catch(err => console.error(err));
+  }, []);
   // Signature type: 'text' or 'draw'
   const [signatureType, setSignatureType] = useState('text');
 
@@ -310,22 +315,34 @@ export default function Checkout() {
 
   const handleSubmitOrder = async (e) => {
     e.preventDefault();
-
+  
+    // 1️⃣ Check required fields
+    const requiredFields = ['firstName', 'lastName', 'address', 'email', 'phone'];
+    const emptyFields = requiredFields.filter(
+      (field) => !formData[field] || formData[field].trim() === ""
+    );
+    if (emptyFields.length > 0) {
+      setError(t("checkout.error_fill_required_fields")); // e.g., "Please fill all required fields"
+      return; // stop submission
+    }
+  
+    // 2️⃣ Existing cart check
     if (cartProducts.length === 0) {
       setError(t("checkout.error_cart_empty"));
       return;
     }
-
+  
+    // 3️⃣ Terms agreement check
     if (!formData.agreeTerms) {
       setError(t("checkout.error_agree_terms"));
       return;
     }
-
+  
     setLoading(true);
     setError(null);
-
+  
     try {
-      // Validate desired delivery date-time (must be >= now + 6h)
+      // 4️⃣ Validate desired delivery date-time
       const minDt = new Date(minDesiredDeliveryLocal);
       const chosenDt = new Date(formData.desiredDelivery);
       if (!(chosenDt instanceof Date) || isNaN(chosenDt.getTime())) {
@@ -338,29 +355,29 @@ export default function Checkout() {
         setLoading(false);
         return;
       }
-
-      // Build shipping and billing address
+  
+      // 5️⃣ Build shipping and billing addresses
       const shippingAddress = `${formData.address}, ${formData.city}, ${formData.country}`;
       const billingAddress = shippingAddress;
-
-      // Map cart products to API format
+  
+      // 6️⃣ Map cart products
       const products = cartProducts.map(item => {
         const productPayload = {
           product_id: item.id,
           quantity: item.quantity,
         };
-
-        // Add custom fields if present
+  
         if (item.customFieldValues && Object.keys(item.customFieldValues).length > 0) {
           productPayload.custom_fields = Object.entries(item.customFieldValues).map(([fieldId, value]) => ({
             field_id: Number(fieldId),
             value: String(value),
           }));
         }
-
+  
         return productPayload;
       });
-
+  
+      // 7️⃣ Build order payload
       const orderPayload = {
         user_id: user?.id ?? -1,
         customer_first_name: formData.firstName,
@@ -376,62 +393,53 @@ export default function Checkout() {
         desired_delivery_at: new Date(formData.desiredDelivery).toISOString(),
         products,
       };
-
-      // Add gift card data if enabled
+  
+      // 8️⃣ Add gift card if enabled
       if (giftCardSelection.enabled && giftCardSelection.templateId) {
         let giftCardMessage = '';
-
         if (giftCardSelection.templateId === 'custom') {
-          // Use custom message for custom design
           giftCardMessage = giftCardSelection.customDescription;
         } else {
-          // Use template message for prepared templates
           const selectedTemplate = giftCardTemplates.find(t => t.id == giftCardSelection.templateId);
           giftCardMessage = selectedTemplate?.message || 'Template message';
         }
-
+  
         orderPayload.gift_card = {
           template_id: giftCardSelection.templateId === 'custom' ? null : giftCardSelection.templateId,
           custom_description: giftCardMessage,
           custom_signing: giftCardSelection.customSigning,
           product_ids: giftCardSelection.productIds
         };
-
       }
-
+  
       console.log('Full Order Payload:', orderPayload);
-
+  
+      // 9️⃣ Send order
       const response = await axios.post(
         `${API_BASE_URL_WITH_API}/commands`,
         orderPayload,
-        user
-          ? { headers: getAuthHeaders() } // logged in → send token
-          : {}                            // guest → no token
+        user ? { headers: getAuthHeaders() } : {}
       );
-
-
-      // Success! Clear cart and show message
+  
+      // 10️⃣ Success
       setCartProducts([]);
       localStorage.removeItem('cartList');
       setError(null);
-      // Redirect after success
-      const orderId = response.data?.data?.id; // adjust if your API returns another field
+  
+      const orderId = response.data?.data?.id;
       setTimeout(() => {
         if (!user) {
-          // check this authentification conditon 
           router.push(`/order-success?order_id=${orderId}`);
         } else {
           // Logged-in user → go to My Orders page
-         // router.push("my-account-orders");
+          // router.push("my-account-orders");
         }
       }, 500);
-
-
+  
     } catch (err) {
       console.error('Order submission error:', err);
       console.error('Error response:', err.response?.data);
-
-      // Show detailed validation errors if available
+  
       if (err.response?.data?.errors) {
         const validationErrors = Object.values(err.response.data.errors).flat().join(', ');
         setError(`${t('checkout.validation_error_prefix')}: ${validationErrors}`);
@@ -442,6 +450,7 @@ export default function Checkout() {
       setLoading(false);
     }
   };
+  
 
   return (
     <section className="flat-spacing-11">
@@ -833,6 +842,7 @@ export default function Checkout() {
                                 ) : '';
                                 return (
                                   <div key={fieldId}>
+
                                     {fieldName ? `${fieldName}: ` : ""}{String(value)}
                                   </div>
                                 );
@@ -949,89 +959,115 @@ export default function Checkout() {
         </div>
       </div>
 
+
       {/* Gift Card Template Selection Modal */}
-      {showTemplateModal && (
-        <div
-          className="modal fade show d-block"
-          tabIndex="-1"
-          style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
-          onClick={() => setShowTemplateModal(false)}
-        >
-          <div
-            className="modal-dialog modal-lg modal-dialog-centered"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">
-                  {t('checkout.select_gift_card_template', 'Select Gift Card Template')}
-                </h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  onClick={() => setShowTemplateModal(false)}
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div className="modal-body" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
-                {giftCardTemplates.length === 0 ? (
-                  <div className="text-center p-4">
-                    <p className="text-muted">{t('checkout.no_templates', 'No gift card templates available')}</p>
-                  </div>
-                ) : (
-                  <div className="row">
-                    {giftCardTemplates.map((template) => (
-                      <div key={template.id} className="col-md-4 col-sm-6 mb-3">
-                        <div
-                          className={`template-card border rounded p-3 cursor-pointer ${giftCardSelection.templateId === template.id ? 'border-primary bg-light' : 'border-light'}`}
-                          onClick={() => {
-                            handleGiftCardChange('templateId', template.id);
-                            setShowTemplateModal(false);
-                          }}
-                          style={{ cursor: 'pointer', transition: 'all 0.2s' }}
-                        >
-                          {template.image && (
-                            <div className="template-image mb-2 text-center">
-                              <Image
-                                src={`${API_BASE_URL}/storage/${template.image}`}
-                                alt={i18n.language === 'ar' && template.name_ar ? template.name_ar : template.name}
-                                width={120}
-                                height={90}
-                                style={{ objectFit: 'cover', borderRadius: '8px' }}
-                                className="w-100"
-                              />
-                            </div>
-                          )}
-                          <div className="text-center">
-                            <h6 className="mb-1 fw-bold">
-                              {i18n.language === 'ar' && template.name_ar ? template.name_ar : template.name}
-                            </h6>
-                            {giftCardSelection.templateId === template.id && (
-                              <small className="text-primary fw-bold">
-                                <i className="fas fa-check-circle me-1"></i>
-                                {t('checkout.selected', 'Selected')}
-                              </small>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => setShowTemplateModal(false)}
-                >
-                  {t('checkout.cancel', 'Cancel')}
-                </button>
-              </div>
-            </div>
-          </div>
+    {showTemplateModal && (
+  <div
+    className="modal fade show d-block"
+    tabIndex="-1"
+    style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+    onClick={() => setShowTemplateModal(false)}
+  >
+    <div
+      className="modal-dialog modal-lg modal-dialog-centered"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="modal-content">
+        <div className="modal-header">
+          <h5 className="modal-title">
+            {t('checkout.select_gift_card_template', 'Select Gift Card Template')}
+          </h5>
+          <button
+            type="button"
+            className="btn-close"
+            onClick={() => setShowTemplateModal(false)}
+            aria-label="Close"
+          ></button>
         </div>
-      )}
+
+        <div className="modal-body" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
+          {/* 🔹 Occasion Select */}
+          <select
+            className="form-select mb-3"
+            value={giftCardSelection.occasionId || ""}
+            onChange={(e) =>
+              handleGiftCardChange("occasionId", Number(e.target.value))
+            }
+          >
+            <option value="">All Occasions</option>
+            {occasions.map((occ) => (
+              <option key={occ.id} value={occ.id}>
+                {i18n.language === "ar" && occ.name_ar ? occ.name_ar : occ.name}
+              </option>
+            ))}
+          </select>
+
+          {/* 🔹 Template List */}
+          {(() => {
+            const filteredTemplates =
+              giftCardSelection.occasionId && giftCardSelection.occasionId !== ""
+                ? giftCardTemplates.filter(
+                    (t) => t.occasion_id === giftCardSelection.occasionId
+                  )
+                : giftCardTemplates;
+
+            return filteredTemplates.length === 0 ? (
+              <div className="text-center p-4">
+                <p className="text-muted">No gift card templates available</p>
+              </div>
+            ) : (
+              <div className="row">
+                {filteredTemplates.map((template) => (
+                  <div key={template.id} className="col-md-4 col-sm-6 mb-3">
+                    <div
+                      className={`template-card border rounded p-3 cursor-pointer ${
+                        giftCardSelection.templateId === template.id
+                          ? "border-primary bg-light"
+                          : "border-light"
+                      }`}
+                      onClick={() => {
+                        handleGiftCardChange("templateId", template.id);
+                        setShowTemplateModal(false);
+                      }}
+                    >
+                      <div className="template-image mb-2 text-center">
+                        <Image
+                          src={`${API_BASE_URL}/storage/${template.image}`}
+                          width={120}
+                          height={90}
+                          className="w-100"
+                          style={{ objectFit: "cover", borderRadius: "8px" }}
+                        />
+                      </div>
+                      <div className="text-center">
+                        <h6 className="mb-1 fw-bold">
+                          {i18n.language === "ar" && template.name_ar
+                            ? template.name_ar
+                            : template.name}
+                        </h6>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            );
+          })()}
+        </div>
+
+        <div className="modal-footer">
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => setShowTemplateModal(false)}
+          >
+            {t('checkout.cancel', 'Cancel')}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
     </section>
   );
 }

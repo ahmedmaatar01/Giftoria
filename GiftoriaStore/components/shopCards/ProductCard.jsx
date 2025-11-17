@@ -39,10 +39,6 @@ export const ProductCard = ({ product }) => {
   const { setQuickViewItem } = useContextElement();
   const {
     setQuickAddItem,
-    addToWishlist,
-    isAddedtoWishlist,
-    addToCompareItem,
-    isAddedtoCompareItem,
   } = useContextElement();
   useEffect(() => {
     const primary = getPrimaryImage(product);
@@ -103,42 +99,6 @@ export const ProductCard = ({ product }) => {
               >
                 <span className="icon icon-bag" />
                 <span className="tooltip">{t('product_card.quick_add')}</span>
-              </a>
-              <a
-                onClick={() => addToWishlist(product.id)}
-                className="box-icon bg_white wishlist btn-icon-action"
-              >
-                <span
-                  className={`icon icon-heart ${
-                    isAddedtoWishlist(product.id) ? "added" : ""
-                  }`}
-                />
-                <span className="tooltip">
-                  {isAddedtoWishlist(product.id)
-                    ? t('product_card.already_wishlisted')
-                    : t('product_card.add_to_wishlist')}
-                </span>
-                <span className="icon icon-delete" />
-              </a>
-              <a
-                href="#compare"
-                data-bs-toggle="offcanvas"
-                aria-controls="offcanvasLeft"
-                onClick={() => addToCompareItem(product.id)}
-                className="box-icon bg_white compare btn-icon-action"
-              >
-                <span
-                  className={`icon icon-compare ${
-                    isAddedtoCompareItem(product.id) ? "added" : ""
-                  }`}
-                />
-                <span className="tooltip">
-                  {" "}
-                  {isAddedtoCompareItem(product.id)
-                    ? t('product_card.already_compared')
-                    : t('product_card.add_to_compare')}
-                </span>
-                <span className="icon icon-check" />
               </a>
               <a
                 href="#quick_view"
