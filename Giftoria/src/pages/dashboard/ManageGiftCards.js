@@ -7,6 +7,7 @@ import { BACKEND_URL } from '../../api/config';
 
 const API_URL = `${BACKEND_URL}/api`;
 
+
 const GiftCardModal = ({ show, onHide, giftCard, onSave, isLoading }) => {
   const [formData, setFormData] = useState({
     name: '',
@@ -52,7 +53,7 @@ const GiftCardModal = ({ show, onHide, giftCard, onSave, isLoading }) => {
         is_active: giftCard.is_active !== undefined ? giftCard.is_active : true,
         occasion_id: giftCard.occasion_id || ''
       });
-      setImagePreview(giftCard.image ? `${BACKEND_URL}/storage/${giftCard.image}` : null);
+      setImagePreview(giftCard.image ? `http://localhost:8000/storage/${giftCard.image}` : null);
     } else {
       setFormData({
         name: '',
@@ -409,88 +410,101 @@ const getOccasionName = (id) => {
           <Card border="light" className="table-wrapper table-responsive shadow-sm">
             <Card.Body className="pt-0">
               <Table hover className="user-table align-items-center">
-                <thead>
-                  <tr>
-                    <th className="border-bottom">Image</th>
-                    <th className="border-bottom">Template Names</th>
-                    <th className="border-bottom">Status</th>
-                    <th className="border-bottom">Selections</th>
-                    <th className="border-bottom">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {giftCards.length > 0 ? (
-                    giftCards.map((giftCard) => (
-                      <tr key={giftCard.id}>
-                        <td>
-                          {giftCard.image ? (
-                            <Image 
-                              src={`${BACKEND_URL}/storage/${giftCard.image}`} 
-                              alt={giftCard.name}
-                              style={{ width: '50px', height: '40px', objectFit: 'cover' }}
-                              rounded
-                            />
-                          ) : (
-                            <div 
-                              className="bg-light d-flex align-items-center justify-content-center rounded"
-                              style={{ width: '50px', height: '40px' }}
-                            >
-                              <FontAwesomeIcon icon={faUpload} className="text-muted" />
-                            </div>
-                          )}
-                        </td>
-                        <td>
-                          <div className="d-flex align-items-center">
-                            <div>
-                              <div className="fw-normal">{giftCard.name}</div>
-                              {giftCard.name_ar && (
-                                <div className="text-muted small" dir="rtl" style={{ fontSize: '0.95em', fontWeight: 500 }}>
-                                  {giftCard.name_ar}
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <span className={`badge bg-${giftCard.is_active ? 'success' : 'secondary'}`}>
-                            {giftCard.is_active ? 'Active' : 'Inactive'}
-                          </span>
-                        </td>
-                        <td>
-                          <span className="fw-normal">
-                            {giftCard.selections ? giftCard.selections.length : 0} customer selections
-                          </span>
-                        </td>
-                        <td>
-                          <Button 
-                            variant="outline-primary" 
-                            size="sm" 
-                            className="me-2"
-                            onClick={() => handleEdit(giftCard)}
-                          >
-                            <FontAwesomeIcon icon={faEdit} />
-                          </Button>
-                          <Button 
-                            variant="outline-danger" 
-                            size="sm"
-                            onClick={() => handleDelete(giftCard.id)}
-                          >
-                            <FontAwesomeIcon icon={faTrashAlt} />
-                          </Button>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="5" className="text-center py-4">
-                        <div className="text-muted">
-                          <FontAwesomeIcon icon={faUpload} size="3x" className="mb-3" />
-                          <p>No gift card templates found. Create your first template to get started.</p>
-                        </div>
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
+              <thead>
+  <tr>
+    <th className="border-bottom">Image</th>
+    <th className="border-bottom">Template Names</th>
+    <th className="border-bottom">Occasion</th>
+    <th className="border-bottom">Status</th>
+    <th className="border-bottom">Selections</th>
+    <th className="border-bottom">Actions</th>
+  </tr>
+</thead>
+<tbody>
+  {filteredGiftCards.length > 0 ? (
+  filteredGiftCards.map((giftCard) => (
+      <tr key={giftCard.id}>
+        <td>
+          {giftCard.image ? (
+            <Image 
+              src={`http://localhost:8000/storage/${giftCard.image}`} 
+              alt={giftCard.name}
+              style={{ width: '50px', height: '40px', objectFit: 'cover' }}
+              rounded
+            />
+          ) : (
+            <div 
+              className="bg-light d-flex align-items-center justify-content-center rounded"
+              style={{ width: '50px', height: '40px' }}
+            >
+              <FontAwesomeIcon icon={faUpload} className="text-muted" />
+            </div>
+          )}
+        </td>
+
+        {/* Template Names */}
+        <td>
+          <div className="d-flex flex-column">
+            <span className="fw-normal">{giftCard.name}</span>
+            {giftCard.name_ar && (
+              <span className="text-muted small" dir="rtl" style={{ fontSize: '0.95em' }}>
+                {giftCard.name_ar}
+              </span>
+            )}
+          </div>
+        </td>
+
+        {/* ✅ Occasion Column */}
+        <td>{getOccasionName(giftCard.occasion_id)}</td>
+
+
+
+        {/* Status */}
+        <td>
+          <span className={`badge bg-${giftCard.is_active ? 'success' : 'secondary'}`}>
+            {giftCard.is_active ? 'Active' : 'Inactive'}
+          </span>
+        </td>
+
+        {/* Selections */}
+        <td>
+          <span className="fw-normal">
+            {giftCard.selections ? giftCard.selections.length : 0} customer selections
+          </span>
+        </td>
+
+        {/* Actions */}
+        <td>
+          <Button 
+            variant="outline-primary" 
+            size="sm" 
+            className="me-2"
+            onClick={() => handleEdit(giftCard)}
+          >
+            <FontAwesomeIcon icon={faEdit} />
+          </Button>
+          <Button 
+            variant="outline-danger" 
+            size="sm"
+            onClick={() => handleDelete(giftCard.id)}
+          >
+            <FontAwesomeIcon icon={faTrashAlt} />
+          </Button>
+        </td>
+      </tr>
+    ))
+  ) : (
+    <tr>
+      <td colSpan="6" className="text-center py-4">
+        <div className="text-muted">
+          <FontAwesomeIcon icon={faUpload} size="3x" className="mb-3" />
+          <p>No gift card templates found. Create your first template to get started.</p>
+        </div>
+      </td>
+    </tr>
+  )}
+</tbody>
+
               </Table>
             </Card.Body>
           </Card>

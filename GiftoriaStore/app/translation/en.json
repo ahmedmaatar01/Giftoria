@@ -656,8 +656,10 @@
     "toolbar_account": "Account",
     "toolbar_cart": "Cart",
     "checkout.signature_draw":"Draw",
-    "checkout.signature_text" :"Text"
-
+    "checkout.signature_text" :"Text",
+   
+    "checkout.error_fill_required_fields": "Please fill all required fields"
+     
 
   
 }
