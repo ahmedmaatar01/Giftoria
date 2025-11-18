@@ -479,7 +479,7 @@ header,
   .banner-hero-collection-wrap .text-c {
     width: 100% !important;
   
-    text-align: center;
+    text-align: start;
   }
 
   .banner-hero-collection-wrap .text-c .c-titre {
@@ -507,7 +507,7 @@ header,
   /* ---------- Footer ---------- */
   .footer-logo {
     justify-content: center !important;
-    text-align: center;
+    text-align: start;
   }
 
   .footer-logo img {
@@ -535,7 +535,7 @@ header,
   .flat-spacing-12 .flat-title {
     flex-direction: column;
     align-items: center !important;
-    text-align: center;
+    text-align: start;
   }
 
   .flat-spacing-12 .flat-title h3 {
@@ -622,20 +622,13 @@ header,
 /* =============================== */
 @media (max-width: 768px) {
 
-  /* Title */
-  .flat-title .title {
-    font-size: 20px !important;
-    text-align: center !important;
-    margin-bottom: 15px !important;
-    line-height: 26px !important;
-  }
+  
 
   /* Subtitle */
   .flat-title .sub-title {
     font-size: 12px !important;
     line-height: 22px !important;
-    text-align: center !important;
-    margin-bottom: 18px !important;
+    text-align: start !important;
   }
 
   /* Make icons vertical instead of 3 columns */
@@ -648,19 +641,21 @@ header,
   /* Each item full width and centered */
   .boxabout {
     width: 100% !important;
-    text-align: center !important;
+    text-align: start !important;
+    justify-content: flex-start !important;
+    
   }
 
   /* Item title */
   .tf-icon-box .title {
-    text-align: center !important;
+    text-align: start !important;
     font-size: 14px !important;
     margin-bottom: 5px !important;
   }
 
   /* Item description */
   .tf-icon-box p {
-    text-align: center !important;
+    text-align: start !important;
     font-size: 12px !important;
     line-height: 20px !important;
     max-width: 300px;
@@ -696,7 +691,7 @@ header,
   /* Title styling */
   .tf-content-wrap .heading {
     font-size: 20px !important;
-    text-align: center !important;
+    text-align: start !important;
     line-height: 26px !important;
     margin-bottom: 10px !important;
     text-transform: uppercase;
@@ -706,7 +701,7 @@ header,
   .tf-content-wrap .text {
     font-size: 12px !important;
     line-height: 22px !important;
-    text-align: center !important;
+    text-align: start !important;
     margin: 0 auto;
     max-width: 320px;
   }
@@ -717,15 +712,11 @@ header,
     padding-bottom: 20px !important;
   }
 
-  /* Remove unnecessary horizontal padding */
-  .tf-content-wrap {
-    padding: 0 !important;
-  }
 }
 @media (max-width: 768px) {
   .products-homeP .heading-30 {
     font-size: 20px !important;   /* title size on tablet/phone */
-    text-align: center !important;
+    text-align: start !important;
     margin-top: 20px !important;
   }
   .productName{
@@ -753,17 +744,18 @@ header,
   .flat-wrap-iconbox .title {
     font-size: 20px !important;
     line-height: 26px !important;
-    text-align: center !important;
+    text-align: start !important;
     margin-bottom: 12px !important;
+    width: 100%;
+    margin-left: 0px !important;
   }
 
   /* Subtitle */
   .flat-wrap-iconbox .sub-title {
     font-size: 12px !important;
     line-height: 20px !important;
-    text-align: center !important;
-    max-width: 320px;
-    margin: 0 auto 20px auto !important;
+    text-align: start !important;
+    margin: auto 0px auto !important;
   }
 
   /* Wrap items vertically */
@@ -783,14 +775,14 @@ header,
   .tf-icon-box .title {
     font-size: 14px !important;
     line-height: 20px !important;
-    text-align: center !important; 
+    text-align: start !important; 
   }
 
   /* Item description */
   .tf-icon-box p {
     font-size: 12px !important;
     line-height: 20px !important;
-    text-align: center !important;
+    text-align: start !important;
     max-width: 300px;
     margin: 0 auto !important;
   }
@@ -808,7 +800,7 @@ header,
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
+    text-align: start;
     margin-top: 10px;
   }
 
@@ -822,12 +814,14 @@ header,
   /* Reduce heading size */
   .tf-content-wrap .heading span {
     font-size: 20px !important;
+    
   }
 
   /* Reduce paragraph size and line height */
   .tf-content-wrap .description {
     font-size: 12px !important;
     line-height: 1.5 !important;
+    text-align: justify;
   }
 
   /* Logos: wrap and center */
@@ -851,4 +845,55 @@ header,
     display: none;
   }
 }
+
+@media (max-width: 768px) {
+
+  /* MAIN TITLE */
+  .flat-title,
+  .flat-title * {
+    text-align: start !important;
+   
+  }
+
+  /* FORCE ONE CLEAN LEFT COLUMN */
+  .row.justify-content-center {
+    display: block !important;
+  }
+
+  .col-12,
+  .col-md-6 {
+    width: 100% !important;
+    
+  }
+
+  /* FEATURE BOX */
+  .tf-icon-box.style-lg {
+    display: block !important;
+    text-align: start !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* INNER CONTENT — FULL WIDTH, SAME START POINT */
+  .tf-icon-box .content {
+    width: 100% !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    text-align: start !important;
+  }
+
+  /* TITLES */
+  .tf-icon-box .title {
+    text-align: start !important;
+    margin: 0 0 8px 0 !important;
+  }
+
+  /* DESCRIPTIONS */
+  .tf-icon-box p {
+    text-align: start !important;
+    margin: 0 !important;
+    margin-top: 20px !important;
+  }
+}
+
 

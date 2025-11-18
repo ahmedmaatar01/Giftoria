@@ -122,7 +122,11 @@ export default function MobileMenu() {
 
           
         </div>
-
+      <style>
+      ul, li{
+        
+      }
+      </style>
       </div>
     </div>
   );
