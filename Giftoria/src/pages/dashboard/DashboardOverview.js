@@ -232,7 +232,7 @@ export default () => {
           </Card>
         </Col>
       </Row>
-      <Row className="justify-content-md-center">
+      {/* <Row className="justify-content-md-center">
         <Col xs={12} className="mb-4 d-none d-sm-block">
           <SalesValueWidget
             title="Sales Value"
@@ -274,8 +274,8 @@ export default () => {
             title="Traffic Share"
             data={trafficShares} />
         </Col>
-      </Row>
-
+      </Row> */}
+{/* 
       <Row>
         <Col xs={12} xl={12} className="mb-4">
           <Row>
@@ -316,7 +316,7 @@ export default () => {
             </Col>
           </Row>
         </Col>
-      </Row>
+      </Row> */}
     </>
   );
 };

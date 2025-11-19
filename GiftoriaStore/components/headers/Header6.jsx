@@ -15,6 +15,7 @@ export default function Header6({ isArrow, uppercase = false }) {
   const { t } = useTranslation();
   const router = useRouter();
   const { user } = useContextElement();
+  const [logoSrc, setLogoSrc] = React.useState("/images/logo/GiftoriaLogoWhite.png");
 
   const handleAccountClick = (e) => {
     e.preventDefault();
@@ -48,9 +49,11 @@ export default function Header6({ isArrow, uppercase = false }) {
       if (window.scrollY > 200) {
         header.classList.add("bg-white", "header-shadow");
         header.classList.remove("header-white");
+        setLogoSrc("/images/logo/GiftoriaLogoMe.png");
       } else {
         header.classList.remove("bg-white", "header-shadow");
         header.classList.add("header-white");
+        setLogoSrc("/images/logo/GiftoriaLogoWhite.png");
       }
     };
     window.addEventListener("scroll", handleScroll);
@@ -104,7 +107,7 @@ export default function Header6({ isArrow, uppercase = false }) {
               <Image
                 alt={t("header.logo_alt")}
                 className="logo"
-                src="/images/logo/GiftoriaLogoMe.png"
+                src={logoSrc}
                 width={200}
                 height={21}
               />
@@ -158,7 +161,7 @@ export default function Header6({ isArrow, uppercase = false }) {
           top: 0;
           left: 0;
           width: 100%;
-          z-index: 9999;
+          z-index: 900;
           transition: all 0.3s ease;
         }
         .header-white {

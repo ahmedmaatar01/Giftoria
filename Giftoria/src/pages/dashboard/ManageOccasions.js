@@ -14,6 +14,9 @@ const ManageOccasions = () => {
   const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [occasionToDelete, setOccasionToDelete] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [form, setForm] = useState({
     name: '',
     arabic_name: '',
@@ -148,6 +151,18 @@ const ManageOccasions = () => {
     }
   };
 
+  const confirmAndDelete = async () => {
+    if (!occasionToDelete) return;
+    try {
+      setDeleteLoading(true);
+      await handleDelete(occasionToDelete.id);
+      setShowDeleteModal(false);
+      setOccasionToDelete(null);
+    } finally {
+      setDeleteLoading(false);
+    }
+  };
+
   const filteredOccasions = Array.isArray(occasions) ? occasions.filter(occ => {
     const term = search.toLowerCase();
     const name = (occ.name || '').toLowerCase();
@@ -162,7 +177,7 @@ const ManageOccasions = () => {
         <div className="d-block mb-4 mb-md-0">
           <Breadcrumb className="d-none d-md-inline-block" listProps={{ className: "breadcrumb-dark breadcrumb-transparent" }}>
             <Breadcrumb.Item><FontAwesomeIcon icon={faHome} /></Breadcrumb.Item>
-            <Breadcrumb.Item>Volt</Breadcrumb.Item>
+            <Breadcrumb.Item>Giftoria</Breadcrumb.Item>
             <Breadcrumb.Item active>Occasions</Breadcrumb.Item>
           </Breadcrumb>
           <h4>Occasions</h4>
@@ -171,7 +186,7 @@ const ManageOccasions = () => {
         <div className="btn-toolbar mb-2 mb-md-0">
           <ButtonGroup>
             <Button variant="primary" size="sm" onClick={() => handleShowModal()}>+ New Occasion</Button>
-            <Button variant="outline-primary" size="sm">Export</Button>
+            {/* <Button variant="outline-primary" size="sm">Export</Button> */}
           </ButtonGroup>
         </div>
       </div>
@@ -237,7 +252,7 @@ const ManageOccasions = () => {
                         <Dropdown.Item onClick={() => handleShowModal(occ)}>
                           <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit
                         </Dropdown.Item>
-                        <Dropdown.Item className="text-danger" onClick={() => handleDelete(occ.id)}>
+                        <Dropdown.Item className="text-danger" onClick={() => { setOccasionToDelete(occ); setShowDeleteModal(true); }}>
                           <FontAwesomeIcon icon={faTrashAlt} className="me-2" /> Delete
                         </Dropdown.Item>
                       </Dropdown.Menu>
@@ -320,6 +335,33 @@ const ManageOccasions = () => {
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
           <Button variant="primary" onClick={handleSubmit}>{isEdit ? 'Update' : 'Create'}</Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Delete Confirmation Modal */}
+      <Modal show={showDeleteModal} onHide={() => { if (!deleteLoading) { setShowDeleteModal(false); setOccasionToDelete(null); } }} centered>
+        <Modal.Header closeButton={!deleteLoading}>
+          <Modal.Title>Delete Occasion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p className="mb-2">Are you sure you want to delete this occasion?</p>
+          <p className="text-danger mb-0">This action cannot be undone.</p>
+          {occasionToDelete && (
+            <div className="mt-3">
+              <strong>Occasion:</strong> {occasionToDelete.name}
+              {occasionToDelete.arabic_name && (
+                <div className="text-muted" dir="rtl">{occasionToDelete.arabic_name}</div>
+              )}
+            </div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => { setShowDeleteModal(false); setOccasionToDelete(null); }} disabled={deleteLoading}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={confirmAndDelete} disabled={deleteLoading}>
+            {deleteLoading ? 'Deleting...' : 'Yes, delete'}
+          </Button>
         </Modal.Footer>
       </Modal>
     </>

@@ -187,7 +187,10 @@ const ManageCommands = () => {
             const res = await axios.get(`${API_URL}/commands`, {
                 headers: getAuthHeaders()
             });
-            setCommands(res.data);
+            const refreshed = Array.isArray(res.data)
+              ? res.data
+              : (res.data?.data || res.data?.commands || []);
+            setCommands(refreshed);
             
             setEditSuccess("Status updated successfully!");
             setStatusUpdateNotes("");
@@ -270,29 +273,48 @@ const ManageCommands = () => {
     };
 
     useEffect(() => {
+    let mounted = true;
     const fetchCommands = async () => {
-            try {
-                const res = await axios.get(`${API_URL}/commands`, {
-                    headers: getAuthHeaders()
-                });
-                setCommands(res.data);
-            } catch (err) {
-                console.error('Error fetching commands:', err);
-                if (err.response?.status === 401) {
-                    console.error('Authentication failed - please login again');
-                }
-            } finally {
-                setLoading(false);
-            }
-        };
+        try {
+          const res = await axios.get(`${API_URL}/commands`, {
+            headers: getAuthHeaders()
+          });
+          const list = Array.isArray(res.data) ? res.data : (res.data?.data || res.data?.commands || []);
+          if (mounted) setCommands(list);
+        } catch (err) {
+          console.error('Error fetching commands:', err);
+          if (err.response?.status === 401) {
+            console.error('Authentication failed - please login again');
+          }
+        } finally {
+          if (mounted) setLoading(false);
+        }
+      };
     fetchCommands();
     fetchUnseenSummary();
     const interval = setInterval(fetchUnseenSummary, 60000);
-    return () => clearInterval(interval);
+    return () => { clearInterval(interval); mounted = false; };
     }, []);
 
-   // Filter commands by search (name, description, customer name, phone) and status
-const filteredCommands = commands.filter(cmd => {
+   // Sort newest -> oldest by placed_at (fallback created_at/id), then filter
+const toTime = (v) => {
+  if (!v) return 0;
+  const d = new Date(v);
+  return isNaN(d) ? 0 : d.getTime();
+};
+
+const sortedCommands = Array.isArray(commands)
+  ? [...commands].sort((a, b) => {
+      const tb = toTime(b?.placed_at || b?.created_at);
+      const ta = toTime(a?.placed_at || a?.created_at);
+      if (tb !== ta) return tb - ta; // newer first
+      const bid = Number(b?.id) || 0;
+      const aid = Number(a?.id) || 0;
+      return bid - aid; // tie-breaker by id desc
+    })
+  : [];
+
+const filteredCommands = sortedCommands.filter(cmd => {
   const searchLower = search.toLowerCase();
 
   const matchesSearch =
@@ -317,7 +339,7 @@ const filteredCommands = commands.filter(cmd => {
             <div className="d-block mb-4 mb-md-0">
                 <Breadcrumb className="d-none d-md-inline-block" listProps={{ className: "breadcrumb-dark breadcrumb-transparent" }}>
                     <Breadcrumb.Item><FontAwesomeIcon icon={faHome} /></Breadcrumb.Item>
-                    <Breadcrumb.Item>Volt</Breadcrumb.Item>
+                    <Breadcrumb.Item>Giftoria</Breadcrumb.Item>
                     <Breadcrumb.Item active>Commands</Breadcrumb.Item>
                 </Breadcrumb>
                 <h4>Commands</h4>
@@ -366,8 +388,7 @@ const filteredCommands = commands.filter(cmd => {
                             <th>Payment</th>
                             <th>Customer Phone</th>
                             <th>Desired Delivery</th>
-                            <th>Customer</th>
-                            <th>Note</th>
+                      
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -376,9 +397,7 @@ const filteredCommands = commands.filter(cmd => {
                             <tr key={cmd.id}>
                                 <td>{cmd.name}</td>
                                 <td>
-                                    <Badge variant={getStatusBadgeVariant(cmd.status)}>
-                                        {cmd.status}
-                                    </Badge>
+                                    {cmd.status}
                                 </td>
                                 <td>{cmd.total}</td>
                                 <td>
@@ -394,8 +413,6 @@ const filteredCommands = commands.filter(cmd => {
                                 <td>{formatPayment(cmd.payment_method)}</td>
                                 <td>{cmd.customer_phone || '-'}</td>
                                 <td>{formatDate(cmd.desired_delivery_at)}</td>
-                                <td>{cmd.customer_first_name} {cmd.customer_last_name}</td>
-                                <td>{cmd.description}</td>
                                 <td>
                   <Button variant="primary" size="sm" className="me-1 mb-1 position-relative" onClick={() => openDetailsModal(cmd)}>
                     <FontAwesomeIcon icon={faEye} /> Details

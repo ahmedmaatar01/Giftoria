@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Table, Button, Image, Dropdown, ButtonGroup, Col, Row, Form, Breadcrumb, InputGroup } from '@themesberg/react-bootstrap';
+import { Card, Table, Button, Image, Dropdown, ButtonGroup, Col, Row, Form, Breadcrumb, InputGroup, Modal } from '@themesberg/react-bootstrap';
 import { faEdit, faTrashAlt, faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faCog, faHome, faSearch, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
@@ -17,6 +17,9 @@ const ManageProducts = () => {
     const [search, setSearch] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
     const [showModal, setShowModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [productToDelete, setProductToDelete] = useState(null);
+    const [deleteLoading, setDeleteLoading] = useState(false);
     const [modalForm, setModalForm] = useState({ name: '', arabic_name: '', description: '', arabic_description: '', price: '', stock: '', category_id: '', featured_image: null, images: [] });
     const [isEdit, setIsEdit] = useState(false);
 
@@ -139,6 +142,18 @@ const ManageProducts = () => {
         }
     };
 
+    const confirmAndDelete = async () => {
+        if (!productToDelete) return;
+        try {
+            setDeleteLoading(true);
+            await handleDelete(productToDelete.id);
+            setShowDeleteModal(false);
+            setProductToDelete(null);
+        } finally {
+            setDeleteLoading(false);
+        }
+    };
+
     // Filter products by search, guard against non-array
     const filteredProducts = Array.isArray(products) ? products.filter(prod => {
         const matchesSearch = prod.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -153,7 +168,7 @@ const ManageProducts = () => {
                 <div className="d-block mb-4 mb-md-0">
                     <Breadcrumb className="d-none d-md-inline-block" listProps={{ className: "breadcrumb-dark breadcrumb-transparent" }}>
                         <Breadcrumb.Item><FontAwesomeIcon icon={faHome} /></Breadcrumb.Item>
-                        <Breadcrumb.Item>Volt</Breadcrumb.Item>
+                        <Breadcrumb.Item>Giftoria</Breadcrumb.Item>
                         <Breadcrumb.Item active>Products</Breadcrumb.Item>
                     </Breadcrumb>
                     <h4>Products</h4>
@@ -162,8 +177,8 @@ const ManageProducts = () => {
                 <div className="btn-toolbar mb-2 mb-md-0">
                     <ButtonGroup>
                         <Button variant="primary" size="sm" onClick={handleCreate}>+ New Product</Button>
-                        <Button variant="outline-primary" size="sm">Share</Button>
-                        <Button variant="outline-primary" size="sm">Export</Button>
+                        {/* <Button variant="outline-primary" size="sm">Share</Button>
+                        <Button variant="outline-primary" size="sm">Export</Button> */}
                     </ButtonGroup>
                 </div>
             </div>
@@ -270,7 +285,7 @@ const ManageProducts = () => {
             </Dropdown.Item>
             <Dropdown.Item
               className="text-danger"
-              onClick={() => handleDelete(prod.id)}
+                            onClick={() => { setProductToDelete(prod); setShowDeleteModal(true); }}
             >
               <FontAwesomeIcon icon={faTrashAlt} className="me-2" /> Delete
             </Dropdown.Item>
@@ -286,6 +301,33 @@ const ManageProducts = () => {
                 </Card.Body>
             </Card>
             <ProductModal show={showModal} onHide={() => setShowModal(false)} onSubmit={handleModalSubmit} form={modalForm} setForm={setModalForm} isEdit={isEdit} />
+
+            {/* Delete Confirmation Modal */}
+            <Modal show={showDeleteModal} onHide={() => { if (!deleteLoading) { setShowDeleteModal(false); setProductToDelete(null); } }} centered>
+                <Modal.Header closeButton={!deleteLoading}>
+                    <Modal.Title>Delete Product</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p className="mb-2">Are you sure you want to delete this product?</p>
+                    <p className="text-danger mb-0">This action cannot be undone.</p>
+                    {productToDelete && (
+                        <div className="mt-3">
+                            <strong>Product:</strong> {productToDelete.name}
+                            {productToDelete.arabic_name && (
+                                <div className="text-muted" dir="rtl">{productToDelete.arabic_name}</div>
+                            )}
+                        </div>
+                    )}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => { setShowDeleteModal(false); setProductToDelete(null); }} disabled={deleteLoading}>
+                        Cancel
+                    </Button>
+                    <Button variant="danger" onClick={confirmAndDelete} disabled={deleteLoading}>
+                        {deleteLoading ? 'Deleting...' : 'Yes, delete'}
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </>
     );
 };

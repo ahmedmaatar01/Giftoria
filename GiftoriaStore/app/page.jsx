@@ -32,7 +32,6 @@ export default function Home() {
       <Products2 />
       <div style={{ marginTop: '60px' }} />
       <FeaturesHomeFood />
-
       <BannerHome1/>
       {/* <Store /> */}
       <div style={{ marginTop: '60px' }} />

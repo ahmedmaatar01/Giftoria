@@ -124,7 +124,7 @@ export default function QuickAdd() {
                             required={field.is_required}
                           >
                             <option value="">
-                              {t("quick_view_modal.select")} {i18n.language === "ar" && field.name_ar ? field.name_ar : field.name}
+                              {t("quick_view_modal.select")} {i18n.language === "ar" && field.name_ar ? field.name_ar : (typeof field.name === 'object' ? field.name.en || field.name.ar : field.name)}
                             </option>
                             {opts.map((opt, idx) => {
                               const optionValue = i18n.language === "ar" && opt.ar ? opt.ar : opt.en;
@@ -165,7 +165,7 @@ export default function QuickAdd() {
                       return (
                         <div key={field.id} className="mb-2">
                           <label className="fw-6 mb-1" htmlFor={`custom-field-${field.id}`}>
-                            {i18n.language === "ar" && field.name_ar ? field.name_ar : field.name}{field.is_required ? ' *' : ''}:
+                            {i18n.language === "ar" && field.name_ar ? field.name_ar : (typeof field.name === 'object' ? field.name.en || field.name.ar : field.name)}{field.is_required ? ' *' : ''}:
                           </label>
                           {inputEl}
                         </div>
