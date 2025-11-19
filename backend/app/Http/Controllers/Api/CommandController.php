@@ -22,6 +22,9 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\CommandReceivedMail;
+use App\Mail\AdminCommandNotificationMail;
 
 class CommandController extends Controller
 {
@@ -217,6 +220,31 @@ class CommandController extends Controller
                 'custom_fields' => json_encode($line['custom_fields']),
                 'unit_price' => $line['unit_price'],
                 'line_total' => $line['line_total'],
+            ]);
+        }
+        // Send confirmation email to customer (if email provided)
+        if (!empty($command->customer_email)) {
+            try {
+                Mail::to($command->customer_email)->send(new CommandReceivedMail($command));
+            } catch (\Throwable $e) {
+                Log::error('Order confirmation email failed', [
+                    'command_id' => $command->id,
+                    'error' => $e->getMessage()
+                ]);
+            }
+        }
+
+        // Send admin notification email to configured admin addresses
+        try {
+            $adminEmails = [
+                'ahmedmaatar04@gmail.com',
+                'ahmedmaatar03@gmail.com',
+            ];
+            Mail::to($adminEmails)->send(new AdminCommandNotificationMail($command));
+        } catch (\Throwable $e) {
+            Log::error('Admin notification email failed', [
+                'command_id' => $command->id,
+                'error' => $e->getMessage()
             ]);
         }
 

@@ -429,10 +429,10 @@ export default function Checkout() {
       const orderId = response.data?.data?.id;
       setTimeout(() => {
         if (!user) {
-          router.push(`/order-success?order_id=${orderId}`);
+          router.push(`/`);
         } else {
           // Logged-in user → go to My Orders page
-          // router.push("my-account-orders");
+          router.push("my-account-orders");
         }
       }, 500);
   

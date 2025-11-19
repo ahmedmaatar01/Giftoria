@@ -12,6 +12,9 @@ const ManageCategory = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [categoryToDelete, setCategoryToDelete] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [form, setForm] = useState({ 
     name: '', 
     name_ar: '', 
@@ -174,6 +177,20 @@ const ManageCategory = () => {
     }
   };
 
+  const confirmAndDelete = async () => {
+    if (!categoryToDelete) return;
+    try {
+      setDeleteLoading(true);
+      await handleDelete(categoryToDelete.id);
+      setShowDeleteModal(false);
+      setCategoryToDelete(null);
+    } catch (e) {
+      // Already logged in handleDelete
+    } finally {
+      setDeleteLoading(false);
+    }
+  };
+
   // Filter categories by search
   const filteredCategories = Array.isArray(categories) ? categories.filter(cat => {
     const matchesSearch = cat.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -192,7 +209,7 @@ const ManageCategory = () => {
         <div className="d-block mb-4 mb-md-0">
           <Breadcrumb className="d-none d-md-inline-block" listProps={{ className: "breadcrumb-dark breadcrumb-transparent" }}>
             <Breadcrumb.Item><FontAwesomeIcon icon={faHome} /></Breadcrumb.Item>
-            <Breadcrumb.Item>Volt</Breadcrumb.Item>
+            <Breadcrumb.Item>Giftoria</Breadcrumb.Item>
             <Breadcrumb.Item active>Categories</Breadcrumb.Item>
           </Breadcrumb>
           <h4>Categories</h4>
@@ -201,7 +218,7 @@ const ManageCategory = () => {
         <div className="btn-toolbar mb-2 mb-md-0">
           <ButtonGroup>
             <Button variant="primary" size="sm" onClick={() => handleShowModal()}>+ New Category</Button>
-            <Button variant="outline-primary" size="sm">Export</Button>
+            {/* <Button variant="outline-primary" size="sm">Export</Button> */}
           </ButtonGroup>
         </div>
       </div>
@@ -279,7 +296,7 @@ const ManageCategory = () => {
                         <Dropdown.Item onClick={() => handleShowModal(cat)}>
                           <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit
                         </Dropdown.Item>
-                        <Dropdown.Item className="text-danger" onClick={() => handleDelete(cat.id)}>
+                        <Dropdown.Item className="text-danger" onClick={() => { setCategoryToDelete(cat); setShowDeleteModal(true); }}>
                           <FontAwesomeIcon icon={faTrashAlt} className="me-2" /> Delete
                         </Dropdown.Item>
                       </Dropdown.Menu>
@@ -357,6 +374,33 @@ const ManageCategory = () => {
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
           <Button variant="primary" onClick={handleSubmit}>{isEdit ? 'Update' : 'Create'}</Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Delete Confirmation Modal */}
+      <Modal show={showDeleteModal} onHide={() => { if (!deleteLoading) { setShowDeleteModal(false); setCategoryToDelete(null); } }} centered>
+        <Modal.Header closeButton={!deleteLoading}>
+          <Modal.Title>Delete Category</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p className="mb-2">Are you sure you want to delete this category?</p>
+          <p className="text-danger mb-0">This action cannot be undone.</p>
+          {categoryToDelete && (
+            <div className="mt-3">
+              <strong>Category:</strong> {categoryToDelete.name}
+              {categoryToDelete.name_ar && (
+                <div className="text-muted" dir="rtl">{categoryToDelete.name_ar}</div>
+              )}
+            </div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => { setShowDeleteModal(false); setCategoryToDelete(null); }} disabled={deleteLoading}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={confirmAndDelete} disabled={deleteLoading}>
+            {deleteLoading ? 'Deleting...' : 'Yes, delete'}
+          </Button>
         </Modal.Footer>
       </Modal>
     </>

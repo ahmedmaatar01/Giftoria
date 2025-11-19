@@ -141,10 +141,16 @@ export default function DetailsOuterZoom({ product }) {
                               onChange={e => handleCustomFieldChange(field.id, e.target.value)}
                               required={field.is_required}
                             >
-                              <option value="">{t("product_detail.select_option", { field: field.name })}</option>
-                              {opts.map(opt => (
-                                <option key={opt} value={opt}>{opt}</option>
-                              ))}
+                              <option value="">{t("product_detail.select_option", { field: typeof field.name === 'object' ? (field.name.en || field.name.ar) : field.name })}</option>
+                              {opts.map((opt, idx) => {
+                                const optionValue = typeof opt === 'object' ? (i18n.language === "ar" && opt.ar ? opt.ar : opt.en) : opt;
+                                const optionText = typeof opt === 'object' ? (i18n.language === "ar" && opt.ar ? opt.ar : opt.en) : opt;
+                                return (
+                                  <option key={idx} value={optionValue}>
+                                    {optionText}
+                                  </option>
+                                );
+                              })}
                             </select>
                           );
                         } else if (field.type === 'text') {
@@ -174,7 +180,9 @@ export default function DetailsOuterZoom({ product }) {
                         }
                         return (
                           <div key={field.id} className="mb-2">
-                            <label className="fw-6 mb-1" htmlFor={`custom-field-${field.id}`}>{field.name}{field.is_required ? ` ${t("product_detail.required_field")}` : ''}:</label>
+                            <label className="fw-6 mb-1" htmlFor={`custom-field-${field.id}`}>
+                              {i18n.language === "ar" && field.name_ar ? field.name_ar : (typeof field.name === 'object' ? field.name.en || field.name.ar : field.name)}{field.is_required ? ` ${t("product_detail.required_field")}` : ''}:
+                            </label>
                             {inputEl}
                           </div>
                         );
