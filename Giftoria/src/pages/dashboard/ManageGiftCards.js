@@ -53,7 +53,7 @@ const GiftCardModal = ({ show, onHide, giftCard, onSave, isLoading }) => {
         is_active: giftCard.is_active !== undefined ? giftCard.is_active : true,
         occasion_id: giftCard.occasion_id || ''
       });
-      setImagePreview(giftCard.image ? `http://localhost:8000/storage/${giftCard.image}` : null);
+      setImagePreview(giftCard.image ? `${BACKEND_URL}/storage/${giftCard.image}` : null);
     } else {
       setFormData({
         name: '',
@@ -427,7 +427,7 @@ const getOccasionName = (id) => {
         <td>
           {giftCard.image ? (
             <Image 
-              src={`http://localhost:8000/storage/${giftCard.image}`} 
+              src={`${BACKEND_URL}/storage/${giftCard.image}`} 
               alt={giftCard.name}
               style={{ width: '50px', height: '40px', objectFit: 'cover' }}
               rounded
