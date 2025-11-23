@@ -97,7 +97,7 @@ export default function Collection() {
           breakpoints={{
             1200: { slidesPerView: 3.5, spaceBetween: 30 },
             768: { slidesPerView: 2.4, spaceBetween: 25 },
-            0: { slidesPerView: 1.2, spaceBetween: 20 },
+            0: { slidesPerView: 2, spaceBetween: 20 },
           }}
           modules={[Navigation]}
           navigation={{

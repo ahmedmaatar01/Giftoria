@@ -12,15 +12,18 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    console.error('🚨 ERROR BOUNDARY CAUGHT ERROR:');
-    console.error('Error:', error);
-    console.error('Component Stack:', errorInfo?.componentStack || 'No component stack');
-    console.error('Error Info:', errorInfo);
-    
-    // Check if it's the specific error we're looking for
-    if (error.message && error.message.includes('Objects are not valid as a React child')) {
-      console.error('🎯 THIS IS THE OBJECT RENDERING ERROR!');
-      console.error('Component that failed:', errorInfo?.componentStack || 'Unknown component');
+    // Only log in development or client-side
+    if (typeof window !== 'undefined') {
+      console.error('🚨 ERROR BOUNDARY CAUGHT ERROR:');
+      console.error('Error:', error);
+      console.error('Component Stack:', errorInfo?.componentStack || 'No component stack');
+      console.error('Error Info:', errorInfo);
+      
+      // Check if it's the specific error we're looking for
+      if (error.message && error.message.includes('Objects are not valid as a React child')) {
+        console.error('🎯 THIS IS THE OBJECT RENDERING ERROR!');
+        console.error('Component that failed:', errorInfo?.componentStack || 'Unknown component');
+      }
     }
     
     this.setState({
@@ -31,6 +34,11 @@ class ErrorBoundary extends React.Component {
 
   render() {
     if (this.state.hasError) {
+      // During SSR/SSG, just render children to avoid breaking the build
+      if (typeof window === 'undefined') {
+        return this.props.children;
+      }
+      
       return (
         <div style={{ 
           padding: '20px', 
