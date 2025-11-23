@@ -425,15 +425,23 @@ header,
 @media (max-width: 768px) {
   .hero-about span.heading.bell-medium.text-white.mb-5 {
     font-size: 26px !important;
-    text-align: center;
+    text-align: start;
     padding-top: 0px;
     margin-bottom: 0px !important;
+  }
+
+  .home-b-1 section.banner-hero-collection-wrap.banner-parallax {
+    min-height: 480px;
+  }
+
+  .box-content.first-banner-home {
+    padding-right: 16px;
   }
 
   .hero-about span.description.text-white.text-uppercase {
     font-weight: 300 !important;
     font-size: 9px !important;
-    text-align: center;
+    text-align: start;
     text-shadow: none !important;
     font-family: 'Raleway', Arial, Helvetica, sans-serif !important;
   }
