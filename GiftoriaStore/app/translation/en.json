@@ -84,14 +84,13 @@
   "features_title_line1": "EXPERIENCE THE ELEGANCE",
   "features_title_line2": "OF TIMESLESS GIFTING",
   "features_slide_1_title": "Elegant Packaging",
-"features_slide_1_description": "Our gifts are wrapped in premium materials to leave a lasting first impression.",
-"features_slide_2_title": "Personalized Touch",
-"features_slide_2_description": "Add your own message or style to create a truly unique and memorable gift.",
-"features_slide_3_title": "Fast Delivery",
-"features_slide_3_description": "Receive your gifts quickly and safely, right at your doorstep without delay.",
-"features_slide_4_title": "Luxury Selection",
-"features_slide_4_description": "Choose from carefully selected gifts prized for their quality, style.",
-
+  "features_slide_1_description": "Our gifts are wrapped in premium materials to leave a lasting first impression.",
+  "features_slide_2_title": "Personalized Touch",
+  "features_slide_2_description": "Add your own message or style to create a truly unique and memorable gift.",
+  "features_slide_3_title": "Fast Delivery",
+  "features_slide_3_description": "Receive your gifts quickly and safely, right at your doorstep without delay.",
+  "features_slide_4_title": "Luxury Selection",
+  "features_slide_4_description": "Choose from carefully selected gifts prized for their quality, style.",
   "store_title": "COME STROLL THROUGH OUR FLOWER PARLOUR",
   "qatar_store_title": "Qatar Store",
   "london_store_title": "London Store",
@@ -121,9 +120,9 @@
   "footer_address_line1": "Address: 1234 Gifts Street, Suite 567,",
   "footer_address_line2": "New York, NY 10001",
   "footer_email_label": "Email:",
-  "footer_email": "info@Giftsshop.com",
+  "footer_email": "contact@giftoria.me",
   "footer_phone_label": "Phone:",
-  "footer_phone": "(212) 555‑1234",
+  "footer_phone": "(+974)7773 1974",
   "footer_get_direction": "Get direction",
   "footer_help": "Help",
   "footer_about_us": "About us",
@@ -235,12 +234,11 @@
     "faq": "FAQ",
     "men": "MEN",
     "women": "WOMEN",
-    "email":"Email",
-    "phone":"Phone",
-    "login":"LOGIN",
-    "need_help":"NEED_HELP"
+    "email": "Email",
+    "phone": "Phone",
+    "login": "LOGIN",
+    "need_help": "NEED_HELP"
   },
-
   "marquee": {
     "item1": "Let your heart bloom, discover flowers that whisper stories of timeless love.",
     "item2": "Let your heart bloom, discover flowers that whisper stories of timeless love.",
@@ -273,8 +271,7 @@
     "zip_code": "Zip code",
     "estimate": "Estimate",
     "currency": "USD"
-  }
-  ,
+  },
   "checkout": {
     "title_billing_details": "Billing details",
     "error_cart_empty": "Your cart is empty",
@@ -284,7 +281,6 @@
     "success_order_placed": "Order placed successfully!",
     "validation_error_prefix": "Validation error",
     "failure_order": "Failed to place order. Please try again.",
-
     "first_name": "First Name",
     "last_name": "Last Name",
     "country_region": "Country/Region",
@@ -305,7 +301,6 @@
     "terms_and_conditions": "terms and conditions",
     "processing": "Processing...",
     "place_order": "Place order",
-    
     "gift_card_options": "Gift Card Options",
     "add_gift_card": "Add Gift Card to Order",
     "loading_templates": "Loading gift card templates...",
@@ -326,7 +321,6 @@
     "template_name": "Template",
     "cancel": "Cancel"
   },
- 
   "footer_language_support": "Language Support",
   "footer_language_text": "Our website supports multiple languages",
   "footer_privacy_policy": "Privacy Policy",
@@ -340,16 +334,14 @@
   "footer_about_us_link": "About Us",
   "footer_account": "Account",
   "partners_heading": "OUR ESTEEMED PARTNERS",
-  "partners_description": "In the art of gifting, collaboration is our greatest treasure. We proudly work with distinguished artisans, chocolatiers, and florists who share our devotion to authenticity and craftsmanship—together creating experiences that transcend the ordinary."
-,
-"selling_fast": "Selling fast! {{stock}} items in stock.",
-"estimated_delivery_time_label": "Estimated delivery time",
+  "partners_description": "In the art of gifting, collaboration is our greatest treasure. We proudly work with distinguished artisans, chocolatiers, and florists who share our devotion to authenticity and craftsmanship—together creating experiences that transcend the ordinary.",
+  "selling_fast": "Selling fast! {{stock}} items in stock.",
+  "estimated_delivery_time_label": "Estimated delivery time",
   "hours": "hours",
   "not_available": "N/A",
   "estimate_delivery_international": "Estimate delivery {{internationalDays}} Business days to international / {{localDays}} days to {{country}}",
   "guarantee_safe_checkout": "Guarantee safe & secure checkout",
   "qatar": "Qatar",
-  
   "orders": {
     "my_orders": "My Orders",
     "order_number": "Order #{{number}}",
@@ -387,12 +379,10 @@
     "your_note": "Your Note",
     "cancel": "Cancel"
   },
-  
   "shop_page": {
     "our_products": "Our Products",
     "shop_latest_selection": "Shop through our latest selection of Gifts"
   },
-  
   "product_details": {
     "tabs": {
       "description": "Description",
@@ -430,7 +420,6 @@
       "contact_us_text": "For any questions regarding returns or to report an issue with your order, please contact our customer service team at support@giftoria.com or call us at (555) 123-4567. We're here to ensure your complete satisfaction with every purchase."
     }
   },
-  
   "product_detail": {
     "best_seller": "BEST SELLER",
     "quantity": "Quantity",
@@ -444,22 +433,16 @@
     "buy_with": "Buy with",
     "more_payment_options": "More payment options"
   },
-  
   "my_account_title": "My Account",
-  
   "my_orders_title": "My Orders",
-  
   "my_account_edit_title": "My Account Edit",
-  
   "order_details_title": "Order Details",
-  
   "dashboard_nav": {
     "dashboard": "Dashboard",
     "orders": "Orders",
-    "account_details": "Account Details", 
+    "account_details": "Account Details",
     "logout": "Logout"
   },
-  
   "dashboard": {
     "hello": "Hello",
     "guest": "Guest",
@@ -469,11 +452,10 @@
     "edit_account": "edit your password and account details",
     "description_part3": "."
   },
-  
   "orders_table": {
     "order": "Order",
     "date": "Date",
-    "status": "Status", 
+    "status": "Status",
     "total": "Total",
     "actions": "Actions",
     "view_details": "View Details",
@@ -485,11 +467,10 @@
     "login_required": "Please log in to view your orders.",
     "not_available": "N/A"
   },
-  
   "order_details": {
     "order_history": "Order History",
     "item_details": "Item Details",
-    "my_notes": "My Notes", 
+    "my_notes": "My Notes",
     "status_timeline": "Status Timeline",
     "order_info": "Order Info",
     "order_placed": "Order Placed",
@@ -590,11 +571,10 @@
     "already_have_account": "Already have an account? Log in here",
     "registration_failed": "Registration failed"
   },
-  
-    "category": {
-      "fashion": "Fashion",
-      "men": "Men"
-    },
+  "category": {
+    "fashion": "Fashion",
+    "men": "Men"
+  },
   "filter": {
     "title": "Filter",
     "categories": "Product Categories",
@@ -651,16 +631,10 @@
     "checkout_button": "Check out",
     "guarantee_text": "Guarantee Safe Checkout"
   },
-  
-    "toolbar_shop": "Shop",
-    "toolbar_account": "Account",
-    "toolbar_cart": "Cart",
-    "checkout.signature_draw":"Draw",
-    "checkout.signature_text" :"Text",
-   
-    "checkout.error_fill_required_fields": "Please fill all required fields"
-     
-
-  
+  "toolbar_shop": "Shop",
+  "toolbar_account": "Account",
+  "toolbar_cart": "Cart",
+  "checkout.signature_draw": "Draw",
+  "checkout.signature_text": "Text",
+  "checkout.error_fill_required_fields": "Please fill all required fields"
 }
-

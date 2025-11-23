@@ -114,18 +114,22 @@
   src: url("/fonts/beINNormal.ttf") format("opentype");
   font-style: normal;
 }
-.widget-wrap-checkout{
+
+.widget-wrap-checkout {
   background-color: #efeae3 !important;
 }
+
 /* be IN Normal font will be used from system fonts or web fonts if available */
 .header-style-10 .filter-option-inner-inner,
 .header-style-10 .dropdown.bootstrap-select.image-select.style-default>button::after {
   color: #000000;
 }
+
 .modalDemo .modal-dialog {
 
-    height: calc(100vh + 50px) !important;
+  height: calc(100vh + 50px) !important;
 }
+
 .header-shadow .filter-option-inner-inner,
 .header-shadow .dropdown.bootstrap-select.image-select.style-default>button::after {
   color: #000000;
@@ -187,9 +191,10 @@ header#header {
   font-weight: 400 !important;
   text-transform: uppercase;
 }
+
 /* Hide Next.js development error notifications and popups */
 #nextjs-toast-errors-parent {
-display: none !important;
+  display: none !important;
 }
 
 /* Hide Next.js portal error notifications (the small popup on left) */
@@ -215,6 +220,7 @@ nextjs-portal * {
 [data-react-error-boundary] {
   display: none !important;
 }
+
 @media (max-width: 576px) {
   .box3 {
     grid-template-columns: 1fr;
@@ -385,12 +391,14 @@ html.arabic-font header#header .main-menu>li>a {
 html.arabic-font .shop-details-page p {
   font-family: "be IN Normal", sans-serif !important;
 }
+
 @font-face {
   font-family: "VIP Rawy Bold";
   src: url("/fonts/VIP Rawy Bold Bold.otf") format("opentype");
   font-weight: bold;
   font-style: normal;
 }
+
 /* =========================================================
    🌐 Global Styles
 header,
@@ -410,14 +418,41 @@ header,
   background: white;
   border: 1px solid #ddd;
   border-radius: 6px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 
 @media (max-width: 768px) {
+  .hero-about span.heading.bell-medium.text-white.mb-5 {
+    font-size: 26px !important;
+    text-align: center;
+    padding-top: 0px;
+    margin-bottom: 0px !important;
+  }
+
+  .hero-about span.description.text-white.text-uppercase {
+    font-weight: 300 !important;
+    font-size: 9px !important;
+    text-align: center;
+    text-shadow: none !important;
+    font-family: 'Raleway', Arial, Helvetica, sans-serif !important;
+  }
+
+  .hero-about .mt-5.hero-desc {
+    margin: 0 !important;
+  }
+
+  .home-categories .tf-btn:not(.btn-xl, .btn-md, .btn-line, .style-2, .style-3) {
+    padding: 10px 14px 10px 0px !important;
+  }
+
+  .home-categories .swiper-slide {
+    width: 30% !important;
+  }
 
   /* ---------- Global Layout Fixes ---------- */
-  html, body {
+  html,
+  body {
     overflow-x: hidden !important;
     width: 100vw !important;
   }
@@ -449,13 +484,25 @@ header,
 
   /* ---------- Typography ---------- */
   body {
-    font-size: 14px !important; /* base size */
+    font-size: 14px !important;
+    /* base size */
   }
 
-  h1 { font-size: 22px !important; }
-  h2 { font-size: 18px !important; }
-  h3 { font-size: 16px !important; }
-  h4 { font-size: 14px !important; }
+  h1 {
+    font-size: 22px !important;
+  }
+
+  h2 {
+    font-size: 18px !important;
+  }
+
+  h3 {
+    font-size: 16px !important;
+  }
+
+  h4 {
+    font-size: 14px !important;
+  }
 
   p,
   span,
@@ -468,7 +515,7 @@ header,
   .box-content .ecomus-button-link {
     margin-top: 0px !important;
     padding: 8px 16px !important;
-   
+
   }
 
   .box-content .ecomus-button-link span {
@@ -478,7 +525,7 @@ header,
   /* ---------- Banner Section ---------- */
   .banner-hero-collection-wrap .text-c {
     width: 100% !important;
-  
+
     text-align: start;
   }
 
@@ -495,7 +542,8 @@ header,
   .banner-hero-collection-wrap .text-c .c-butn {
     font-size: 10px !important;
   }
-  .banner-hero-collection-wrap .box-content{
+
+  .banner-hero-collection-wrap .box-content {
     top: 35%;
   }
 
@@ -520,15 +568,20 @@ header,
   }
 
   .occasions .collection-content h3 {
-    font-size: 16px !important;
+    font-size: 14px !important;
+    line-height: 14px;
+    margin-bottom: 10px !important;
+
   }
 
   .occasions .collection-content p {
-    font-size: 13px !important;
+    font-size: 12px !important;
+    line-height: 16px;
+    margin-bottom: 2px !important;
   }
 
   .occasions .collection-content a {
-    font-size: 12px !important;
+    font-size: 10px !important;
   }
 
   /* ---------- Category Section ---------- */
@@ -543,28 +596,34 @@ header,
   }
 
   .flat-spacing-12 .viewAllCategs {
-    font-size: 12px !important;
-    margin-top: 8px;
+    font-size: 10px !important;
+    /* margin-top: 8px; */
+    margin-right: -8px !important;
   }
 
   .flat-spacing-12 .collection-content p {
-    font-size: 13px !important;
+    font-size: 10px !important;
   }
-  .footer-newsletter h6{
+
+  .footer-newsletter h6 {
     display: none !important;
-    
+
   }
+
   .space {
-    display: none  !important;
+    display: none !important;
   }
 }
 
 @media (max-width: 768px) {
   header#header {
-    overflow: visible !important; /* ✅ allow dropdown to escape */
+    overflow: visible !important;
+    /* ✅ allow dropdown to escape */
   }
-  .hover-sw-nav img{
-    display: block;  }
+
+  .hover-sw-nav img {
+    display: block;
+  }
 }
 
 /* Force Add to Cart button style globally */
@@ -573,9 +632,10 @@ header,
   color: #000 !important;
   border: none !important;
 }
+
 @media (max-width: 768px) {
   .heading-30 {
-    font-size: 22px !important;
+    font-size: 18px !important;
   }
 }
 
@@ -584,13 +644,46 @@ header,
 /* about us responsive */
 /* hero */
 @media (max-width: 768px) {
+  .experience1-home span.title2ndline {
+    width: 100%;
+    text-align: center !important;
+  }
+
+  .experience1-home .tf-icon-box p {
+    text-align: start !important;
+    margin: 0 !important;
+    margin-top: 12px !important;
+    width: 100% !important;
+    max-width: 500px;
+  }
+
+  i.icon.icon-arrow1-top-left {
+    font-size: 8px !important;
+  }
+
+  .flat-spacing-15 {
+    padding-bottom: 20px;
+  }
+
+  .flat-spacing-18 {
+    padding: 26px 14px 30px 14px;
+  }
+
+  .flat-spacing-12 {
+    padding-bottom: 30px !important;
+  }
+
+  .flat-spacing-12 .flat-title h3 {
+    font-size: 14px !important;
+  }
 
   /* Title */
   .heading {
-    font-size: 20px !important;
-    line-height: 26px !important;
-   
-    margin-top: 60px !important;   /* adjust if needed */
+    font-size: 16px !important;
+    line-height: 22px !important;
+
+    margin-top: 60px !important;
+    /* adjust if needed */
     display: block;
   }
 
@@ -598,23 +691,25 @@ header,
   .description {
     font-size: 11px !important;
     line-height: 17px !important;
-   
+
     display: block;
   }
 
   /* Container width */
   .container-te {
     max-width: 300px !important;
-    margin: 0 auto !important; /* center the block */
+    margin: 0 auto !important;
+    /* center the block */
   }
 
   /* Fix spacing between title and subtitle */
   .mt-5 {
-   margin-bottom: 20px !important;
+    margin-bottom: 20px !important;
   }
 
- 
+
 }
+
 /* brand presentation */
 
 /* =============================== */
@@ -622,7 +717,7 @@ header,
 /* =============================== */
 @media (max-width: 768px) {
 
-  
+
 
   /* Subtitle */
   .flat-title .sub-title {
@@ -643,7 +738,7 @@ header,
     width: 100% !important;
     text-align: start !important;
     justify-content: flex-start !important;
-    
+
   }
 
   /* Item title */
@@ -713,22 +808,28 @@ header,
   }
 
 }
+
 @media (max-width: 768px) {
   .products-homeP .heading-30 {
-    font-size: 20px !important;   /* title size on tablet/phone */
+    font-size: 20px !important;
+    /* title size on tablet/phone */
     text-align: start !important;
     margin-top: 20px !important;
   }
-  .productName{
-    font-size: 12px !important ;
+
+  .productName {
+    font-size: 12px !important;
   }
+
   .card-product .productName {
     display: block;
-    min-height: 40px; /* enough space for 2 lines */
+    min-height: 40px;
+    /* enough space for 2 lines */
     line-height: 20px;
-    overflow: hidden; /* hide overflow if name is too long */
+    overflow: hidden;
+    /* hide overflow if name is too long */
   }
-  
+
   /* Optional: keep card height consistent */
   .card-product .inner-info {
     min-height: 80px;
@@ -775,7 +876,7 @@ header,
   .tf-icon-box .title {
     font-size: 14px !important;
     line-height: 20px !important;
-    text-align: start !important; 
+    text-align: start !important;
   }
 
   /* Item description */
@@ -795,6 +896,7 @@ header,
 
 /* last  */
 @media (max-width: 768px) {
+
   /* Stack grid to column */
   .tf-grid-layout {
     display: flex;
@@ -814,7 +916,7 @@ header,
   /* Reduce heading size */
   .tf-content-wrap .heading span {
     font-size: 20px !important;
-    
+
   }
 
   /* Reduce paragraph size and line height */
@@ -838,10 +940,12 @@ header,
     height: auto !important;
     max-width: 400px;
   }
-  .flat-spacing-22{
+
+  .flat-spacing-22 {
     padding: 0px !important;
   }
-  .talbizsofien{
+
+  .talbizsofien {
     display: none;
   }
 }
@@ -852,7 +956,7 @@ header,
   .flat-title,
   .flat-title * {
     text-align: start !important;
-   
+
   }
 
   /* FORCE ONE CLEAN LEFT COLUMN */
@@ -863,7 +967,7 @@ header,
   .col-12,
   .col-md-6 {
     width: 100% !important;
-    
+
   }
 
   /* FEATURE BOX */
@@ -895,5 +999,3 @@ header,
     margin-top: 20px !important;
   }
 }
-
-

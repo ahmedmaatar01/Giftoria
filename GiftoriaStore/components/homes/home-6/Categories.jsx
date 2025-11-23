@@ -52,7 +52,7 @@ export default function Categories() {
     return `${API_STORAGE_URL}/${candidate}`;
   };
   return (
-    <section className="flat-spacing-12">
+    <section className="flat-spacing-12 home-categories">
       <div className="container">
         <div
           className="flat-title flex-row justify-content-between align-items-center px-0 wow fadeInUp"
