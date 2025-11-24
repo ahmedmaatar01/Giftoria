@@ -69,7 +69,12 @@ export default function Footer4({ bgColor = "" }) {
       id="footer"
       className={`footer has-all-border has-border-full ${bgColor}`}
     >
-      <div className="footer-wrap">
+      <div className="footer-wrap"  style={{
+        backgroundImage: "url('/images/footer_bg.jpg')",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: "center"
+      }}>
         <div className="footer-body">
           <div className="container">
             <div className="row">

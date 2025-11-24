@@ -67,7 +67,12 @@ export default function Footer5() {
   };
   return (
     <footer id="footer" className="footer background-gray md-pb-70">
-      <div className="footer-wrap">
+      <div className="footer-wrap" style={{
+        backgroundImage: "url('/images/footer_bg.jpg')",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: "center"
+      }}>
         <div className="footer-body">
           <div className="container">
             <div className="row">

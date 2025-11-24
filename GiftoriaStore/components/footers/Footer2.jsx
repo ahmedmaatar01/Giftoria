@@ -69,7 +69,12 @@ export default function Footer2({ bgColor = "background-black" }) {
 
   return (
     <footer id="footer" className={`footer ${bgColor}`}>
-      <div className="footer-wrap wow fadeIn" data-wow-delay="0s">
+      <div className="footer-wrap wow fadeIn" data-wow-delay="0s"  style={{
+        backgroundImage: "url('/images/footer_bg.jpg')",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: "center"
+      }}>
         <div className="footer-body">
           <div className="container">
             <div className="row">

@@ -26,7 +26,12 @@ export default function Footer6() {
   }, []); // Empty dependency array means this will run only once on mount
   return (
     <footer id="footer" className="footer md-pb-70">
-      <div className="footer-wrap wow fadeIn" data-wow-delay="0s">
+      <div className="footer-wrap wow fadeIn" data-wow-delay="0s"  style={{
+        backgroundImage: "url('/images/footer_bg.jpg')",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: "center"
+      }}>
         <div className="footer-body">
           <div className="container">
             <div className="row">

@@ -13,6 +13,7 @@ export default function ScrollTop() {
       role="button"
       aria-label="Open WhatsApp chat"
       title="WhatsApp"
+      className="Open_whatsapp"
       style={{
         position: "fixed",
         right: "30px",

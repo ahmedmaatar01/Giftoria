@@ -67,7 +67,12 @@ export default function Footer3() {
   };
   return (
     <footer id="footer" className="footer has-border has-border-full">
-      <div className="footer-wrap">
+      <div className="footer-wrap"  style={{
+        backgroundImage: "url('/images/footer_bg.jpg')",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: "center"
+      }}>
         <div className="footer-body">
           <div className="container">
             <div className="row">

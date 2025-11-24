@@ -858,6 +858,9 @@ header,
     width: 100%;
     margin-left: 0px !important;
   }
+  .Open_whatsapp{
+    display: none !important;
+  }
 
   /* Subtitle */
   .flat-wrap-iconbox .sub-title {
@@ -1005,5 +1008,21 @@ header,
     text-align: start !important;
     margin: 0 !important;
     margin-top: 20px !important;
+  }
+}
+@media (max-width: 768px) {
+  .footer-wrap {
+   min-height: 300px;    /* adjust until it looks good */
+  padding: 40px 0;      /* gives space for content */
+  background-size: contain !important;
+  background-position: top !important;
+  background-repeat: repeat !important;
+
+  }
+  .h1_prod{
+    font-size: 16px !important;
+  }
+  #p_prod{
+    font-size: 10px  !important;
   }
 }
