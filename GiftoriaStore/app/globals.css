@@ -423,6 +423,15 @@ header,
 
 
 @media (max-width: 768px) {
+  h5.product-title {
+    margin-top: 30px;
+    font-size: 22px;
+  }
+
+  .price-on-sale.raleway-bold {
+    font-size: 20px;
+  }
+
   .hero-about span.heading.bell-medium.text-white.mb-5 {
     font-size: 26px !important;
     text-align: start;
@@ -434,13 +443,30 @@ header,
     min-height: 480px;
   }
 
+  section.banner-hero-collection-wrap.banner-parallax.home-b-1 {
+    min-height: 480px !important;
+  }
+
+  .box-content.first-banner-home {
+    top: 42%;
+  }
+
   .box-content.first-banner-home {
     padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .arabic-font .hero-about span.heading.bell-medium.text-white.mb-5 {
+    font-size: 28px;
+  }
+
+  .arabic-font .hero-about span.description.text-white.text-uppercase {
+    font-size: 15px !important;
   }
 
   .hero-about span.description.text-white.text-uppercase {
     font-weight: 300 !important;
-    font-size: 9px !important;
+    font-size: 10px !important;
     text-align: start;
     text-shadow: none !important;
     font-family: 'Raleway', Arial, Helvetica, sans-serif !important;
@@ -543,16 +569,12 @@ header,
   }
 
   .banner-hero-collection-wrap .text-c .c-paragraph {
-    font-size: 12px !important;
+    font-size: 13px !important;
     letter-spacing: 0.5px;
   }
 
   .banner-hero-collection-wrap .text-c .c-butn {
     font-size: 10px !important;
-  }
-
-  .banner-hero-collection-wrap .box-content {
-    top: 35%;
   }
 
   /* ---------- Brand Logos ---------- */
@@ -858,7 +880,8 @@ header,
     width: 100%;
     margin-left: 0px !important;
   }
-  .Open_whatsapp{
+
+  .Open_whatsapp {
     display: none !important;
   }
 
@@ -1010,19 +1033,24 @@ header,
     margin-top: 20px !important;
   }
 }
+
 @media (max-width: 768px) {
   .footer-wrap {
-   min-height: 300px;    /* adjust until it looks good */
-  padding: 40px 0;      /* gives space for content */
-  background-size: contain !important;
-  background-position: top !important;
-  background-repeat: repeat !important;
+    min-height: 300px;
+    /* adjust until it looks good */
+    padding: 40px 0;
+    /* gives space for content */
+    background-size: contain !important;
+    background-position: top !important;
+    background-repeat: repeat !important;
 
   }
-  .h1_prod{
+
+  .h1_prod {
     font-size: 16px !important;
   }
-  #p_prod{
-    font-size: 10px  !important;
+
+  #p_prod {
+    font-size: 10px !important;
   }
 }

@@ -19,13 +19,9 @@ import {
   LazyQuickView,
   LazyQuickAdd,
   LazyProductSidebar,
-  LazyCompare,
   LazyShopCart,
   LazyAskQuestion,
-  LazyBlogSidebar,
-  LazyColorCompare,
   LazyDeliveryReturn,
-  LazyFindSize,
   LazyLogin,
   LazyMobileMenu,
   LazyRegister,
@@ -33,7 +29,6 @@ import {
   LazySearchModal,
   LazyToolbarBottom,
   LazyToolbarShop,
-  LazyNewsletterModal,
   LazyShareModal,
 } from "@/components/modals/LazyModals";
 
@@ -92,13 +87,9 @@ export default function RootLayout({ children }) {
               <LazyQuickView />
               <LazyQuickAdd />
               <LazyProductSidebar />
-              <LazyCompare />
               <LazyShopCart />
               <LazyAskQuestion />
-              <LazyBlogSidebar />
-              <LazyColorCompare />
               <LazyDeliveryReturn />
-              <LazyFindSize />
               <LazyLogin />
               <LazyMobileMenu />
               <LazyRegister />
@@ -106,7 +97,6 @@ export default function RootLayout({ children }) {
               <LazySearchModal />
               <LazyToolbarBottom />
               <LazyToolbarShop />
-              <LazyNewsletterModal />
               <LazyShareModal />
             </ErrorBoundary>
           )}

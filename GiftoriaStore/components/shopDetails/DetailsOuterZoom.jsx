@@ -83,7 +83,7 @@ export default function DetailsOuterZoom({ product }) {
                 <div className="tf-zoom-main" />
                 <div className="tf-product-info-list other-image-zoom">
                   <div className="tf-product-info-title">
-                    <h5 className="bell-t-medium" style={{ textTransform: "uppercase" }}>
+                    <h5 className="bell-t-medium product-title" style={{ textTransform: "uppercase" }}>
                       {i18n.language === "ar"
                         ? product.arabic_name || product.name
                         : product.name || product.name || "Product Name"}
