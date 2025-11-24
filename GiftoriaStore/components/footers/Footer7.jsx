@@ -69,7 +69,12 @@ export default function Footer7({ bgColor = "" }) {
 
   return (
     <footer id="footer" className={`footer md-pb-70 ${bgColor}`}>
-      <div className="footer-wrap">
+      <div className="footer-wrap" style={{
+        backgroundImage: "url('/images/footer_bg.jpg')",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: "center"
+      }}>
         <div className="footer-body">
           <div className="container">
             <div className="row">

@@ -39,6 +39,7 @@ export default function ToolbarBottom() {
           <div className="toolbar-label">{t("toolbar_cart")}</div>
         </a>
       </div>
+      
     </div>
   );
 }

@@ -36,7 +36,8 @@ export default function Footer1({ bgColor = "" }) {
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center"
-      }}>
+      }}
+      >
         <div className="footer-body">
           <div className="container">
             <div className="row">

@@ -115,13 +115,12 @@ export default function MobileMenu() {
 
         {/* Bottom Section */}
         <div className="mb-bottom">
-          <Link href="/login" className="site-nav-icon">
-            <i className="icon icon-account" />
-            {t("menu.login")}
-          </Link>
+  <a href="#login" data-bs-toggle="modal" className="site-nav-icon">
+    <i className="icon icon-account" />
+    {t("menu.login")}
+  </a>
+</div>
 
-          
-        </div>
       <style>
       ul, li{
         
