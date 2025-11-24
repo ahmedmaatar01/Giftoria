@@ -8,30 +8,40 @@ export default function ScrollTop() {
   };
 
   return (
-    <div
-      onClick={openWhatsApp}
-      role="button"
-      aria-label="Open WhatsApp chat"
-      title="WhatsApp"
-      className="Open_whatsapp"
-      style={{
-        position: "fixed",
-        right: "30px",
-        bottom: "30px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        cursor: "pointer",
-        zIndex: 9999,
-        transition: "transform .2s ease"
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = "scale(1.05)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = "scale(1)";
-      }}
-    >
+    <>
+      <style jsx>{`
+        .Open_whatsapp {
+          display: flex;
+        }
+        @media (max-width: 991px) {
+          .Open_whatsapp {
+            display: none !important;
+          }
+        }
+      `}</style>
+      <div
+        onClick={openWhatsApp}
+        role="button"
+        aria-label="Open WhatsApp chat"
+        title="WhatsApp"
+        className="Open_whatsapp"
+        style={{
+          position: "fixed",
+          right: "30px",
+          bottom: "30px",
+          alignItems: "center",
+          justifyContent: "center",
+          cursor: "pointer",
+          zIndex: 9999,
+          transition: "transform .2s ease"
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = "scale(1.05)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = "scale(1)";
+        }}
+      >
       {/* Monochrome WhatsApp SVG (black icon, white background) */}
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -47,5 +57,6 @@ export default function ScrollTop() {
         />
       </svg>
     </div>
+    </>
   );
 }
