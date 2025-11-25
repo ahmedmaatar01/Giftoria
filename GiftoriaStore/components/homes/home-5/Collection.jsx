@@ -6,7 +6,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import { useTranslation } from "react-i18next";
 
-import { API_BASE_URL_WITH_API, API_STORAGE_URL } from "@/utils/config";
 const resolveOccasionImage = (o) => {
   const featured = o?.images?.find?.((img) => img?.is_featured == 1);
   let candidate =
@@ -18,13 +17,13 @@ const resolveOccasionImage = (o) => {
     o?.thumbnail;
   if (!candidate || typeof candidate !== "string") return null;
   if (/^https?:\/\//i.test(candidate)) return candidate;
-  candidate = candidate.replace(/^\/\//, "");
-  if (candidate.startsWith("storage/")) return `${API_STORAGE_URL}/${candidate.replace(/^storage\//, "")}`;
+  candidate = candidate.replace(/^\/+/, "");
+  if (candidate.startsWith("storage/")) return `http://localhost:8000/${candidate}`;
   if (candidate.startsWith("public/")) {
     const normalized = candidate.replace(/^public\//, "storage/");
-    return `${API_STORAGE_URL}/${normalized.replace(/^storage\//, "")}`;
+    return `http://localhost:8000/${normalized}`;
   }
-  return `${API_STORAGE_URL}/${candidate}`;
+  return `http://localhost:8000/storage/${candidate}`;
 };
 
 export default function Collection() {
@@ -36,7 +35,7 @@ export default function Collection() {
     const fetchOccasions = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`${API_BASE_URL_WITH_API}/occasions`);
+        const res = await fetch("http://localhost:8000/api/occasions");
         const data = await res.json();
         const items = Array.isArray(data) ? data : data?.data || [];
         setOccasions(items);
@@ -60,17 +59,17 @@ export default function Collection() {
 
           <div className="box-sw-navigation">
             <div className="nav-sw nav-next-slider nav-next-collection snbp123">
-              <span className={`icon ${i18n.language === "ar" ? "icon-arrow-right" : "icon-arrow-left"}`} />
+              <span className="icon icon-arrow-left" />
             </div>
             <div className="nav-sw nav-prev-slider nav-prev-collection snbn123">
-              <span className={`icon ${i18n.language === "ar" ? "icon-arrow-left" : "icon-arrow-right"}`} />
+              <span className="icon icon-arrow-right" />
             </div>
           </div>
         </div>
 
         <Swiper
           key={`collection-swiper-${i18n.language}`}
-          dir={i18n.language === "ar" ? "rtl" : "ltr"}
+          dir="ltr"
           slidesPerView={3.5}
           spaceBetween={30}
           loop={occasions.length > 3}
@@ -101,17 +100,13 @@ export default function Collection() {
           }}
           modules={[Navigation]}
           navigation={{
-            prevEl: i18n.language === "ar" ? ".snbn123" : ".snbp123",
-            nextEl: i18n.language === "ar" ? ".snbp123" : ".snbn123",
+            prevEl: ".snbp123",
+            nextEl: ".snbn123",
           }}
           onSwiper={(swiper) => {
-            // Force update navigation after swiper initialization
             setTimeout(() => {
               swiper.navigation.update();
               swiper.update();
-              if (i18n.language === "ar") {
-                swiper.changeLanguageDirection("rtl");
-              }
             }, 150);
           }}
           onSlideChange={() => {
