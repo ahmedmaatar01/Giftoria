@@ -104,7 +104,7 @@ export default function Header10() {
             </Link>
           </div>
 
-          {/* Icons (Account, Wishlist, Cart) */}
+          {/* Icons (Account, Cart only for desktop, Language) */}
           <div className="col-xl-5 col-md-4 col-3">
             <ul className="nav-icon d-flex justify-content-end align-items-center gap-20">
               <li className="nav-account">
@@ -113,27 +113,13 @@ export default function Header10() {
                   className="nav-icon-item"
                   aria-label={t("header.account")}
                   onClick={handleAccountClick}
-
                 >
                   <i className="icon icon-account" />
                 </a>
               </li>
-              <li className="nav-cart">
-                <a
-                  href="#shoppingCart"
-                  data-bs-toggle="modal"
-                  className="nav-icon-item"
-                  aria-label={t("header.cart")}
-                >
-                  <i className="icon icon-bag" />
-                  <span className="count-box">
-                    <CartLength />
-                  </span>
-                </a>
-              </li>
+              {/* Cart icon removed for mobile menu */}
               <li className="nav-cart">
                 <div className="top-bar-language tf-cur justify-content-end">
-
                   <div className="tf-languages">
                     <LanguageSelect
                       parentClassName={"image-select center style-default type-languages"}

@@ -107,106 +107,98 @@ export default function MobileMenu() {
       <div className="mb-canvas-content">
         <div className="mb-body">
           <ul className="nav-ul-mb" id="wrapper-menu-navigation">
-
-          <ul className="nav-ul-mb">
-
-<li className="nav-mb-item">
-  <Link href="/" className={`mb-menu-link ${pathname === "/" ? "activeMenu" : ""}`}>
-    {t("menu.home")}
-  </Link>
-</li>
-
-<li className="nav-mb-item">
-  <div 
-    className={`mb-menu-link ${pathname.includes("shop") ? "activeMenu" : ""}`}
-    onClick={() => setShopExpanded(!shopExpanded)}
-    style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
-  >
-    <span>{t("menu.shop")}</span>
-    <i className={`icon ${shopExpanded ? 'icon-arrow-up' : 'icon-arrow-down'}`} style={{ fontSize: '12px' }} />
-  </div>
-  
-  {shopExpanded && (
-    <ul className="sub-nav-menu" style={{ paddingLeft: '20px', marginTop: '10px' }}>
-      <li style={{ marginBottom: '15px' }}>
-        <div className="menu-heading" style={{ fontWeight: 'bold', marginBottom: '8px', fontSize: '14px' }}>
-          {i18n.language === 'ar' ? 'التصنيفات' : 'Categories'}
-        </div>
-        <ul style={{ paddingLeft: '0', listStyle: 'none' }}>
-          {!loadingCategories && categories.length > 0 ? (
-            categories.map((category) => (
-              <li key={category.id} style={{ marginBottom: '6px' }}>
-                <Link
-                  href={`/shop-default?category=${category.id}`}
-                  className="mb-menu-link"
-                  style={{ fontSize: '13px' }}
-                >
-                  {i18n.language === 'ar' && category.name_ar 
-                    ? category.name_ar 
-                    : category.name}
-                </Link>
-              </li>
-            ))
-          ) : (
-            <li className="text-muted" style={{ fontSize: '12px' }}>
-              {loadingCategories ? 'Loading...' : 'No categories'}
+            {/* Home link */}
+            <li className="nav-mb-item">
+              <Link href="/" className={`mb-menu-link ${pathname === "/" ? "activeMenu" : ""}`}>
+                {t("menu.home")}
+              </Link>
             </li>
-          )}
-        </ul>
-      </li>
-      
-      <li>
-        <div className="menu-heading" style={{ fontWeight: 'bold', marginBottom: '8px', fontSize: '14px' }}>
-          {i18n.language === 'ar' ? 'المناسبات' : 'Occasions'}
-        </div>
-        <ul style={{ paddingLeft: '0', listStyle: 'none' }}>
-          {!loadingOccasions && occasions.length > 0 ? (
-            occasions.map((occasion) => (
-              <li key={occasion.id} style={{ marginBottom: '6px' }}>
-                <Link
-                  href={`/shop-collection-sub?occasion=${occasion.id}`}
-                  className="mb-menu-link"
-                  style={{ fontSize: '13px' }}
-                >
-                  {i18n.language === 'ar' && occasion.arabic_name 
-                    ? occasion.arabic_name 
-                    : occasion.name}
-                </Link>
-              </li>
-            ))
-          ) : (
-            <li className="text-muted" style={{ fontSize: '12px' }}>
-              {loadingOccasions ? 'Loading...' : 'No occasions'}
+            {/* Shop expandable section */}
+            <li className="nav-mb-item">
+              <div 
+                className={`mb-menu-link ${pathname.includes("shop") ? "activeMenu" : ""}`}
+                onClick={() => setShopExpanded(!shopExpanded)}
+                style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+              >
+                <span>{t("menu.shop")}</span>
+                <i className={`icon ${shopExpanded ? 'icon-arrow-up' : 'icon-arrow-down'}`} style={{ fontSize: '12px' }} />
+              </div>
+              {shopExpanded && (
+                <ul className="sub-nav-menu" style={{ paddingLeft: '20px', marginTop: '10px' }}>
+                  <li style={{ marginBottom: '15px' }}>
+                    <div className="menu-heading" style={{ fontWeight: 'bold', marginBottom: '8px', fontSize: '14px' }}>
+                      {i18n.language === 'ar' ? 'التصنيفات' : 'Categories'}
+                    </div>
+                    <ul style={{ paddingLeft: '0', listStyle: 'none' }}>
+                      {!loadingCategories && categories.length > 0 ? (
+                        categories.map((category) => (
+                          <li key={category.id} style={{ marginBottom: '6px' }}>
+                            <Link
+                              href={`/shop-default?category=${category.id}`}
+                              className="mb-menu-link"
+                              style={{ fontSize: '13px' }}
+                            >
+                              {i18n.language === 'ar' && category.name_ar 
+                                ? category.name_ar 
+                                : category.name}
+                            </Link>
+                          </li>
+                        ))
+                      ) : (
+                        <li className="text-muted" style={{ fontSize: '12px' }}>
+                          {loadingCategories ? 'Loading...' : 'No categories'}
+                        </li>
+                      )}
+                    </ul>
+                  </li>
+                  <li>
+                    <div className="menu-heading" style={{ fontWeight: 'bold', marginBottom: '8px', fontSize: '14px' }}>
+                      {i18n.language === 'ar' ? 'المناسبات' : 'Occasions'}
+                    </div>
+                    <ul style={{ paddingLeft: '0', listStyle: 'none' }}>
+                      {!loadingOccasions && occasions.length > 0 ? (
+                        occasions.map((occasion) => (
+                          <li key={occasion.id} style={{ marginBottom: '6px' }}>
+                            <Link
+                              href={`/shop-collection-sub?occasion=${occasion.id}`}
+                              className="mb-menu-link"
+                              style={{ fontSize: '13px' }}
+                            >
+                              {i18n.language === 'ar' && occasion.arabic_name 
+                                ? occasion.arabic_name 
+                                : occasion.name}
+                            </Link>
+                          </li>
+                        ))
+                      ) : (
+                        <li className="text-muted" style={{ fontSize: '12px' }}>
+                          {loadingOccasions ? 'Loading...' : 'No occasions'}
+                        </li>
+                      )}
+                    </ul>
+                  </li>
+                </ul>
+              )}
             </li>
-          )}
-        </ul>
-      </li>
-    </ul>
-  )}
-</li>
-
-<li className="nav-mb-item">
-  <Link 
-    href="/about-us" 
-    className={`mb-menu-link ${pathname.includes("about") ? "activeMenu" : ""}`}
-  >
-    {t("menu.about")}
-  </Link>
-</li>
-
-<li className="nav-mb-item">
-  <Link 
-    href="/contact-2" 
-    className={`mb-menu-link ${pathname.includes("contact") ? "activeMenu" : ""}`}
-  >
-    {t("menu.contact")}
-  </Link>
-</li>
-
-</ul>
-
-
-          
+            {/* About link */}
+            <li className="nav-mb-item">
+              <Link 
+                href="/about-us" 
+                className={`mb-menu-link ${pathname.includes("about") ? "activeMenu" : ""}`}
+              >
+                {t("menu.about")}
+              </Link>
+            </li>
+            {/* Contact link */}
+            <li className="nav-mb-item">
+              <Link 
+                href="/contact-2" 
+                className={`mb-menu-link ${pathname.includes("contact") ? "activeMenu" : ""}`}
+              >
+                {t("menu.contact")}
+              </Link>
+            </li>
+            {/* Cart icon intentionally omitted for mobile menu */}
           </ul>
 
           {/* Other content */}
@@ -221,8 +213,18 @@ export default function MobileMenu() {
             </div>
 
             <ul className="mb-info">
-              <li>{t("menu.email")}: <b>info@fashionshop.com</b></li>
-              <li>{t("menu.phone")}: <b>(212) 555-1234</b></li>
+              <li>
+                {t("menu.email")}: 
+                <a href="mailto:contact@giftoria.me" className="mb-link">
+                  <b>contact@giftoria.me</b>
+                </a>
+              </li>
+              <li>
+                {t("menu.phone")}: 
+                <a href="tel:+97477731974" className="mb-link">
+                  <b className="arabic_div">(+974) 7773 1974</b>
+                </a>
+              </li>
             </ul>
 
           </div>

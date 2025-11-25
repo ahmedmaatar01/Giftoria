@@ -15,7 +15,7 @@ export default function page() {
       <div className="tf-page-title">
         <div className="container-full">
           <h1 
-          
+            className="h1_prod"
             style={{ 
               fontSize: i18n.language === "ar" ? "36px" : "32px",
               textAlign: "center",
