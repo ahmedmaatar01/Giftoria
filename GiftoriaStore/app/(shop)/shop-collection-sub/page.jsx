@@ -37,14 +37,14 @@ export default function Page() {
     fetchOccasion();
   }, [occasionId]);
 
-  const displayName = occasion 
+  const displayName = occasion
     ? (i18n.language === 'ar' && occasion.arabic_name ? occasion.arabic_name : occasion.name)
     : "New Arrival";
 
-    const displayDescription = occasion 
-    ? (i18n.language === 'ar' && occasion.arabic_description 
-        ? occasion.arabic_description 
-        : occasion.description)
+  const displayDescription = occasion
+    ? (i18n.language === 'ar' && occasion.arabic_description
+      ? occasion.arabic_description
+      : occasion.description)
     : "Shop through our latest selection of Fashion";
   ;
 
@@ -53,8 +53,9 @@ export default function Page() {
       <Header10 />
       <div className="tf-page-title">
         <div className="container-full">
-          <h1 
-            style={{ 
+          <h1
+            className="h1_prod"
+            style={{
               fontSize: i18n.language === "ar" ? "36px" : "32px",
               textAlign: "center",
               textTransform: "uppercase",

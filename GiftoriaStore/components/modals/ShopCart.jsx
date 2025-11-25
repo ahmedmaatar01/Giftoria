@@ -63,7 +63,7 @@ export default function ShopCart() {
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="header">
-            <div className="title fw-5 text-uppercase">{t("cart.title")}</div>
+            <div className="title title-header-c fw-5 text-uppercase">{t("cart.title")}</div>
             <span
               className="icon-close icon-close-popup"
               data-bs-dismiss="modal"
@@ -304,8 +304,8 @@ export default function ShopCart() {
                 </div> */}
                 <div className="tf-mini-cart-bottom-wrap">
                   <div className="tf-cart-totals-discounts">
-                    <div className="tf-cart-total  text-uppercase">{t("cart.subtotal")}</div>
-                    <div className="tf-totals-total-value fw-6" dangerouslySetInnerHTML={{
+                    <div className="tf-cart-total  text-uppercase title-header-c">{t("cart.subtotal")}</div>
+                    <div className="tf-totals-total-value fw-6 title-header-c" dangerouslySetInnerHTML={{
                       __html: wrapNumbers(`$${totalPrice.toFixed(2)} ${t("cart.currency")}`)
                     }} />
                   </div>

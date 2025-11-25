@@ -425,7 +425,11 @@ header,
 @media (max-width: 768px) {
   h5.product-title {
     margin-top: 30px;
-    font-size: 22px;
+    font-size: 22px !important;
+  }
+
+  .modal-shopping-cart .title-header-c {
+    font-size: 16px !important;
   }
 
   .price-on-sale.raleway-bold {
@@ -469,7 +473,7 @@ header,
     font-size: 10px !important;
     text-align: start;
     text-shadow: none !important;
-    font-family: 'Raleway', Arial, Helvetica, sans-serif !important;
+    font-family: "be IN Normal", sans-serif !important;
   }
 
   .hero-about .mt-5.hero-desc {
