@@ -10,7 +10,7 @@ export default function Features() {
   const features = slides22.slice(0, 4);
 
   return (
-    <section className="flat-spacing-18 bg_beige-4">
+    <section className="flat-spacing-18 bg_beige-4 experience1-home">
       <div className="container">
         <div className="flat-title mb-lg text-center wow fadeInUp" data-wow-delay="0s">
           <span className={`title bell-medium heading-30`}>
@@ -23,7 +23,7 @@ export default function Features() {
               // English — 2 lines
               <>
                 {t("features_title_line1")} <br />
-                <span style={{ marginTop: "10px", display: "inline-block" }}>
+                <span className="title2ndline" style={{ marginTop: "10px", display: "inline-block" }}>
                   {t("features_title_line2")}
                 </span>
               </>

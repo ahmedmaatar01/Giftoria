@@ -1,13 +1,15 @@
 "use client";
 
 import React, { useRef, useState } from "react";
+import { API_BASE_URL_WITH_API } from "../../../utils/config";
 import { useTranslation } from "react-i18next";
 
 export default function ContactForm2() {
   const { t } = useTranslation();
   const formRef = useRef();
-  const [success, setSuccess] = useState(true);
+  const [success, setSuccess] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleShowMessage = () => {
     setShowMessage(true);
@@ -16,9 +18,37 @@ export default function ContactForm2() {
     }, 2000);
   };
 
-  const sendMail = (e) => {
-    // TODO: Implement actual email sending logic
-    handleShowMessage();
+  const sendMail = async () => {
+    if (!formRef.current) return;
+    const formData = new FormData(formRef.current);
+    const payload = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      message: formData.get('message'),
+    };
+    setLoading(true);
+    setSuccess(false);
+    try {
+      const res = await fetch(`${API_BASE_URL_WITH_API}/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+      const json = await res.json();
+      if (res.ok && json.success) {
+        setSuccess(true);
+        formRef.current.reset();
+      } else {
+        setSuccess(false);
+      }
+    } catch (err) {
+      setSuccess(false);
+    } finally {
+      setLoading(false);
+      handleShowMessage();
+    }
   };
 
   return (
@@ -76,22 +106,21 @@ export default function ContactForm2() {
             </div>
             <div className="send-wrap">
               <div className={`tfSubscribeMsg ${showMessage ? "active" : ""}`}>
-                {success ? (
-                  <p style={{ color: "rgb(52, 168, 83)" }}>
-                    {t("contact_form.success")}
-                  </p>
-                ) : (
-                  <p style={{ color: "red" }}>
-                    {t("contact_form.error")}
-                  </p>
+                {loading && <p>{t("contact_form.sending")}</p>}
+                {!loading && success && (
+                  <p style={{ color: "rgb(52, 168, 83)" }}>{t("contact_form.success")}</p>
+                )}
+                {!loading && !success && showMessage && (
+                  <p style={{ color: "red" }}>{t("contact_form.error")}</p>
                 )}
               </div>
               <button
                 type="submit"
                 className="tf-btn radius-3 btn-fill animate-hover-btn justify-content-center"
                 style={{ backgroundColor: '#F1ECE4', border: '1px solid #F1ECE4', color: '#000000' }}
+                disabled={loading}
               >
-                {t("contact_form.send_button")}
+                {loading ? t("contact_form.sending_button") : t("contact_form.send_button")}
               </button>
             </div>
           </form>

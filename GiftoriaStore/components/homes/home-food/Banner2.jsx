@@ -12,7 +12,7 @@ export default function Banner2({
 
   return (
     <section
-      className="banner-hero-collection-wrap banner-parallax "
+      className="banner-hero-collection-wrap banner-parallax home-b-1"
       style={{ position: 'relative', overflow: 'hidden' }}
     >
       {/* Background Video */}
@@ -51,7 +51,7 @@ export default function Banner2({
         }}
       />
 
-      <div className="box-content " style={{ position: 'relative', zIndex: 1 }}>
+      <div className="box-content first-banner-home" style={{ position: 'relative', zIndex: 1 }}>
         <div className="container" >
           <div className="text-c" style={{ width: "550px" }}>
             <h4 className="heading mb-4">

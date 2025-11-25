@@ -28,6 +28,12 @@ export default function Products2({ isProductDetail = false }) {
   // Detect if rendered on About Us page
   const isAboutUsPage = typeof window !== "undefined" && window.location.pathname.includes("about-us");
 
+  // Determine which title to show based on context
+  const getTitle = () => {
+    if (isProductDetail) return t("products2_title"); // "You may also like"
+    return t("best_seller_title");
+  };
+
   // Helper to resolve product image from API data
   const getItemImage = (product) => {
     try {
@@ -85,8 +91,9 @@ export default function Products2({ isProductDetail = false }) {
     },
   };
 
-  const { setQuickViewItem } = useContextElement();
   const {
+    setQuickViewItem,
+    setQuickAddItem,
     addToWishlist,
     isAddedtoWishlist,
     addToCompareItem,
@@ -111,7 +118,7 @@ export default function Products2({ isProductDetail = false }) {
           <div className="flat-title flex-row justify-content-center">
             <span className="title fw-6 wow fadeInUp" data-wow-delay="0s">
               <span className="bell-medium heading-30" style={{ textTransform: "uppercase", fontSize: "30px" }}>
-                {isAboutUsPage ? t("products2_title") : t("best_seller_title")}
+                {getTitle()}
               </span>
             </span>
           </div>
@@ -218,6 +225,7 @@ export default function Products2({ isProductDetail = false }) {
                         <a
                           href="#quick_add"
                           data-bs-toggle="modal"
+                          onClick={() => setQuickAddItem(product.id)}
                           className="box-icon quick-add tf-btn-loading"
                           style={{
                             backgroundColor: "#000000 !important",

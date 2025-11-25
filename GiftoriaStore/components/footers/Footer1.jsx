@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
 import LanguageSelect from "../common/LanguageSelect";
@@ -35,7 +36,8 @@ export default function Footer1({ bgColor = "" }) {
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center"
-      }}>
+      }}
+      >
         <div className="footer-body">
           <div className="container">
             <div className="row">
@@ -46,12 +48,17 @@ export default function Footer1({ bgColor = "" }) {
                    
                     <li>
                       <p className="montserrat-regular" style={{ fontSize: '12px' }}>
-                        {t("footer_email_label")} <a href="#" className="montserrat-regular" style={{ fontSize: '12px' }}>{t("footer_email")}</a>
+                        {t("footer_email_label")} <a href="mailto:contact@giftoria.me" target="_blank" rel="noopener noreferrer" className="montserrat-regular" style={{ fontSize: '12px' }}>contact@giftoria.me</a>
                       </p>
                     </li>
                     <li>
-                      <p className="montserrat-regular" style={{ fontSize: '12px' }}>
-                        {t("footer_phone_label")} <a href="#" className="montserrat-regular" style={{ fontSize: '12px' }}>{t("footer_phone")}</a>
+                      <p className="montserrat-regular " style={{ fontSize: '12px' }}>
+                        {t("footer_phone_label")} <a href="tel:+97477731974" className="montserrat-regular arabic_div" style={{ fontSize: '12px' }}><span dir="ltr" style={{ direction: 'ltr', unicodeBidi: 'bidi-override' }}>+974 7773 1974</span></a>
+                      </p>
+                    </li>
+                    <li>
+                      <p className="montserrat-regular " style={{ fontSize: '12px' }}>
+                        WhatsApp: <a href="https://wa.me/97477731974" target="_blank" rel="noopener noreferrer" className="montserrat-regular arabic_div" style={{ fontSize: '12px' }}><span dir="ltr" style={{ direction: 'ltr', unicodeBidi: 'bidi-override' }}>+974 7773 1974</span></a>
                       </p>
                     </li>
                   </ul>
@@ -141,7 +148,7 @@ export default function Footer1({ bgColor = "" }) {
             <div className="row">
               <div className="col-12">
                 <div className="footer-bottom-wrap d-flex gap-20 flex-wrap justify-content-center align-items-center">
-                  <div className="footer-menu_item montserrat-regular" style={{ fontSize: '12px' }}>
+                  <div className="footer-menu_item montserrat-regular arabic_div" style={{ fontSize: '12px' }}>
                     {t("footer_copyright", { year: new Date().getFullYear() })}
                   </div>
                 </div>

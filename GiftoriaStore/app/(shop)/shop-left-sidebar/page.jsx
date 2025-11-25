@@ -16,6 +16,7 @@ export default function Page() {
           <div className="row">
             <div className="col-12">
               <h1 
+              className="h1_prod"
                 style={{ 
                   fontSize: i18n.language === "ar" ? "36px" : "32px",
                   textAlign: "center",
@@ -30,7 +31,8 @@ export default function Page() {
               >
                 {t("shop.page_title")}
               </h1>
-              <p className="text-center text-2 text_black-2 mt_5 raleway-medium">
+              <p className="text-center text-2 text_black-2 mt_5 raleway-medium " id="p_prod">
+                
                 {t("shop.page_description")}
               </p>
             </div>

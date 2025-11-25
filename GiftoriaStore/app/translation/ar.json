@@ -119,9 +119,9 @@
   "footer_address_line1": "العنوان: شارع الهدايا 1234، جناح 567،",
   "footer_address_line2": "نيويورك، نيويورك 10001",
   "footer_email_label": "البريد الإلكتروني:",
-  "footer_email": "info@fashionshop.com",
+  "footer_email": "contact@giftoria.me",
   "footer_phone_label": "رقم الهاتف:",
-  "footer_phone": "(212) 555‑1234",
+  "footer_phone": "(+974)7773 1974",
   "footer_get_direction": "الحصول على الاتجاه",
   "footer_help": "مساعدة",
   "footer_about_us": "من نحن",
@@ -651,8 +651,9 @@
   "toolbar_shop": "المتجر",
   "toolbar_account": "الحساب",
   "toolbar_cart": "السلة",
+  "toolbar_whatsapp": "واتساب",
   "checkout.signature_draw":"ارسم ",
-  "checkout.signature_text" :"نص"
-
+  "checkout.signature_text" :"نص",
+  "checkout.error_fill_required_fields": "يرجى ملء جميع الحقول المطلوبة"  
 
 }
