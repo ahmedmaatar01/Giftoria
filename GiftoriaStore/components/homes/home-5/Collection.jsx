@@ -56,9 +56,9 @@ export default function Collection() {
     <section className="flat-spacing-15 occasions" >
       <div className="container-full">
         <div className="flat-title flex-row justify-content-between px-0">
-        <span className="bell-medium heading-30" data-wow-delay="0s">
-  {i18n.language === "ar" ? "المناسبات" : "OCCASIONS"}
-</span>
+          <span className="bell-medium heading-30" data-wow-delay="0s">
+            {i18n.language === "ar" ? "المناسبات" : "OCCASIONS"}
+          </span>
 
           <div className="box-sw-navigation">
             <div className="nav-sw nav-next-slider nav-next-collection snbp123">
@@ -118,94 +118,94 @@ export default function Collection() {
         >
           {loading
             ? Array.from({ length: 4 }).map((_, idx) => (
-                <SwiperSlide key={`collection-loading-${idx}`}>
-                  <div
-                    style={{
-                      width: "100%",
-                      height: 600,
-                      background: "#f3f3f3",
-                    }}
-                  />
-                </SwiperSlide>
-              ))
+              <SwiperSlide key={`collection-loading-${idx}`}>
+                <div
+                  style={{
+                    width: "100%",
+                    height: 600,
+                    background: "#f3f3f3",
+                  }}
+                />
+              </SwiperSlide>
+            ))
             : occasions.map((occasion) => {
-                const imgSrc = resolveOccasionImage(occasion) || "/images/no-image.png";
-                const title =
-                  i18n.language === "ar" && occasion?.arabic_name
-                    ? occasion.arabic_name
-                    : occasion?.name || "Occasion";
-                const desc =
-                  i18n.language === "ar" && occasion?.arabic_description
-                    ? occasion.arabic_description.replace(/<[^>]*>/g, "").slice(0, 140)
-                    : occasion?.description
+              const imgSrc = resolveOccasionImage(occasion) || "/images/no-image.png";
+              const title =
+                i18n.language === "ar" && occasion?.arabic_name
+                  ? occasion.arabic_name
+                  : occasion?.name || "Occasion";
+              const desc =
+                i18n.language === "ar" && occasion?.arabic_description
+                  ? occasion.arabic_description.replace(/<[^>]*>/g, "").slice(0, 140)
+                  : occasion?.description
                     ? occasion.description.replace(/<[^>]*>/g, "").slice(0, 140)
                     : "";
 
-                return (
-                  <SwiperSlide key={occasion.id}>
-                    <div className="collection-item-v3 hover-img">
-                      
-                      <div className="collection-image w-full h-[900px] overflow-hidden">
+              return (
+                <SwiperSlide key={occasion.id}>
+                  <div className="collection-item-v3 hover-img">
+
+                    <div className="collection-image w-full h-[900px] overflow-hidden">
                       <Image
-  src={imgSrc}
-  alt={title}
-  width={300}
-  height={500}
-  className="lazyload object-cover"
-  style={{
-    width:"100%",
-    borderRadius: "0",
-    objectFit: "cover",
-  }}
-/>
+                        src={imgSrc}
+                        alt={title}
+                        width={300}
+                        height={500}
+                        className="lazyload object-cover"
+                        style={{
+                          width: "100%",
+                          borderRadius: "0",
+                          objectFit: "cover",
+                        }}
+                      />
 
-                      </div>
+                    </div>
 
-                      {/* Text alignment based on language direction */}
-                      <div 
-                        className="collection-content mt-4 px-1" 
-                        style={{ 
-                          textAlign: i18n.language === "ar" ? "right" : "left",
+                    {/* Text alignment based on language direction */}
+                    <div
+                      className="collection-content mt-4 px-1"
+                      style={{
+                        textAlign: i18n.language === "ar" ? "right" : "left",
+                        direction: i18n.language === "ar" ? "rtl" : "ltr"
+                      }}
+                    >
+                      <h3
+                        className="raleway-bold uppercase text-lg mb-2"
+                        style={{
+                          letterSpacing: "1px",
+                          textTransform: "uppercase",
                           direction: i18n.language === "ar" ? "rtl" : "ltr"
                         }}
                       >
-                      <h3
-                          className="raleway-bold uppercase text-lg mb-2"
-                          style={{ 
-                            letterSpacing: "1px", 
-                            textTransform: "uppercase",
-                            direction: i18n.language === "ar" ? "rtl" : "ltr"
-                          }}
-                        >
-                          {title}
-                        </h3>
+                        {title}
+                      </h3>
 
-                        {desc && (
-                          <p
-                            className="raleway-light text-base mb-3 leading-relaxed"
-                            style={{ 
-                              color: "#555",
-                              direction: i18n.language === "ar" ? "rtl" : "ltr"
-                            }}
-                          >
-                            {desc}
-                          </p>
-                        )}
-                        <Link
-                          href={`/shop-collection-sub?occasion=${occasion.id}`}
-                          className="raleway-light uppercase text-sm"
-                          style={{ 
-                            textDecoration:"underline",
+                      {desc && (
+                        <p
+                          className="raleway-light text-base mb-3 leading-relaxed"
+                          style={{
+                            color: "#555",
                             direction: i18n.language === "ar" ? "rtl" : "ltr"
                           }}
                         >
-                          {i18n.language === "ar" ? "اقرأ المزيد" : "READ MORE"}
-                        </Link>
-                      </div>
+                          {desc}
+                        </p>
+                      )}
+                      <Link
+                        href={`/shop-collection-sub?occasion=${occasion.id}`}
+                        className="raleway-light uppercase text-sm"
+                        style={{
+                          textDecoration: "underline",
+                          direction: i18n.language === "ar" ? "rtl" : "ltr"
+                        }}
+                      >
+                        {i18n.language === "ar" ? "اقرأ المزيد" : "READ MORE"}
+                      </Link>
                     </div>
-                  </SwiperSlide>
-                );
-              })}
+                  </div>
+                </SwiperSlide>
+              );
+            })}
         </Swiper>
       </div>
     </section>
