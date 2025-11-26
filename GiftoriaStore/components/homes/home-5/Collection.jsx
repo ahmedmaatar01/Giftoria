@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { API_BASE_URL_WITH_API } from "@/utils/config";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import { useTranslation } from "react-i18next";
@@ -18,12 +19,14 @@ const resolveOccasionImage = (o) => {
   if (!candidate || typeof candidate !== "string") return null;
   if (/^https?:\/\//i.test(candidate)) return candidate;
   candidate = candidate.replace(/^\/+/, "");
-  if (candidate.startsWith("storage/")) return `http://localhost:8000/${candidate}`;
+  // Use API_BASE_URL for all backend image links
+  const base = API_BASE_URL;
+  if (candidate.startsWith("storage/")) return `${base}/${candidate}`;
   if (candidate.startsWith("public/")) {
     const normalized = candidate.replace(/^public\//, "storage/");
-    return `http://localhost:8000/${normalized}`;
+    return `${base}/${normalized}`;
   }
-  return `http://localhost:8000/storage/${candidate}`;
+  return `${base}/storage/${candidate}`;
 };
 
 export default function Collection() {
@@ -35,7 +38,7 @@ export default function Collection() {
     const fetchOccasions = async () => {
       setLoading(true);
       try {
-        const res = await fetch("http://localhost:8000/api/occasions");
+        const res = await fetch(`${API_BASE_URL_WITH_API}/occasions`);
         const data = await res.json();
         const items = Array.isArray(data) ? data : data?.data || [];
         setOccasions(items);
