@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
 import LanguageSelect from "../common/LanguageSelect";
@@ -13,21 +12,7 @@ import { useTranslation } from "react-i18next";
 export default function Footer1({ bgColor = "" }) {
   const { t } = useTranslation();
 
-  useEffect(() => {
-    const headings = document.querySelectorAll(".footer-heading-moblie");
-    const toggleOpen = (event) => {
-      const parent = event.target.closest(".footer-col-block");
-      parent.classList.toggle("open");
-    };
-    headings.forEach((heading) => {
-      heading.addEventListener("click", toggleOpen);
-    });
-    return () => {
-      headings.forEach((heading) => {
-        heading.removeEventListener("click", toggleOpen);
-      });
-    };
-  }, []);
+  // Removed mobile heading event/collapsible logic
 
   return (
     <footer id="footer" className={`footer md-pb-70 ${bgColor}`}>
@@ -36,8 +21,7 @@ export default function Footer1({ bgColor = "" }) {
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center"
-      }}
-      >
+      }}>
         <div className="footer-body">
           <div className="container">
             <div className="row">
@@ -48,17 +32,12 @@ export default function Footer1({ bgColor = "" }) {
                    
                     <li>
                       <p className="montserrat-regular" style={{ fontSize: '12px' }}>
-                        {t("footer_email_label")} <a href="mailto:contact@giftoria.me" target="_blank" rel="noopener noreferrer" className="montserrat-regular" style={{ fontSize: '12px' }}>contact@giftoria.me</a>
+                        {t("footer_email_label")} <a href="#" className="montserrat-regular" style={{ fontSize: '12px' }}>{t("footer_email")}</a>
                       </p>
                     </li>
                     <li>
-                      <p className="montserrat-regular " style={{ fontSize: '12px' }}>
-                        {t("footer_phone_label")} <a href="tel:+97477731974" className="montserrat-regular arabic_div" style={{ fontSize: '12px' }}><span dir="ltr" style={{ direction: 'ltr', unicodeBidi: 'bidi-override' }}>+974 7773 1974</span></a>
-                      </p>
-                    </li>
-                    <li>
-                      <p className="montserrat-regular " style={{ fontSize: '12px' }}>
-                        WhatsApp: <a href="https://wa.me/97477731974" target="_blank" rel="noopener noreferrer" className="montserrat-regular arabic_div" style={{ fontSize: '12px' }}><span dir="ltr" style={{ direction: 'ltr', unicodeBidi: 'bidi-override' }}>+974 7773 1974</span></a>
+                      <p className="montserrat-regular" style={{ fontSize: '12px' }}>
+                        {t("footer_phone_label")} <a href="#" className="montserrat-regular" style={{ fontSize: '12px' }}>{t("footer_phone")}</a>
                       </p>
                     </li>
                   </ul>
@@ -71,17 +50,14 @@ export default function Footer1({ bgColor = "" }) {
 
               {/* Help section */}
               <div className="col-xl-3 col-md-6 col-12 footer-col-block">
-                <div className="footer-heading footer-heading-desktop">
+                <div className="footer-heading">
                   <h6 className="bell-t-medium text-uppercase">{t("footer_help")}</h6>
                 </div>
-                <div className="footer-heading footer-heading-moblie">
-                  <h6 className="bell-t-medium text-uppercase">{t("footer_help")}</h6>
-                </div>
-                <ul className="footer-menu-list tf-collapse-content">
+                <ul className="footer-menu-list">
                   {footerLinks.map((link, index) => (
                     <li key={index}>
                       <Link href={link.href} className={`footer-menu_item montserrat-regular`} style={{ fontSize: '12px' }}>
-                        <span className="montserrat-regular">{t(link.textKey || link.text)}</span> {/* adjust links data to include textKey */}
+                        <span className="montserrat-regular">{t(link.textKey || link.text)}</span>
                       </Link>
                     </li>
                   ))}
@@ -90,13 +66,10 @@ export default function Footer1({ bgColor = "" }) {
 
               {/* About us section */}
               <div className="col-xl-3 col-md-6 col-12 footer-col-block">
-                <div className="footer-heading footer-heading-desktop">
+                <div className="footer-heading">
                   <h6 className="bell-t-medium text-uppercase">{t("footer_about_us")}</h6>
                 </div>
-                <div className="footer-heading footer-heading-moblie">
-                  <h6 className="bell-t-medium">{t("footer_about_us")}</h6>
-                </div>
-                <ul className="footer-menu-list tf-collapse-content">
+                <ul className="footer-menu-list">
                   {aboutLinks.slice(0, 4).map((link, index) => (
                     <li key={index}>
                       <Link href={link.href} className={`footer-menu_item montserrat-regular`} style={{ fontSize: '12px' }}>
@@ -148,8 +121,8 @@ export default function Footer1({ bgColor = "" }) {
             <div className="row">
               <div className="col-12">
                 <div className="footer-bottom-wrap d-flex gap-20 flex-wrap justify-content-center align-items-center">
-                  <div className="footer-menu_item montserrat-regular arabic_div" style={{ fontSize: '12px' }}>
-                    {t("footer_copyright", { year: new Date().getFullYear() })}
+                  <div className="footer-menu_item montserrat-regular" style={{ fontSize: '12px' }}>
+                    <span className="arabic_div" dir="ltr" style={{ direction: 'ltr', unicodeBidi: 'bidi-override' }}>2025</span> متجر جيفتوريا. كل الحقوق محفوظة
                   </div>
                 </div>
               </div>
