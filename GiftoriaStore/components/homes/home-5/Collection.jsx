@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { API_BASE_URL_WITH_API } from "@/utils/config";
+import { API_BASE_URL, API_BASE_URL_WITH_API } from "@/utils/config";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import { useTranslation } from "react-i18next";
