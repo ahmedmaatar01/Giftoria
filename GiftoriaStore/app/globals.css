@@ -1041,15 +1041,14 @@ header,
 }
 
 @media (max-width: 768px) {
+
   .footer-wrap {
+    background-image: url(/images/footer_bg_mobile.jpg) !important;
     min-height: 300px;
     /* adjust until it looks good */
     padding: 40px 0;
     /* gives space for content */
-    background-size: contain !important;
-    background-position: top !important;
-    background-repeat: repeat !important;
-
+    background-size: cover  !important;
   }
 
   .h1_prod {
