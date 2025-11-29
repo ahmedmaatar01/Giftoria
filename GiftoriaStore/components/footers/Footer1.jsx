@@ -122,7 +122,9 @@ export default function Footer1({ bgColor = "" }) {
               <div className="col-12">
                 <div className="footer-bottom-wrap d-flex gap-20 flex-wrap justify-content-center align-items-center">
                   <div className="footer-menu_item montserrat-regular" style={{ fontSize: '12px' }}>
-                    <span className="arabic_div" dir="ltr" style={{ direction: 'ltr', unicodeBidi: 'bidi-override' }}>2025</span> متجر جيفتوريا. كل الحقوق محفوظة
+                    <span className="arabic_div" >
+                      {t("footer_copyright")}
+</span>  
                   </div>
                 </div>
               </div>

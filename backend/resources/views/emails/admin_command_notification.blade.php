@@ -2,6 +2,10 @@
 use Illuminate\Support\Carbon;
 @endphp
 
+# Email header with logo
+<div style="text-align:center;margin-bottom:20px;">
+  <img src="https://giftoria.me/images/logo/logoFooter.png" alt="Giftoria" style="height:60px;">
+</div>
 <x-mail::message>
 # New Order Received (ID #{{ $command->id }})
 

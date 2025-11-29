@@ -64,11 +64,10 @@ export default function Header6({ isArrow, uppercase = false }) {
   return (
     <header
       id="header"
-      className={`header-default header-absolute header-white sticky-header ${
-        uppercase ? "header-uppercase" : ""
-      }`}
+      className={`header-default header-absolute header-white sticky-header ${uppercase ? "header-uppercase" : ""
+        }`}
     >
-     
+
 
       {/* Main Header Row */}
       <div className="px_15 lg-px_40">
@@ -117,18 +116,28 @@ export default function Header6({ isArrow, uppercase = false }) {
           {/* Icons */}
           <div className="col-xl-5 col-md-4 col-3">
             <ul className="nav-icon d-flex justify-content-end align-items-center gap-20">
+              <li className="nav-search">
+                <a
+                  href="#canvasSearch"
+                  data-bs-toggle="offcanvas"
+                  aria-controls="offcanvasLeft"
+                  className="nav-icon-item"
+                >
+                  <i className="icon icon-search" />
+                </a>
+              </li>
               <li className="nav-account">
-                <a 
-                  href="#login" 
-                  className="nav-icon-item" 
+                <a
+                  href="#login"
+                  className="nav-icon-item"
                   aria-label={t("header.account")}
                   onClick={handleAccountClick}
                 >
                   <i className="icon icon-account" />
                 </a>
               </li>
-              
-             
+
+
               <li className="nav-cart " id="cart-no">
                 <a href="#shoppingCart" data-bs-toggle="modal" className="nav-icon-item" aria-label={t("header.cart")}>
                   <i className="icon icon-bag" />
@@ -138,19 +147,20 @@ export default function Header6({ isArrow, uppercase = false }) {
                 </a>
               </li>
               <li className="nav-cart">
-            <div className="top-bar-language tf-cur justify-content-end">
-          
-          <div className="tf-languages">
-            
-            <LanguageSelect
-              parentClassName={"image-select center style-default type-languages"}
-              topStart
-            />
-          </div>
-        </div>
-            </li>
+
+                <div className="top-bar-language tf-cur justify-content-end">
+
+                  <div className="tf-languages">
+
+                    <LanguageSelect
+                      parentClassName={"image-select center style-default type-languages"}
+                      topStart
+                    />
+                  </div>
+                </div>
+              </li>
             </ul>
-           
+
           </div>
         </div>
       </div>
