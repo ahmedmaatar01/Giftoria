@@ -10,13 +10,22 @@ export default function ToolbarBottom() {
 
   return (
     <div className="tf-toolbar-bottom type-1150">
-      <div className="toolbar-item">
+      {/* <div className="toolbar-item">
         <Link href="/shop-left-sidebar" className="toolbar-link">
           <div className="toolbar-icon">
             <i className="icon-shop" />
           </div>
           <div className="toolbar-label">{t("toolbar_shop")}</div>
         </Link>
+      </div> */}
+
+      <div className="toolbar-item">
+        <a href="#canvasSearch" data-bs-toggle="offcanvas">
+          <div className="toolbar-icon">
+            <i className="icon-search" />
+          </div>
+          <div className="toolbar-label">{t("header.search")}</div>
+        </a>
       </div>
 
       <div className="toolbar-item">
@@ -59,7 +68,6 @@ export default function ToolbarBottom() {
           <div className="toolbar-label">{t("toolbar_whatsapp")}</div>
         </a>
       </div>
-      
     </div>
   );
 }
