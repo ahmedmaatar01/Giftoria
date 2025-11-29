@@ -39,21 +39,21 @@ export default function Header10() {
       }
     }
   };
-    // useEffect(() => {
-    //   const header = document.getElementById("header");
-    //   const handleScroll = () => {
-    //     if (window.scrollY > 200) {
-    //       header.classList.add("bg-white", "header-shadow");
-    //       header.classList.remove("header-white");
-    //     } else {
-    //       header.classList.remove("bg-white", "header-shadow");
-    //       header.classList.add("header-white");
-    //     }
-    //   };
-    //   window.addEventListener("scroll", handleScroll);
-  
-    //   return () => window.removeEventListener("scroll", handleScroll);
-    // }, []);
+  // useEffect(() => {
+  //   const header = document.getElementById("header");
+  //   const handleScroll = () => {
+  //     if (window.scrollY > 200) {
+  //       header.classList.add("bg-white", "header-shadow");
+  //       header.classList.remove("header-white");
+  //     } else {
+  //       header.classList.remove("bg-white", "header-shadow");
+  //       header.classList.add("header-white");
+  //     }
+  //   };
+  //   window.addEventListener("scroll", handleScroll);
+
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, []);
   return (
     <header id="header" className="header-default header-style-10">
       <div className="px_15 lg-px_40">
@@ -107,6 +107,16 @@ export default function Header10() {
           {/* Icons (Account, Cart only for desktop, Language) */}
           <div className="col-xl-5 col-md-4 col-3">
             <ul className="nav-icon d-flex justify-content-end align-items-center gap-20">
+              <li className="nav-search">
+                <a
+                  href="#canvasSearch"
+                  data-bs-toggle="offcanvas"
+                  aria-controls="offcanvasLeft"
+                  className="nav-icon-item"
+                >
+                  <i className="icon icon-search" />
+                </a>
+              </li>
               <li className="nav-account">
                 <a
                   href="#login"
@@ -115,6 +125,14 @@ export default function Header10() {
                   onClick={handleAccountClick}
                 >
                   <i className="icon icon-account" />
+                </a>
+              </li>
+              <li className="nav-cart " id="cart-no">
+                <a href="#shoppingCart" data-bs-toggle="modal" className="nav-icon-item" aria-label={t("header.cart")}>
+                  <i className="icon icon-bag" />
+                  <span className="count-box arabic_div">
+                    <CartLength />
+                  </span>
                 </a>
               </li>
               {/* Cart icon removed for mobile menu */}
