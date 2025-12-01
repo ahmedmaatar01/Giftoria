@@ -461,8 +461,8 @@ html.arabic-font .title.raleway-medium.arabic_div {
   }
 
   .box-content.first-banner-home {
-    padding-right: 16px;
-    padding-left: 0;
+    padding-right: 24px !important;
+    padding-left: 0 !important;
   }
 
   .about-partners-banner .tf-content-wrap {
@@ -470,8 +470,18 @@ html.arabic-font .title.raleway-medium.arabic_div {
   }
 
   html.arabic-font .box-content.first-banner-home {
-    padding-right: 0;
-    padding-left: 16px;
+    padding-right: 0 !important;
+    padding-left: 24px !important;
+  }
+
+  html.arabic-font .box-content.first-banner-home .container {
+    padding-left: 8px !important;
+    padding-right: 0px !important;
+  }
+
+  .box-content.first-banner-home .container {
+    padding-left: 0px !important;
+    padding-right: 8px !important;
   }
 
   .arabic-font .hero-about span.heading.bell-medium.text-white.mb-5 {
@@ -485,7 +495,7 @@ html.arabic-font .title.raleway-medium.arabic_div {
   .hero-about span.description.text-white.text-uppercase {
     font-weight: 300 !important;
     font-size: 10px !important;
-    text-align: start;
+    text-align: justify;
     text-shadow: none !important;
     font-family: "be IN Normal", sans-serif !important;
   }
@@ -563,10 +573,14 @@ html.arabic-font .title.raleway-medium.arabic_div {
     font-size: 14px !important;
   }
 
+  .experience1-home span.title.bell-medium.heading-30 {
+    text-align: center !important;
+  }
+
   /* ---------- Buttons ---------- */
   .box-content .ecomus-button-link {
     margin-top: 0px !important;
-    padding: 8px 16px !important;
+    padding: 2px 2px !important;
 
   }
 
@@ -592,7 +606,7 @@ html.arabic-font .title.raleway-medium.arabic_div {
   }
 
   .banner-hero-collection-wrap .text-c .c-butn {
-    font-size: 10px !important;
+    font-size: 14px !important;
   }
 
   /* ---------- Brand Logos ---------- */
@@ -698,11 +712,19 @@ html.arabic-font .title.raleway-medium.arabic_div {
   }
 
   .experience1-home .tf-icon-box p {
-    text-align: start !important;
+    text-align: justify !important;
     margin: 0 !important;
     margin-top: 12px !important;
     width: 100% !important;
     max-width: 500px;
+  }
+
+  section.banner-hero-collection-wrap.banner-parallax p.text.mb-4.text-white {
+    text-align: justify !important;
+  }
+
+  .first-banner-home p {
+    text-align: justify !important;
   }
 
   i.icon.icon-arrow1-top-left {
@@ -710,7 +732,7 @@ html.arabic-font .title.raleway-medium.arabic_div {
   }
 
   .flat-spacing-15 {
-    padding-bottom: 20px;
+    padding-bottom: 0px;
   }
 
   .flat-spacing-18 {
@@ -908,10 +930,16 @@ html.arabic-font .title.raleway-medium.arabic_div {
   .flat-wrap-iconbox .sub-title {
     font-size: 12px !important;
     line-height: 20px !important;
-    text-align: start !important;
+    text-align: justify !important;
     margin: auto 0px auto !important;
   }
 
+  html.arabic-font .caption-price span ,html.arabic-font .text-secondary.ms-2 ,html.arabic-font .price{
+    font-family: "be IN Normal", sans-serif !important;
+  }
+#quick_add .modal-content .header {
+    padding: 10px;
+}
   /* Wrap items vertically */
   .box3 {
     display: flex !important;

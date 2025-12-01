@@ -129,7 +129,7 @@ export default function QuickView() {
                   </h5>
                 </div>
                 <div className="tf-product-info-price">
-                  <div className="price">
+                  <div className="price arabic_div">
                     {qvPrice !== null ? `$${(qvPrice * quantity).toFixed(2)}` : "—"}
                   </div>
                 </div>
@@ -242,7 +242,7 @@ export default function QuickView() {
                           ? t("product_detail.already_added") + " - "
                           : t("product_detail.add_to_cart") + " - "}
                       </span>
-                      <span className="tf-qty-price">
+                      <span className="tf-qty-price arabic_div">
                         {qvPrice !== null ? `$${(qvPrice * quantity).toFixed(2)}` : ""}
                       </span>
                     </a>
