@@ -33,7 +33,7 @@ export default function Features() {
                     <i className={elm.iconClass} />
                   </div>
                   <div className="content">
-                    <div className="title raleway-medium" style={{ textTransform: "uppercase" }}>{t(elm.titleKey)}</div>
+                    <div className="title raleway-medium arabic_div" style={{ textTransform: "uppercase" }}>{t(elm.titleKey)}</div>
                     <p className="raleway-light" style={{ textTransform: "uppercase" }}>{t(elm.descriptionKey)}</p>
                   </div>
                 </div>
