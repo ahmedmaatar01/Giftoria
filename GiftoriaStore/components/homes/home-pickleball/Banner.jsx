@@ -8,7 +8,7 @@ export default function Banner() {
   const { t } = useTranslation();
 
   return (
-    <section className="flat-spacing-22 mb-5">
+    <section className="flat-spacing-22 mb-5 about-partners-banner">
       <div className="container">
         <div
           className="tf-grid-layout md-col-2 tf-img-with-text style-5"
