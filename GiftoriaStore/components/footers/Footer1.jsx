@@ -32,12 +32,12 @@ export default function Footer1({ bgColor = "" }) {
                    
                     <li>
                       <p className="montserrat-regular" style={{ fontSize: '12px' }}>
-                        {t("footer_email_label")} <a href="#" className="montserrat-regular" style={{ fontSize: '12px' }}>{t("footer_email")}</a>
+                        {t("footer_email_label")} <a href="mailto:contact@giftoria.me" className="montserrat-regular" style={{ fontSize: '12px' }}>contact@giftoria.me</a>
                       </p>
                     </li>
                     <li>
                       <p className="montserrat-regular" style={{ fontSize: '12px' }}>
-                        {t("footer_phone_label")} <a href="#" className="montserrat-regular" style={{ fontSize: '12px' }}>{t("footer_phone")}</a>
+                        {t("footer_phone_label")} <a href="tel:+97477731974"  dir="ltr" className="montserrat-regular arabic_div" style={{ fontSize: '12px' }}>+974 7773 1974</a>
                       </p>
                     </li>
                   </ul>

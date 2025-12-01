@@ -423,6 +423,9 @@ header,
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
+html.arabic-font .title.raleway-medium.arabic_div {
+  font-weight: 500 !important;
+}
 
 @media (max-width: 768px) {
   h5.product-title {
@@ -459,6 +462,15 @@ header,
 
   .box-content.first-banner-home {
     padding-right: 16px;
+    padding-left: 0;
+  }
+
+  .about-partners-banner .tf-content-wrap {
+    padding-right: 14px !important;
+  }
+
+  html.arabic-font .box-content.first-banner-home {
+    padding-right: 0;
     padding-left: 16px;
   }
 
