@@ -839,7 +839,9 @@ html.arabic-font .title.raleway-medium.arabic_div {
 /* about */
 
 @media (max-width: 768px) {
-
+section.banner-hero-collection-wrap.banner-parallax.home-b-1 video{
+  height: 100% !important;
+}
   /* Stack image and text vertically */
   .tf-grid-layout.md-col-2 {
     display: flex !important;
@@ -871,7 +873,11 @@ html.arabic-font .title.raleway-medium.arabic_div {
     margin: 0 auto;
     max-width: 320px;
   }
-
+#sidebarmobile {
+ 
+    width: 100% !important;
+    max-width: 100vw;
+}
   /* Reduce empty spacing of section on mobile */
   .flat-spacing-23 {
     padding-top: 20px !important;

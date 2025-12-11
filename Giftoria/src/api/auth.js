@@ -14,7 +14,8 @@ export const register = async (userData) => {
 
 export const login = async (credentials) => {
     try {
-        const response = await axios.post(`${API_URL}/user/login`, credentials);
+        // Use admin login endpoint for admin users
+        const response = await axios.post(`${API_URL}/admin/login`, credentials);
         return response.data;
     } catch (error) {
         throw error.response.data;

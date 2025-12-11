@@ -18,6 +18,7 @@ import Footer from "../components/Footer";
 import Preloader from "../components/Preloader";
 import ManageProducts from './dashboard/ManageProducts';
 import ManageCategory from './dashboard/ManageCategory';
+import ManageHomePage from './dashboard/ManageHomePage';
 import ManageCustomField from './dashboard/ManageCustomField';
 import ManageCommands from './dashboard/ManageCommands';
 import ManageOccasions from './dashboard/ManageOccasions';
@@ -106,6 +107,19 @@ export default () => {
             <Redirect to={Routes.AdminLogin.path} />
           ) : user.role === 'admin' ? (
             <RouteWithSidebar {...props} component={Settings} />
+          ) : (
+            <Redirect to={Routes.Presentation.path} />
+          )
+        }
+      />
+      <Route
+        exact
+        path={Routes.ManageHomePage.path}
+        render={props =>
+          !user ? (
+            <Redirect to={Routes.AdminLogin.path} />
+          ) : user.role === 'admin' ? (
+            <RouteWithSidebar {...props} component={ManageHomePage} />
           ) : (
             <Redirect to={Routes.Presentation.path} />
           )

@@ -3,7 +3,7 @@ import SimpleBar from 'simplebar-react';
 import { useLocation } from "react-router-dom";
 import { CSSTransition } from 'react-transition-group';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook, faBoxOpen, faChartPie, faCog, faHandHoldingUsd, faSignOutAlt, faTable, faTimes, faCartArrowDown, faGift, faUsers, faUserShield } from "@fortawesome/free-solid-svg-icons";
+import { faBook, faBoxOpen, faChartPie, faCog, faHandHoldingUsd, faSignOutAlt, faTable, faTimes, faCartArrowDown, faGift, faUsers, faUserShield, faHome } from "@fortawesome/free-solid-svg-icons";
 import { faCalendarAlt } from "@fortawesome/free-regular-svg-icons";
 import { Nav, Badge, Image, Button, Dropdown, Accordion, Navbar } from '@themesberg/react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -110,6 +110,7 @@ export default (props = {}) => {
               </CollapsableNavItem> */}
               <NavItem title="Products" icon={faBoxOpen} link={Routes.ManageProducts.path} />
               <NavItem title="Categories" icon={faBook} link={Routes.ManageCategory.path} />
+              <NavItem title="Home Page" icon={faHome} link={Routes.ManageHomePage?.path || '/dashboard/manage-home-page'} />
               <NavItem title="Custom Fields" icon={faTable} link={Routes.ManageCustomField.path} />
               <NavItem title="Occasions" icon={faCalendarAlt} link={Routes.ManageOccasions.path} />
               <NavItem title="Gift Cards" icon={faGift} link={Routes.ManageGiftCards.path} />

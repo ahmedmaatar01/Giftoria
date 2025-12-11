@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
@@ -14,30 +14,27 @@ const AdminLogin = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
-    const { setUser } = useContext(AuthContext);
+    const { login } = useContext(AuthContext);
     const history = useHistory();
+
+    // Prevent state updates on unmounted component
+    const isMounted = useRef(true);
+    useEffect(() => {
+        return () => { isMounted.current = false; };
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
         setLoading(true);
         try {
-            const response = await axios.post(`${BACKEND_URL}/api/admin/login`, { email, password });
-            const { user, access_token } = response.data || {};
-            const userWithToken = access_token ? { ...user, access_token } : user;
-            // Persist user and token
-            setUser(userWithToken);
-            localStorage.setItem("user", JSON.stringify(userWithToken));
-            if (access_token) localStorage.setItem("access_token", access_token);
-            // Go to dashboard overview
+            await login({ email, password });
             history.push(Routes.DashboardOverview.path);
         } catch (err) {
-            if (err.response) console.error('Admin login error response:', err.response.data);
-            else console.error('Admin login error:', err);
-            const apiErr = err?.response?.data;
-            setError(apiErr?.error || apiErr?.message || 'Invalid admin credentials. Please try again.');
+            const apiErr = err?.error || err?.message || 'Invalid admin credentials. Please try again.';
+            if (isMounted.current) setError(apiErr);
         } finally {
-            setLoading(false);
+            if (isMounted.current) setLoading(false);
         }
     };
 
