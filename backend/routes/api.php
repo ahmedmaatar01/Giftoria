@@ -1,6 +1,7 @@
 
 
 <?php
+use App\Http\Controllers\Api\HomePageDetailController;
 
 use App\Http\Controllers\Api\CommandController;
 // Command management
@@ -47,6 +48,10 @@ Route::get('/health', function () {
 Route::get('/test', function () {
     return response()->json(['message' => 'API routing works', 'timestamp' => now()]);
 });
+// Home Page Detail API
+Route::get('home-page-detail', [HomePageDetailController::class, 'show']);
+Route::post('home-page-detail', [HomePageDetailController::class, 'store']);
+Route::put('home-page-detail', [HomePageDetailController::class, 'update']);
 
 // Debug categories without controller
 Route::get('/categories-test', function () {

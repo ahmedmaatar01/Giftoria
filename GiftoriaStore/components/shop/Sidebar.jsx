@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { API_BASE_URL_WITH_API, API_BASE_URL, API_STORAGE_URL } from '../../utils/config';
 
-export default function Sidebar({ onCategorySelect }) {
+export default function Sidebar({ onCategorySelect, display = false }) {
   const { t, i18n } = useTranslation();
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -142,7 +142,7 @@ export default function Sidebar({ onCategorySelect }) {
   };
 
   return (
-    <aside className="tf-shop-sidebar wrap-sidebar-mobile" style={{ direction: i18n.language === 'ar' ? 'rtl' : 'ltr' }}>
+    <aside className={`tf-shop-sidebar${display ? '' : ' wrap-sidebar-mobile'}`} style={{ direction: i18n.language === 'ar' ? 'rtl' : 'ltr' }}>
       <div className="widget-facet wd-categories">
         <div
           className="facet-title"

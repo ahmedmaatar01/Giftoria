@@ -7,6 +7,7 @@ export const Routes = {
         BootstrapTables: { path: "/tables/bootstrap-tables" },
         ManageProducts: { path: "/dashboard/manage-products" },
         ManageCategory: { path: "/dashboard/manage-categories" },
+        ManageHomePage: { path: "/dashboard/manage-home-page" },
     ManageCustomField: { path: "/dashboard/manage-custom-fields" },
     ManageCommands: { path: "/dashboard/manage-commands" },
     ManageOccasions: { path: "/dashboard/manage-occasions" },
