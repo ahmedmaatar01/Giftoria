@@ -19,7 +19,7 @@ use App\Http\Controllers\Api\ProductCustomValueController;
 use App\Http\Controllers\Api\OccasionController;
 use App\Http\Controllers\GiftCardController;
 use App\Http\Controllers\ProductGiftCardSelectionController;
-
+use App\Http\Controllers\SadadPaymentController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -152,3 +152,5 @@ Route::get('/products/{product}/gift-card-selections', [ProductGiftCardSelection
 Route::put('/gift-card-selections/{selection}', [ProductGiftCardSelectionController::class, 'updateSelection']);
 Route::delete('/gift-card-selections/{selection}', [ProductGiftCardSelectionController::class, 'deleteSelection']);
 
+Route::post('/payments/sadad/init', [SadadPaymentController::class, 'init']);
+Route::post('/sadad/webhook', [SadadPaymentController::class, 'webhook']);

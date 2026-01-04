@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SadadPaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,5 @@ Route::get('/debug-web', function () {
 Route::get('/debug-api', function () {
     return response()->json(['message' => 'API in web routing works', 'timestamp' => now()]);
 });
+Route::post('/sadad/callback', [SadadPaymentController::class, 'callback'])
+    ->name('sadad.callback');
