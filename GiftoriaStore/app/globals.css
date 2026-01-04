@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* Add to your existing globals.css or create this section */
 
 /* Rich text editor content styling */
@@ -391,3 +392,1116 @@ html.arabic-font .shop-details-page p {
   font-weight: bold;
   font-style: normal;
 }
+=======
+/* Remove any plus icon from footer headings */
+
+/* Add to your existing globals.css or create this section */
+
+/* Rich text editor content styling */
+.product-description-html {
+  line-height: 1.6;
+  color: #333;
+}
+
+.product-description-html h1,
+.product-description-html h2,
+.product-description-html h3,
+.product-description-html h4,
+.product-description-html h5,
+.product-description-html h6 {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.product-description-html h1 {
+  font-size: 2rem;
+}
+
+.product-description-html h2 {
+  font-size: 1.75rem;
+}
+
+.product-description-html h3 {
+  font-size: 1.5rem;
+}
+
+.product-description-html h4 {
+  font-size: 1.25rem;
+}
+
+.product-description-html h5 {
+  font-size: 1.1rem;
+}
+
+.product-description-html h6 {
+  font-size: 1rem;
+}
+
+.product-description-html p {
+  margin-bottom: 1rem;
+}
+
+.product-description-html ul,
+.product-description-html ol {
+  margin-bottom: 1rem;
+  padding-left: 2rem;
+}
+
+.product-description-html li {
+  margin-bottom: 0.5rem;
+}
+
+.product-description-html strong {
+  font-weight: 600;
+}
+
+.product-description-html em {
+  font-style: italic;
+}
+
+.product-description-html u {
+  text-decoration: underline;
+}
+
+.product-description-html a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.product-description-html a:hover {
+  text-decoration: underline;
+}
+
+.product-description-html img {
+  max-width: 100%;
+  height: auto;
+  margin: 1rem 0;
+  border-radius: 8px;
+}
+
+.activeMenu {
+  color: #967740 !important;
+}
+
+#header .box-nav-ul .item-link::before {
+
+  background: #967740 !important;
+  ;
+}
+
+.product-description-html blockquote {
+  border-left: 4px solid #ddd;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: #666;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Muslimah Thin";
+  src: url("/fonts/Muslimah-Thin.otf") format("opentype");
+
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "be IN Normal";
+  src: url("/fonts/beINNormal.ttf") format("opentype");
+  font-style: normal;
+}
+
+.widget-wrap-checkout {
+  background-color: #efeae3 !important;
+}
+
+/* be IN Normal font will be used from system fonts or web fonts if available */
+.header-style-10 .filter-option-inner-inner,
+.header-style-10 .dropdown.bootstrap-select.image-select.style-default>button::after {
+  color: #000000;
+}
+
+.modalDemo .modal-dialog {
+
+  height: calc(100vh + 50px) !important;
+}
+
+.header-shadow .filter-option-inner-inner,
+.header-shadow .dropdown.bootstrap-select.image-select.style-default>button::after {
+  color: #000000;
+
+}
+
+header#header {
+  padding: 4px 0px;
+}
+
+.text-justify {
+  text-align: justify !important;
+}
+
+.pfs-4 {
+  font-size: 1.4rem !important;
+}
+
+.filter-option-inner-inner,
+.dropdown.bootstrap-select.image-select.style-default>button::after {
+
+  color: #ffffff;
+}
+
+.dropdown.bootstrap-select.image-select.type-languages>.dropdown-menu {
+  width: 110px !important;
+
+}
+
+.box3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.boxabout {
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 992px) {
+  .box3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.tf-page-title {
+  padding: 34px 0px;
+  background: #efeae3 !important;
+}
+
+.tf-page-title .heading.text-center {
+  font-size: 24px !important;
+  letter-spacing: 3px;
+}
+
+.tf-page-title .container-full p {
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  text-transform: uppercase;
+}
+
+/* Hide Next.js development error notifications and popups */
+#nextjs-toast-errors-parent {
+  display: none !important;
+}
+
+/* Hide Next.js portal error notifications (the small popup on left) */
+nextjs-portal,
+nextjs-portal * {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Hide Next.js error overlay and dialog */
+#__next-error-overlay,
+.__next-error-overlay,
+[data-nextjs-dialog],
+[data-nextjs-dialog-overlay] {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Hide React error boundary visual notifications */
+[data-react-error-overlay],
+[data-react-error-boundary] {
+  display: none !important;
+}
+
+@media (max-width: 576px) {
+  .box3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.c-paragraph {
+  line-height: 2;
+}
+
+.occasions.flat-spacing-15 {
+  max-height: 600px;
+}
+
+html.arabic-font .invert-arabic {
+  transform: scaleX(-1);
+}
+
+html.arabic-font .invert-arabic .c-titre {
+  font-size: 52px !important;
+  font-weight: 600 !important;
+}
+
+html.arabic-font .products-homeP .raleway-light.productName,
+html.arabic-font .viewAllCategs {
+  font-family: "be IN Normal", sans-serif !important;
+  font-weight: 500 !important;
+}
+
+html.arabic-font .invert-arabic .c-paragraph {
+  font-size: 27px;
+  line-height: 2;
+  font-weight: 400 !important;
+}
+
+html.arabic-font .c-butn {
+  font-size: 26px;
+}
+
+html.arabic-font .box-content.invert-arabic {
+  position: static;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+/* Apply Arabic fonts when html has the arabic-font class */
+html.arabic-font,
+html.arabic-font body {
+  font-family: "VIP Rawy Bold", sans-serif !important;
+}
+
+
+/* Apply Muslimah Thin to all elements except paragraphs and spans */
+html.arabic-font *:not(p):not(span):not(i):not(.icon):not([class*="icon-"]):not([class*="arabic_div"]) {
+  font-family: "VIP Rawy Bold", sans-serif !important;
+}
+
+
+html.arabic-font .arabic_div {
+  font-family: "be IN Normal", sans-serif !important;
+
+}
+
+/* Apply be IN Normal font specifically to paragraphs and spans when Arabic is selected */
+html.arabic-font p:not(i):not(.icon):not([class^="icon-"]),
+html.arabic-font .raleway-regular:span:not(i):not(.icon):not([class^="icon-"]) {
+  font-family: "be IN Normal", sans-serif !important;
+}
+
+
+/* Initial transparent header */
+.header-default {
+  transition: background-color 0.3s ease;
+}
+
+/* White background after scrolling 200px */
+.header-scrolled {
+  background-color: #ffffff !important;
+}
+
+.swiper-horizontal>.swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal,
+.swiper-pagination-custom,
+.swiper-pagination-fraction {
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  background: #0000000f;
+  padding: 4px 10px;
+  border-radius: 2px;
+  backdrop-filter: blur(5px);
+}
+
+.swiper-pagination-bullet-custom {
+  width: 36px;
+  height: 4px;
+  background-color: rgb(0 0 0 / 45%);
+  border-radius: 9%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0.8;
+}
+
+.swiper-pagination-bullet-custom:hover {
+  background-color: #967740;
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.swiper-pagination-bullet-active-custom {
+  background-color: #967740 !important;
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* --------------------------------------------- */
+/* 🔤 Arabic Font Overrides for Existing Classes */
+/* --------------------------------------------- */
+
+
+/* When Arabic mode */
+html.arabic-font {
+
+  /* Bell → Muslimah Thin */
+  .bell-medium,
+  .bell-bold {
+    font-family: "VIP Rawy Bold", sans-serif !important;
+    font-weight: 600 !important;
+  }
+
+  /* Raleway / Montserrat → be IN Normal */
+  .raleway-light,
+  .raleway-regular,
+  .raleway-medium,
+  .raleway-bold,
+  .montserrat-regular,
+  .hero-title-montserrat-medium,
+  .banner-title-montserrat {
+    font-family: "be IN Normal", sans-serif !important;
+  }
+}
+
+.mega-menu,
+.sub-menu {
+  box-shadow: none !important;
+}
+
+/* Fix header menu font in Arabic mode to be normal */
+html.arabic-font header#header .menu-item>a,
+html.arabic-font header#header nav a,
+html.arabic-font header#header .main-menu>li>a {
+  font-family: "be IN Normal", sans-serif !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+/* ✅ Apply be IN Normal ONLY inside the Shop Details page when Arabic */
+
+/* ✅ In product page, Arabic paragraphs use be IN Normal ONLY */
+html.arabic-font .shop-details-page p {
+  font-family: "be IN Normal", sans-serif !important;
+}
+
+@font-face {
+  font-family: "VIP Rawy Bold";
+  src: url("/fonts/VIP Rawy Bold Bold.otf") format("opentype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* =========================================================
+   🌐 Global Styles
+header,
+.header,
+.site-header {
+  overflow: visible !important;
+  position: relative;
+  z-index: 10;
+}
+
+/* Ensure language dropdown stays above all elements */
+.language-select-dropdown {
+  position: absolute !important;
+  z-index: 9999 !important;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+html.arabic-font .title.raleway-medium.arabic_div {
+  font-weight: 500 !important;
+}
+
+@media (max-width: 768px) {
+  h5.product-title {
+    margin-top: 30px;
+    font-size: 22px !important;
+  }
+
+  .modal-shopping-cart .title-header-c {
+    font-size: 16px !important;
+  }
+
+  .price-on-sale.raleway-bold {
+    font-size: 20px;
+  }
+
+  .hero-about span.heading.bell-medium.text-white.mb-5 {
+    font-size: 26px !important;
+    text-align: start;
+    padding-top: 0px;
+    margin-bottom: 0px !important;
+  }
+
+  .home-b-1 section.banner-hero-collection-wrap.banner-parallax {
+    min-height: 480px;
+  }
+
+  section.banner-hero-collection-wrap.banner-parallax.home-b-1 {
+    min-height: 480px !important;
+  }
+
+  .box-content.first-banner-home {
+    top: 42%;
+  }
+
+  .box-content.first-banner-home {
+    padding-right: 24px !important;
+    padding-left: 0 !important;
+  }
+
+  .about-partners-banner .tf-content-wrap {
+    padding-right: 14px !important;
+  }
+
+  html.arabic-font .box-content.first-banner-home {
+    padding-right: 0 !important;
+    padding-left: 24px !important;
+  }
+
+  html.arabic-font .box-content.first-banner-home .container {
+    padding-left: 8px !important;
+    padding-right: 0px !important;
+  }
+
+  .box-content.first-banner-home .container {
+    padding-left: 0px !important;
+    padding-right: 8px !important;
+  }
+
+  .arabic-font .hero-about span.heading.bell-medium.text-white.mb-5 {
+    font-size: 28px;
+  }
+
+  .arabic-font .hero-about span.description.text-white.text-uppercase {
+    font-size: 15px !important;
+  }
+
+  .hero-about span.description.text-white.text-uppercase {
+    font-weight: 300 !important;
+    font-size: 10px !important;
+    text-align: justify;
+    text-shadow: none !important;
+    font-family: "be IN Normal", sans-serif !important;
+  }
+
+  .hero-about .mt-5.hero-desc {
+    margin: 0 !important;
+  }
+
+  .home-categories .tf-btn:not(.btn-xl, .btn-md, .btn-line, .style-2, .style-3) {
+    padding: 10px 14px 10px 0px !important;
+  }
+
+  .home-categories .swiper-slide {
+    width: 30% !important;
+  }
+
+  /* ---------- Global Layout Fixes ---------- */
+  html,
+  body {
+    overflow-x: hidden !important;
+    width: 100vw !important;
+  }
+
+  header,
+  .tf-toolbar-bottom.type-1150 {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+
+  .banner-wrapper {
+    height: auto !important;
+    min-height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .tf-toolbar-bottom.type-1150 {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    overflow-x: hidden !important;
+  }
+
+  #cart-no {
+    display: none !important;
+  }
+
+  /* ---------- Typography ---------- */
+  body {
+    font-size: 14px !important;
+    /* base size */
+  }
+
+  h1 {
+    font-size: 22px !important;
+  }
+
+  h2 {
+    font-size: 18px !important;
+  }
+
+  h3 {
+    font-size: 16px !important;
+  }
+
+  h4 {
+    font-size: 14px !important;
+  }
+
+  p,
+  span,
+  a,
+  li {
+    font-size: 14px !important;
+  }
+
+  .experience1-home span.title.bell-medium.heading-30 {
+    text-align: center !important;
+  }
+
+  /* ---------- Buttons ---------- */
+  .box-content .ecomus-button-link {
+    margin-top: 0px !important;
+    padding: 2px 2px !important;
+
+  }
+
+  .box-content .ecomus-button-link span {
+    font-size: 14px !important;
+  }
+
+  /* ---------- Banner Section ---------- */
+  .banner-hero-collection-wrap .text-c {
+    width: 100% !important;
+
+    text-align: start;
+  }
+
+  .banner-hero-collection-wrap .text-c .c-titre {
+    font-size: 22px !important;
+    line-height: 1.2;
+  }
+
+  .banner-hero-collection-wrap .text-c .c-paragraph {
+    font-size: 13px !important;
+    letter-spacing: 0.5px;
+  }
+
+  .banner-hero-collection-wrap .text-c .c-butn {
+    font-size: 14px !important;
+  }
+
+  /* ---------- Brand Logos ---------- */
+  .col-xl-2.col-md-4.col-6.text-center img {
+    max-width: 120px !important;
+  }
+
+  /* ---------- Footer ---------- */
+  .footer-logo {
+    justify-content: center !important;
+    text-align: start;
+  }
+
+  .footer-logo img {
+    max-width: 250px !important;
+  }
+
+  /* ---------- Occasions Section ---------- */
+  .occasions .collection-content {
+    padding: 0 10px;
+  }
+
+  .occasions .collection-content h3 {
+    font-size: 14px !important;
+    line-height: 14px;
+    margin-bottom: 10px !important;
+
+  }
+
+  .occasions .collection-content p {
+    font-size: 12px !important;
+    line-height: 16px;
+    margin-bottom: 2px !important;
+  }
+
+  .occasions .collection-content a {
+    font-size: 10px !important;
+  }
+
+  /* ---------- Category Section ---------- */
+  .flat-spacing-12 .flat-title {
+    flex-direction: column;
+    align-items: center !important;
+    text-align: start;
+  }
+
+  .flat-spacing-12 .flat-title h3 {
+    font-size: 18px !important;
+  }
+
+  .flat-spacing-12 .viewAllCategs {
+    font-size: 10px !important;
+    /* margin-top: 8px; */
+    margin-right: -8px !important;
+  }
+
+  .flat-spacing-12 .collection-content p {
+    font-size: 10px !important;
+  }
+
+  .footer-newsletter h6 {
+    display: none !important;
+
+  }
+
+  .space {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  header#header {
+    overflow: visible !important;
+    /* ✅ allow dropdown to escape */
+  }
+
+  .hover-sw-nav img {
+    display: block;
+  }
+}
+
+/* Force Add to Cart button style globally */
+.tf-btn.btn-fill.justify-content-center.fw-6.fs-16.flex-grow-1.animate-hover-btn {
+  background-color: #E8DBC8 !important;
+  color: #000 !important;
+  border: none !important;
+}
+
+@media (max-width: 768px) {
+  .heading-30 {
+    font-size: 18px !important;
+  }
+}
+
+
+
+/* about us responsive */
+/* hero */
+@media (max-width: 768px) {
+  .experience1-home span.title2ndline {
+    width: 100%;
+    text-align: center !important;
+  }
+
+  .experience1-home .tf-icon-box p {
+    text-align: justify !important;
+    margin: 0 !important;
+    margin-top: 12px !important;
+    width: 100% !important;
+    max-width: 500px;
+  }
+
+  section.banner-hero-collection-wrap.banner-parallax p.text.mb-4.text-white {
+    text-align: justify !important;
+  }
+
+  .first-banner-home p {
+    text-align: justify !important;
+  }
+
+  i.icon.icon-arrow1-top-left {
+    font-size: 8px !important;
+  }
+
+  .flat-spacing-15 {
+    padding-bottom: 0px;
+  }
+
+  .flat-spacing-18 {
+    padding: 26px 14px 30px 14px;
+  }
+
+  .flat-spacing-12 {
+    padding-bottom: 30px !important;
+    padding-top: 10px !important;
+  }
+
+  .flat-spacing-12 .flat-title h3 {
+    font-size: 14px !important;
+  }
+
+  /* Title */
+  .heading {
+    font-size: 16px !important;
+    line-height: 22px !important;
+
+    margin-top: 60px !important;
+    /* adjust if needed */
+    display: block;
+  }
+
+  /* Subtitle */
+  .description {
+    font-size: 11px !important;
+    line-height: 17px !important;
+
+    display: block;
+  }
+
+  /* Container width */
+  .container-te {
+    max-width: 300px !important;
+    margin: 0 auto !important;
+    /* center the block */
+  }
+
+  /* Fix spacing between title and subtitle */
+  .mt-5 {
+    margin-bottom: 20px !important;
+  }
+
+
+}
+
+/* brand presentation */
+
+/* =============================== */
+/*      MOBILE ONLY (≤ 576px)      */
+/* =============================== */
+@media (max-width: 768px) {
+
+
+
+  /* Subtitle */
+  .flat-title .sub-title {
+    font-size: 12px !important;
+    line-height: 22px !important;
+    text-align: start !important;
+  }
+
+  /* Make icons vertical instead of 3 columns */
+  .box3 {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+
+  /* Each item full width and centered */
+  .boxabout {
+    width: 100% !important;
+    text-align: start !important;
+    justify-content: flex-start !important;
+
+  }
+
+  /* Item title */
+  .tf-icon-box .title {
+    text-align: start !important;
+    font-size: 14px !important;
+    margin-bottom: 5px !important;
+  }
+
+  /* Item description */
+  .tf-icon-box p {
+    text-align: start !important;
+    font-size: 12px !important;
+    line-height: 20px !important;
+    max-width: 300px;
+    margin: 0 auto !important;
+  }
+
+  /* Fix padding of the whole card */
+  .flat-wrap-iconbox {
+    padding: 25px 15px !important;
+  }
+}
+
+
+
+/* about */
+
+@media (max-width: 768px) {
+section.banner-hero-collection-wrap.banner-parallax.home-b-1 video{
+  height: 100% !important;
+}
+  /* Stack image and text vertically */
+  .tf-grid-layout.md-col-2 {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1px !important;
+  }
+
+  /* Image full width */
+  .tf-image-wrap img {
+    width: 100% !important;
+    height: auto !important;
+    border-radius: 10px;
+  }
+
+  /* Title styling */
+  .tf-content-wrap .heading {
+    font-size: 20px !important;
+    text-align: start !important;
+    line-height: 26px !important;
+    margin-bottom: 10px !important;
+    text-transform: uppercase;
+  }
+
+  /* Description text */
+  .tf-content-wrap .text {
+    font-size: 12px !important;
+    line-height: 22px !important;
+    text-align: start !important;
+    margin: 0 auto;
+    max-width: 320px;
+  }
+#sidebarmobile {
+ 
+    width: 100% !important;
+    max-width: 100vw;
+}
+  /* Reduce empty spacing of section on mobile */
+  .flat-spacing-23 {
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .products-homeP .heading-30 {
+    font-size: 20px !important;
+    /* title size on tablet/phone */
+    text-align: start !important;
+    margin-top: 20px !important;
+  }
+
+  .productName {
+    font-size: 12px !important;
+  }
+
+  .card-product .productName {
+    display: block;
+    min-height: 40px;
+    /* enough space for 2 lines */
+    line-height: 20px;
+    overflow: hidden;
+    /* hide overflow if name is too long */
+  }
+
+  /* Optional: keep card height consistent */
+  .card-product .inner-info {
+    min-height: 80px;
+  }
+}
+
+/* =============================== */
+/*      FEATURES (≤ 768px)         */
+/* =============================== */
+@media (max-width: 768px) {
+
+  /* Title */
+  .flat-wrap-iconbox .title {
+    font-size: 20px !important;
+    line-height: 26px !important;
+    text-align: start !important;
+    margin-bottom: 12px !important;
+    width: 100%;
+    margin-left: 0px !important;
+  }
+
+  .Open_whatsapp {
+    display: none !important;
+  }
+
+  /* Subtitle */
+  .flat-wrap-iconbox .sub-title {
+    font-size: 12px !important;
+    line-height: 20px !important;
+    text-align: justify !important;
+    margin: auto 0px auto !important;
+  }
+
+  html.arabic-font .caption-price span ,html.arabic-font .text-secondary.ms-2 ,html.arabic-font .price{
+    font-family: "be IN Normal", sans-serif !important;
+  }
+#quick_add .modal-content .header {
+    padding: 10px;
+}
+  /* Wrap items vertically */
+  .box3 {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+
+  /* Each item full width */
+  .boxabout {
+    width: 100% !important;
+    text-align: center !important;
+  }
+
+  /* Item title */
+  .tf-icon-box .title {
+    font-size: 14px !important;
+    line-height: 20px !important;
+    text-align: start !important;
+  }
+
+  /* Item description */
+  .tf-icon-box p {
+    font-size: 12px !important;
+    line-height: 20px !important;
+    text-align: start !important;
+    max-width: 300px;
+    margin: 0 auto !important;
+  }
+
+  /* Section padding */
+  .flat-wrap-iconbox {
+    padding: 20px 15px !important;
+  }
+}
+
+/* last  */
+@media (max-width: 768px) {
+
+  /* Stack grid to column */
+  .tf-grid-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: start;
+    margin-top: 10px;
+  }
+
+  /* Content width full */
+  .tf-content-wrap {
+    width: 100% !important;
+    padding-right: 0 !important;
+    margin-bottom: 5px;
+  }
+
+  /* Reduce heading size */
+  .tf-content-wrap .heading span {
+    font-size: 20px !important;
+
+  }
+
+  /* Reduce paragraph size and line height */
+  .tf-content-wrap .description {
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+    text-align: justify;
+  }
+
+  /* Logos: wrap and center */
+  .partners-logos {
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 30px !important;
+    gap: 15px !important;
+  }
+
+  /* Images: scale down if needed */
+  .tf-image-wrap img {
+    width: 100% !important;
+    height: auto !important;
+    max-width: 400px;
+  }
+
+  .flat-spacing-22 {
+    padding: 0px !important;
+  }
+
+  .talbizsofien {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+
+  /* MAIN TITLE */
+  .flat-title,
+  .flat-title * {
+    text-align: start !important;
+
+  }
+
+  /* FORCE ONE CLEAN LEFT COLUMN */
+  .row.justify-content-center {
+    display: block !important;
+  }
+
+  .col-12,
+  .col-md-6 {
+    width: 100% !important;
+
+  }
+
+  /* FEATURE BOX */
+  .tf-icon-box.style-lg {
+    display: block !important;
+    text-align: start !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* INNER CONTENT — FULL WIDTH, SAME START POINT */
+  .tf-icon-box .content {
+    width: 100% !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    text-align: start !important;
+  }
+
+  /* TITLES */
+  .tf-icon-box .title {
+    text-align: start !important;
+    margin: 0 0 8px 0 !important;
+  }
+
+  /* DESCRIPTIONS */
+  .tf-icon-box p {
+    text-align: start !important;
+    margin: 0 !important;
+    margin-top: 20px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  #header .nav-icon .nav-search {
+    display: none;
+  }
+
+  .footer-wrap {
+    background-image: url(/images/footer_bg_mobile.jpg) !important;
+    min-height: 300px;
+    /* adjust until it looks good */
+    padding: 40px 0;
+    /* gives space for content */
+    background-size: cover !important;
+  }
+
+  .h1_prod {
+    font-size: 16px !important;
+  }
+
+  #p_prod {
+    font-size: 10px !important;
+  }
+}
+>>>>>>> origin/main

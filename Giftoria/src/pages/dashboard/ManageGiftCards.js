@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import { Col, Row, Nav, Card, Button, Table, Container, Modal, Form, Alert, Image, Spinner } from '@themesberg/react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -424,4 +425,528 @@ export default function ManageGiftCards() {
       />
     </Container>
   );
+=======
+import React, { useState, useEffect } from 'react';
+import { Col, Row, Nav, Card, Button, Table, Container, Modal, Form, Alert, Image, Spinner } from '@themesberg/react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEdit, faTrashAlt, faPlus, faUpload } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
+import { BACKEND_URL } from '../../api/config';
+
+const API_URL = `${BACKEND_URL}/api`;
+
+
+const GiftCardModal = ({ show, onHide, giftCard, onSave, isLoading }) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    name_ar: '',
+    is_active: true,
+    occasion_id: ''
+  });
+  const [occasions, setOccasions] = useState([]);
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    const fetchOccasions = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/occasions`);
+        console.log("Fetched occasions response:", res.data);
+
+        // ✅ Adapt this line depending on your API response structure
+        // Example 1: if backend returns { success: true, data: [...] }
+        if (Array.isArray(res.data.data)) {
+          setOccasions(res.data.data);
+        }
+        // Example 2: if backend returns just [...]
+        else if (Array.isArray(res.data)) {
+          setOccasions(res.data);
+        } else {
+          console.warn("Unexpected response format:", res.data);
+        }
+      } catch (err) {
+        console.error('Error fetching occasions:', err);
+      }
+    };
+
+    fetchOccasions();
+  }, []);
+
+  useEffect(() => {
+    if (giftCard) {
+      setFormData({
+        name: giftCard.name || '',
+        name_ar: giftCard.name_ar || '',
+        is_active: giftCard.is_active !== undefined ? giftCard.is_active : true,
+        occasion_id: giftCard.occasion_id || ''
+      });
+      setImagePreview(giftCard.image ? `${BACKEND_URL}/storage/${giftCard.image}` : null);
+    } else {
+      setFormData({
+        name: '',
+        name_ar: '',
+        is_active: true,
+        occasion_id: ''
+      });
+      setImagePreview(null);
+    }
+    setImageFile(null);
+    setErrors({});
+  }, [giftCard, show]);
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => setImagePreview(reader.result);
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSave(formData, imageFile, giftCard?.id);
+  };
+
+  return (
+    <Modal as={Modal.Dialog} centered show={show} onHide={onHide} size="lg">
+      <Modal.Header closeButton>
+        <Modal.Title className="h4">
+          {giftCard ? 'Edit Gift Card' : 'Create New Gift Card'}
+        </Modal.Title>
+      </Modal.Header>
+      <Form onSubmit={handleSubmit}>
+        <Modal.Body>
+          <Row>
+            <Col md={6}>
+              <Form.Group className="mb-3">
+                <Form.Label>Gift Card Template Name (English) *</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  placeholder="e.g. Birthday Card, Holiday Card"
+                  required
+                  isInvalid={!!errors.name}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.name}
+                </Form.Control.Feedback>
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Label>Gift Card Template Name (Arabic)</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="name_ar"
+                  value={formData.name_ar}
+                  onChange={handleInputChange}
+                  placeholder="مثال: بطاقة عيد ميلاد، بطاقة العطلة"
+                  isInvalid={!!errors.name_ar}
+                  dir="rtl"
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.name_ar}
+                </Form.Control.Feedback>
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Label>Occasion</Form.Label>
+                <Form.Select
+                  name="occasion_id"
+                  value={formData.occasion_id}
+                  onChange={handleInputChange}
+                >
+                  <option value="">-- Select Occasion --</option>
+                  {occasions.map((occ) => (
+                    <option key={occ.id} value={occ.id}>
+                      {occ.name}
+                    </option>
+                  ))}
+                </Form.Select>
+                <Form.Text className="text-muted">
+                  Select the occasion this gift card belongs to.
+                </Form.Text>
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Check
+                  type="checkbox"
+                  name="is_active"
+                  checked={formData.is_active}
+                  onChange={handleInputChange}
+                  label="Active Template"
+                />
+              </Form.Group>
+            </Col>
+
+            <Col md={6}>
+              <Form.Group className="mb-3">
+                <Form.Label>Gift Card Image</Form.Label>
+                <Form.Control
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
+              </Form.Group>
+
+              {imagePreview && (
+                <div className="text-center">
+                  <Image
+                    src={imagePreview}
+                    alt="Gift Card Preview"
+                    style={{ maxWidth: '200px', maxHeight: '150px' }}
+                    thumbnail
+                  />
+                </div>
+              )}
+            </Col>
+          </Row>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={onHide} disabled={isLoading}>
+            Cancel
+          </Button>
+          <Button variant="primary" type="submit" disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <Spinner animation="border" size="sm" className="me-2" />
+                {giftCard ? 'Updating...' : 'Creating...'}
+              </>
+            ) : (
+              giftCard ? 'Update Gift Card' : 'Create Gift Card'
+            )}
+          </Button>
+        </Modal.Footer>
+      </Form>
+    </Modal>
+  );
+};
+
+
+export default function ManageGiftCards() {
+  const [giftCards, setGiftCards] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedGiftCard, setSelectedGiftCard] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [alert, setAlert] = useState({ show: false, message: '', variant: 'success' });
+  const [occasions, setOccasions] = useState([]);
+  const [selectedOccasion, setSelectedOccasion] = useState("");
+
+
+  const fetchOccasions = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/occasions`);
+      if (Array.isArray(res.data.data)) {
+        setOccasions(res.data.data);
+      } else if (Array.isArray(res.data)) {
+        setOccasions(res.data);
+      } else {
+        console.warn("Unexpected response format:", res.data);
+      }
+    } catch (err) {
+      console.error('Error fetching occasions:', err);
+    }
+  };
+  
+  useEffect(() => {
+    fetchGiftCards();
+    fetchOccasions();
+
+  }, []);
+const getOccasionName = (id) => {
+  const occasion = occasions.find((o) => o.id === id);
+  return occasion ? occasion.name : "—";
+};
+
+  const fetchGiftCards = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`${API_URL}/gift-cards`);
+      
+      if (response.data.success) {
+        setGiftCards(response.data.data);
+      } else {
+        showAlert('Failed to fetch gift cards', 'danger');
+      }
+    } catch (error) {
+      console.error('Error fetching gift cards:', error);
+      showAlert('Error fetching gift cards', 'danger');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const showAlert = (message, variant = 'success') => {
+    setAlert({ show: true, message, variant });
+    setTimeout(() => setAlert({ show: false, message: '', variant: 'success' }), 5000);
+  };
+
+  const handleCreateNew = () => {
+    setSelectedGiftCard(null);
+    setShowModal(true);
+  };
+
+  const handleEdit = (giftCard) => {
+    setSelectedGiftCard(giftCard);
+    setShowModal(true);
+  };
+
+  const handleSave = async (formData, imageFile, giftCardId) => {
+    try {
+      setIsLoading(true);
+      let cardId = null;
+
+      // Step 1: Create or update gift card data (without image)
+      const giftCardData = {
+        name: formData.name,
+        name_ar: formData.name_ar,
+        is_active: formData.is_active,
+        occasion_id: formData.occasion_id
+      };
+
+      if (giftCardId) {
+        await axios.put(`${API_URL}/gift-cards/${giftCardId}`, giftCardData);
+        cardId = giftCardId;
+      } else {
+        const giftCardRes = await axios.post(`${API_URL}/gift-cards`, giftCardData);
+        cardId = giftCardRes.data.data.id;
+      }
+
+      // Step 2: Handle image upload separately if there's an image
+      if (imageFile) {
+        const imageFormData = new FormData();
+        imageFormData.append('image', imageFile);
+        imageFormData.append('name', formData.name);
+        imageFormData.append('name_ar', formData.name_ar);
+        imageFormData.append('is_active', formData.is_active ? '1' : '0');
+        imageFormData.append('occasion_id', formData.occasion_id);
+
+
+        // Update gift card with image
+        await axios.post(`${API_URL}/gift-cards/${cardId}?_method=PUT`, imageFormData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+      }
+
+      showAlert(
+        giftCardId ? 'Gift card updated successfully' : 'Gift card created successfully',
+        'success'
+      );
+      setShowModal(false);
+      fetchGiftCards();
+    } catch (error) {
+      console.error('Error saving gift card:', error);
+      showAlert(error.response?.data?.message || 'Error saving gift card', 'danger');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDelete = async (giftCardId) => {
+    if (!window.confirm('Are you sure you want to delete this gift card?')) {
+      return;
+    }
+
+    try {
+      const response = await axios.delete(`${API_URL}/gift-cards/${giftCardId}`);
+      
+      if (response.data.success) {
+        showAlert('Gift card deleted successfully', 'success');
+        fetchGiftCards();
+      } else {
+        showAlert(response.data.message || 'Failed to delete gift card', 'danger');
+      }
+    } catch (error) {
+      console.error('Error deleting gift card:', error);
+      showAlert('Error deleting gift card', 'danger');
+    }
+  };
+
+  if (loading) {
+    return (
+      <Container fluid className="py-4">
+        <div className="text-center">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      </Container>
+    );
+  }
+  const filteredGiftCards = selectedOccasion
+  ? giftCards.filter((g) => String(g.occasion_id) === String(selectedOccasion))
+  : giftCards;
+
+
+  return (
+    <Container fluid className="py-4">
+      <Row>
+        <Col xs={12} className="mb-4">
+          <div className="d-flex justify-content-between align-items-center">
+            <div>
+              <h3 className="h4 mb-1">Gift Cards Management</h3>
+              <p className="mb-0">Manage gift cards that can be attached to products</p>
+            </div>
+            <Button variant="primary" onClick={handleCreateNew}>
+              <FontAwesomeIcon icon={faPlus} className="me-2" />
+              Create New Gift Card
+            </Button>
+          </div>
+        </Col>
+      </Row>
+
+      {alert.show && (
+        <Row className="mb-4">
+          <Col xs={12}>
+            <Alert variant={alert.variant} dismissible onClose={() => setAlert({ show: false, message: '', variant: 'success' })}>
+              {alert.message}
+            </Alert>
+          </Col>
+        </Row>
+      )}
+  <Row className="mb-3">
+  <Col md={4}>
+    <Form.Select
+      value={selectedOccasion}
+      onChange={(e) => setSelectedOccasion(e.target.value)}
+    >
+      <option value="">-- All Occasions --</option>
+      {occasions.map((occ) => (
+        <option key={occ.id} value={occ.id}>
+          {occ.name}
+        </option>
+      ))}
+    </Form.Select>
+  </Col>
+</Row>
+
+      <Row>
+        <Col xs={12}>
+          <Card border="light" className="table-wrapper table-responsive shadow-sm">
+            <Card.Body className="pt-0">
+              <Table hover className="user-table align-items-center">
+              <thead>
+  <tr>
+    <th className="border-bottom">Image</th>
+    <th className="border-bottom">Template Names</th>
+    <th className="border-bottom">Occasion</th>
+    <th className="border-bottom">Status</th>
+    <th className="border-bottom">Selections</th>
+    <th className="border-bottom">Actions</th>
+  </tr>
+</thead>
+<tbody>
+  {filteredGiftCards.length > 0 ? (
+  filteredGiftCards.map((giftCard) => (
+      <tr key={giftCard.id}>
+        <td>
+          {giftCard.image ? (
+            <Image 
+              src={`${BACKEND_URL}/storage/${giftCard.image}`} 
+              alt={giftCard.name}
+              style={{ width: '50px', height: '40px', objectFit: 'cover' }}
+              rounded
+            />
+          ) : (
+            <div 
+              className="bg-light d-flex align-items-center justify-content-center rounded"
+              style={{ width: '50px', height: '40px' }}
+            >
+              <FontAwesomeIcon icon={faUpload} className="text-muted" />
+            </div>
+          )}
+        </td>
+
+        {/* Template Names */}
+        <td>
+          <div className="d-flex flex-column">
+            <span className="fw-normal">{giftCard.name}</span>
+            {giftCard.name_ar && (
+              <span className="text-muted small" dir="rtl" style={{ fontSize: '0.95em' }}>
+                {giftCard.name_ar}
+              </span>
+            )}
+          </div>
+        </td>
+
+        {/* ✅ Occasion Column */}
+        <td>{getOccasionName(giftCard.occasion_id)}</td>
+
+
+
+        {/* Status */}
+        <td>
+          <span className={`badge bg-${giftCard.is_active ? 'success' : 'secondary'}`}>
+            {giftCard.is_active ? 'Active' : 'Inactive'}
+          </span>
+        </td>
+
+        {/* Selections */}
+        <td>
+          <span className="fw-normal">
+            {giftCard.selections ? giftCard.selections.length : 0} customer selections
+          </span>
+        </td>
+
+        {/* Actions */}
+        <td>
+          <Button 
+            variant="outline-primary" 
+            size="sm" 
+            className="me-2"
+            onClick={() => handleEdit(giftCard)}
+          >
+            <FontAwesomeIcon icon={faEdit} />
+          </Button>
+          <Button 
+            variant="outline-danger" 
+            size="sm"
+            onClick={() => handleDelete(giftCard.id)}
+          >
+            <FontAwesomeIcon icon={faTrashAlt} />
+          </Button>
+        </td>
+      </tr>
+    ))
+  ) : (
+    <tr>
+      <td colSpan="6" className="text-center py-4">
+        <div className="text-muted">
+          <FontAwesomeIcon icon={faUpload} size="3x" className="mb-3" />
+          <p>No gift card templates found. Create your first template to get started.</p>
+        </div>
+      </td>
+    </tr>
+  )}
+</tbody>
+
+              </Table>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+
+      <GiftCardModal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        giftCard={selectedGiftCard}
+        onSave={handleSave}
+        isLoading={isLoading}
+      />
+    </Container>
+  );
+>>>>>>> origin/main
 }

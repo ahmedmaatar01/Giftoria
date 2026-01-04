@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use client";
 
 import React, { useRef, useState } from "react";
@@ -96,3 +97,136 @@ export default function ContactForm2() {
     </section>
   );
 }
+=======
+"use client";
+
+import React, { useRef, useState } from "react";
+import { API_BASE_URL_WITH_API } from "../../../utils/config";
+import { useTranslation } from "react-i18next";
+
+export default function ContactForm2() {
+  const { t } = useTranslation();
+  const formRef = useRef();
+  const [success, setSuccess] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleShowMessage = () => {
+    setShowMessage(true);
+    setTimeout(() => {
+      setShowMessage(false);
+    }, 2000);
+  };
+
+  const sendMail = async () => {
+    if (!formRef.current) return;
+    const formData = new FormData(formRef.current);
+    const payload = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      message: formData.get('message'),
+    };
+    setLoading(true);
+    setSuccess(false);
+    try {
+      const res = await fetch(`${API_BASE_URL_WITH_API}/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+      const json = await res.json();
+      if (res.ok && json.success) {
+        setSuccess(true);
+        formRef.current.reset();
+      } else {
+        setSuccess(false);
+      }
+    } catch (err) {
+      setSuccess(false);
+    } finally {
+      setLoading(false);
+      handleShowMessage();
+    }
+  };
+
+  return (
+    <section className="flat-spacing-9" style={{ backgroundColor: '#ffffff' }}>
+      <div className="container">
+        <div className="flat-title text-center">
+          <span className="title bell-medium text-uppercase">{t("contact_form.title")}</span>
+          <p className="sub-title text_black-2 raleway-light ">{t("contact_form.subtitle")}</p>
+        </div>
+        <div>
+          <form
+            ref={formRef}
+            onSubmit={(e) => {
+              e.preventDefault();
+              sendMail();
+            }}
+            className="mw-705 mx-auto text-center form-contact"
+            id="contactform"
+            action="./contact/contact-process.php"
+            method="post"
+          >
+            <div className="d-flex gap-15 mb_15">
+              <fieldset className="w-100">
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  required
+                  placeholder={t("contact_form.name_placeholder")}
+                  style={{ border: '2px solid #F1ECE4' }}
+                />
+              </fieldset>
+              <fieldset className="w-100">
+                <input
+                  type="email"
+                  autoComplete="abc@xyz.com"
+                  name="email"
+                  id="email"
+                  required
+                  placeholder={t("contact_form.email_placeholder")}
+                  style={{ border: '2px solid #F1ECE4' }}
+                />
+              </fieldset>
+            </div>
+            <div className="mb_15">
+              <textarea
+                placeholder={t("contact_form.message_placeholder")}
+                name="message"
+                id="message"
+                required
+                cols={30}
+                rows={10}
+                style={{ border: '2px solid #F1ECE4' }}
+              />
+            </div>
+            <div className="send-wrap">
+              <div className={`tfSubscribeMsg ${showMessage ? "active" : ""}`}>
+                {loading && <p>{t("contact_form.sending")}</p>}
+                {!loading && success && (
+                  <p style={{ color: "rgb(52, 168, 83)" }}>{t("contact_form.success")}</p>
+                )}
+                {!loading && !success && showMessage && (
+                  <p style={{ color: "red" }}>{t("contact_form.error")}</p>
+                )}
+              </div>
+              <button
+                type="submit"
+                className="tf-btn radius-3 btn-fill animate-hover-btn justify-content-center"
+                style={{ backgroundColor: '#F1ECE4', border: '1px solid #F1ECE4', color: '#000000' }}
+                disabled={loading}
+              >
+                {loading ? t("contact_form.sending_button") : t("contact_form.send_button")}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  );
+}
+>>>>>>> origin/main

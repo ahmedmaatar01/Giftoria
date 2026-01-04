@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // API utility functions for GiftoriaStore
 
 // Base API configuration
@@ -140,4 +141,205 @@ export default {
   categoriesAPI,
   mapBackendProduct,
   API_CONFIG,
+=======
+// API utility functions for GiftoriaStore
+
+// Base API configuration
+export const API_CONFIG = {
+  BASE_URL: require('./config').API_BASE_URL_WITH_API,
+  TIMEOUT: 10000, // 10 seconds
+  HEADERS: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+  }
+};
+
+// Simple in-memory cache
+const cache = new Map();
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+// Cache utility functions
+const getCacheKey = (endpoint, options) => {
+  return `${endpoint}-${JSON.stringify(options || {})}`;
+};
+
+const getCachedData = (cacheKey) => {
+  const cached = cache.get(cacheKey);
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+    return cached.data;
+  }
+  cache.delete(cacheKey);
+  return null;
+};
+
+const setCachedData = (cacheKey, data) => {
+  cache.set(cacheKey, { data, timestamp: Date.now() });
+};
+
+// Clear cache (useful for mutations)
+export const clearCache = (pattern = null) => {
+  if (!pattern) {
+    cache.clear();
+  } else {
+    for (const key of cache.keys()) {
+      if (key.includes(pattern)) {
+        cache.delete(key);
+      }
+    }
+  }
+};
+
+// Generic API call function with error handling and caching
+export const apiCall = async (endpoint, options = {}) => {
+  const url = `${API_CONFIG.BASE_URL}${endpoint}`;
+  const config = {
+    ...options,
+    headers: {
+      ...API_CONFIG.HEADERS,
+      ...options.headers,
+    },
+  };
+
+  // Check cache for GET requests
+  const cacheKey = getCacheKey(endpoint, options);
+  if (!options.method || options.method === 'GET') {
+    const cachedData = getCachedData(cacheKey);
+    if (cachedData) {
+      console.log('[API Cache] Hit:', endpoint);
+      return cachedData;
+    }
+  }
+
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), API_CONFIG.TIMEOUT);
+    
+    const response = await fetch(url, {
+      ...config,
+      signal: controller.signal,
+    });
+    
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      // Try to parse a useful error message from the API
+      let errorMessage = `HTTP error! status: ${response.status}`;
+      try {
+        const errorData = await response.json();
+        if (errorData) {
+          if (typeof errorData.message === 'string' && errorData.message.trim().length) {
+            errorMessage = errorData.message;
+          }
+          // Laravel validation errors shape: { message: "...", errors: { field: ["msg1", ...] } }
+          if (errorData.errors && typeof errorData.errors === 'object') {
+            const firstField = Object.keys(errorData.errors)[0];
+            const firstMsg = firstField ? errorData.errors[firstField][0] : null;
+            if (firstMsg) {
+              errorMessage = firstMsg;
+            }
+          }
+        }
+      } catch (_) {
+        // ignore JSON parse errors; keep default message
+      }
+      throw new Error(errorMessage);
+    }
+
+    const data = await response.json();
+    
+    // Cache GET requests
+    if (!options.method || options.method === 'GET') {
+      setCachedData(cacheKey, data);
+    }
+    
+    // Clear related cache on mutations
+    if (options.method && ['POST', 'PUT', 'DELETE'].includes(options.method)) {
+      clearCache(endpoint.split('/')[1]); // Clear cache for the resource
+    }
+
+    return data;
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('Request timeout - please check your connection');
+    }
+    
+    console.error(`API call failed for ${endpoint}:`, error);
+    throw error;
+  }
+};
+
+// Specific API functions
+export const productsAPI = {
+  // Get all products
+  getAll: () => apiCall('/products'),
+  
+  // Get product by ID
+  getById: (id) => apiCall(`/products/${id}`),
+  
+  // Get products by category
+  getByCategory: (categoryId) => apiCall(`/products?category_id=${categoryId}`),
+  
+  // Search products
+  search: (query) => apiCall(`/products?search=${encodeURIComponent(query)}`),
+};
+
+export const categoriesAPI = {
+  // Get all categories
+  getAll: () => apiCall('/categories'),
+  
+  // Get category by ID
+  getById: (id) => apiCall(`/categories/${id}`),
+};
+
+// Product mapping utility
+export const mapBackendProduct = (backendProduct) => {
+  const featuredImage = backendProduct.images?.find(img => img.is_featured);
+  const otherImages = backendProduct.images?.filter(img => !img.is_featured) || [];
+  
+  return {
+    id: backendProduct.id,
+    imgSrc: featuredImage 
+      ? `${API_CONFIG.BASE_URL.replace('/api', '')}${featuredImage.image_path}` 
+      : "/images/products/placeholder.jpg",
+    imgHoverSrc: otherImages.length > 0 
+      ? `${API_CONFIG.BASE_URL.replace('/api', '')}${otherImages[0].image_path}` 
+      : "/images/products/placeholder.jpg",
+    title: backendProduct.name,
+    price: parseFloat(backendProduct.price),
+    originalPrice: backendProduct.original_price ? parseFloat(backendProduct.original_price) : null,
+    colors: backendProduct.images?.map((img, index) => ({
+      name: `Color ${index + 1}`,
+      colorClass: `bg_color-${index + 1}`,
+      imgSrc: `${API_CONFIG.BASE_URL.replace('/api', '')}${img.image_path}`,
+    })) || [],
+    sizes: ["S", "M", "L", "XL"], // Default sizes - you can add this to your backend model
+    filterCategories: backendProduct.category ? [backendProduct.category.name] : [],
+    brand: "Giftoria", // Default brand - you can add this to your backend model
+    isAvailable: backendProduct.stock > 0,
+    stock: backendProduct.stock,
+    description: backendProduct.description,
+    category: backendProduct.category?.name || "Uncategorized",
+    categoryId: backendProduct.category?.id,
+    images: backendProduct.images?.map(img => ({
+      ...img,
+      fullPath: `${API_CONFIG.BASE_URL.replace('/api', '')}${img.image_path}`
+    })) || [],
+    // Additional fields for e-commerce
+    discount: backendProduct.discount_percentage || 0,
+    isOnSale: backendProduct.is_on_sale || false,
+    isFeatured: backendProduct.is_featured || false,
+    rating: backendProduct.rating || 4.5, // Default rating
+    reviewCount: backendProduct.review_count || 0,
+    createdAt: backendProduct.created_at,
+    updatedAt: backendProduct.updated_at,
+  };
+};
+
+export default {
+  apiCall,
+  productsAPI,
+  categoriesAPI,
+  mapBackendProduct,
+  API_CONFIG,
+>>>>>>> origin/main
 };

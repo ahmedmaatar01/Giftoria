@@ -17,7 +17,7 @@ class GiftCardController extends Controller
     {
         try {
             $giftCards = GiftCard::all();
-            
+
             return response()->json([
                 'success' => true,
                 'data' => $giftCards,
@@ -40,7 +40,9 @@ class GiftCardController extends Controller
             'name' => 'required|string|max:255',
             'name_ar' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'is_active' => 'boolean'
+            'is_active' => 'boolean',
+            'occasion_id' => 'nullable|exists:occasions,id',
+
         ]);
 
         if ($validator->fails()) {
@@ -64,7 +66,7 @@ class GiftCardController extends Controller
 
             return response()->json([
                 'success' => true,
-                'data' => $giftCard,
+                'data' =>  $giftCard->load('occasion'),
                 'message' => 'Gift card created successfully'
             ], 201);
         } catch (\Exception $e) {
@@ -103,7 +105,9 @@ class GiftCardController extends Controller
             'name' => 'required|string|max:255',
             'name_ar' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'is_active' => 'boolean'
+            'is_active' => 'boolean',
+            'occasion_id' => 'nullable|exists:occasions,id',
+
         ]);
 
         if ($validator->fails()) {
@@ -115,7 +119,7 @@ class GiftCardController extends Controller
         }
 
         try {
-            $giftCardData = $request->only(['name', 'name_ar', 'is_active']);
+            $giftCardData = $request->only(['name', 'name_ar', 'is_active','occasion_id']);
 
             // Handle image upload
             if ($request->hasFile('image')) {

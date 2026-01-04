@@ -2,6 +2,7 @@
 
 <?php
 use App\Http\Controllers\SadadPaymentController;
+use App\Http\Controllers\Api\HomePageDetailController;
 
 use App\Http\Controllers\Api\CommandController;
 // Command management
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserAuthController;
 use App\Http\Controllers\Api\AdminAuthController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ProductImageController;
 use App\Http\Controllers\Api\CustomFieldController;
@@ -27,8 +29,12 @@ use App\Http\Controllers\ProductGiftCardSelectionController;
 | Here is where you can register API routes for your application. These
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "api" middleware group. Make something great!
+
 |
 */
+
+// Public contact form submission
+Route::post('/contact', [ContactController::class, 'store']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -36,13 +42,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // Health check endpoint for Docker
 Route::get('/health', function () {
-    return response()->json(['status' => 'ok', 'timestamp' => now()]);
+    return response()->json(['status' => 'ok', 'timestamp' => now(), 'version' => '1.1']);
 });
 
 // Debug endpoint to test routing
 Route::get('/test', function () {
     return response()->json(['message' => 'API routing works', 'timestamp' => now()]);
 });
+// Home Page Detail API (RESTful)
+Route::apiResource('home-page-details', HomePageDetailController::class);
 
 // Debug categories without controller
 Route::get('/categories-test', function () {
@@ -107,7 +115,13 @@ Route::apiResource('products', ProductController::class);
 Route::apiResource('product-images', ProductImageController::class);
 Route::apiResource('custom-fields', CustomFieldController::class);
 Route::apiResource('product-custom-values', ProductCustomValueController::class);
-Route::apiResource('commands', CommandController::class)->middleware('auth:sanctum');
+// Public route for creating a command (guest checkout allowed)
+Route::post('/commands', [CommandController::class, 'store']);
+
+// Protected routes for admins or logged-in users
+Route::apiResource('commands', CommandController::class)
+    ->except(['store'])
+    ->middleware('auth:sanctum');
 Route::apiResource('occasions', OccasionController::class);
 Route::apiResource('gift-cards', GiftCardController::class);
 

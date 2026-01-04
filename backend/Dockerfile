@@ -80,4 +80,4 @@ exec php artisan serve --host=0.0.0.0 --port=8000\n\
 EXPOSE 8000
 
 # Simple startup for debugging
-CMD ["sh", "-c", "echo 'Starting app...' && php artisan config:cache || true && php artisan route:clear || true && php artisan migrate --force || true && php artisan storage:link || true && echo 'Server starting...' && php artisan serve --host=0.0.0.0 --port=8000"]
+CMD ["sh", "-c", "echo 'Starting app debug mode...' && echo 'PHP Version:' && php -v && echo 'Current directory:' && pwd && ls -la && echo 'Cache clearing...' && php artisan config:cache || echo 'Config cache failed' && php artisan route:clear || echo 'Route clear failed' && echo 'Storage linking...' && php artisan storage:link || echo 'Storage link failed' && echo 'Starting server on 0.0.0.0:8000 (skipping migrations for now)...' && timeout 120 php artisan serve --host=0.0.0.0 --port=8000 || echo 'Server start failed'"]

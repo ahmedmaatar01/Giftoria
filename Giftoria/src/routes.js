@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 export const Routes = {
         Presentation: { path: "/" },
         DashboardOverview: { path: "/dashboard/overview" },
@@ -19,4 +20,28 @@ export const Routes = {
         Register: { path: "/register" },
         AdminRegister: { path: "/admin-register" },
         AdminLogin: { path: "/admin-login" },
+=======
+export const Routes = {
+        Presentation: { path: "/" },
+        DashboardOverview: { path: "/dashboard/overview" },
+        Transactions: { path: "/transactions" },
+        Settings: { path: "/settings" },
+        Upgrade: { path: "/upgrade" },
+        BootstrapTables: { path: "/tables/bootstrap-tables" },
+        ManageProducts: { path: "/dashboard/manage-products" },
+        ManageCategory: { path: "/dashboard/manage-categories" },
+        ManageHomePage: { path: "/dashboard/manage-home-page" },
+    ManageCustomField: { path: "/dashboard/manage-custom-fields" },
+    ManageCommands: { path: "/dashboard/manage-commands" },
+    ManageOccasions: { path: "/dashboard/manage-occasions" },
+    ManageGiftCards: { path: "/dashboard/manage-gift-cards" },
+    ManageUsers: { path: "/dashboard/manage-users" },
+    ManageAdmins: { path: "/dashboard/manage-admins" },
+        NotFound: { path: "/notfound" },
+        ServerError: { path: "/server-error" },
+        Login: { path: "/login" },
+        Register: { path: "/register" },
+        AdminRegister: { path: "/admin-register" },
+        AdminLogin: { path: "/admin-login" },
+>>>>>>> origin/main
     };

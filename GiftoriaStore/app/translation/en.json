@@ -74,6 +74,9 @@
   "banner3_description": "Become a part of our exclusive community and enjoy special benefits, early access to new collections, and personalized offers.",
   "banner3_button": "Get in Touch",
   "products2_title": "YOU MAY ALSO LIKE",
+  "search_inspiration": "Need some inspiration?",
+  "search_title": "Search our site",
+  "best_seller_title": "BEST SELLER",
   "add_to_wishlist": "Add to Wishlist",
   "already_wishlisted": "Already Wishlisted",
   "add_to_compare": "Add to Compare",
@@ -83,14 +86,13 @@
   "features_title_line1": "EXPERIENCE THE ELEGANCE",
   "features_title_line2": "OF TIMESLESS GIFTING",
   "features_slide_1_title": "Elegant Packaging",
-"features_slide_1_description": "Our gifts are wrapped in premium materials to leave a lasting first impression.",
-"features_slide_2_title": "Personalized Touch",
-"features_slide_2_description": "Add your own message or style to create a truly unique and memorable gift.",
-"features_slide_3_title": "Fast Delivery",
-"features_slide_3_description": "Receive your gifts quickly and safely, right at your doorstep without delay.",
-"features_slide_4_title": "Luxury Selection",
-"features_slide_4_description": "Choose from carefully selected gifts prized for their quality, style.",
-
+  "features_slide_1_description": "Our gifts are wrapped in premium materials to leave a lasting first impression.",
+  "features_slide_2_title": "Personalized Touch",
+  "features_slide_2_description": "Add your own message or style to create a truly unique and memorable gift.",
+  "features_slide_3_title": "Fast Delivery",
+  "features_slide_3_description": "Receive your gifts quickly and safely, right at your doorstep without delay.",
+  "features_slide_4_title": "Luxury Selection",
+  "features_slide_4_description": "Choose from carefully selected gifts prized for their quality, style.",
   "store_title": "COME STROLL THROUGH OUR FLOWER PARLOUR",
   "qatar_store_title": "Qatar Store",
   "london_store_title": "London Store",
@@ -120,9 +122,9 @@
   "footer_address_line1": "Address: 1234 Gifts Street, Suite 567,",
   "footer_address_line2": "New York, NY 10001",
   "footer_email_label": "Email:",
-  "footer_email": "info@Giftsshop.com",
+  "footer_email": "contact@giftoria.me",
   "footer_phone_label": "Phone:",
-  "footer_phone": "(212) 555‑1234",
+  "footer_phone": "(+974)7773 1974",
   "footer_get_direction": "Get direction",
   "footer_help": "Help",
   "footer_about_us": "About us",
@@ -132,7 +134,7 @@
   "footer_subscribe_error": "Something went wrong",
   "footer_enter_email_placeholder": "Enter your email....",
   "footer_subscribe_button": "Subscribe",
-  "footer_copyright": "© {{year}} Giftoria Store. All Rights Reserved",
+  "footer_copyright": " All Rights Reserved © Giftoria Store 2025.",
   "header.menu": "Open menu",
   "header.logo_home": "Go to homepage",
   "header.logo_alt": "Giftoria Logo",
@@ -144,12 +146,12 @@
   "hero": {
     "_comment": "start about us ",
     "title": "THE STORY OF\nGIFTORIA",
-    "subtitle": "Where every gift is wrapped in timeless grace, a blend of elegance, emotion, and lasting charm."
+    "subtitle": "Where every gift is wrapped in timeless grace a blend of elegance, emotion, and lasting charm."
   },
   "about": {
     "image_alt": "collection image",
     "craft_title": "THE ART BEHIND OUR CRAFT",
-    "craft_description": "From delicate blooms to hand-crafted cakes and bespoke wedding treasures, we turn every idea into a masterpiece made just for you. Our craft is rooted in timeless elegance — where every petal, ribbon, and shade of ivory whispers the language of love.\n\nImagine a charming flower cart adorned with lace and antique brass, overflowing with soft garden roses, baby's breath, and fresh lavender — a vintage dream come to life. It greets your guests with fragrance and romance, a moving piece of art that captures the soul of your celebration.\n\nEach creation we design, from sugared petals on a cake to hand-tied bouquets, carries a touch of nostalgia and grace. We believe beauty lives in the smallest gestures — in the twirl of satin, the sparkle of glass, the gentle flutter of a ribbon caught by the wind.\n\nWhether it's the whisper of petals, the sweetness of icing, or the magic of your \"I do,\" our art tells your love story in the most enchanting way. Beautifully personal, eternally timeless — a celebration wrapped in charm, crafted with heart, and remembered forever.",
+    "craft_description": "From delicate blooms to hand-finished boxes and bespoke confections, we transform ideas into keepsakes made just for you.\nOur craft is rooted in classic elegance—where every ribbon, card, and shade speaks the language of love and celebration.\nWhether it's a bridal bouquet, a corporate token, or a heartfelt surprise, our creations carry a touch of nostalgia and grace beautifully personal, eternally timeless.",
     "our_mission_title": "Our mission",
     "our_mission_text": "Our mission is to offer a unique and luxurious gifting experience, where every creation is designed with care, personalization, and a true sense of meaning making every moment memorable. Giftoria is the go-to destination for exceptional, personalized luxury gifts crafted to leave a lasting impact.",
     "our_vision_title": "Our vision",
@@ -173,18 +175,18 @@
     "thoughtful_curation_title": "Thoughtful Curation",
     "thoughtful_curation_description": "Handpicked gifts for every occasion.",
     "personalized_touch_title": "Personalized Touch",
-    "personalized_touch_description": "Your individuality, our design.",
-    "brand_presentation_subtitle": "GIFTORIA.me is a luxury brand born from a desire to transform the art of gifting into an unforgettable, emotional experience. Every detail, from the design of our products to the personal touch behind each gift, is carefully crafted to reflect elegance, intention, and meaning. At GIFTORIA, we believe that a gift is never just a gift — it is a gesture, a story, a memory in the making. That’s why we offer a curated universe of personalized and refined creations, designed to celebrate life’s most precious moments in a deeply thoughtful way. Whether it’s a symbolic token of love, a timeless expression of gratitude, or a meaningful surprise, GIFTORIA turns each gift into an exceptional experience — one that’s tailored, elegant, and emotionally resonant. Our brand is dedicated to those who seek to offer more than an object: a lasting impression."
+    "personalized_touch_description": "Your message, your style, our design.",
+    "brand_presentation_subtitle": "Giftoria.me is a luxury gifting house born from a passion to turn every present into an unforgettable experience.\n From product design to the final wrap, each detail is crafted with intention reflecting elegance, precision, and meaning.\n At Giftoria, a gift is more than an item, it's a gesture, a story, and a memory in the making."
   },
   "productFeatures": {
     "title": "Quality is our priority",
     "subtitle": "Our gifted curators have gathered treasures perfect for every season. They’ve crafted a world of thoughtful delights to inspire your next heartfelt gesture.",
     "high_quality_materials_title": "High-Quality Materials",
-    "high_quality_materials_description": "Crafted with precision and excellence, our activewear is meticulously engineered using premium materials.",
-    "laconic_design_title": "Laconic Design",
-    "laconic_design_description": "Simplicity refined. Our activewear embodies the essence of minimalistic design, delivering effortless style that speaks volumes.",
-    "various_sizes_title": "Various Sizes",
-    "various_sizes_description": "Designed for every body and anyone, our activewear embraces diversity with a wide range of sizes and shapes."
+    "high_quality_materials_description": "Premium papers, florals, and finishes selected for beauty and durability.",
+    "laconic_design_title": "Refined Minimalism",
+    "laconic_design_description": "Clean, elegant design that lets the sentiment shine.",
+    "various_sizes_title": "Versatile Sets & Sizes",
+    "various_sizes_description": "From petite gestures to grand collections, thoughtfully composed to suit every moment."
   },
   "store_info": {
     "address": "Address",
@@ -233,9 +235,12 @@
     "contact": "CONTACT",
     "faq": "FAQ",
     "men": "MEN",
-    "women": "WOMEN"
+    "women": "WOMEN",
+    "email": "Email",
+    "phone": "Phone",
+    "login": "LOGIN",
+    "need_help": "NEED_HELP"
   },
-
   "marquee": {
     "item1": "Let your heart bloom, discover flowers that whisper stories of timeless love.",
     "item2": "Let your heart bloom, discover flowers that whisper stories of timeless love.",
@@ -268,8 +273,7 @@
     "zip_code": "Zip code",
     "estimate": "Estimate",
     "currency": "USD"
-  }
-  ,
+  },
   "checkout": {
     "title_billing_details": "Billing details",
     "error_cart_empty": "Your cart is empty",
@@ -279,7 +283,6 @@
     "success_order_placed": "Order placed successfully!",
     "validation_error_prefix": "Validation error",
     "failure_order": "Failed to place order. Please try again.",
-
     "first_name": "First Name",
     "last_name": "Last Name",
     "country_region": "Country/Region",
@@ -300,7 +303,6 @@
     "terms_and_conditions": "terms and conditions",
     "processing": "Processing...",
     "place_order": "Place order",
-    
     "gift_card_options": "Gift Card Options",
     "add_gift_card": "Add Gift Card to Order",
     "loading_templates": "Loading gift card templates...",
@@ -321,7 +323,6 @@
     "template_name": "Template",
     "cancel": "Cancel"
   },
- 
   "footer_language_support": "Language Support",
   "footer_language_text": "Our website supports multiple languages",
   "footer_privacy_policy": "Privacy Policy",
@@ -335,16 +336,14 @@
   "footer_about_us_link": "About Us",
   "footer_account": "Account",
   "partners_heading": "OUR ESTEEMED PARTNERS",
-  "partners_description": "In the timeless art of gifting, collaboration is our finest treasure. We take pride in joining hands with distinguished artisans, chocolatiers, florists, and creators who share our devotion to elegance and authenticity. Together, we craft experiences that transcend mere presents — weaving stories of craftsmanship, trust, and enduring grace."
-,
-"selling_fast": "Selling fast! {{stock}} items in stock.",
-"estimated_delivery_time_label": "Estimated delivery time",
+  "partners_description": "In the art of gifting, collaboration is our greatest treasure. We proudly work with distinguished artisans, chocolatiers, and florists who share our devotion to authenticity and craftsmanship—together creating experiences that transcend the ordinary.",
+  "selling_fast": "Selling fast! {{stock}} items in stock.",
+  "estimated_delivery_time_label": "Estimated delivery time",
   "hours": "hours",
   "not_available": "N/A",
   "estimate_delivery_international": "Estimate delivery {{internationalDays}} Business days to international / {{localDays}} days to {{country}}",
   "guarantee_safe_checkout": "Guarantee safe & secure checkout",
   "qatar": "Qatar",
-  
   "orders": {
     "my_orders": "My Orders",
     "order_number": "Order #{{number}}",
@@ -382,12 +381,10 @@
     "your_note": "Your Note",
     "cancel": "Cancel"
   },
-  
   "shop_page": {
     "our_products": "Our Products",
     "shop_latest_selection": "Shop through our latest selection of Gifts"
   },
-  
   "product_details": {
     "tabs": {
       "description": "Description",
@@ -425,7 +422,6 @@
       "contact_us_text": "For any questions regarding returns or to report an issue with your order, please contact our customer service team at support@giftoria.com or call us at (555) 123-4567. We're here to ensure your complete satisfaction with every purchase."
     }
   },
-  
   "product_detail": {
     "best_seller": "BEST SELLER",
     "quantity": "Quantity",
@@ -439,22 +435,16 @@
     "buy_with": "Buy with",
     "more_payment_options": "More payment options"
   },
-  
   "my_account_title": "My Account",
-  
   "my_orders_title": "My Orders",
-  
   "my_account_edit_title": "My Account Edit",
-  
   "order_details_title": "Order Details",
-  
   "dashboard_nav": {
     "dashboard": "Dashboard",
     "orders": "Orders",
-    "account_details": "Account Details", 
+    "account_details": "Account Details",
     "logout": "Logout"
   },
-  
   "dashboard": {
     "hello": "Hello",
     "guest": "Guest",
@@ -464,11 +454,10 @@
     "edit_account": "edit your password and account details",
     "description_part3": "."
   },
-  
   "orders_table": {
     "order": "Order",
     "date": "Date",
-    "status": "Status", 
+    "status": "Status",
     "total": "Total",
     "actions": "Actions",
     "view_details": "View Details",
@@ -480,11 +469,10 @@
     "login_required": "Please log in to view your orders.",
     "not_available": "N/A"
   },
-  
   "order_details": {
     "order_history": "Order History",
     "item_details": "Item Details",
-    "my_notes": "My Notes", 
+    "my_notes": "My Notes",
     "status_timeline": "Status Timeline",
     "order_info": "Order Info",
     "order_placed": "Order Placed",
@@ -585,11 +573,10 @@
     "already_have_account": "Already have an account? Log in here",
     "registration_failed": "Registration failed"
   },
-  
-    "category": {
-      "fashion": "Fashion",
-      "men": "Men"
-    },
+  "category": {
+    "fashion": "Fashion",
+    "men": "Men"
+  },
   "filter": {
     "title": "Filter",
     "categories": "Product Categories",
@@ -645,6 +632,12 @@
     },
     "checkout_button": "Check out",
     "guarantee_text": "Guarantee Safe Checkout"
-  }
+  },
+  "toolbar_shop": "Shop",
+  "toolbar_account": "Account",
+  "toolbar_cart": "Cart",
+  "toolbar_whatsapp": "WhatsApp",
+  "checkout.signature_draw": "Draw",
+  "checkout.signature_text": "Text",
+  "checkout.error_fill_required_fields": "Please fill all required fields"
 }
-
