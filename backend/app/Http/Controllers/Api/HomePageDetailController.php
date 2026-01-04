@@ -14,18 +14,32 @@ class HomePageDetailController extends Controller
         $detail = HomePageDetail::latest()->first();
         return response()->json($detail);
     }
-
-    // Store or update home page details
-    public function store(Request $request)
+    public function index()
     {
+        $detail = HomePageDetail::latest()->first();
+        return response()->json($detail);
+    }
+    // Store or update home page details
+
+    public function store(Request $request)
+    {   
+        var_dump($request->all());
         $validated = $request->validate([
             'hero_type' => 'required|in:image,video',
-            'hero_media' => 'required|string',
             'hero_title_en' => 'required|string',
             'hero_title_ar' => 'required|string',
+            'hero_media' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,webm,ogg|max:20480', // 20MB max
         ]);
 
-        // For simplicity, always create a new record (or you can update the latest one)
+        if ($request->hasFile('hero_media')) {
+            $file = $request->file('hero_media');
+            $filename = time() . '_hero_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('home', $filename, 'public');
+            $validated['hero_media'] = $path;
+        } else {
+            $validated['hero_media'] = null;
+        }
+
         $detail = HomePageDetail::create($validated);
         return response()->json($detail, 201);
     }
@@ -35,14 +49,25 @@ class HomePageDetailController extends Controller
     {
         $validated = $request->validate([
             'hero_type' => 'required|in:image,video',
-            'hero_media' => 'required|string',
             'hero_title_en' => 'required|string',
             'hero_title_ar' => 'required|string',
+            'hero_media' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,webm,ogg|max:20480',
         ]);
         $detail = HomePageDetail::latest()->first();
         if (!$detail) {
             return response()->json(['message' => 'No home page detail found'], 404);
         }
+
+        if ($request->hasFile('hero_media')) {
+            $file = $request->file('hero_media');
+            $filename = time() . '_hero_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('home', $filename, 'public');
+            $validated['hero_media'] = $path;
+        } else {
+            // Keep the old media if not uploading a new one
+            $validated['hero_media'] = $detail->hero_media;
+        }
+
         $detail->update($validated);
         return response()->json($detail);
     }
