@@ -13,7 +13,7 @@ const ManageHomePage = () => {
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState({
     hero_type: 'image',
-    hero_media: '',
+    hero_media: null,
     hero_title_en: '',
     hero_title_ar: ''
   });
@@ -22,19 +22,35 @@ const ManageHomePage = () => {
   useEffect(() => {
     const fetchHomeDetail = async () => {
       try {
-        const res = await axios.get(`${API_URL}/home-page-detail`);
+        // Get the first home page detail (if any)
+        const res = await axios.get(`${API_URL}/home-page-details`);
         setHomeDetail(res.data);
-        if (res.data) {
+        if (res.data && res.data !== null) {
           setForm({
-            hero_type: res.data.hero_type,
-            hero_media: res.data.hero_media,
-            hero_title_en: res.data.hero_title_en,
-            hero_title_ar: res.data.hero_title_ar
+            hero_type: res.data.hero_type || 'image',
+            hero_media: null,
+            hero_title_en: res.data.hero_title_en || '',
+            hero_title_ar: res.data.hero_title_ar || ''
           });
           setIsEdit(true);
+        } else {
+          setForm({
+            hero_type: 'image',
+            hero_media: null,
+            hero_title_en: '',
+            hero_title_ar: ''
+          });
+          setIsEdit(false);
         }
       } catch (error) {
         setHomeDetail(null);
+        setForm({
+          hero_type: 'image',
+          hero_media: null,
+          hero_title_en: '',
+          hero_title_ar: ''
+        });
+        setIsEdit(false);
       } finally {
         setLoading(false);
       }
@@ -45,7 +61,7 @@ const ManageHomePage = () => {
   const handleChange = e => {
     const { name, value, type, files } = e.target;
     if (type === 'file') {
-      setForm(f => ({ ...f, hero_media: files[0] }));
+      setForm(f => ({ ...f, [name]: files && files.length > 0 ? files[0] : null }));
     } else {
       setForm(f => ({ ...f, [name]: value }));
     }
@@ -57,34 +73,29 @@ const ManageHomePage = () => {
 
   const handleSubmit = async () => {
     try {
-      let payload;
+      // Always use FormData
+      const payload = new FormData();
+      payload.append('hero_type', form.hero_type || 'image');
+      payload.append('hero_title_en', form.hero_title_en || '');
+      payload.append('hero_title_ar', form.hero_title_ar || '');
       if (form.hero_media instanceof File) {
-        payload = new FormData();
-        payload.append('hero_type', form.hero_type);
-        payload.append('hero_title_en', form.hero_title_en);
-        payload.append('hero_title_ar', form.hero_title_ar);
         payload.append('hero_media', form.hero_media);
-      } else {
-        payload = {
-          hero_type: form.hero_type,
-          hero_title_en: form.hero_title_en,
-          hero_title_ar: form.hero_title_ar,
-          hero_media: form.hero_media
-        };
       }
-      if (isEdit) {
-        await axios.put(`${API_URL}/home-page-detail`, payload, {
-          headers: payload instanceof FormData ? { 'Content-Type': 'multipart/form-data' } : {}
+      if (isEdit && homeDetail && homeDetail.id) {
+        await axios.post(`${API_URL}/home-page-details/${homeDetail.id}`, payload, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+          params: { _method: 'PUT' }
         });
       } else {
-        await axios.post(`${API_URL}/home-page-detail`, payload, {
-          headers: payload instanceof FormData ? { 'Content-Type': 'multipart/form-data' } : {}
+        await axios.post(`${API_URL}/home-page-details`, payload, {
+          headers: { 'Content-Type': 'multipart/form-data' }
         });
       }
       setShowModal(false);
       setLoading(true);
-      const res = await axios.get(`${API_URL}/home-page-detail`);
-      setHomeDetail(res.data);
+      // Fetch the first home page detail (if any)
+      const res = await axios.get(`${API_URL}/home-page-details`);
+      setHomeDetail(Array.isArray(res.data) ? res.data[0] : res.data);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -166,19 +177,19 @@ const ManageHomePage = () => {
               <Col md={6}>
                 <Form.Group className="mb-3">
                   <Form.Label>Hero Title (English)</Form.Label>
-                  <Form.Control name="hero_title_en" value={form.hero_title_en} onChange={handleChange} required />
+                  <Form.Control name="hero_title_en" value={form.hero_title_en || ''} onChange={handleChange} required />
                 </Form.Group>
               </Col>
               <Col md={6}>
                 <Form.Group className="mb-3">
                   <Form.Label>Hero Title (Arabic)</Form.Label>
-                  <Form.Control name="hero_title_ar" value={form.hero_title_ar} onChange={handleChange} required />
+                  <Form.Control name="hero_title_ar" value={form.hero_title_ar || ''} onChange={handleChange} required />
                 </Form.Group>
               </Col>
             </Row>
             <Form.Group className="mb-3">
               <Form.Label>Hero Type</Form.Label>
-              <Form.Select name="hero_type" value={form.hero_type} onChange={handleChange}>
+              <Form.Select name="hero_type" value={form.hero_type || 'image'} onChange={handleChange}>
                 <option value="image">Image</option>
                 <option value="video">Video</option>
               </Form.Select>
