@@ -160,12 +160,7 @@ export default (props) => {
               </Dropdown.Toggle>
               <Dropdown.Menu className="user-dropdown dropdown-menu-right mt-2">
                 <Dropdown.Item className="fw-bold" onClick={() => history.push('/settings')}>
-                  <FontAwesomeIcon icon={faUserCircle} className="me-2" /> My Profile
-                </Dropdown.Item>
-      
-                <Dropdown.Divider />
-
-                <Dropdown.Item className="fw-bold" onClick={() => { logout(); history.push('/login'); }}>
+('/login'); 
                   <FontAwesomeIcon icon={faSignOutAlt} className="text-danger me-2" /> Logout
                 </Dropdown.Item>
               </Dropdown.Menu>

@@ -1,6 +1,7 @@
 
 
 <?php
+use App\Http\Controllers\SadadPaymentController;
 
 use App\Http\Controllers\Api\CommandController;
 // Command management
@@ -121,7 +122,7 @@ Route::patch('categories/{category}/images/{image}/featured', [CategoryControlle
 Route::delete('occasions/{occasion}/images/{image}', [OccasionController::class, 'deleteImage']);
 Route::patch('occasions/{occasion}/images/{image}/featured', [OccasionController::class, 'setFeaturedImage']);
 // (moved) featured product route now defined above products resource
-//get commandes by user 
+//get commandes by user
 Route::get('/users/{userId}/commands', [CommandController::class, 'getCommandsByUser'])->middleware('auth:sanctum');
 
 // Order notes and status history routes
@@ -138,3 +139,5 @@ Route::get('/products/{product}/gift-card-selections', [ProductGiftCardSelection
 Route::put('/gift-card-selections/{selection}', [ProductGiftCardSelectionController::class, 'updateSelection']);
 Route::delete('/gift-card-selections/{selection}', [ProductGiftCardSelectionController::class, 'deleteSelection']);
 
+Route::post('/payments/sadad/init', [SadadPaymentController::class, 'init']);
+Route::post('/sadad/webhook', [SadadPaymentController::class, 'webhook']);
