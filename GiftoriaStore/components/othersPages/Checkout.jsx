@@ -418,23 +418,48 @@ export default function Checkout() {
       const response = await axios.post(
         `${API_BASE_URL_WITH_API}/commands`,
         orderPayload,
-        user ? { headers: getAuthHeaders() } : {}
+        {
+          headers: getAuthHeaders()
+        }
       );
-  
-      // 10️⃣ Success
+      
+      console.log('Order API full response:', response.data);
+      
+      const orderId = response.data?.id;
+      if (!orderId) {
+        throw new Error('Order ID not returned');
+      }
+      
+      // ✅ IF ONLINE PAYMENT → redirect to SADAD
+      if (formData.paymentMethod === 'online') {
+      
+        const sadadResponse = await axios.post(
+          `${API_BASE_URL_WITH_API}/payments/sadad/init`,
+          { order_id: orderId },
+          {
+            headers: getAuthHeaders(),
+            responseType: 'text' // VERY IMPORTANT
+          }
+        );
+      
+        document.open();
+        document.write(sadadResponse.data);
+        document.close();
+        return;
+      }
+      
+      // ✅ IF CASH ON DELIVERY → old behavior
       setCartProducts([]);
       localStorage.removeItem('cartList');
-      setError(null);
-  
-      const orderId = response.data?.data?.id;
+      
       setTimeout(() => {
         if (!user) {
-          router.push(`/`);
+          router.push(`/order-success?order_id=${orderId}`);
         } else {
-          // Logged-in user → go to My Orders page
           router.push("my-account-orders");
         }
       }, 500);
+      
   
     } catch (err) {
       console.error('Order submission error:', err);
