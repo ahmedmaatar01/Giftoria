@@ -29,3 +29,6 @@ Route::get('/debug-api', function () {
 });
 Route::post('/sadad/callback', [SadadPaymentController::class, 'callback'])
     ->name('sadad.callback');
+
+Route::get('/sadad/redirect', [SadadPaymentController::class, 'redirect'])
+    ->name('sadad.redirect');
