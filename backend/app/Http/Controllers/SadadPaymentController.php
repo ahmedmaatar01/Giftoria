@@ -22,11 +22,10 @@ class SadadPaymentController extends Controller
         $order = Command::findOrFail($request->order_id);
 
         if ($order->status !== 'pending') {
-            return response()->json([
-                'message' => 'Order already processed'
-            ], 400);
+            return response()->json(['message' => 'Order already processed'], 400);
         }
 
+        // 1️⃣ Build payload
         $data = [
             'merchant_id'  => config('sadad.merchant_id'),
             'ORDER_ID'     => $order->id,
@@ -36,25 +35,29 @@ class SadadPaymentController extends Controller
             'MOBILE_NO'    => $order->customer_phone ?? '77778888',
             'EMAIL'        => $order->customer_email ?? 'test@test.com',
             'txnDate'      => now()->format('Y-m-d H:i:s'),
-
-            'productdetail[0][order_id]' => $order->id,
-            'productdetail[0][amount]'   => number_format($order->total, 2, '.', ''),
-            'productdetail[0][quantity]' => 1,
+            'VERSION'      => '1.1', // ✅ REQUIRED
         ];
 
-        Log::info('SADAD INIT PAYLOAD (before checksum)', $data);
+        // 2️⃣ productdetail (NOT included in signature)
+        $data['productdetail[0][order_id]'] = $order->id;
+        $data['productdetail[0][amount]']   = number_format($order->total, 2, '.', '');
+        $data['productdetail[0][quantity]'] = 1;
 
+        Log::info('SADAD INIT PAYLOAD (before signature)', $data);
 
-        $data['checksumhash'] = SadadService::generateSignature(
+        // 3️⃣ SIGNATURE (MUST BE LAST)
+        $data['signature'] = SadadService::generateSignature(
             $data,
             config('sadad.secret_key')
         );
 
+        // 4️⃣ Redirect to SADAD
         return response()->view('sadad.redirect', [
             'url'  => config('sadad.payment_url'),
             'data' => $data
         ]);
     }
+
 
     /**
      * STEP 2: Callback (User redirect)

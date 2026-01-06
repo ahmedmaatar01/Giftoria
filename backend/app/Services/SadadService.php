@@ -4,24 +4,46 @@ namespace App\Services;
 
 class SadadService
 {
-    public static function generateSignature(array $data, string $secretKey): string
+    /**
+     * Generate SADAD signature
+     */
+    public static function generateSignature(array $params, string $secret)
     {
-        unset($data['checksumhash']);
-        ksort($data);
+        // ❌ Remove productdetail fields (array fields)
+        $filtered = array_filter(
+            $params,
+            fn ($key) => !str_starts_with($key, 'productdetail')
+                && $key !== 'signature',
+            ARRAY_FILTER_USE_KEY
+        );
 
-        $plain = '';
-        foreach ($data as $key => $value) {
-            $plain .= $key . '=' . $value . '|';
+        // ✅ Sort keys alphabetically
+        ksort($filtered);
+
+        // ✅ Build signature string
+        $string = $secret;
+        foreach ($filtered as $value) {
+            $string .= $value;
         }
 
-        return hash_hmac('sha256', rtrim($plain, '|'), $secretKey);
+        // ✅ SHA256 hash
+        return hash('sha256', $string);
     }
 
-    public static function verifySignature(array $data, string $secretKey): bool
+    /**
+     * Verify SADAD signature (callback & webhook)
+     */
+    public static function verifySignature(array $params, string $secret): bool
     {
-        $received = $data['checksumhash'] ?? '';
-        unset($data['checksumhash']);
+        if (!isset($params['signature'])) {
+            return false;
+        }
 
-        return self::generateSignature($data, $secretKey) === $received;
+        $receivedSignature = $params['signature'];
+        unset($params['signature']);
+
+        $generated = self::generateSignature($params, $secret);
+
+        return hash_equals($generated, $receivedSignature);
     }
 }
