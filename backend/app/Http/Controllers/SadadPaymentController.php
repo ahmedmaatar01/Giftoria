@@ -32,6 +32,7 @@ class SadadPaymentController extends Controller
             'TXN_AMOUNT'   => number_format($order->total, 2, '.', ''),
             'WEBSITE'      => 'giftoria.me', // DOMAIN ONLY
             'CALLBACK_URL' => route('sadad.callback'),
+            'REDIRECT_URL' => route('sadad.redirect'),
             'MOBILE_NO'    => $order->customer_phone ?? '77778888',
             'EMAIL'        => $order->customer_email ?? 'test@test.com',
             'txnDate'      => now()->format('Y-m-d H:i:s'),
@@ -151,4 +152,25 @@ class SadadPaymentController extends Controller
 
         return response()->json(['status' => 'failed'], 200);
     }
+    public function redirect(Request $request)
+{
+    $orderId = $request->ORDER_ID ?? null;
+
+    if (!$orderId) {
+        return redirect('/');
+    }
+
+    $order = Command::find($orderId);
+
+    if (!$order) {
+        return redirect('/');
+    }
+
+    if ($order->status === 'paid') {
+        return redirect('/')->with('success', 'Payment successful 🎉');
+    }
+
+    return redirect('/')->with('error', 'Payment failed ❌');
+}
+
 }
