@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Command;
 use App\Services\SadadService;
 
+
 class SadadPaymentController extends Controller
 {
     /**
@@ -30,12 +31,19 @@ class SadadPaymentController extends Controller
             'merchant_id'  => config('sadad.merchant_id'),
             'ORDER_ID'     => $order->id,
             'TXN_AMOUNT'   => number_format($order->total, 2, '.', ''),
-            'WEBSITE'      => 'DEFAULT',
+            'WEBSITE'      => 'giftoria.me', // DOMAIN ONLY
             'CALLBACK_URL' => route('sadad.callback'),
-            'MOBILE_NO'    => $order->customer_phone ?? '00000000',
+            'MOBILE_NO'    => $order->customer_phone ?? '77778888',
             'EMAIL'        => $order->customer_email ?? 'test@test.com',
             'txnDate'      => now()->format('Y-m-d H:i:s'),
+
+            'productdetail[0][order_id]' => $order->id,
+            'productdetail[0][amount]'   => number_format($order->total, 2, '.', ''),
+            'productdetail[0][quantity]' => 1,
         ];
+
+        Log::info('SADAD INIT PAYLOAD (before checksum)', $data);
+
 
         $data['checksumhash'] = SadadService::generateSignature(
             $data,
