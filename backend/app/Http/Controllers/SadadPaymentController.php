@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\Command;
 use App\Services\SadadService;
+use App\Models\Payment;
 
 
 class SadadPaymentController extends Controller
@@ -96,62 +97,47 @@ class SadadPaymentController extends Controller
     {
         Log::info('SADAD WEBHOOK', $request->all());
 
-        $isValid = SadadService::verifySignature(
-            $request->all(),
-            config('sadad.secret_key')
-        );
-
-        if (!$isValid) {
-            Log::warning('Invalid SADAD webhook signature');
+        // 1️⃣ Verify signature
+        if (!SadadService::verifySignature($request->all(), config('sadad.secret_key'))) {
             return response()->json(['status' => 'invalid_signature'], 403);
         }
 
-        $orderId = $request->ORDER_ID ?? null;
-
-        if (!$orderId) {
-            return response()->json(['status' => 'order_not_found'], 400);
-        }
-
+        // 2️⃣ Get order
+        $orderId = $request->websiteRefNo;
         $order = Command::find($orderId);
 
         if (!$order) {
             return response()->json(['status' => 'order_not_found'], 404);
         }
 
-        // Prevent double processing
-        if ($order->status === 'paid') {
-            return response()->json(['status' => 'already_processed'], 200);
-        }
-
-        if (($request->STATUS ?? '') === 'TXN_SUCCESS') {
-
-            // Verify amount
-            if ((float)$request->TXN_AMOUNT != (float)$order->total) {
-                Log::error('Amount mismatch', [
-                    'order_id' => $order->id,
-                    'sadad'    => $request->TXN_AMOUNT,
-                    'order'    => $order->total
-                ]);
-
-                return response()->json(['status' => 'amount_mismatch'], 400);
-            }
-
-            $order->update([
-                'status'            => 'paid',
-                'payment_reference' => $request->TXN_ID ?? null,
-                'paid_at'           => now()
-            ]);
-
-            return response()->json(['status' => 'success'], 200);
-        }
-
-        // Payment failed
-        $order->update([
-            'status' => 'failed'
+        // 3️⃣ Store transaction (ALWAYS)
+        $payment = Payment::create([
+            'command_id'         => $order->id,
+            'gateway'            => 'sadad',
+            'transaction_number' => $request->transactionNumber,
+            'transaction_status' => $request->transactionStatus,
+            'amount'             => $request->txnAmount,
+            'is_test'            => (bool) $request->isTestMode,
+            'payload'            => $request->all(),
         ]);
 
-        return response()->json(['status' => 'failed'], 200);
+        // 4️⃣ Update order ONLY on success
+        if ((int)$request->transactionStatus === 3) {
+
+            // Prevent double pay
+            if ($order->status !== 'paid') {
+                $order->update([
+                    'status'            => 'paid',
+                    'payment_reference' => $request->transactionNumber,
+                    'paid_at'           => now()
+                ]);
+            }
+        }
+
+        // 5️⃣ REQUIRED RESPONSE
+        return response()->json(['status' => 'success'], 200);
     }
+
     public function redirect(Request $request)
 {
     $orderId = $request->ORDER_ID ?? null;
