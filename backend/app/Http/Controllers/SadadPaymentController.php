@@ -68,27 +68,22 @@ class SadadPaymentController extends Controller
     {
         Log::info('SADAD CALLBACK', $request->all());
 
-        $isValid = SadadService::verifySignature(
-            $request->all(),
-            config('sadad.secret_key')
-        );
-
-        if (!$isValid) {
-            return redirect('/payment-failed?reason=invalid_signature');
-        }
-
-        $orderId = $request->ORDER_ID ?? null;
+        $orderId = $request->ORDER_ID
+            ?? $request->websiteRefNo
+            ?? null;
 
         if (!$orderId) {
-            return redirect('/payment-failed');
+            return redirect(config('app.frontend_url') . '/payment-failed');
         }
 
-        if (($request->STATUS ?? '') === 'TXN_SUCCESS') {
-            return redirect('/payment-success?order_id=' . $orderId);
-        }
+        // ❗ DO NOT trust payment status here
+        // Webhook already updated the DB
 
-        return redirect('/payment-failed?order_id=' . $orderId);
+        return redirect(
+            config('app.frontend_url') . '/payment-processing?order_id=' . $orderId
+        );
     }
+
 
     /**
      * STEP 3: Webhook (Server to Server)
