@@ -93,9 +93,11 @@ class SadadPaymentController extends Controller
         Log::info('SADAD WEBHOOK', $request->all());
 
         // 1️⃣ Verify signature
-        if (!SadadService::verifySignature($request->all(), config('sadad.secret_key'))) {
-            return response()->json(['status' => 'invalid_signature'], 403);
+        if (!SadadService::verifyChecksum($request->all(), config('sadad.secret_key'))) {
+            Log::warning('Invalid SADAD checksum', $request->all());
+            return response()->json(['status' => 'invalid_checksum'], 403);
         }
+
 
         // 2️⃣ Get order
         $orderId = $request->websiteRefNo;
