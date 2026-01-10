@@ -7,7 +7,7 @@ export default function PaymentProcessing() {
   useEffect(() => {
     if (!orderId) return;
 
-    const interval = setInterval(async () => {
+    let interval = setInterval(async () => {
       try {
         const response = await fetch(
           `https://api.giftoria.me/api/public/order-payment-status/${orderId}`
@@ -34,10 +34,12 @@ export default function PaymentProcessing() {
       } catch (err) {
         console.error("Error checking payment status:", err);
       }
-    }, 3000); // check every 3 seconds
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [orderId]);
+
+  if (!orderId) return <h2>Invalid payment request. No order specified.</h2>;
 
   return <h2>Processing your payment... (status: {status})</h2>;
 }
