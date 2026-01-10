@@ -73,7 +73,8 @@ class SadadPaymentController extends Controller
             ?? null;
 
         if (!$orderId) {
-            return redirect(config('app.frontend_url') . '/payment-failed');
+            return redirect('https://giftoria.me/payment-failed');
+
         }
 
         // ❌ Do NOT check payment status here
@@ -132,27 +133,25 @@ class SadadPaymentController extends Controller
     }
 
     public function redirect(Request $request)
-{
-    $orderId = $request->ORDER_ID ?? null;
+    {
+        $orderId = $request->ORDER_ID ?? null;
 
-    if (!$orderId) {
-        return redirect('/');
+        if (!$orderId) {
+            return redirect('https://giftoria.me/payment-failed');
+        }
+
+        $order = Command::find($orderId);
+
+        if (!$order) {
+            return redirect('https://giftoria.me/payment-failed');
+        }
+
+        if ($order->status === 'paid') {
+            return redirect('https://giftoria.me/payment-success');
+        }
+
+        return redirect('https://giftoria.me/payment-failed');
     }
 
-    $order = Command::find($orderId);
-
-    if (!$order) {
-        return redirect('/');
-    }
-
-    if ($order->status === 'paid') {
-        return redirect('https://giftoria.me/payment-success')
-            ->with('success', 'Payment successful 🎉');
-    }
-
-    return redirect('https://giftoria.me/payment-failed')
-        ->with('error', 'Payment failed ❌');
-
-}
 
 }
