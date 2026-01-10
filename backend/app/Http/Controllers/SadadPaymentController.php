@@ -134,17 +134,21 @@ class SadadPaymentController extends Controller
 
     public function redirect(Request $request)
     {
+        Log::critical('SADAD REDIRECT FULL PAYLOAD', [
+            'all' => $request->all(),
+            'query' => $request->query(),
+            'method' => $request->method(),
+        ]);
+
         $orderId =
             $request->ORDER_ID
             ?? $request->websiteRefNo
             ?? null;
 
         if (!$orderId) {
-            // No order reference at all → generic failure
             return redirect('https://giftoria.me/payment-failed');
         }
 
-        // Always go to processing page
         return redirect(
             'https://giftoria.me/payment-processing?order_id=' . $orderId
         );
