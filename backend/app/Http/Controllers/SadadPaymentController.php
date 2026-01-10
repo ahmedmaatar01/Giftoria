@@ -140,18 +140,9 @@ class SadadPaymentController extends Controller
             return redirect('https://giftoria.me/payment-failed');
         }
 
-        $order = Command::find($orderId);
-
-        if (!$order) {
-            return redirect('https://giftoria.me/payment-failed');
-        }
-
-        if ($order->status === 'paid') {
-            return redirect('https://giftoria.me/payment-success');
-        }
-
-        return redirect('https://giftoria.me/payment-failed');
+        return redirect(
+            'https://giftoria.me/payment-processing?order_id=' . $orderId
+        );
     }
-
 
 }
