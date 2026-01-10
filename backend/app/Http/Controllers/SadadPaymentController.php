@@ -80,8 +80,9 @@ class SadadPaymentController extends Controller
         // ❌ Do NOT verify signature here
 
         return redirect(
-            config('app.frontend_url') . '/payment-processing?order_id=' . $orderId
+            'https://giftoria.me/payment-processing?order_id=' . $orderId
         );
+
     }
 
 
@@ -145,10 +146,13 @@ class SadadPaymentController extends Controller
     }
 
     if ($order->status === 'paid') {
-        return redirect('/')->with('success', 'Payment successful 🎉');
+        return redirect('https://giftoria.me/payment-success')
+            ->with('success', 'Payment successful 🎉');
     }
 
-    return redirect('/')->with('error', 'Payment failed ❌');
+    return redirect('https://giftoria.me/payment-failed')
+        ->with('error', 'Payment failed ❌');
+
 }
 
 }
