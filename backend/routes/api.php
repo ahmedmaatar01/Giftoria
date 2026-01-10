@@ -161,3 +161,37 @@ Route::get('/public/order-status/{command}', function (Command $command) {
         'status' => $command->status,
     ]);
 });
+
+use App\Models\Payment;
+
+Route::get('/public/order-payment-status/{command}', function (Command $command) {
+
+    // Get the latest payment for this order
+    $payment = Payment::where('command_id', $command->id)
+        ->latest('created_at')
+        ->first();
+
+    if (!$payment) {
+        return response()->json([
+            'status' => 'pending', // No payment yet
+        ]);
+    }
+
+    // Map SADAD transaction_status to friendly status
+    switch ((int) $payment->transaction_status) {
+        case 3:
+            $status = 'paid';
+            break;
+        case 1:
+        case 2:
+            $status = 'pending';
+            break;
+        default:
+            $status = 'failed';
+            break;
+    }
+
+    return response()->json([
+        'status' => $status,
+    ]);
+});
