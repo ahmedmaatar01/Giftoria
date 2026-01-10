@@ -166,18 +166,16 @@ use App\Models\Payment;
 
 Route::get('/public/order-payment-status/{command}', function (Command $command) {
 
-    // Get the latest payment for this order
     $payment = Payment::where('command_id', $command->id)
         ->latest('created_at')
         ->first();
 
     if (!$payment) {
         return response()->json([
-            'status' => 'pending', // No payment yet
+            'status' => 'pending',
         ]);
     }
 
-    // Map SADAD transaction_status to friendly status
     switch ((int) $payment->transaction_status) {
         case 3:
             $status = 'paid';
@@ -194,4 +192,4 @@ Route::get('/public/order-payment-status/{command}', function (Command $command)
     return response()->json([
         'status' => $status,
     ]);
-});
+})->withoutMiddleware('auth:sanctum'); // ✅ THIS MAKES IT PUBLIC
