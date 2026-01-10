@@ -154,3 +154,10 @@ Route::delete('/gift-card-selections/{selection}', [ProductGiftCardSelectionCont
 
 Route::post('/payments/sadad/init', [SadadPaymentController::class, 'init']);
 Route::post('/sadad/webhook', [SadadPaymentController::class, 'webhook']);
+use App\Models\Command;
+
+Route::get('/public/order-status/{command}', function (Command $command) {
+    return response()->json([
+        'status' => $command->status,
+    ]);
+});
