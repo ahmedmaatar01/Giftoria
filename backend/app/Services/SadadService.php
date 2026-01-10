@@ -47,27 +47,30 @@ class SadadService
         return hash_equals($generated, $receivedSignature);
     }
     public static function verifyChecksum(array $data, string $secretKey): bool
-{
-    if (!isset($data['checksumhash'])) {
-        return false;
+    {
+        if (!isset($data['checksumhash'])) {
+            return false;
+        }
+
+        $received = $data['checksumhash'];
+        unset($data['checksumhash']);
+
+        // Remove non-signed fields
+        unset(
+            $data['message'],
+            $data['isTestMode']
+        );
+
+        ksort($data);
+
+        $string = $secretKey;
+        foreach ($data as $value) {
+            $string .= $value;
+        }
+
+        $generated = hash('sha256', $string);
+
+        return hash_equals($generated, $received);
     }
-
-    $receivedHash = $data['checksumhash'];
-    unset($data['checksumhash']);
-
-    // Sort keys alphabetically
-    ksort($data);
-
-    // Build string
-    $string = $secretKey;
-    foreach ($data as $value) {
-        $string .= $value;
-    }
-
-    // Generate hash
-    $generatedHash = hash('sha256', $string);
-
-    return hash_equals($generatedHash, $receivedHash);
-}
 
 }
