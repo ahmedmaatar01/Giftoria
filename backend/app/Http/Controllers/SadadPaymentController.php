@@ -76,13 +76,14 @@ class SadadPaymentController extends Controller
             return redirect(config('app.frontend_url') . '/payment-failed');
         }
 
-        // ❗ DO NOT trust payment status here
-        // Webhook already updated the DB
+        // ❌ Do NOT check payment status here
+        // ❌ Do NOT verify signature here
 
         return redirect(
             config('app.frontend_url') . '/payment-processing?order_id=' . $orderId
         );
     }
+
 
 
     /**
@@ -92,14 +93,11 @@ class SadadPaymentController extends Controller
     {
         Log::info('SADAD WEBHOOK', $request->all());
 
-        // 1️⃣ Verify signature
         if (!SadadService::verifyChecksum($request->all(), config('sadad.secret_key'))) {
-            Log::warning('Invalid SADAD checksum', $request->all());
+            Log::warning('Invalid SADAD checksum');
             return response()->json(['status' => 'invalid_checksum'], 403);
         }
 
-
-        // 2️⃣ Get order
         $orderId = $request->websiteRefNo;
         $order = Command::find($orderId);
 
@@ -107,8 +105,8 @@ class SadadPaymentController extends Controller
             return response()->json(['status' => 'order_not_found'], 404);
         }
 
-        // 3️⃣ Store transaction (ALWAYS)
-        $payment = Payment::create([
+        // Store transaction (ALWAYS)
+        Payment::create([
             'command_id'         => $order->id,
             'gateway'            => 'sadad',
             'transaction_number' => $request->transactionNumber,
@@ -118,10 +116,8 @@ class SadadPaymentController extends Controller
             'payload'            => $request->all(),
         ]);
 
-        // 4️⃣ Update order ONLY on success
+        // Success only if status === 3
         if ((int)$request->transactionStatus === 3) {
-
-            // Prevent double pay
             if ($order->status !== 'paid') {
                 $order->update([
                     'status'            => 'paid',
@@ -131,7 +127,6 @@ class SadadPaymentController extends Controller
             }
         }
 
-        // 5️⃣ REQUIRED RESPONSE
         return response()->json(['status' => 'success'], 200);
     }
 
