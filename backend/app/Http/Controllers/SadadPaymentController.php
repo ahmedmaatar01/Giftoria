@@ -137,7 +137,10 @@ class SadadPaymentController extends Controller
         $orderId = $request->ORDER_ID ?? null;
 
         if (!$orderId) {
-            return redirect('https://giftoria.me/payment-failed');
+            return redirect(
+                'https://giftoria.me/payment-failed?order_id=' . $orderId
+            );
+
         }
 
         return redirect(
