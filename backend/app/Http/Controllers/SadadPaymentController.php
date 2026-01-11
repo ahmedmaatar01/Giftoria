@@ -106,13 +106,18 @@ class SadadPaymentController extends Controller
         $receivedChecksum = $request->checksumhash ?? $request->checksumHash ?? null;
         $expectedChecksum = SadadService::generateSignature($request->all(), config('sadad.secret_key'));
 
-        if (!SadadService::verifyChecksum($request->all(), config('sadad.secret_key'))) {
+        $isValid = SadadService::verifyChecksum($request->all(), config('sadad.secret_key'));
+        if (!$isValid) {
             Log::warning('Invalid SADAD checksum', [
-                'request' => $request->all(),
+                'received_checksum' => $receivedChecksum,
+                'expected_checksum' => $expectedChecksum,
+                'request' => $request->all()
+            ]);
+            return response()->json([
+                'status' => 'invalid_checksum',
                 'received_checksum' => $receivedChecksum,
                 'expected_checksum' => $expectedChecksum
-            ]);
-            return response()->json(['status' => 'invalid_checksum', 'received_checksum' => $receivedChecksum, 'expected_checksum' => $expectedChecksum], 403);
+            ], 403);
         }
 
         $orderId = $this->getSadadOrderId($request);
