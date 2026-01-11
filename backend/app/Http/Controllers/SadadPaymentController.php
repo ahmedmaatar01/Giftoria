@@ -59,6 +59,15 @@ class SadadPaymentController extends Controller
             'data' => $data
         ]);
     }
+    private function getSadadOrderId(Request $request)
+    {
+        return
+            $request->ORDERID
+            ?? $request->ORDER_ID
+            ?? $request->website_ref_no
+            ?? $request->websiteRefNo
+            ?? null;
+    }
 
 
     /**
@@ -68,9 +77,8 @@ class SadadPaymentController extends Controller
     {
         Log::info('SADAD CALLBACK', $request->all());
 
-        $orderId = $request->ORDER_ID
-            ?? $request->websiteRefNo
-            ?? null;
+        $orderId = $this->getSadadOrderId($request);
+
 
         if (!$orderId) {
             return redirect('https://giftoria.me/payment-failed');
@@ -100,7 +108,7 @@ class SadadPaymentController extends Controller
             return response()->json(['status' => 'invalid_checksum'], 403);
         }
 
-        $orderId = $request->websiteRefNo;
+        $orderId = $this->getSadadOrderId($request);
         $order = Command::find($orderId);
 
         if (!$order) {
@@ -140,10 +148,8 @@ class SadadPaymentController extends Controller
             'method' => $request->method(),
         ]);
 
-        $orderId =
-            $request->ORDER_ID
-            ?? $request->websiteRefNo
-            ?? null;
+        $orderId = $this->getSadadOrderId($request);
+
 
         if (!$orderId) {
             return redirect('https://giftoria.me/payment-failed');
