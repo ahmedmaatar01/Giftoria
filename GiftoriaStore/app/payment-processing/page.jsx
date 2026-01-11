@@ -1,8 +1,16 @@
+"use client";
 import { useEffect, useState } from "react";
 
 export default function PaymentProcessing() {
-  const orderId = new URLSearchParams(window.location.search).get("order_id");
+  const [orderId, setOrderId] = useState(null);
   const [status, setStatus] = useState("pending");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const id = new URLSearchParams(window.location.search).get("order_id");
+      setOrderId(id);
+    }
+  }, []);
 
   useEffect(() => {
     if (!orderId) return;
@@ -40,6 +48,7 @@ export default function PaymentProcessing() {
     return () => clearInterval(interval);
   }, [orderId]);
 
+  if (orderId === null) return <h2>Processing your payment...</h2>;
   if (!orderId) return <h2>Invalid payment request. No order specified.</h2>;
 
   return <h2>Processing your payment... (status: {status})</h2>;
