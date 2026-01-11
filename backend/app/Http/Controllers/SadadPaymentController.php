@@ -104,27 +104,47 @@ class SadadPaymentController extends Controller
         Log::info('SADAD WEBHOOK', $request->all());
 
         if (!SadadService::verifyChecksum($request->all(), config('sadad.secret_key'))) {
-            Log::warning('Invalid SADAD checksum');
+            Log::warning('Invalid SADAD checksum', [
+                'request' => $request->all()
+            ]);
             return response()->json(['status' => 'invalid_checksum'], 403);
         }
 
         $orderId = $this->getSadadOrderId($request);
+        Log::info('SADAD WEBHOOK orderId resolved', ['orderId' => $orderId]);
         $order = Command::find($orderId);
 
         if (!$order) {
+            Log::error('SADAD WEBHOOK order not found', ['orderId' => $orderId]);
             return response()->json(['status' => 'order_not_found'], 404);
         }
 
-        // Store transaction (ALWAYS)
-        Payment::create([
-            'command_id'         => $order->id,
-            'gateway'            => 'sadad',
-            'transaction_number' => $request->transactionNumber,
-            'transaction_status' => $request->transactionStatus,
-            'amount'             => $request->txnAmount,
-            'is_test'            => (bool) $request->isTestMode,
-            'payload'            => $request->all(),
-        ]);
+        try {
+            $payment = Payment::create([
+                'command_id'         => $order->id,
+                'gateway'            => 'sadad',
+                'transaction_number' => $request->transactionNumber,
+                'transaction_status' => $request->transactionStatus,
+                'amount'             => $request->txnAmount,
+                'is_test'            => (bool) $request->isTestMode,
+                'payload'            => $request->all(),
+            ]);
+            Log::info('SADAD WEBHOOK payment created', [
+                'payment_id' => $payment->id,
+                'command_id' => $order->id,
+                'transaction_number' => $request->transactionNumber,
+                'transaction_status' => $request->transactionStatus,
+                'amount' => $request->txnAmount,
+                'is_test' => (bool) $request->isTestMode,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('SADAD WEBHOOK payment creation failed', [
+                'error' => $e->getMessage(),
+                'order_id' => $order->id,
+                'request' => $request->all(),
+            ]);
+            return response()->json(['status' => 'payment_creation_failed', 'error' => $e->getMessage()], 500);
+        }
 
         // Success only if status === 3
         if ((int)$request->transactionStatus === 3) {
@@ -133,6 +153,10 @@ class SadadPaymentController extends Controller
                     'status'            => 'paid',
                     'payment_reference' => $request->transactionNumber,
                     'paid_at'           => now()
+                ]);
+                Log::info('SADAD WEBHOOK order marked as paid', [
+                    'order_id' => $order->id,
+                    'transaction_number' => $request->transactionNumber
                 ]);
             }
         }
