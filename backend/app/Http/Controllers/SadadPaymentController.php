@@ -141,7 +141,7 @@ class SadadPaymentController extends Controller
         ]);
 
         $orderId =
-            $request->ORDERID
+            $request->ORDER_ID
             ?? $request->websiteRefNo
             ?? null;
 
