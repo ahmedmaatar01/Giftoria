@@ -103,11 +103,16 @@ class SadadPaymentController extends Controller
     {
         Log::info('SADAD WEBHOOK', $request->all());
 
+        $receivedChecksum = $request->checksumhash ?? $request->checksumHash ?? null;
+        $expectedChecksum = SadadService::generateSignature($request->all(), config('sadad.secret_key'));
+
         if (!SadadService::verifyChecksum($request->all(), config('sadad.secret_key'))) {
             Log::warning('Invalid SADAD checksum', [
-                'request' => $request->all()
+                'request' => $request->all(),
+                'received_checksum' => $receivedChecksum,
+                'expected_checksum' => $expectedChecksum
             ]);
-            return response()->json(['status' => 'invalid_checksum'], 403);
+            return response()->json(['status' => 'invalid_checksum', 'received_checksum' => $receivedChecksum, 'expected_checksum' => $expectedChecksum], 403);
         }
 
         $orderId = $this->getSadadOrderId($request);
