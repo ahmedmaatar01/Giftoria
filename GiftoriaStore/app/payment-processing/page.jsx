@@ -10,7 +10,8 @@ export default function PaymentProcessing() {
     let interval = setInterval(async () => {
       try {
         const response = await fetch(
-          `https://api.giftoria.me/api/public/order-payment-status/${orderId}`
+          `https://api.giftoria.me/api/public/order-payment-status/${orderId}`,
+          { credentials: 'omit' }
         );
 
         if (!response.ok) {
