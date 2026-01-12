@@ -65,7 +65,7 @@ export default function OrderDetails() {
       });
       if (res.ok) {
         const data = await res.json();
-        setNotes(data.notes);
+        setNotes(Array.isArray(data.notes) ? data.notes : []);
       }
     } catch (err) {
       console.error('Error fetching notes:', err);
@@ -86,7 +86,7 @@ export default function OrderDetails() {
       });
       if (res.ok) {
         const data = await res.json();
-        setStatusHistory(data.history);
+        setStatusHistory(Array.isArray(data.history) ? data.history : []);
       }
     } catch (err) {
       console.error('Error fetching status history:', err);
@@ -210,6 +210,9 @@ export default function OrderDetails() {
     t("order_details.order_info")
   ];
 
+  const safeStatusHistory = Array.isArray(statusHistory) ? statusHistory : [];
+  const safeNotes = Array.isArray(notes) ? notes : [];
+
   return (
     <div className="wd-form-order">
       <div className="order-head">
@@ -268,7 +271,7 @@ export default function OrderDetails() {
                   </div>
                 </li>
                 {/* Render status history timeline */}
-                {statusHistory.map((history, index) => (
+                {safeStatusHistory.map((history, index) => (
                   <li key={history.id}>
                     <div
                       className={`timeline-badge ${getTimelineBadgeClass(history.new_status)}`}
@@ -513,13 +516,13 @@ export default function OrderDetails() {
               <h6 className="mb-3">{t("order_details.order_notes")}</h6>
               {notesLoading ? (
                 <div className="text-center py-3">{t("order_details.loading_notes")}</div>
-              ) : notes.length === 0 ? (
+              ) : safeNotes.length === 0 ? (
                 <div className="alert alert-info" style={{ backgroundColor: '#F1ECE4', borderColor: '#F1ECE4', color: '#000000' }}>
                   {t("order_details.no_notes_yet")}
                 </div>
               ) : (
                 <div className="notes-list">
-                  {notes.map(note => (
+                  {safeNotes.map(note => (
                     <div key={note.id} className="note-item mb-3 p-3 border rounded">
                       <div className="d-flex justify-content-between align-items-start mb-2">
                         <div>
@@ -570,13 +573,13 @@ export default function OrderDetails() {
             <h6 className="mb-3">{t("order_details.order_status_timeline")}</h6>
             {historyLoading ? (
               <div className="text-center py-3">{t("order_details.loading_status_history")}</div>
-            ) : statusHistory.length === 0 ? (
+            ) : safeStatusHistory.length === 0 ? (
               <div className="alert alert-info" style={{ backgroundColor: '#F1ECE4', borderColor: '#F1ECE4', color: '#000000' }}>
                 {t("order_details.no_status_changes")}
               </div>
             ) : (
               <div className="timeline-vertical">
-                {statusHistory.map((history, index) => (
+                {safeStatusHistory.map((history, index) => (
                   <div key={history.id} className="timeline-item d-flex mb-4">
                     <div className="timeline-marker me-3">
                       <div
