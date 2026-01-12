@@ -2,6 +2,7 @@
 import Footer1 from "@/components/footers/Footer1";
 import Header10 from "@/components/headers/Header10";
 import { useSearchParams } from "next/navigation";
+import OrderDetailsView from "@/components/othersPages/dashboard/OrderDetailsView";
 
 export default function PaymentSuccess() {
   const searchParams = useSearchParams();
@@ -12,12 +13,22 @@ export default function PaymentSuccess() {
       <Header10 />
 
       <div style={{ textAlign: "center", padding: 80 }}>
-        <h1>Payment successful</h1>
+        <h1>Payment successful 🎉</h1>
         <p>Thank you for your order.</p>
         {orderId && (
           <p style={{ marginTop: 12 }}>Order #: {orderId}</p>
         )}
       </div>
+
+      {orderId && (
+        <section className="flat-spacing-11">
+          <div className="container">
+            <h2 style={{ marginBottom: 24 }}>Order Details</h2>
+            <OrderDetailsView orderId={orderId} requireAuth={false} />
+          </div>
+        </section>
+      )}
+
       <Footer1 />
     </>
   );
