@@ -46,5 +46,19 @@ class SadadService
 
         return hash_equals($generated, $receivedSignature);
     }
+    public static function verifyChecksum(array $data, string $secretKey): bool
+    {
+        if (!isset($data['checksumhash'])) {
+            return false;
+        }
+
+        $received = $data['checksumhash'];
+        unset($data['checksumhash']);
+
+        // Use the same generation logic for checksum verification
+        $generated = self::generateSignature($data, $secretKey);
+
+        return hash_equals($generated, $received);
+    }
 
 }

@@ -59,6 +59,15 @@ class SadadPaymentController extends Controller
             'data' => $data
         ]);
     }
+    private function getSadadOrderId(Request $request)
+    {
+        return
+            $request->ORDERID
+            ?? $request->ORDER_ID
+            ?? $request->website_ref_no
+            ?? $request->websiteRefNo
+            ?? null;
+    }
 
 
     /**
@@ -68,21 +77,23 @@ class SadadPaymentController extends Controller
     {
         Log::info('SADAD CALLBACK', $request->all());
 
-        $orderId = $request->ORDER_ID
-            ?? $request->websiteRefNo
-            ?? null;
+        $orderId = $this->getSadadOrderId($request);
+
 
         if (!$orderId) {
-            return redirect(config('app.frontend_url') . '/payment-failed');
+            return redirect('https://giftoria.me/payment-failed');
+
         }
 
-        // ❗ DO NOT trust payment status here
-        // Webhook already updated the DB
+        // ❌ Do NOT check payment status here
+        // ❌ Do NOT verify signature here
 
         return redirect(
-            config('app.frontend_url') . '/payment-processing?order_id=' . $orderId
+            'https://giftoria.me/payment-processing?order_id=' . $orderId
         );
+
     }
+
 
 
     /**
@@ -92,68 +103,96 @@ class SadadPaymentController extends Controller
     {
         Log::info('SADAD WEBHOOK', $request->all());
 
-        // 1️⃣ Verify signature
-        if (!SadadService::verifySignature($request->all(), config('sadad.secret_key'))) {
-            return response()->json(['status' => 'invalid_signature'], 403);
+        $receivedChecksum = $request->checksumhash ?? $request->checksumHash ?? null;
+        $expectedChecksum = SadadService::generateSignature($request->all(), config('sadad.secret_key'));
 
+        $isValid = SadadService::verifyChecksum($request->all(), config('sadad.secret_key'));
+        if (!$isValid) {
+            Log::warning('Invalid SADAD checksum', [
+                'received_checksum' => $receivedChecksum,
+                'expected_checksum' => $expectedChecksum,
+                'request' => $request->all()
+            ]);
+            return response()->json([
+                'status' => 'invalid_checksum',
+                'received_checksum' => $receivedChecksum,
+                'expected_checksum' => $expectedChecksum
+            ], 403);
         }
 
-
-        // 2️⃣ Get order
-        $orderId = $request->websiteRefNo;
+        $orderId = $this->getSadadOrderId($request);
+        Log::info('SADAD WEBHOOK orderId resolved', ['orderId' => $orderId]);
         $order = Command::find($orderId);
 
         if (!$order) {
+            Log::error('SADAD WEBHOOK order not found', ['orderId' => $orderId]);
             return response()->json(['status' => 'order_not_found'], 404);
         }
 
-        // 3️⃣ Store transaction (ALWAYS)
-        $payment = Payment::create([
-            'command_id'         => $order->id,
-            'gateway'            => 'sadad',
-            'transaction_number' => $request->transactionNumber,
-            'transaction_status' => $request->transactionStatus,
-            'amount'             => $request->txnAmount,
-            'is_test'            => (bool) $request->isTestMode,
-            'payload'            => $request->all(),
-        ]);
+        try {
+            $payment = Payment::create([
+                'command_id'         => $order->id,
+                'gateway'            => 'sadad',
+                'transaction_number' => $request->transactionNumber,
+                'transaction_status' => $request->transactionStatus,
+                'amount'             => $request->txnAmount,
+                'is_test'            => (bool) $request->isTestMode,
+                'payload'            => $request->all(),
+            ]);
+            Log::info('SADAD WEBHOOK payment created', [
+                'payment_id' => $payment->id,
+                'command_id' => $order->id,
+                'transaction_number' => $request->transactionNumber,
+                'transaction_status' => $request->transactionStatus,
+                'amount' => $request->txnAmount,
+                'is_test' => (bool) $request->isTestMode,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('SADAD WEBHOOK payment creation failed', [
+                'error' => $e->getMessage(),
+                'order_id' => $order->id,
+                'request' => $request->all(),
+            ]);
+            return response()->json(['status' => 'payment_creation_failed', 'error' => $e->getMessage()], 500);
+        }
 
-        // 4️⃣ Update order ONLY on success
+        // Success only if status === 3
         if ((int)$request->transactionStatus === 3) {
-
-            // Prevent double pay
             if ($order->status !== 'paid') {
                 $order->update([
                     'status'            => 'paid',
                     'payment_reference' => $request->transactionNumber,
                     'paid_at'           => now()
                 ]);
+                Log::info('SADAD WEBHOOK order marked as paid', [
+                    'order_id' => $order->id,
+                    'transaction_number' => $request->transactionNumber
+                ]);
             }
         }
 
-        // 5️⃣ REQUIRED RESPONSE
         return response()->json(['status' => 'success'], 200);
     }
 
     public function redirect(Request $request)
-{
-    $orderId = $request->ORDER_ID ?? null;
+    {
+        Log::critical('SADAD REDIRECT FULL PAYLOAD', [
+            'all' => $request->all(),
+            'query' => $request->query(),
+            'method' => $request->method(),
+        ]);
 
-    if (!$orderId) {
-        return redirect('/');
+        $orderId = $this->getSadadOrderId($request);
+
+
+        if (!$orderId) {
+            return redirect('https://giftoria.me/payment-failed');
+        }
+
+        return redirect(
+            'https://giftoria.me/payment-processing?order_id=' . $orderId
+        );
     }
 
-    $order = Command::find($orderId);
-
-    if (!$order) {
-        return redirect('/');
-    }
-
-    if ($order->status === 'paid') {
-        return redirect('/')->with('success', 'Payment successful 🎉');
-    }
-
-    return redirect('/')->with('error', 'Payment failed ❌');
-}
 
 }
