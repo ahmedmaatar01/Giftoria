@@ -1,5 +1,3 @@
-import Footer1 from "@/components/footers/Footer1";
-import Header10 from "@/components/headers/Header10";
 "use client";
 import Footer1 from "@/components/footers/Footer1";
 import Header10 from "@/components/headers/Header10";
