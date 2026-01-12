@@ -33,12 +33,12 @@ export default function PaymentProcessing() {
 
         if (data.status === "paid") {
           clearInterval(interval);
-          window.location.href = "/payment-success";
+          window.location.href = `/payment-success?order_id=${orderId}`;
         }
 
         if (data.status === "failed") {
           clearInterval(interval);
-          window.location.href = "/payment-failed";
+          window.location.href = `/payment-failed?order_id=${orderId}`;
         }
       } catch (err) {
         console.error("Error checking payment status:", err);
