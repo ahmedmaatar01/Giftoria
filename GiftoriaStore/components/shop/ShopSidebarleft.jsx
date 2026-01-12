@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import { layouts, sortingOptions } from "@/data/shop";
+import { API_BASE_URL_WITH_API } from "@/utils/config";
 import ProductGrid from "./ProductGrid";
 import Pagination from "../common/Pagination";
 import Sorting from "./Sorting";
@@ -26,7 +27,7 @@ export default function ShopSidebarleft() {
     const fetchAllProducts = async () => {
       setLoading(true);
       try {
-        const response = await fetch('http://localhost:8000/api/products');
+        const response = await fetch(`${API_BASE_URL_WITH_API}/products`);
         const data = await response.json();
         const items = Array.isArray(data) ? data : (data?.data || []);
         setProducts(items);

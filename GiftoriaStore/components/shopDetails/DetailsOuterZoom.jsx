@@ -8,6 +8,7 @@ import {
 import StickyItem from "./StickyItem";
 import Quantity from "./Quantity";
 import { useTranslation } from "react-i18next";
+import { API_BASE_URL } from "@/utils/config";
 
 import Slider1ZoomOuter from "./sliders/Slider1ZoomOuter";
 import { useContextElement } from "@/context/Context";
@@ -42,11 +43,11 @@ export default function DetailsOuterZoom({ product }) {
     if (product.images && product.images.length > 0) {
       const featuredImage = product.images.find(img => img.is_featured);
       return featuredImage ?
-        `http://localhost:8000${featuredImage.image_path}` :
-        `http://localhost:8000${product.images[0].image_path}`;
+        `${API_BASE_URL}${featuredImage.image_path}` :
+        `${API_BASE_URL}${product.images[0].image_path}`;
     }
     return product.featured_image ?
-      `http://localhost:8000${product.featured_image}` :
+      `${API_BASE_URL}${product.featured_image}` :
       "/images/no-image.png";
   };
 
