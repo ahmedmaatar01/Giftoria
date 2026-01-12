@@ -193,3 +193,6 @@ Route::get('/public/order-payment-status/{command}', function (Command $command)
         'status' => $status,
     ]);
 })->withoutMiddleware('auth:sanctum'); // ✅ THIS MAKES IT PUBLIC
+use App\Http\Controllers\Api\PaymentController;
+
+Route::get('/payments', [PaymentController::class, 'index']);
