@@ -454,7 +454,7 @@ export default function Checkout() {
       
       setTimeout(() => {
         if (!user) {
-          router.push(`/order-success?order_id=${orderId}`);
+          router.push(`/payment-success?order_id=${orderId}`);
         } else {
           router.push("my-account-orders");
         }
