@@ -548,7 +548,7 @@ export default function OrderDetailsView({ orderId, requireAuth = true }) {
 
           {/* Status Timeline */}
           <div className={"widget-content-inner" + (activeTab === (requireAuth && authToken ? 3 : 2) ? " active" : "")}
-            style={{ display: activeTab === (requireTab && authToken ? 3 : 2) ? 'block' : 'none', direction: i18n.language === 'ar' ? 'rtl' : 'ltr' }}>
+            style={{ display: activeTab === (requireAuth && authToken ? 3 : 2) ? 'block' : 'none', direction: i18n.language === 'ar' ? 'rtl' : 'ltr' }}>
             <h6 className="mb-3">{t("order_details.order_status_timeline")}</h6>
             {historyLoading ? (
               <div className="text-center py-3">{t("order_details.loading_status_history")}</div>
