@@ -12,7 +12,7 @@ export default function PaymentSuccess() {
       <Header10 />
 
       <div style={{ textAlign: "center", padding: 80 }}>
-        <h1>Payment successful 🎉</h1>
+        <h1>Payment successful</h1>
         <p>Thank you for your order.</p>
         {orderId && (
           <p style={{ marginTop: 12 }}>Order #: {orderId}</p>
