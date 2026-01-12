@@ -139,11 +139,11 @@ Route::patch('occasions/{occasion}/images/{image}/featured', [OccasionController
 Route::get('/users/{userId}/commands', [CommandController::class, 'getCommandsByUser'])->middleware('auth:sanctum');
 
 // Order notes and status history routes
-Route::get('/commands/{commandId}/notes', [CommandController::class, 'getNotes'])->middleware('auth:sanctum');
+Route::get('/commands/{commandId}/notes', [CommandController::class, 'getNotes']);
 Route::post('/commands/{commandId}/notes', [CommandController::class, 'addNote'])->middleware('auth:sanctum');
-Route::get('/commands/{commandId}/status-history', [CommandController::class, 'getStatusHistory'])->middleware('auth:sanctum');
+Route::get('/commands/{commandId}/status-history', [CommandController::class, 'getStatusHistory']);
 Route::put('/commands/{commandId}/status', [CommandController::class, 'updateStatus'])->middleware('auth:sanctum');
-Route::get('/commands/{commandId}/details', [CommandController::class, 'getCommandDetails'])->middleware('auth:sanctum');
+Route::get('/commands/{commandId}/details', [CommandController::class, 'getCommandDetails']);
 
 // Gift card selection routes (for end users)
 Route::get('/gift-cards/available', [ProductGiftCardSelectionController::class, 'getAvailableGiftCards']);
