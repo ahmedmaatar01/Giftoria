@@ -25,6 +25,9 @@ import ManageOccasions from './dashboard/ManageOccasions';
 import ManageGiftCards from './dashboard/ManageGiftCards';
 import ManageUsers from './dashboard/ManageUsers';
 import ManageAdmins from './dashboard/ManageAdmins';
+import ManagePayments from './dashboard/ManagePayments';
+
+
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 // Decides where root ("/") should go based on auth state
@@ -112,6 +115,20 @@ export default () => {
           )
         }
       />
+      <Route
+  exact
+  path={Routes.ManagePayments.path}
+  render={props =>
+    !user ? (
+      <Redirect to={Routes.AdminLogin.path} />
+    ) : user.role === 'admin' ? (
+      <RouteWithSidebar {...props} component={ManagePayments} />
+    ) : (
+      <Redirect to={Routes.Presentation.path} />
+    )
+  }
+/>
+
       <Route
         exact
         path={Routes.ManageHomePage.path}
@@ -269,6 +286,7 @@ export default () => {
           )
         }
       />
+      
 
       {/* For any unknown route, go to root and let RootRedirect decide */}
       <Redirect to={Routes.Presentation.path} />

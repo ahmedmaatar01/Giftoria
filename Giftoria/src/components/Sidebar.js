@@ -16,6 +16,7 @@ import ProfilePicture from "../assets/img/team/profile-picture-3.jpg";
 import GiftoriaLogo from '../assets/img/giftoria-logo.svg';
 import LogoGiftoria from '../assets/img/LogoGiftoria.png';
 
+
 export default (props = {}) => {
   const location = useLocation();
   const { pathname } = location;
@@ -119,6 +120,12 @@ export default (props = {}) => {
               {user && user.is_super === 7 && (
                 <NavItem title="Manage Admins" icon={faUserShield} link={Routes.ManageAdmins?.path || '/dashboard/manage-admins'} />
               )}
+              <NavItem
+  title="Manage Payments"
+  icon={faHandHoldingUsd}
+  link={Routes.ManagePayments.path}
+/>
+
             </Nav>
           </div>
         </SimpleBar>
