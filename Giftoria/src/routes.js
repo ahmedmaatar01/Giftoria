@@ -2,6 +2,7 @@ export const Routes = {
         Presentation: { path: "/" },
         DashboardOverview: { path: "/dashboard/overview" },
         Transactions: { path: "/transactions" },
+        ManagePayments: { path: "/dashboard/manage-payments" },
         Settings: { path: "/settings" },
         Upgrade: { path: "/upgrade" },
         BootstrapTables: { path: "/tables/bootstrap-tables" },
@@ -20,4 +21,5 @@ export const Routes = {
         Register: { path: "/register" },
         AdminRegister: { path: "/admin-register" },
         AdminLogin: { path: "/admin-login" },
+        
     };
