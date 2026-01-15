@@ -11,7 +11,7 @@ import { faHome, faHandHoldingUsd } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { BACKEND_URL } from "../../api/config";
 
-const API_URL = `${BACKEND_URL}/api/admin`;
+const API_URL = `${BACKEND_URL}/api`;
 
 const getAuthHeaders = () => {
   const user = JSON.parse(localStorage.getItem("user"));
