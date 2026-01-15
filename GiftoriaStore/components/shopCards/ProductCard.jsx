@@ -131,7 +131,7 @@ export const ProductCard = ({ product }) => {
         <Link href={`/product-detail/${product.id}`} className="title link">
           {displayName}
         </Link>
-        <span className="price arabic_div">{priceDisplay !== null ? `$${priceDisplay}` : '—'}</span>
+        <span className="price arabic_div">{priceDisplay !== null ? `QAR${priceDisplay}` : '—'}</span>
         {product.colors && (
           <ul className="list-color-product">
             {product.colors.map((color, i) => (

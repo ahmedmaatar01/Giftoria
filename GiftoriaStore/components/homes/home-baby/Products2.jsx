@@ -210,7 +210,7 @@ export default function Products2({ isProductDetail = false }) {
                         </Link>
                         <div>
                           <span className="new-price price-primary" style={{ color: "#000000ff" }}>
-                            <span style={{ fontSize: "15px" }}>$</span>
+                            <span style={{ fontSize: "15px" }}>QAR</span>
                             <span
                               style={{ fontSize: "20px", fontWeight: "bold" }}
                               dangerouslySetInnerHTML={{

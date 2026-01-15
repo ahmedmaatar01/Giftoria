@@ -888,7 +888,7 @@ export default function Checkout() {
                       </div>
                       <div className="col-12 mt-3">
                         <Link
-                          href={`/shop-default`}
+                          href={`/shop-left-sidebar`}
                           className="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"
                           style={{ width: "fit-content", backgroundColor: '#492e11', borderColor: '#492e11', color: '#ffffff' }}
                         >
@@ -909,7 +909,7 @@ export default function Checkout() {
                 </div> */}
                 <div className="d-flex justify-content-between line pb_20">
                   <h6 className="fw-5">{t('checkout.total')}</h6>
-                  <h6 className="total fw-5 ">$<span className="raleway-medium" dangerouslySetInnerHTML={{__html: totalPrice.toFixed(2).replace(/(\d+[.,]?\d*)/, '<span class=\"arabic_div\">$1</span>')}} /></h6>
+                  <h6 className="total fw-5 ">QAR<span className="raleway-medium" dangerouslySetInnerHTML={{__html: totalPrice.toFixed(2).replace(/(\d+[.,]?\d*)/, '<span class=\"arabic_div\">$1</span>')}} /></h6>
                 </div>
                 <div className="wd-check-payment">
                   <div className="fieldset-radio mb_20">

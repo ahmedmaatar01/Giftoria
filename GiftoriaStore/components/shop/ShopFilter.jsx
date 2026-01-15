@@ -278,12 +278,12 @@ export default function ShopFilter({ setProducts, products = products1 }) {
                     <span className="title-price">Price :</span>
                     <div className="caption-price">
                       <div>
-                        <span>$</span>
+                        <span>QAR</span>
                         <span className="min-price">{price[0]}</span>
                       </div>
                       <span>-</span>
                       <div>
-                        <span>$</span>
+                        <span>QAR</span>
                         <span className="max-price">{price[1]}</span>
                       </div>
                     </div>

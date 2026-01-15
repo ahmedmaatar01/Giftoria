@@ -102,7 +102,7 @@ export default function DetailsOuterZoom({ product }) {
                   </div>
                   <div className="tf-product-info-price">
                     <div className="price-on-sale raleway-bold arabic_div" style={{ color: "#000" }}>
-                      ${parseFloat(product.price).toFixed(2)}
+                      QAR{parseFloat(product.price).toFixed(2)}
                     </div>
 
 
@@ -210,7 +210,7 @@ export default function DetailsOuterZoom({ product }) {
                           -{" "}
                         </span>
                         <span className="tf-qty-price arabic_div">
-                          ${(parseFloat(product.price) * quantity).toFixed(2)}
+                          QAR{(parseFloat(product.price) * quantity).toFixed(2)}
                         </span>
                       </a>
                       <a

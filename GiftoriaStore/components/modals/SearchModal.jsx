@@ -199,15 +199,15 @@ export default function SearchModal() {
                             {product.isOnSale ? (
                               <>
                                 <div className="compare-at-price">
-                                  ${product.compareAtPrice?.toFixed(2) || product.originalPrice?.toFixed(2) || ""}
+                                  QAR{product.compareAtPrice?.toFixed(2) || product.originalPrice?.toFixed(2) || ""}
                                 </div>
                                 <div className="price-on-sale fw-6">
-                                  ${product.salePrice?.toFixed(2) || product.price?.toFixed(2) || ""}
+                                  QAR{product.salePrice?.toFixed(2) || product.price?.toFixed(2) || ""}
                                 </div>
                               </>
                             ) : (
                               <div className="price fw-6 arabic_div">
-                                ${product.price?.toFixed(2) || ""}
+                                QAR{product.price?.toFixed(2) || ""}
                               </div>
                             )}
                           </div>
