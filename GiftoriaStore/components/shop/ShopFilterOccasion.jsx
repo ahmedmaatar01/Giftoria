@@ -134,11 +134,11 @@ export default function ShopFilterOccasion({
                   <span className="title-price">{i18n.language === 'ar' ? 'السعر' : 'Price'} :</span>
                   <div className="caption-price">
                     <div>
-                      <span>$</span><span>{price[0]}</span>
+                      <span>QAR</span><span>{price[0]}</span>
                     </div>
                     <span>-</span>
                     <div>
-                      <span>$</span><span>{price[1]}</span>
+                      <span>QAR</span><span>{price[1]}</span>
                     </div>
                   </div>
                 </div>

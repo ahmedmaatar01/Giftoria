@@ -237,8 +237,8 @@ class CommandController extends Controller
         // Send admin notification email to configured admin addresses
         try {
             $adminEmails = [
-                'ahmedmaatar04@gmail.com',
-                'ahmedmaatar03@gmail.com',
+                'giftoriagifts@gmail.com',
+                'giftoriagifts@gmail.com',
             ];
             Mail::to($adminEmails)->send(new AdminCommandNotificationMail($command));
         } catch (\Throwable $e) {

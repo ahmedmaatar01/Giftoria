@@ -114,7 +114,7 @@ const ManagePayments = () => {
                           {payment.transaction_status}
                         </Badge>
                       </td>
-                      <td>{payment.amount} TND</td>
+                      <td>{payment.amount} QAR</td>
                       <td>
                         {payment.is_test ? (
                           <Badge bg="secondary">Test</Badge>

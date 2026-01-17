@@ -306,7 +306,7 @@ export default function ShopCart() {
                   <div className="tf-cart-totals-discounts">
                     <div className="tf-cart-total  text-uppercase title-header-c">{t("cart.subtotal")}</div>
                     <div className="tf-totals-total-value fw-6 title-header-c" dangerouslySetInnerHTML={{
-                      __html: wrapNumbers(`$${totalPrice.toFixed(2)} ${t("cart.currency")}`)
+                      __html: wrapNumbers(`${totalPrice.toFixed(2)}QAR `)
                     }} />
                   </div>
                   <div className="tf-cart-tax">

@@ -203,7 +203,7 @@ export default function Sidebar({ onCategorySelect, display = false }) {
               randomProducts.map((product, index) => {
                 const imgUrl = resolveProductImage(product);
                 const priceNum = parseFloat(product?.price);
-                const priceText = isNaN(priceNum) ? (product?.price ?? '') : `$${priceNum.toFixed(2)}`;
+                const priceText = isNaN(priceNum) ? (product?.price ?? '') : `QAR ${priceNum.toFixed(2)}`;
                 return (
                   <div className="featured-product-item" key={product.id || index}>
                     <Link

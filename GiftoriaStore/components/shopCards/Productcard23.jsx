@@ -103,7 +103,7 @@ export default function Productcard23({ product }) {
             console.warn('[Productcard23] Non-numeric price for product id:', product?.id, 'value:', product?.price);
             return <span className="price">—</span>;
           }
-          return <span className="price arabic_div">${n.toFixed(2)}</span>;
+          return <span className="price arabic_div">{n.toFixed(2)}</span>;
         })()}
         <p className="description">
           {(() => {
