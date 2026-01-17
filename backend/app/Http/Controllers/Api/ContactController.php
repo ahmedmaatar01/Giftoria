@@ -20,8 +20,8 @@ class ContactController extends Controller
 
         try {
             $adminEmails = [
-                'ahmedmaatar04@gmail.com',
-                'ahmedmaatar03@gmail.com',
+                'giftoriagifts@gmail.com',
+                'giftoriagifts@gmail.com',
             ];
             Mail::to($adminEmails)->send(new ContactMessageMail($validated));
         } catch (\Throwable $e) {
