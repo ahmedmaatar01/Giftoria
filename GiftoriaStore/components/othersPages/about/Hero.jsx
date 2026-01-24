@@ -13,7 +13,7 @@ export default function Hero() {
       <div className="banner-wrapper ">
         <Image
           className="lazyload"
-          src="/images/slider/aboutbanner.jpg"
+          src="/images/slider/aboutbanner02.jpeg"
           alt="image-collection"
           width={2000}
           height={1262}

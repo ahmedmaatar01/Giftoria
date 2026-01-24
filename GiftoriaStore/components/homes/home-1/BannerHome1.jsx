@@ -4,7 +4,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 export default function BannerHome1({
-  bgUrl = "images/slider/shop012.jpg",
+  bgUrl = "images/slider/websitecover012.jpeg",
   buttonLink = "/contact-2",
   heading,
   description,
