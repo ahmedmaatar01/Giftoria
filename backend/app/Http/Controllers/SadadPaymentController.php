@@ -33,7 +33,6 @@ class SadadPaymentController extends Controller
             'TXN_AMOUNT'   => number_format($order->total, 2, '.', ''),
             'WEBSITE'      => 'giftoria.me', // DOMAIN ONLY
             'CALLBACK_URL' => route('sadad.callback'),
-            'REDIRECT_URL' => route('sadad.redirect'),
             'MOBILE_NO'    => $order->customer_phone ?? '77778888',
             'EMAIL'        => $order->customer_email ?? 'test@test.com',
             'txnDate'      => now()->format('Y-m-d H:i:s'),
@@ -48,16 +47,30 @@ class SadadPaymentController extends Controller
         Log::info('SADAD INIT PAYLOAD (before signature)', $data);
 
         // 3️⃣ SIGNATURE (MUST BE LAST)
+        $signatureData = [
+            'merchant_id' => $data['merchant_id'],
+            'ORDER_ID' => $data['ORDER_ID'],
+            'TXN_AMOUNT' => $data['TXN_AMOUNT'],
+            'WEBSITE' => $data['WEBSITE'],
+            'CALLBACK_URL' => $data['CALLBACK_URL'],
+            'txnDate' => $data['txnDate'],
+        ];
+
         $data['signature'] = SadadService::generateSignature(
-            $data,
+            $signatureData,
             config('sadad.secret_key')
         );
 
+
         // 4️⃣ Redirect to SADAD
-        return response()->view('sadad.redirect', [
-            'url'  => config('sadad.payment_url'),
-            'data' => $data
+        return response()->json([
+            'merchant_id' => $data['merchant_id'],
+            'order_id' => $data['ORDER_ID'],
+            'amount' => $data['TXN_AMOUNT'],
+            'signature' => $data['signature'],
+            'callback' => $data['CALLBACK_URL']
         ]);
+
     }
     private function getSadadOrderId(Request $request)
     {
@@ -67,6 +80,28 @@ class SadadPaymentController extends Controller
             ?? $request->website_ref_no
             ?? $request->websiteRefNo
             ?? null;
+    }
+    public function checksum(Request $request)
+    {
+        $data = $request->all();
+
+        $signatureData = [
+            'merchant_id' => $data['merchant_id'],
+            'ORDER_ID' => $data['ORDER_ID'],
+            'TXN_AMOUNT' => $data['TXN_AMOUNT'],
+            'WEBSITE' => $data['WEBSITE'],
+            'CALLBACK_URL' => $data['CALLBACK_URL'],
+            'txnDate' => $data['txnDate'],
+        ];
+
+        $checksum = SadadService::generateSignature(
+            $signatureData,
+            config('sadad.secret_key')
+        );
+
+        return response()->json([
+            'CHECKSUMHASH' => $checksum
+        ]);
     }
 
 
