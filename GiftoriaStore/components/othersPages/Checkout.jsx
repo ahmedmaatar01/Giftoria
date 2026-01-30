@@ -16,6 +16,10 @@ export default function Checkout() {
   const [error, setError] = useState(null);
   const [successMsg, setSuccessMsg] = useState(null);
   const [occasions, setOccasions] = useState([]);
+  const [sadadOrderId, setSadadOrderId] = useState(null);
+  const [sadadData, setSadadData] = useState(null);
+
+
   useEffect(() => {
     axios.get(`${API_BASE_URL}/api/occasions`)
       .then(res => setOccasions(res.data))
@@ -246,7 +250,30 @@ export default function Checkout() {
       setSignaturePadReady(false);
     };
   }, [signatureType]);
-
+  useEffect(() => {
+    if (!sadadOrderId) return;
+  
+    const script = document.createElement("script");
+    script.src = "https://sadadqa.com/jslib/sadad.js";
+    script.async = true;
+    document.body.appendChild(script);
+  
+    return () => document.body.removeChild(script);
+  }, [sadadOrderId]);
+  useEffect(() => {
+    window.sadadGetChecksum = function () {
+    fetch(`${API_BASE_URL_WITH_API}/payments/sadad/checksum`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(
+    Object.fromEntries(new FormData(document.getElementById("sadadFinalForm")))
+    )
+    })
+    .then(r=>r.json())
+    .then(r=>window.afterChecksumSubmit(r));
+    };
+    }, []);
+    
   const handleClearSignature = () => {
     const canvas = canvasRef.current;
     const ctx = ctxRef.current;
@@ -432,22 +459,19 @@ export default function Checkout() {
       
       // ✅ IF ONLINE PAYMENT → redirect to SADAD
       if (formData.paymentMethod === 'online') {
-      
-        const sadadResponse = await axios.post(
+
+        const sadad = await axios.post(
           `${API_BASE_URL_WITH_API}/payments/sadad/init`,
           { order_id: orderId },
-          {
-            headers: getAuthHeaders(),
-            responseType: 'text' // VERY IMPORTANT
-          }
+          { headers: getAuthHeaders() }
         );
-      
-        document.open();
-        document.write(sadadResponse.data);
-        document.close();
+       
+        setSadadOrderId(orderId);
+        setSadadData(sadad.data);
+       
         return;
-      }
-      
+       }
+       
       // ✅ IF CASH ON DELIVERY → old behavior
       setCartProducts([]);
       localStorage.removeItem('cartList');
@@ -1092,7 +1116,32 @@ export default function Checkout() {
     </div>
   </div>
 )}
+{sadadOrderId && sadadData && (
+<>
+<form id="sadadFinalForm">
+
+<input type="hidden" name="merchant_id" value={sadadData.merchant_id} />
+<input type="hidden" name="ORDER_ID" value={sadadOrderId} />
+<input type="hidden" name="TXN_AMOUNT" value={sadadData.amount} />
+<input type="hidden" name="WEBSITE" value="giftoria.me" />
+<input type="hidden" name="CALLBACK_URL" value={sadadData.callback} />
+<input type="hidden" name="txnDate" value={new Date().toISOString()} />
+<input type="hidden" name="signature" value={sadadData.signature} />
+
+</form>
+
+<div
+ id="sadad_cc_container"
+ data-i-color="#492e11"
+ data-cbfunc="sadadGetChecksum"
+ data-sd-lang="ENG"
+/>
+</>
+)}
+
 
     </section>
+    
   );
+  
 }

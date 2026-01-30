@@ -198,3 +198,4 @@ use App\Http\Controllers\Api\PaymentController;
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/payments', [PaymentController::class, 'index']);
 });
+Route::post('/payments/sadad/checksum', [SadadPaymentController::class, 'checksum']);
