@@ -262,15 +262,16 @@ export default function Checkout() {
   }, [sadadOrderId]);
   useEffect(() => {
     window.sadadGetChecksum = function () {
+    const form = document.getElementById("sadadFinalForm");
+    if (!form) return;
+    const formData = new FormData(form);
     fetch(`${API_BASE_URL_WITH_API}/payments/sadad/checksum`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(
-    Object.fromEntries(new FormData(document.getElementById("sadadFinalForm")))
-    )
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+      body: new URLSearchParams(formData)
     })
-    .then(r=>r.json())
-    .then(r=>window.afterChecksumSubmit(r));
+      .then(r => r.text())
+      .then(r => window.afterChecksumSubmit(r));
     };
     }, []);
     
@@ -1123,10 +1124,10 @@ export default function Checkout() {
 <input type="hidden" name="merchant_id" value={sadadData.merchant_id} />
 <input type="hidden" name="ORDER_ID" value={sadadOrderId} />
 <input type="hidden" name="TXN_AMOUNT" value={sadadData.amount} />
-<input type="hidden" name="WEBSITE" value="giftoria.me" />
+<input type="hidden" name="WEBSITE" value={sadadData.website} />
 <input type="hidden" name="CALLBACK_URL" value={sadadData.callback} />
-<input type="hidden" name="txnDate" value={new Date().toISOString()} />
-<input type="hidden" name="signature" value={sadadData.signature} />
+<input type="hidden" name="txnDate" value={sadadData.txnDate} />
+<input type="hidden" name="VERSION" value={sadadData.version} />
 
 </form>
 
