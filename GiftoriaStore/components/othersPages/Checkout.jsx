@@ -18,6 +18,7 @@ export default function Checkout() {
   const [occasions, setOccasions] = useState([]);
   const [sadadOrderId, setSadadOrderId] = useState(null);
   const [sadadData, setSadadData] = useState(null);
+  const sadadScriptLoadedRef = useRef(false);
 
 
   useEffect(() => {
@@ -251,15 +252,24 @@ export default function Checkout() {
     };
   }, [signatureType]);
   useEffect(() => {
-    if (!sadadOrderId) return;
-  
+    if (!sadadOrderId || !sadadData) return;
+    if (sadadScriptLoadedRef.current) return;
+    if (typeof window !== "undefined" && window.sadadconfig) {
+      sadadScriptLoadedRef.current = true;
+      return;
+    }
+    if (document.getElementById("sadad-sdk")) {
+      sadadScriptLoadedRef.current = true;
+      return;
+    }
+
     const script = document.createElement("script");
+    script.id = "sadad-sdk";
     script.src = "https://sadadqa.com/jslib/sadad.js";
     script.async = true;
     document.body.appendChild(script);
-  
-    return () => document.body.removeChild(script);
-  }, [sadadOrderId]);
+    sadadScriptLoadedRef.current = true;
+  }, [sadadOrderId, sadadData]);
   useEffect(() => {
     window.sadadGetChecksum = function () {
     const form = document.getElementById("sadadFinalForm");
