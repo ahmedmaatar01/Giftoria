@@ -255,10 +255,12 @@ export default function Checkout() {
     if (!sadadOrderId || !sadadData) return;
     if (sadadScriptLoadedRef.current) return;
     if (typeof window !== "undefined" && window.sadadconfig) {
+      console.log("✅ SADAD SDK already initialized (sadadconfig)");
       sadadScriptLoadedRef.current = true;
       return;
     }
     if (document.getElementById("sadad-sdk")) {
+      console.log("✅ SADAD SDK script tag already present");
       sadadScriptLoadedRef.current = true;
       return;
     }
@@ -267,6 +269,8 @@ export default function Checkout() {
     script.id = "sadad-sdk";
     script.src = "https://sadadqa.com/jslib/sadad.js";
     script.async = true;
+    script.onload = () => console.log("✅ SADAD SDK loaded");
+    script.onerror = () => console.error("❌ SADAD SDK failed to load");
     document.body.appendChild(script);
     sadadScriptLoadedRef.current = true;
   }, [sadadOrderId, sadadData]);
@@ -274,6 +278,7 @@ export default function Checkout() {
     window.sadadGetChecksum = function () {
     const form = document.getElementById("sadadFinalForm");
     if (!form) return;
+    console.log("🧾 SADAD checksum requested", Object.fromEntries(new FormData(form)));
     const formData = new FormData(form);
     fetch(`${API_BASE_URL_WITH_API}/payments/sadad/checksum`, {
       method: "POST",
@@ -281,7 +286,10 @@ export default function Checkout() {
       body: new URLSearchParams(formData)
     })
       .then(r => r.text())
-      .then(r => window.afterChecksumSubmit(r));
+      .then(r => {
+        console.log("✅ SADAD checksum response (HTML length)", r?.length);
+        window.afterChecksumSubmit(r);
+      });
     };
     }, []);
     
