@@ -265,14 +265,47 @@ export default function Checkout() {
       return;
     }
 
-    const script = document.createElement("script");
-    script.id = "sadad-sdk";
-    script.src = "https://sadadqa.com/jslib/sadad.js";
-    script.async = true;
-    script.onload = () => console.log("✅ SADAD SDK loaded");
-    script.onerror = () => console.error("❌ SADAD SDK failed to load");
-    document.body.appendChild(script);
-    sadadScriptLoadedRef.current = true;
+    const ensureSadadScript = () => {
+      if (document.getElementById("sadad-sdk")) {
+        sadadScriptLoadedRef.current = true;
+        return;
+      }
+      const script = document.createElement("script");
+      script.id = "sadad-sdk";
+      script.src = "https://sadadqa.com/jslib/sadad.js";
+      script.async = true;
+      script.onload = () => console.log("✅ SADAD SDK loaded");
+      script.onerror = () => console.error("❌ SADAD SDK failed to load");
+      document.body.appendChild(script);
+      sadadScriptLoadedRef.current = true;
+    };
+
+    if (typeof window !== "undefined" && window.$) {
+      ensureSadadScript();
+      return;
+    }
+
+    const jqueryId = "jquery-sdk";
+    if (document.getElementById(jqueryId)) {
+      const check = setInterval(() => {
+        if (window.$) {
+          clearInterval(check);
+          ensureSadadScript();
+        }
+      }, 50);
+      return;
+    }
+
+    const jqueryScript = document.createElement("script");
+    jqueryScript.id = jqueryId;
+    jqueryScript.src = "https://code.jquery.com/jquery-3.7.1.min.js";
+    jqueryScript.async = true;
+    jqueryScript.onload = () => {
+      console.log("✅ jQuery loaded for SADAD");
+      ensureSadadScript();
+    };
+    jqueryScript.onerror = () => console.error("❌ jQuery failed to load");
+    document.body.appendChild(jqueryScript);
   }, [sadadOrderId, sadadData]);
   useEffect(() => {
     window.sadadGetChecksum = function () {
