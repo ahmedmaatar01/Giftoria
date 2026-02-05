@@ -252,23 +252,6 @@ export default function Checkout() {
     };
   }, [signatureType]);
   useEffect(() => {
-    if (!document.getElementById("jquery")) {
-      const jqueryScript = document.createElement("script");
-      jqueryScript.id = "jquery";
-      jqueryScript.src = "https://code.jquery.com/jquery-3.7.1.min.js";
-      jqueryScript.async = true;
-      document.body.appendChild(jqueryScript);
-    }
-
-    if (!document.getElementById("sadad-sdk")) {
-      const sadadScript = document.createElement("script");
-      sadadScript.id = "sadad-sdk";
-      sadadScript.src = "https://sadadqa.com/jslib/sadad.js";
-      sadadScript.async = true;
-      document.body.appendChild(sadadScript);
-    }
-  }, []);
-  useEffect(() => {
     window.sadadGetChecksum = function () {
     const form = document.getElementById("sadadFinalForm");
     if (!form) return;

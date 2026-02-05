@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Script from "next/script";
 import "./translation/i18n";
 import i18n from "./translation/i18n";
 import "../public/scss/main.scss";
@@ -64,6 +65,16 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <Script
+          src="https://code.jquery.com/jquery-3.7.1.min.js"
+          strategy="beforeInteractive"
+        />
+        <Script
+          src="https://sadadqa.com/jslib/sadad.js"
+          strategy="beforeInteractive"
+        />
+      </head>
       <body className="preload-wrapper" suppressHydrationWarning>
         <div className="preload preload-container" id="preloader">
           <div className="preload-logo">
