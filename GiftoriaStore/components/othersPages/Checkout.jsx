@@ -3,6 +3,7 @@ import { useContextElement } from "@/context/Context";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
+import Script from "next/script";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
@@ -18,7 +19,6 @@ export default function Checkout() {
   const [occasions, setOccasions] = useState([]);
   const [sadadOrderId, setSadadOrderId] = useState(null);
   const [sadadData, setSadadData] = useState(null);
-  const sadadScriptLoadedRef = useRef(false);
 
 
   useEffect(() => {
@@ -251,62 +251,6 @@ export default function Checkout() {
       setSignaturePadReady(false);
     };
   }, [signatureType]);
-  useEffect(() => {
-    if (!sadadOrderId || !sadadData) return;
-    if (sadadScriptLoadedRef.current) return;
-    if (typeof window !== "undefined" && window.sadadconfig) {
-      console.log("✅ SADAD SDK already initialized (sadadconfig)");
-      sadadScriptLoadedRef.current = true;
-      return;
-    }
-    if (document.getElementById("sadad-sdk")) {
-      console.log("✅ SADAD SDK script tag already present");
-      sadadScriptLoadedRef.current = true;
-      return;
-    }
-
-    const ensureSadadScript = () => {
-      if (document.getElementById("sadad-sdk")) {
-        sadadScriptLoadedRef.current = true;
-        return;
-      }
-      const script = document.createElement("script");
-      script.id = "sadad-sdk";
-      script.src = "https://sadadqa.com/jslib/sadad.js";
-      script.async = true;
-      script.onload = () => console.log("✅ SADAD SDK loaded");
-      script.onerror = () => console.error("❌ SADAD SDK failed to load");
-      document.body.appendChild(script);
-      sadadScriptLoadedRef.current = true;
-    };
-
-    if (typeof window !== "undefined" && window.$) {
-      ensureSadadScript();
-      return;
-    }
-
-    const jqueryId = "jquery-sdk";
-    if (document.getElementById(jqueryId)) {
-      const check = setInterval(() => {
-        if (window.$) {
-          clearInterval(check);
-          ensureSadadScript();
-        }
-      }, 50);
-      return;
-    }
-
-    const jqueryScript = document.createElement("script");
-    jqueryScript.id = jqueryId;
-    jqueryScript.src = "https://code.jquery.com/jquery-3.7.1.min.js";
-    jqueryScript.async = true;
-    jqueryScript.onload = () => {
-      console.log("✅ jQuery loaded for SADAD");
-      ensureSadadScript();
-    };
-    jqueryScript.onerror = () => console.error("❌ jQuery failed to load");
-    document.body.appendChild(jqueryScript);
-  }, [sadadOrderId, sadadData]);
   useEffect(() => {
     window.sadadGetChecksum = function () {
     const form = document.getElementById("sadadFinalForm");
@@ -1170,6 +1114,20 @@ export default function Checkout() {
 )}
 {sadadOrderId && sadadData && (
 <>
+<Script
+  id="jquery-sdk"
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  strategy="afterInteractive"
+  onLoad={() => console.log("✅ jQuery loaded for SADAD")}
+  onError={() => console.error("❌ jQuery failed to load")}
+/>
+<Script
+  id="sadad-sdk"
+  src="https://sadadqa.com/jslib/sadad.js"
+  strategy="afterInteractive"
+  onLoad={() => console.log("✅ SADAD SDK loaded")}
+  onError={() => console.error("❌ SADAD SDK failed to load")}
+/>
 <form id="sadadFinalForm">
 
 <input type="hidden" name="merchant_id" value={sadadData.merchant_id} />
@@ -1187,6 +1145,7 @@ export default function Checkout() {
  data-i-color="#492e11"
  data-cbfunc="sadadGetChecksum"
  data-sd-lang="ENG"
+ style={{ minHeight: 48 }}
 />
 </>
 )}
