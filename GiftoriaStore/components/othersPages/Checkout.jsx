@@ -486,8 +486,6 @@ export default function Checkout() {
         id="jquery-sdk"
         src="https://code.jquery.com/jquery-3.7.1.min.js"
         strategy="beforeInteractive"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-        crossOrigin="anonymous"
         onLoad={() => console.log("✅ jQuery loaded for SADAD")}
         onError={() => console.error("❌ jQuery failed to load")}
       />
@@ -516,7 +514,18 @@ export default function Checkout() {
         id="sadad-sdk"
         src="https://sadadqa.com/jslib/sadad.js"
         strategy="beforeInteractive"
-        onLoad={() => console.log("✅ SADAD SDK loaded")}
+        onLoad={() => {
+          console.log("✅ SADAD SDK loaded");
+          const el = document.getElementById("sadad_cc_container");
+          const rect = el?.getBoundingClientRect();
+          console.log("🧪 SADAD container", {
+            exists: !!el,
+            width: rect?.width,
+            height: rect?.height,
+            visible: rect ? rect.width > 0 && rect.height > 0 : false
+          });
+          console.log("🧪 sadadconfig", typeof window !== "undefined" ? window.sadadconfig : undefined);
+        }}
         onError={() => console.error("❌ SADAD SDK failed to load")}
       />
       <div className="container">
