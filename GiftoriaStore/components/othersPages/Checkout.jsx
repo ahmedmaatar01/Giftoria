@@ -252,23 +252,22 @@ export default function Checkout() {
     };
   }, [signatureType]);
   useEffect(() => {
-    if (!sadadOrderId || !sadadData) return;
-    if (sadadScriptLoadedRef.current) return;
-    if (typeof window !== "undefined" && window.sadadconfig) {
-      sadadScriptLoadedRef.current = true;
-      return;
+    if (!document.getElementById("jquery")) {
+      const jqueryScript = document.createElement("script");
+      jqueryScript.id = "jquery";
+      jqueryScript.src = "https://code.jquery.com/jquery-3.7.1.min.js";
+      jqueryScript.async = true;
+      document.body.appendChild(jqueryScript);
     }
-    if (document.getElementById("sadad-sdk")) {
-      sadadScriptLoadedRef.current = true;
-      return;
+
+    if (!document.getElementById("sadad-sdk")) {
+      const sadadScript = document.createElement("script");
+      sadadScript.id = "sadad-sdk";
+      sadadScript.src = "https://sadadqa.com/jslib/sadad.js";
+      sadadScript.async = true;
+      document.body.appendChild(sadadScript);
     }
-    const script = document.createElement("script");
-    script.id = "sadad-sdk";
-    script.src = "https://sadadqa.com/jslib/sadad.js";
-    script.async = true;
-    document.body.appendChild(script);
-    sadadScriptLoadedRef.current = true;
-  }, [sadadOrderId, sadadData]);
+  }, []);
   useEffect(() => {
     window.sadadGetChecksum = function () {
     const form = document.getElementById("sadadFinalForm");
