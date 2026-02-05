@@ -1109,7 +1109,6 @@ export default function Checkout() {
   </div>
 )}
 {sadadOrderId && sadadData && (
-<>
 <form id="sadadFinalForm">
 
 <input type="hidden" name="merchant_id" value={sadadData.merchant_id} />
@@ -1121,14 +1120,14 @@ export default function Checkout() {
 <input type="hidden" name="VERSION" value={sadadData.version} />
 
 </form>
+)}
 
 <div
  id="sadad_cc_container"
+ style={{ display: sadadOrderId && sadadData ? 'block' : 'none' }}
  data-i-color="#531232"
  data-cbfunc="sadadGetChecksum">
 </div>
-</>
-)}
 
 
     </section>
