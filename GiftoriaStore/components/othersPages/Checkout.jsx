@@ -3,7 +3,6 @@ import { useContextElement } from "@/context/Context";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
-import Script from "next/script";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
@@ -251,6 +250,65 @@ export default function Checkout() {
       setSignaturePadReady(false);
     };
   }, [signatureType]);
+  useEffect(() => {
+    if (!sadadOrderId || !sadadData) return;
+
+    window.sadadGetChecksum = function () {
+      try {
+        const form = document.getElementById("sadadFinalForm");
+        if (!form || !window.$) return;
+        console.log("🧾 SADAD checksum requested", Object.fromEntries(new FormData(form)));
+        window.$.ajax({
+          type: "POST",
+          url: `${API_BASE_URL_WITH_API}/payments/sadad/checksum`,
+          data: window.$(form).serialize(),
+          success: function (response) { window.afterChecksumSubmit(response); },
+          error: function (err) { window.afterChecksumSubmit(err.statusText); }
+        });
+      } catch (e) {
+        console.error("❌ SADAD checksum error", e);
+      }
+    };
+
+    const loadScript = (src, id, onLoad) => {
+      if (document.getElementById(id)) {
+        onLoad?.();
+        return;
+      }
+      const script = document.createElement("script");
+      script.id = id;
+      script.src = src;
+      script.async = false;
+      script.defer = false;
+      script.onload = onLoad;
+      script.onerror = () => console.error(`❌ Failed to load ${src}`);
+      document.body.appendChild(script);
+    };
+
+    const loadSadad = () => {
+      loadScript("https://sadadqa.com/jslib/sadad.js", "sadad-sdk", () => {
+        console.log("✅ SADAD SDK loaded");
+        const el = document.getElementById("sadad_cc_container");
+        const rect = el?.getBoundingClientRect();
+        console.log("🧪 SADAD container", {
+          exists: !!el,
+          width: rect?.width,
+          height: rect?.height,
+          visible: rect ? rect.width > 0 && rect.height > 0 : false
+        });
+        console.log("🧪 sadadconfig", window.sadadconfig);
+      });
+    };
+
+    if (window.$) {
+      loadSadad();
+    } else {
+      loadScript("https://code.jquery.com/jquery-3.7.1.min.js", "jquery-sdk", () => {
+        console.log("✅ jQuery loaded for SADAD");
+        loadSadad();
+      });
+    }
+  }, [sadadOrderId, sadadData]);
   
     
   const handleClearSignature = () => {
@@ -482,52 +540,6 @@ export default function Checkout() {
 
   return (
     <section className="flat-spacing-11">
-      <Script
-        id="jquery-sdk"
-        src="https://code.jquery.com/jquery-3.7.1.min.js"
-        strategy="beforeInteractive"
-        onLoad={() => console.log("✅ jQuery loaded for SADAD")}
-        onError={() => console.error("❌ jQuery failed to load")}
-      />
-      <Script
-        id="sadad-cb"
-        strategy="beforeInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `window.sadadGetChecksum = function(){
-            try {
-              var form = document.getElementById('sadadFinalForm');
-              if (!form || !window.$) return;
-              window.$.ajax({
-                type: 'POST',
-                url: '${API_BASE_URL_WITH_API}/payments/sadad/checksum',
-                data: window.$(form).serialize(),
-                success: function (response) { window.afterChecksumSubmit(response); },
-                error: function (err) { window.afterChecksumSubmit(err.statusText); }
-              });
-            } catch (e) {
-              console.error('❌ SADAD checksum error', e);
-            }
-          };`
-        }}
-      />
-      <Script
-        id="sadad-sdk"
-        src="https://sadadqa.com/jslib/sadad.js"
-        strategy="beforeInteractive"
-        onLoad={() => {
-          console.log("✅ SADAD SDK loaded");
-          const el = document.getElementById("sadad_cc_container");
-          const rect = el?.getBoundingClientRect();
-          console.log("🧪 SADAD container", {
-            exists: !!el,
-            width: rect?.width,
-            height: rect?.height,
-            visible: rect ? rect.width > 0 && rect.height > 0 : false
-          });
-          console.log("🧪 sadadconfig", typeof window !== "undefined" ? window.sadadconfig : undefined);
-        }}
-        onError={() => console.error("❌ SADAD SDK failed to load")}
-      />
       <div className="container">
         <div className="tf-page-cart-wrap layout-2">
           <div className="tf-page-cart-item">
