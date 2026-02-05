@@ -269,15 +269,62 @@ export default function Checkout() {
         console.error("❌ SADAD checksum error", e);
       }
     };
-    const el = document.getElementById("sadad_cc_container");
-    const rect = el?.getBoundingClientRect();
-    console.log("🧪 SADAD container", {
-      exists: !!el,
-      width: rect?.width,
-      height: rect?.height,
-      visible: rect ? rect.width > 0 && rect.height > 0 : false
-    });
-    console.log("🧪 sadadconfig", window.sadadconfig);
+
+    const container = document.getElementById("sadad_cc_container");
+    if (!container) {
+      console.warn("⚠️ SADAD container not found");
+      return;
+    }
+
+    const originalWrite = document.write;
+    const originalWriteln = document.writeln;
+    document.write = (html) => {
+      try {
+        container.insertAdjacentHTML("beforeend", html);
+      } catch (e) {
+        console.error("❌ SADAD document.write shim failed", e);
+      }
+    };
+    document.writeln = document.write;
+
+    const loadScript = (src, id, onLoad) => {
+      if (document.getElementById(id)) {
+        onLoad?.();
+        return;
+      }
+      const script = document.createElement("script");
+      script.id = id;
+      script.src = src;
+      script.async = false;
+      script.defer = false;
+      script.onload = onLoad;
+      script.onerror = () => console.error(`❌ Failed to load ${src}`);
+      document.body.appendChild(script);
+    };
+
+    const loadSadad = () => {
+      loadScript("https://sadadqa.com/jslib/sadad.js", "sadad-sdk", () => {
+        console.log("✅ SADAD SDK loaded");
+        const rect = container.getBoundingClientRect();
+        console.log("🧪 SADAD container", {
+          width: rect.width,
+          height: rect.height,
+          visible: rect.width > 0 && rect.height > 0
+        });
+        console.log("🧪 sadadconfig", window.sadadconfig);
+        document.write = originalWrite;
+        document.writeln = originalWriteln;
+      });
+    };
+
+    if (window.$) {
+      loadSadad();
+    } else {
+      loadScript("https://code.jquery.com/jquery-3.7.1.min.js", "jquery-sdk", () => {
+        console.log("✅ jQuery loaded for SADAD");
+        loadSadad();
+      });
+    }
   }, [sadadOrderId, sadadData]);
   
     
@@ -1123,17 +1170,16 @@ export default function Checkout() {
     </div>
   </div>
 )}
-{sadadOrderId && sadadData && (
 <>
 <form id="sadadFinalForm">
 
-<input type="hidden" name="merchant_id" value={sadadData.merchant_id} />
-<input type="hidden" name="ORDER_ID" value={sadadOrderId} />
-<input type="hidden" name="TXN_AMOUNT" value={sadadData.amount} />
-<input type="hidden" name="WEBSITE" value={sadadData.website} />
-<input type="hidden" name="CALLBACK_URL" value={sadadData.callback} />
-<input type="hidden" name="txnDate" value={sadadData.txnDate} />
-<input type="hidden" name="VERSION" value={sadadData.version} />
+<input type="hidden" name="merchant_id" value={sadadData?.merchant_id || ""} />
+<input type="hidden" name="ORDER_ID" value={sadadOrderId || ""} />
+<input type="hidden" name="TXN_AMOUNT" value={sadadData?.amount || ""} />
+<input type="hidden" name="WEBSITE" value={sadadData?.website || ""} />
+<input type="hidden" name="CALLBACK_URL" value={sadadData?.callback || ""} />
+<input type="hidden" name="txnDate" value={sadadData?.txnDate || ""} />
+<input type="hidden" name="VERSION" value={sadadData?.version || ""} />
 
 </form>
 
@@ -1145,9 +1191,9 @@ export default function Checkout() {
  data-apple-domain="giftoria.me"
  data-apple-live="1"
  data-sd-lang="ENG"
+ style={{ minHeight: 48, display: sadadOrderId && sadadData ? "block" : "none" }}
 />
 </>
-)}
 
 
     </section>
