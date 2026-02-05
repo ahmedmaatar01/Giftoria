@@ -252,6 +252,15 @@ export default function Checkout() {
     };
   }, [signatureType]);
   useEffect(() => {
+    if (!document.getElementById("sadad-sdk")) {
+      const script = document.createElement("script");
+      script.id = "sadad-sdk";
+      script.src = "https://sadadqa.com/jslib/sadad.js";
+      script.async = false; // Load synchronously
+      document.head.appendChild(script);
+    }
+  }, []);
+  useEffect(() => {
     window.sadadGetChecksum = function () {
     const form = document.getElementById("sadadFinalForm");
     if (!form) return;
@@ -1124,7 +1133,7 @@ export default function Checkout() {
 
 <div
  id="sadad_cc_container"
- style={{ display: sadadOrderId && sadadData ? 'block' : 'none' }}
+ style={{ visibility: sadadOrderId && sadadData ? 'visible' : 'hidden' }}
  data-i-color="#531232"
  data-cbfunc="sadadGetChecksum">
 </div>
