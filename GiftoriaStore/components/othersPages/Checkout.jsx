@@ -253,11 +253,7 @@ export default function Checkout() {
   }, [signatureType]);
   useEffect(() => {
     if (!document.getElementById("sadad-sdk")) {
-      const script = document.createElement("script");
-      script.id = "sadad-sdk";
-      script.src = "https://sadadqa.com/jslib/sadad.js";
-      script.async = false; // Load synchronously
-      document.head.appendChild(script);
+      document.head.insertAdjacentHTML('beforeend', '<script id="sadad-sdk" src="https://sadadqa.com/jslib/sadad.js"></script>');
     }
   }, []);
   useEffect(() => {
