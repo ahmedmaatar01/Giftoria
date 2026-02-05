@@ -252,10 +252,27 @@ export default function Checkout() {
     };
   }, [signatureType]);
   useEffect(() => {
+    if (!sadadOrderId || !sadadData) return;
+    if (sadadScriptLoadedRef.current) return;
+    if (typeof window !== "undefined" && window.sadadconfig) {
+      sadadScriptLoadedRef.current = true;
+      return;
+    }
+    if (document.getElementById("sadad-sdk")) {
+      sadadScriptLoadedRef.current = true;
+      return;
+    }
+    const script = document.createElement("script");
+    script.id = "sadad-sdk";
+    script.src = "https://sadadqa.com/jslib/sadad.js";
+    script.async = true;
+    document.body.appendChild(script);
+    sadadScriptLoadedRef.current = true;
+  }, [sadadOrderId, sadadData]);
+  useEffect(() => {
     window.sadadGetChecksum = function () {
     const form = document.getElementById("sadadFinalForm");
     if (!form) return;
-    console.log("🧾 SADAD checksum requested", Object.fromEntries(new FormData(form)));
     const formData = new FormData(form);
     fetch(`${API_BASE_URL_WITH_API}/payments/sadad/checksum`, {
       method: "POST",
@@ -263,10 +280,7 @@ export default function Checkout() {
       body: new URLSearchParams(formData)
     })
       .then(r => r.text())
-      .then(r => {
-        console.log("✅ SADAD checksum response (HTML length)", r?.length);
-        window.afterChecksumSubmit(r);
-      });
+      .then(r => window.afterChecksumSubmit(r));
     };
     }, []);
     
@@ -503,8 +517,31 @@ export default function Checkout() {
         id="jquery-sdk"
         src="https://code.jquery.com/jquery-3.7.1.min.js"
         strategy="beforeInteractive"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossOrigin="anonymous"
         onLoad={() => console.log("✅ jQuery loaded for SADAD")}
         onError={() => console.error("❌ jQuery failed to load")}
+      />
+      <Script
+        id="sadad-cb"
+        strategy="beforeInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `window.sadadGetChecksum = function(){
+            try {
+              var form = document.getElementById('sadadFinalForm');
+              if (!form || !window.$) return;
+              window.$.ajax({
+                type: 'POST',
+                url: '${API_BASE_URL_WITH_API}/payments/sadad/checksum',
+                data: window.$(form).serialize(),
+                success: function (response) { window.afterChecksumSubmit(response); },
+                error: function (err) { window.afterChecksumSubmit(err.statusText); }
+              });
+            } catch (e) {
+              console.error('❌ SADAD checksum error', e);
+            }
+          };`
+        }}
       />
       <Script
         id="sadad-sdk"
@@ -1144,8 +1181,10 @@ export default function Checkout() {
  id="sadad_cc_container"
  data-i-color="#492e11"
  data-cbfunc="sadadGetChecksum"
+ data-apple-enable="1"
+ data-apple-domain="giftoria.me"
+ data-apple-live="1"
  data-sd-lang="ENG"
- style={{ minHeight: 48 }}
 />
 </>
 )}
