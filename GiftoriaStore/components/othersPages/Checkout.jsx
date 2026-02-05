@@ -18,6 +18,7 @@ export default function Checkout() {
   const [occasions, setOccasions] = useState([]);
   const [sadadOrderId, setSadadOrderId] = useState(null);
   const [sadadData, setSadadData] = useState(null);
+  const sadadScriptLoadedRef = useRef(false);
 
 
   useEffect(() => {
@@ -252,81 +253,36 @@ export default function Checkout() {
   }, [signatureType]);
   useEffect(() => {
     if (!sadadOrderId || !sadadData) return;
-
-    window.sadadGetChecksum = function () {
-      try {
-        const form = document.getElementById("sadadFinalForm");
-        if (!form || !window.$) return;
-        console.log("🧾 SADAD checksum requested", Object.fromEntries(new FormData(form)));
-        window.$.ajax({
-          type: "POST",
-          url: `${API_BASE_URL_WITH_API}/payments/sadad/checksum`,
-          data: window.$(form).serialize(),
-          success: function (response) { window.afterChecksumSubmit(response); },
-          error: function (err) { window.afterChecksumSubmit(err.statusText); }
-        });
-      } catch (e) {
-        console.error("❌ SADAD checksum error", e);
-      }
-    };
-
-    const container = document.getElementById("sadad_cc_container");
-    if (!container) {
-      console.warn("⚠️ SADAD container not found");
+    if (sadadScriptLoadedRef.current) return;
+    if (typeof window !== "undefined" && window.sadadconfig) {
+      sadadScriptLoadedRef.current = true;
       return;
     }
-
-    const originalWrite = document.write;
-    const originalWriteln = document.writeln;
-    document.write = (html) => {
-      try {
-        container.insertAdjacentHTML("beforeend", html);
-      } catch (e) {
-        console.error("❌ SADAD document.write shim failed", e);
-      }
-    };
-    document.writeln = document.write;
-
-    const loadScript = (src, id, onLoad) => {
-      if (document.getElementById(id)) {
-        onLoad?.();
-        return;
-      }
-      const script = document.createElement("script");
-      script.id = id;
-      script.src = src;
-      script.async = false;
-      script.defer = false;
-      script.onload = onLoad;
-      script.onerror = () => console.error(`❌ Failed to load ${src}`);
-      document.body.appendChild(script);
-    };
-
-    const loadSadad = () => {
-      loadScript("https://sadadqa.com/jslib/sadad.js", "sadad-sdk", () => {
-        console.log("✅ SADAD SDK loaded");
-        const rect = container.getBoundingClientRect();
-        console.log("🧪 SADAD container", {
-          width: rect.width,
-          height: rect.height,
-          visible: rect.width > 0 && rect.height > 0
-        });
-        console.log("🧪 sadadconfig", window.sadadconfig);
-        document.write = originalWrite;
-        document.writeln = originalWriteln;
-      });
-    };
-
-    if (window.$) {
-      loadSadad();
-    } else {
-      loadScript("https://code.jquery.com/jquery-3.7.1.min.js", "jquery-sdk", () => {
-        console.log("✅ jQuery loaded for SADAD");
-        loadSadad();
-      });
+    if (document.getElementById("sadad-sdk")) {
+      sadadScriptLoadedRef.current = true;
+      return;
     }
+    const script = document.createElement("script");
+    script.id = "sadad-sdk";
+    script.src = "https://sadadqa.com/jslib/sadad.js";
+    script.async = true;
+    document.body.appendChild(script);
+    sadadScriptLoadedRef.current = true;
   }, [sadadOrderId, sadadData]);
-  
+  useEffect(() => {
+    window.sadadGetChecksum = function () {
+    const form = document.getElementById("sadadFinalForm");
+    if (!form) return;
+    const formData = new FormData(form);
+    fetch(`${API_BASE_URL_WITH_API}/payments/sadad/checksum`, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+      body: new URLSearchParams(formData)
+    })
+      .then(r => r.text())
+      .then(r => window.afterChecksumSubmit(r));
+    };
+    }, []);
     
   const handleClearSignature = () => {
     const canvas = canvasRef.current;
@@ -1170,30 +1126,27 @@ export default function Checkout() {
     </div>
   </div>
 )}
+{sadadOrderId && sadadData && (
 <>
 <form id="sadadFinalForm">
 
-<input type="hidden" name="merchant_id" value={sadadData?.merchant_id || ""} />
-<input type="hidden" name="ORDER_ID" value={sadadOrderId || ""} />
-<input type="hidden" name="TXN_AMOUNT" value={sadadData?.amount || ""} />
-<input type="hidden" name="WEBSITE" value={sadadData?.website || ""} />
-<input type="hidden" name="CALLBACK_URL" value={sadadData?.callback || ""} />
-<input type="hidden" name="txnDate" value={sadadData?.txnDate || ""} />
-<input type="hidden" name="VERSION" value={sadadData?.version || ""} />
+<input type="hidden" name="merchant_id" value={sadadData.merchant_id} />
+<input type="hidden" name="ORDER_ID" value={sadadOrderId} />
+<input type="hidden" name="TXN_AMOUNT" value={sadadData.amount} />
+<input type="hidden" name="WEBSITE" value={sadadData.website} />
+<input type="hidden" name="CALLBACK_URL" value={sadadData.callback} />
+<input type="hidden" name="txnDate" value={sadadData.txnDate} />
+<input type="hidden" name="VERSION" value={sadadData.version} />
 
 </form>
 
 <div
  id="sadad_cc_container"
- data-i-color="#492e11"
- data-cbfunc="sadadGetChecksum"
- data-apple-enable="1"
- data-apple-domain="giftoria.me"
- data-apple-live="1"
- data-sd-lang="ENG"
- style={{ minHeight: 48, display: sadadOrderId && sadadData ? "block" : "none" }}
-/>
+ data-i-color="#531232"
+ data-cbfunc="sadadGetChecksum">
+</div>
 </>
+)}
 
 
     </section>
