@@ -499,6 +499,20 @@ export default function Checkout() {
 
   return (
     <section className="flat-spacing-11">
+      <Script
+        id="jquery-sdk"
+        src="https://code.jquery.com/jquery-3.7.1.min.js"
+        strategy="beforeInteractive"
+        onLoad={() => console.log("✅ jQuery loaded for SADAD")}
+        onError={() => console.error("❌ jQuery failed to load")}
+      />
+      <Script
+        id="sadad-sdk"
+        src="https://sadadqa.com/jslib/sadad.js"
+        strategy="beforeInteractive"
+        onLoad={() => console.log("✅ SADAD SDK loaded")}
+        onError={() => console.error("❌ SADAD SDK failed to load")}
+      />
       <div className="container">
         <div className="tf-page-cart-wrap layout-2">
           <div className="tf-page-cart-item">
@@ -1114,20 +1128,6 @@ export default function Checkout() {
 )}
 {sadadOrderId && sadadData && (
 <>
-<Script
-  id="jquery-sdk"
-  src="https://code.jquery.com/jquery-3.7.1.min.js"
-  strategy="afterInteractive"
-  onLoad={() => console.log("✅ jQuery loaded for SADAD")}
-  onError={() => console.error("❌ jQuery failed to load")}
-/>
-<Script
-  id="sadad-sdk"
-  src="https://sadadqa.com/jslib/sadad.js"
-  strategy="afterInteractive"
-  onLoad={() => console.log("✅ SADAD SDK loaded")}
-  onError={() => console.error("❌ SADAD SDK failed to load")}
-/>
 <form id="sadadFinalForm">
 
 <input type="hidden" name="merchant_id" value={sadadData.merchant_id} />
