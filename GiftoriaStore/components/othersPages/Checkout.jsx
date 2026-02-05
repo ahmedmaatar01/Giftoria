@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import Script from "next/script";
+import Script from "next/script";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
@@ -251,38 +252,7 @@ export default function Checkout() {
       setSignaturePadReady(false);
     };
   }, [signatureType]);
-  useEffect(() => {
-    if (!sadadOrderId || !sadadData) return;
-    if (sadadScriptLoadedRef.current) return;
-    if (typeof window !== "undefined" && window.sadadconfig) {
-      sadadScriptLoadedRef.current = true;
-      return;
-    }
-    if (document.getElementById("sadad-sdk")) {
-      sadadScriptLoadedRef.current = true;
-      return;
-    }
-    const script = document.createElement("script");
-    script.id = "sadad-sdk";
-    script.src = "https://sadadqa.com/jslib/sadad.js";
-    script.async = true;
-    document.body.appendChild(script);
-    sadadScriptLoadedRef.current = true;
-  }, [sadadOrderId, sadadData]);
-  useEffect(() => {
-    window.sadadGetChecksum = function () {
-    const form = document.getElementById("sadadFinalForm");
-    if (!form) return;
-    const formData = new FormData(form);
-    fetch(`${API_BASE_URL_WITH_API}/payments/sadad/checksum`, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
-      body: new URLSearchParams(formData)
-    })
-      .then(r => r.text())
-      .then(r => window.afterChecksumSubmit(r));
-    };
-    }, []);
+  
     
   const handleClearSignature = () => {
     const canvas = canvasRef.current;
