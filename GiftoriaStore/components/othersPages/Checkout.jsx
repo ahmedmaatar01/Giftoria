@@ -269,45 +269,15 @@ export default function Checkout() {
         console.error("❌ SADAD checksum error", e);
       }
     };
-
-    const loadScript = (src, id, onLoad) => {
-      if (document.getElementById(id)) {
-        onLoad?.();
-        return;
-      }
-      const script = document.createElement("script");
-      script.id = id;
-      script.src = src;
-      script.async = false;
-      script.defer = false;
-      script.onload = onLoad;
-      script.onerror = () => console.error(`❌ Failed to load ${src}`);
-      document.body.appendChild(script);
-    };
-
-    const loadSadad = () => {
-      loadScript("https://sadadqa.com/jslib/sadad.js", "sadad-sdk", () => {
-        console.log("✅ SADAD SDK loaded");
-        const el = document.getElementById("sadad_cc_container");
-        const rect = el?.getBoundingClientRect();
-        console.log("🧪 SADAD container", {
-          exists: !!el,
-          width: rect?.width,
-          height: rect?.height,
-          visible: rect ? rect.width > 0 && rect.height > 0 : false
-        });
-        console.log("🧪 sadadconfig", window.sadadconfig);
-      });
-    };
-
-    if (window.$) {
-      loadSadad();
-    } else {
-      loadScript("https://code.jquery.com/jquery-3.7.1.min.js", "jquery-sdk", () => {
-        console.log("✅ jQuery loaded for SADAD");
-        loadSadad();
-      });
-    }
+    const el = document.getElementById("sadad_cc_container");
+    const rect = el?.getBoundingClientRect();
+    console.log("🧪 SADAD container", {
+      exists: !!el,
+      width: rect?.width,
+      height: rect?.height,
+      visible: rect ? rect.width > 0 && rect.height > 0 : false
+    });
+    console.log("🧪 sadadconfig", window.sadadconfig);
   }, [sadadOrderId, sadadData]);
   
     
