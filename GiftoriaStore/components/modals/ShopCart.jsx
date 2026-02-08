@@ -96,7 +96,7 @@ export default function ShopCart() {
                             {getItemName(elm)}
                           </Link>
                           <div className="arabic_vip fw-6" dangerouslySetInnerHTML={{
-                            __html: wrapNumbers(`$${parseFloat(elm.price || 0).toFixed(2)}`)
+                            __html: wrapNumbers(`QAR ${parseFloat(elm.price || 0).toFixed(2)}`)
                           }} />
                           {elm.customFieldValues && Object.keys(elm.customFieldValues).length > 0 && (
                             <div className="mt-1 small text-muted">
@@ -306,7 +306,7 @@ export default function ShopCart() {
                   <div className="tf-cart-totals-discounts">
                     <div className="tf-cart-total  text-uppercase title-header-c">{t("cart.subtotal")}</div>
                     <div className="tf-totals-total-value fw-6 title-header-c" dangerouslySetInnerHTML={{
-                      __html: wrapNumbers(`${totalPrice.toFixed(2)}QAR `)
+                      __html: wrapNumbers(`${totalPrice.toFixed(2)} QAR `)
                     }} />
                   </div>
                   <div className="tf-cart-tax">
@@ -406,7 +406,7 @@ export default function ShopCart() {
                         <p>{t("cart.gift_wrap_question")}</p>
                         {t("cart.only")}
                         <span className="arabic_vip fw-6" dangerouslySetInnerHTML={{
-                          __html: wrapNumbers('$5.00')
+                          __html: wrapNumbers('QAR 5.00')
                         }} />
                       </div>
                     </div>
