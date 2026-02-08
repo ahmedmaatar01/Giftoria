@@ -267,7 +267,7 @@ export default function Cart() {
                 </div>
               </div> */}
               <div className="tf-page-cart-checkout" style={{ backgroundColor: '#F1ECE4', padding: '20px', borderRadius: '8px' }}>
-                <div className="shipping-calculator">
+                {/* <div className="shipping-calculator">
                   <summary
                     className="accordion-shipping-header d-flex justify-content-between align-items-center collapsed"
                     data-bs-target="#shipping"
@@ -432,39 +432,18 @@ export default function Cart() {
                       </button>
                     </div>
                   </div>
-                </div>
-                <div className="cart-checkbox">
-                  <input
-                    type="checkbox"
-                    className="tf-check"
-                    id="cart-gift-checkbox"
-                  />
-                  <label htmlFor="cart-gift-checkbox" className="fw-4 arabic_div">
-                    <span>{t("cart_page.gift_wrap.question")}</span> {t("cart_page.gift_wrap.only")}
-                    <span className="fw-5">$5.00</span>
-                  </label>
-                </div>
+                </div> */}
                 <div className="tf-cart-totals-discounts arabic_div">
                   <h3>{t("cart_page.totals.subtotal")}</h3>
                   <span className="total-value">
-                    ${totalPrice.toFixed(2)} {t("cart_page.totals.currency")}
+                    {totalPrice.toFixed(2)} {t("cart_page.totals.currency")}
                   </span>
                 </div>
                 <p className="tf-cart-tax arabic_div">
                   {t("cart_page.totals.taxes_shipping")}
                   <Link href={`/shipping-delivery`}>{t("cart_page.totals.shipping_link")}</Link> {t("cart_page.totals.calculated_checkout")}
                 </p>
-                <div className="cart-checkbox arabic_div">
-                  <input
-                    type="checkbox"
-                    className="tf-check"
-                    id="check-agree"
-                  />
-                  <label htmlFor="check-agree" className="fw-4">
-                    {t("cart_page.agreement.agree_text")}
-                    <Link href={`/terms-conditions`}>{t("cart_page.agreement.terms_link")}</Link>
-                  </label>
-                </div>
+
                 <div className="cart-checkout-btn">
                   <Link
                     href={`/checkout`}

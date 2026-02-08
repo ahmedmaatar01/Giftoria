@@ -258,19 +258,19 @@ export default function Checkout() {
   }, []);
   useEffect(() => {
     window.sadadGetChecksum = function () {
-    const form = document.getElementById("sadadFinalForm");
-    if (!form) return;
-    const formData = new FormData(form);
-    fetch(`${API_BASE_URL_WITH_API}/payments/sadad/checksum`, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
-      body: new URLSearchParams(formData)
-    })
-      .then(r => r.text())
-      .then(r => window.afterChecksumSubmit(r));
+      const form = document.getElementById("sadadFinalForm");
+      if (!form) return;
+      const formData = new FormData(form);
+      fetch(`${API_BASE_URL_WITH_API}/payments/sadad/checksum`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+        body: new URLSearchParams(formData)
+      })
+        .then(r => r.text())
+        .then(r => window.afterChecksumSubmit(r));
     };
-    }, []);
-    
+  }, []);
+
   const handleClearSignature = () => {
     const canvas = canvasRef.current;
     const ctx = ctxRef.current;
@@ -339,7 +339,7 @@ export default function Checkout() {
 
   const handleSubmitOrder = async (e) => {
     e.preventDefault();
-  
+
     // 1️⃣ Check required fields
     const requiredFields = ['firstName', 'lastName', 'address', 'email', 'phone'];
     const emptyFields = requiredFields.filter(
@@ -349,22 +349,22 @@ export default function Checkout() {
       setError(t("checkout.error_fill_required_fields")); // e.g., "Please fill all required fields"
       return; // stop submission
     }
-  
+
     // 2️⃣ Existing cart check
     if (cartProducts.length === 0) {
       setError(t("checkout.error_cart_empty"));
       return;
     }
-  
+
     // 3️⃣ Terms agreement check
     if (!formData.agreeTerms) {
       setError(t("checkout.error_agree_terms"));
       return;
     }
-  
+
     setLoading(true);
     setError(null);
-  
+
     try {
       // 4️⃣ Validate desired delivery date-time
       const minDt = new Date(minDesiredDeliveryLocal);
@@ -379,28 +379,28 @@ export default function Checkout() {
         setLoading(false);
         return;
       }
-  
+
       // 5️⃣ Build shipping and billing addresses
       const shippingAddress = `${formData.address}, ${formData.city}, ${formData.country}`;
       const billingAddress = shippingAddress;
-  
+
       // 6️⃣ Map cart products
       const products = cartProducts.map(item => {
         const productPayload = {
           product_id: item.id,
           quantity: item.quantity,
         };
-  
+
         if (item.customFieldValues && Object.keys(item.customFieldValues).length > 0) {
           productPayload.custom_fields = Object.entries(item.customFieldValues).map(([fieldId, value]) => ({
             field_id: Number(fieldId),
             value: String(value),
           }));
         }
-  
+
         return productPayload;
       });
-  
+
       // 7️⃣ Build order payload
       const orderPayload = {
         user_id: user?.id ?? -1,
@@ -417,7 +417,7 @@ export default function Checkout() {
         desired_delivery_at: new Date(formData.desiredDelivery).toISOString(),
         products,
       };
-  
+
       // 8️⃣ Add gift card if enabled
       if (giftCardSelection.enabled && giftCardSelection.templateId) {
         let giftCardMessage = '';
@@ -427,7 +427,7 @@ export default function Checkout() {
           const selectedTemplate = giftCardTemplates.find(t => t.id == giftCardSelection.templateId);
           giftCardMessage = selectedTemplate?.message || 'Template message';
         }
-  
+
         orderPayload.gift_card = {
           template_id: giftCardSelection.templateId === 'custom' ? null : giftCardSelection.templateId,
           custom_description: giftCardMessage,
@@ -435,9 +435,9 @@ export default function Checkout() {
           product_ids: giftCardSelection.productIds
         };
       }
-  
+
       console.log('Full Order Payload:', orderPayload);
-  
+
       // 9️⃣ Send order
       const response = await axios.post(
         `${API_BASE_URL_WITH_API}/commands`,
@@ -446,14 +446,14 @@ export default function Checkout() {
           headers: getAuthHeaders()
         }
       );
-      
+
       console.log('Order API full response:', response.data);
-      
+
       const orderId = response.data?.id;
       if (!orderId) {
         throw new Error('Order ID not returned');
       }
-      
+
       // ✅ IF ONLINE PAYMENT → redirect to SADAD
       if (formData.paymentMethod === 'online') {
 
@@ -462,17 +462,17 @@ export default function Checkout() {
           { order_id: orderId },
           { headers: getAuthHeaders() }
         );
-       
+
         setSadadOrderId(orderId);
         setSadadData(sadad.data);
-       
+
         return;
-       }
-       
+      }
+
       // ✅ IF CASH ON DELIVERY → old behavior
       setCartProducts([]);
       localStorage.removeItem('cartList');
-      
+
       setTimeout(() => {
         if (!user) {
           router.push(`/payment-success?order_id=${orderId}`);
@@ -480,12 +480,12 @@ export default function Checkout() {
           router.push("my-account-orders");
         }
       }, 500);
-      
-  
+
+
     } catch (err) {
       console.error('Order submission error:', err);
       console.error('Error response:', err.response?.data);
-  
+
       if (err.response?.data?.errors) {
         const validationErrors = Object.values(err.response.data.errors).flat().join(', ');
         setError(`${t('checkout.validation_error_prefix')}: ${validationErrors}`);
@@ -496,7 +496,7 @@ export default function Checkout() {
       setLoading(false);
     }
   };
-  
+
 
   return (
     <section className="flat-spacing-11">
@@ -620,7 +620,7 @@ export default function Checkout() {
               </fieldset>
               <fieldset className="box fieldset">
                 <label htmlFor="desired-delivery">{t('checkout.desired_delivery')}</label>
-                <div style={{position: 'relative'}}>
+                <div style={{ position: 'relative' }}>
                   <input
                     required
                     type="datetime-local"
@@ -629,13 +629,13 @@ export default function Checkout() {
                     min={minDesiredDeliveryLocal}
                     value={formData.desiredDelivery}
                     onChange={handleInputChange}
-                    style={i18n.language === 'ar' ? {paddingRight: '120px'} : {}}
+                    style={i18n.language === 'ar' ? { paddingRight: '120px' } : {}}
                   />
                   {i18n.language === 'ar' && (
                     <span
                       className="arabic_div"
-                      style={{position: 'absolute', right: 0, top: 0, height: '100%', display: 'flex', alignItems: 'center', background: 'white', padding: '0 8px', pointerEvents: 'none', fontSize: '90%'}}
-                      dangerouslySetInnerHTML={{__html: formData.desiredDelivery.replace(/(\d+)/g, '<span class="arabic_div">$1</span>')}}
+                      style={{ position: 'absolute', right: 0, top: 0, height: '100%', display: 'flex', alignItems: 'center', background: 'white', padding: '0 8px', pointerEvents: 'none', fontSize: '90%' }}
+                      dangerouslySetInnerHTML={{ __html: formData.desiredDelivery.replace(/(\d+)/g, '<span class="arabic_div">$1</span>') }}
                     />
                   )}
                 </div>
@@ -732,11 +732,11 @@ export default function Checkout() {
                                     dangerouslySetInnerHTML={{
                                       __html: giftCardSelection.templateId && giftCardSelection.templateId !== 'custom'
                                         ? `${t('checkout.selected_template', 'Selected')}: ${(() => {
-                                            const selected = giftCardTemplates.find(t => t.id == giftCardSelection.templateId);
-                                            if (!selected) return t('checkout.template_name', 'Template');
-                                            if (i18n.language === 'ar' && selected.name_ar) return selected.name_ar;
-                                            return selected.name;
-                                          })()}`
+                                          const selected = giftCardTemplates.find(t => t.id == giftCardSelection.templateId);
+                                          if (!selected) return t('checkout.template_name', 'Template');
+                                          if (i18n.language === 'ar' && selected.name_ar) return selected.name_ar;
+                                          return selected.name;
+                                        })()}`
                                         : (t('checkout.prepared_templates_desc', 'Choose from designs') + ` (${giftCardTemplates.length})`).replace(/(\d+)/g, '<span class="arabic_div">$1</span>')
                                     }}
                                   />
@@ -871,7 +871,7 @@ export default function Checkout() {
                           width={720}
                           height={1005}
                         />
-                        <span className="quantity" dangerouslySetInnerHTML={{__html: String(elm.quantity).replace(/(\d+)/g, '<span class="arabic_div">$1</span>')}} />
+                        <span className="quantity" dangerouslySetInnerHTML={{ __html: String(elm.quantity).replace(/(\d+)/g, '<span class="arabic_div">$1</span>') }} />
                       </figure>
                       <div className="content">
                         <div className="info">
@@ -896,7 +896,7 @@ export default function Checkout() {
                             </div>
                           )}
                         </div>
-                        <span className="arabic_vip" dangerouslySetInnerHTML={{__html: (`$${(elm.price * elm.quantity).toFixed(2)}`).replace(/(\d+[.,]?\d*)/, '<span class="arabic_div">$1</span>')}} />
+                        <span className="arabic_vip" dangerouslySetInnerHTML={{ __html: (`QAR ${(elm.price * elm.quantity).toFixed(2)}`).replace(/(\d+[.,]?\d*)/, '<span class="arabic_div">$1</span>') }} />
                       </div>
                     </li>
                   ))}
@@ -930,7 +930,7 @@ export default function Checkout() {
                 </div> */}
                 <div className="d-flex justify-content-between line pb_20">
                   <h6 className="fw-5">{t('checkout.total')}</h6>
-                  <h6 className="total fw-5 ">QAR<span className="raleway-medium" dangerouslySetInnerHTML={{__html: totalPrice.toFixed(2).replace(/(\d+[.,]?\d*)/, '<span class=\"arabic_div\">$1</span>')}} /></h6>
+                  <h6 className="total fw-5 ">QAR<span className="raleway-medium" dangerouslySetInnerHTML={{ __html: totalPrice.toFixed(2).replace(/(\d+[.,]?\d*)/, '<span class=\"arabic_div\">$1</span>') }} /></h6>
                 </div>
                 <div className="wd-check-payment">
                   <div className="fieldset-radio mb_20">
@@ -1007,136 +1007,130 @@ export default function Checkout() {
 
 
       {/* Gift Card Template Selection Modal */}
-    {showTemplateModal && (
-  <div
-    className="modal fade show d-block"
-    tabIndex="-1"
-    style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
-    onClick={() => setShowTemplateModal(false)}
-  >
-    <div
-      className="modal-dialog modal-lg modal-dialog-centered"
-      onClick={(e) => e.stopPropagation()}
-    >
-      <div className="modal-content">
-        <div className="modal-header">
-          <h5 className="modal-title">
-            {t('checkout.select_gift_card_template', 'Select Gift Card Template')}
-          </h5>
-          <button
-            type="button"
-            className="btn-close"
-            onClick={() => setShowTemplateModal(false)}
-            aria-label="Close"
-          ></button>
-        </div>
-
-        <div className="modal-body" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
-          {/* 🔹 Occasion Select */}
-          <select
-            className="form-select mb-3"
-            value={giftCardSelection.occasionId || ""}
-            onChange={(e) =>
-              handleGiftCardChange("occasionId", Number(e.target.value))
-            }
+      {showTemplateModal && (
+        <div
+          className="modal fade show d-block"
+          tabIndex="-1"
+          style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+          onClick={() => setShowTemplateModal(false)}
+        >
+          <div
+            className="modal-dialog modal-lg modal-dialog-centered"
+            onClick={(e) => e.stopPropagation()}
           >
-            <option value="">All Occasions</option>
-            {occasions.map((occ) => (
-              <option key={occ.id} value={occ.id}>
-                {i18n.language === "ar" && occ.name_ar ? occ.name_ar : occ.name}
-              </option>
-            ))}
-          </select>
-
-          {/* 🔹 Template List */}
-          {(() => {
-            const filteredTemplates =
-              giftCardSelection.occasionId && giftCardSelection.occasionId !== ""
-                ? giftCardTemplates.filter(
-                    (t) => t.occasion_id === giftCardSelection.occasionId
-                  )
-                : giftCardTemplates;
-
-            return filteredTemplates.length === 0 ? (
-              <div className="text-center p-4">
-                <p className="text-muted">No gift card templates available</p>
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">
+                  {t('checkout.select_gift_card_template', 'Select Gift Card Template')}
+                </h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setShowTemplateModal(false)}
+                  aria-label="Close"
+                ></button>
               </div>
-            ) : (
-              <div className="row">
-                {filteredTemplates.map((template) => (
-                  <div key={template.id} className="col-md-4 col-sm-6 mb-3">
-                    <div
-                      className={`template-card border rounded p-3 cursor-pointer ${
-                        giftCardSelection.templateId === template.id
-                          ? "border-primary bg-light"
-                          : "border-light"
-                      }`}
-                      onClick={() => {
-                        handleGiftCardChange("templateId", template.id);
-                        setShowTemplateModal(false);
-                      }}
-                    >
-                      <div className="template-image mb-2 text-center">
-                        <Image
-                          src={`${API_BASE_URL}/storage/${template.image}`}
-                          width={120}
-                          height={90}
-                          className="w-100"
-                          style={{ objectFit: "cover", borderRadius: "8px" }}
-                        />
-                      </div>
-                      <div className="text-center">
-                        <h6 className="mb-1 fw-bold">
-                          {i18n.language === "ar" && template.name_ar
-                            ? template.name_ar
-                            : template.name}
-                        </h6>
-                      </div>
+
+              <div className="modal-body" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
+                {/* 🔹 Occasion Select */}
+                <select
+                  className="form-select mb-3"
+                  value={giftCardSelection.occasionId || ""}
+                  onChange={(e) =>
+                    handleGiftCardChange("occasionId", Number(e.target.value))
+                  }
+                >
+                  <option value="">All Occasions</option>
+                  {occasions.map((occ) => (
+                    <option key={occ.id} value={occ.id}>
+                      {i18n.language === "ar" && occ.name_ar ? occ.name_ar : occ.name}
+                    </option>
+                  ))}
+                </select>
+
+                {/* 🔹 Template List */}
+                {(() => {
+                  const filteredTemplates =
+                    giftCardSelection.occasionId && giftCardSelection.occasionId !== ""
+                      ? giftCardTemplates.filter(
+                        (t) => t.occasion_id === giftCardSelection.occasionId
+                      )
+                      : giftCardTemplates;
+
+                  return filteredTemplates.length === 0 ? (
+                    <div className="text-center p-4">
+                      <p className="text-muted">No gift card templates available</p>
                     </div>
-                  </div>
-                ))}
+                  ) : (
+                    <div className="row">
+                      {filteredTemplates.map((template) => (
+                        <div key={template.id} className="col-md-4 col-sm-6 mb-3">
+                          <div
+                            className={`template-card border rounded p-3 cursor-pointer ${giftCardSelection.templateId === template.id
+                                ? "border-primary bg-light"
+                                : "border-light"
+                              }`}
+                            onClick={() => {
+                              handleGiftCardChange("templateId", template.id);
+                              setShowTemplateModal(false);
+                            }}
+                          >
+                            <div className="template-image mb-2 text-center">
+                              <Image
+                                src={`${API_BASE_URL}/storage/${template.image}`}
+                                width={120}
+                                height={90}
+                                className="w-100"
+                                style={{ objectFit: "cover", borderRadius: "8px" }}
+                              />
+                            </div>
+                            <div className="text-center">
+                              <h6 className="mb-1 fw-bold">
+                                {i18n.language === "ar" && template.name_ar
+                                  ? template.name_ar
+                                  : template.name}
+                              </h6>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  );
+                })()}
               </div>
-            );
-          })()}
-        </div>
 
-        <div className="modal-footer">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={() => setShowTemplateModal(false)}
-          >
-            {t('checkout.cancel', 'Cancel')}
-          </button>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setShowTemplateModal(false)}
+                >
+                  {t('checkout.cancel', 'Cancel')}
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
+      )}
+      {sadadOrderId && sadadData && (
+        <form id="sadadFinalForm">
+          <input type="hidden" name="merchant_id" value={sadadData.merchant_id} />
+          <input type="hidden" name="ORDER_ID" value={sadadOrderId} />
+          <input type="hidden" name="TXN_AMOUNT" value={sadadData.amount} />
+          <input type="hidden" name="WEBSITE" value={sadadData.website} />
+          <input type="hidden" name="CALLBACK_URL" value={sadadData.callback} />
+          <input type="hidden" name="txnDate" value={sadadData.txnDate} />
+          <input type="hidden" name="VERSION" value={sadadData.version} />
+        </form>
+      )}
+      <div
+        id="sadad_cc_container"
+        style={{ visibility: sadadOrderId && sadadData ? 'visible' : 'hidden' }}
+        data-i-color="#531232"
+        data-cbfunc="sadadGetChecksum">
       </div>
-    </div>
-  </div>
-)}
-{sadadOrderId && sadadData && (
-<form id="sadadFinalForm">
-
-<input type="hidden" name="merchant_id" value={sadadData.merchant_id} />
-<input type="hidden" name="ORDER_ID" value={sadadOrderId} />
-<input type="hidden" name="TXN_AMOUNT" value={sadadData.amount} />
-<input type="hidden" name="WEBSITE" value={sadadData.website} />
-<input type="hidden" name="CALLBACK_URL" value={sadadData.callback} />
-<input type="hidden" name="txnDate" value={sadadData.txnDate} />
-<input type="hidden" name="VERSION" value={sadadData.version} />
-
-</form>
-)}
-
-<div
- id="sadad_cc_container"
- style={{ visibility: sadadOrderId && sadadData ? 'visible' : 'hidden' }}
- data-i-color="#531232"
- data-cbfunc="sadadGetChecksum">
-</div>
-
-
     </section>
-    
+
   );
-  
+
 }

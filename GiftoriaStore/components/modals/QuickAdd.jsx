@@ -190,7 +190,7 @@ export default function QuickAdd() {
                           ? t("product_detail.already_added") + " - "
                           : t("product_detail.add_to_cart") + " - "}
                       </span>
-                      <span className="tf-qty-price arabic_div">${(parseFloat(item.price || 0) * quantity).toFixed(2)} </span>
+                      <span className="tf-qty-price arabic_div">QAR {(parseFloat(item.price || 0) * quantity).toFixed(2)} </span>
                     </a>
                     <div className="tf-product-btn-wishlist btn-icon-action">
                       <i className="icon-heart" />

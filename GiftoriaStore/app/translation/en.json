@@ -272,7 +272,7 @@
     "country": "Country",
     "zip_code": "Zip code",
     "estimate": "Estimate",
-    "currency": "USD"
+    "currency": "QAR"
   },
   "checkout": {
     "title_billing_details": "Billing details",
@@ -621,7 +621,7 @@
     },
     "totals": {
       "subtotal": "Subtotal",
-      "currency": "USD",
+      "currency": "QAR",
       "taxes_shipping": "Taxes and",
       "shipping_link": "shipping",
       "calculated_checkout": "calculated at checkout"

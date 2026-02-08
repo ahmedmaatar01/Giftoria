@@ -273,7 +273,7 @@
     "country": "الدولة",
     "zip_code": "الرمز البريدي",
     "estimate": "تقدير",
-    "currency": "دولار"
+    "currency": "QAR"
   }
   ,
   "checkout": {
@@ -638,7 +638,7 @@
     },
     "totals": {
       "subtotal": "المجموع الفرعي",
-      "currency": "دولار",
+      "currency": "ر.ق",
       "taxes_shipping": "الضرائب و",
       "shipping_link": "الشحن",
       "calculated_checkout": "محسوبة عند الدفع"
