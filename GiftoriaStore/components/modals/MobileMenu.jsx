@@ -13,6 +13,9 @@ export default function MobileMenu() {
   const { t, i18n } = useTranslation();
   const API_BASE = API_BASE_URL;
   
+  // Handle static generation where pathname might be null
+  const currentPath = pathname || '';
+  
   const [occasions, setOccasions] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loadingOccasions, setLoadingOccasions] = useState(true);
@@ -70,7 +73,7 @@ export default function MobileMenu() {
     let active = false;
 
     if (menuItem.href?.includes("/")) {
-      if (menuItem.href?.split("/")[1] === pathname.split("/")[1]) {
+      if (menuItem.href?.split("/")[1] === currentPath.split("/")[1]) {
         active = true;
       }
     }
@@ -78,14 +81,14 @@ export default function MobileMenu() {
     if (menuItem.links) {
       menuItem.links.forEach((elm2) => {
         if (elm2.href?.includes("/")) {
-          if (elm2.href?.split("/")[1] === pathname.split("/")[1]) {
+          if (elm2.href?.split("/")[1] === currentPath.split("/")[1]) {
             active = true;
           }
         }
 
         if (elm2.links) {
           elm2.links.forEach((elm3) => {
-            if (elm3.href?.split("/")[1] === pathname.split("/")[1]) {
+            if (elm3.href?.split("/")[1] === currentPath.split("/")[1]) {
               active = true;
             }
           });
@@ -109,14 +112,14 @@ export default function MobileMenu() {
           <ul className="nav-ul-mb" id="wrapper-menu-navigation">
             {/* Home link */}
             <li className="nav-mb-item">
-              <Link href="/" className={`mb-menu-link ${pathname === "/" ? "activeMenu" : ""}`}>
+              <Link href="/" className={`mb-menu-link ${currentPath === "/" ? "activeMenu" : ""}`}>
                 {t("menu.home")}
               </Link>
             </li>
             {/* Shop expandable section */}
             <li className="nav-mb-item">
               <div 
-                className={`mb-menu-link ${pathname.includes("shop") ? "activeMenu" : ""}`}
+                className={`mb-menu-link ${currentPath.includes("shop") ? "activeMenu" : ""}`}
                 onClick={() => setShopExpanded(!shopExpanded)}
                 style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
               >
@@ -184,7 +187,7 @@ export default function MobileMenu() {
             <li className="nav-mb-item">
               <Link 
                 href="/about-us" 
-                className={`mb-menu-link ${pathname.includes("about") ? "activeMenu" : ""}`}
+                className={`mb-menu-link ${currentPath.includes("about") ? "activeMenu" : ""}`}
               >
                 {t("menu.about")}
               </Link>
@@ -193,7 +196,7 @@ export default function MobileMenu() {
             <li className="nav-mb-item">
               <Link 
                 href="/contact-2" 
-                className={`mb-menu-link ${pathname.includes("contact") ? "activeMenu" : ""}`}
+                className={`mb-menu-link ${currentPath.includes("contact") ? "activeMenu" : ""}`}
               >
                 {t("menu.contact")}
               </Link>

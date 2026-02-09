@@ -4,6 +4,10 @@ import { usePathname } from "next/navigation";
 
 export default function OptimizedScripts() {
   const pathname = usePathname();
+  
+  // Handle static generation where pathname might be null
+  const currentPath = pathname || '';
+  
   const lastScrollY = useRef(0);
   const scrollDirection = useRef("down");
 
@@ -77,7 +81,7 @@ export default function OptimizedScripts() {
     };
 
     closeBootstrapComponents();
-  }, [pathname]);
+  }, [currentPath]);
 
   useEffect(() => {
     // Initialize WOW.js only once per route
@@ -91,7 +95,7 @@ export default function OptimizedScripts() {
     };
 
     initWow();
-  }, [pathname]);
+  }, [currentPath]);
 
   return null;
 }

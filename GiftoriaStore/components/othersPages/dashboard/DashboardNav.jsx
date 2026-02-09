@@ -9,6 +9,9 @@ export default function DashboardNav() {
   const pathname = usePathname();
   const router = useRouter();
   const { logout } = useContextElement();
+  
+  // Handle static generation where pathname might be null
+  const currentPath = pathname || '';
 
   const accountLinks = [
     { href: "/my-account", label: t("dashboard_nav.dashboard") },
@@ -28,7 +31,7 @@ export default function DashboardNav() {
           <Link
             href={link.href}
             className={`my-account-nav-item raleway-medium ${
-              pathname == link.href ? "active" : ""
+              currentPath == link.href ? "active" : ""
             }`}
           >
             {link.label}
