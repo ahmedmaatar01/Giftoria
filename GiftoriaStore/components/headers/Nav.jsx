@@ -20,6 +20,9 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
   const { t, i18n } = useTranslation();
   const API_BASE = API_BASE_URL;
   
+  // Handle static generation where pathname might be null
+  const currentPath = pathname || '';
+  
   const [occasions, setOccasions] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loadingOccasions, setLoadingOccasions] = useState(true);
@@ -76,27 +79,27 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
   const isMenuActive = (menuItem) => {
     let active = false;
     if (menuItem.href?.includes("/")) {
-      if (menuItem.href?.split("/")[1] == pathname.split("/")[1]) {
+      if (menuItem.href?.split("/")[1] == currentPath.split("/")[1]) {
         active = true;
       }
     }
     if (menuItem.length) {
       active = menuItem.some(
-        (elm) => elm.href?.split("/")[1] == pathname.split("/")[1]
+        (elm) => elm.href?.split("/")[1] == currentPath.split("/")[1]
       );
     }
     if (menuItem.length) {
       menuItem.forEach((item) => {
         item.links?.forEach((elm2) => {
           if (elm2.href?.includes("/")) {
-            if (elm2.href?.split("/")[1] == pathname.split("/")[1]) {
+            if (elm2.href?.split("/")[1] == currentPath.split("/")[1]) {
               active = true;
             }
           }
           if (elm2.length) {
             elm2.forEach((item2) => {
               item2?.links?.forEach((elm3) => {
-                if (elm3.href.split("/")[1] == pathname.split("/")[1]) {
+                if (elm3.href.split("/")[1] == currentPath.split("/")[1]) {
                   active = true;
                 }
               });
@@ -104,7 +107,7 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
           }
         });
         if (item.href?.includes("/")) {
-          if (item.href?.split("/")[1] == pathname.split("/")[1]) {
+          if (item.href?.split("/")[1] == currentPath.split("/")[1]) {
             active = true;
           }
         }
@@ -119,7 +122,7 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
       <li className="menu-item">
         <Link
           href="/"
-          className={`item-link raleway-regular arabic_vip ${Linkfs} ${textColor} ${pathname === "/" ? "activeMenu" : ""}`}
+          className={`item-link raleway-regular arabic_vip ${Linkfs} ${textColor} ${currentPath === "/" ? "activeMenu" : ""}`}
         >
           {t("menu.home")}
         </Link>
@@ -128,7 +131,7 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
         <Link
           href="/shop-left-sidebar"
           className={`item-link raleway-regular ${Linkfs} ${textColor} ${
-            pathname.includes('/shop') || pathname.includes('/category') || pathname.includes('/occasion') ? "activeMenu" : ""
+            currentPath.includes('/shop') || currentPath.includes('/category') || currentPath.includes('/occasion') ? "activeMenu" : ""
           } `}
         >
           {t("menu.shop")}
@@ -148,7 +151,7 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
                           <Link
                             href={`/shop-default?category=${category.id}`}
                             className={`menu-link-text link ${
-                              pathname.includes('shop-default') && typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('category') === String(category.id) ? "activeMenu" : ""
+                              currentPath.includes('shop-default') && typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('category') === String(category.id) ? "activeMenu" : ""
                             }`}
                           >
                             {i18n.language === 'ar' && category.name_ar 
@@ -177,7 +180,7 @@ export default function Nav({ isArrow = true, textColor = "", Linkfs = "" }) {
                           <Link
                             href={`/shop-collection-sub?occasion=${occasion.id}`}
                             className={`menu-link-text link ${
-                              pathname.includes('shop-collection-sub') && typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('occasion') === String(occasion.id) ? "activeMenu" : ""
+                              currentPath.includes('shop-collection-sub') && typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('occasion') === String(occasion.id) ? "activeMenu" : ""
                             }`}
                           >
                             {i18n.language === 'ar' && occasion.arabic_name 

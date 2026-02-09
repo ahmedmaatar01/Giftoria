@@ -34,10 +34,6 @@ class ErrorBoundary extends React.Component {
 
   render() {
     if (this.state.hasError) {
-      // During SSR/SSG, just render children to avoid breaking the build
-      if (typeof window === 'undefined') {
-        return this.props.children;
-      }
       
       return (
         <div style={{ 

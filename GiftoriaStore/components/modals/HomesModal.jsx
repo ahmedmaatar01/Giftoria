@@ -6,6 +6,10 @@ import { allHomepages } from "@/data/menu";
 import { usePathname } from "next/navigation";
 export default function HomesModal() {
   const pathname = usePathname();
+  
+  // Handle static generation where pathname might be null
+  const currentPath = pathname || '';
+  
   return (
     <div className="modal fade modalDemo" id="modalDemo">
       <div className="modal-dialog modal-dialog-centered">
@@ -46,7 +50,7 @@ export default function HomesModal() {
                     </div>
                     <span
                       className={`demo-name  ${
-                        pathname == item.href ? "activeMenu" : ""
+                        currentPath == item.href ? "activeMenu" : ""
                       }`}
                     >
                       {item.name}

@@ -5,6 +5,8 @@ import { useSearchParams } from "next/navigation";
 import axios from "axios";
 import { API_BASE_URL_WITH_API } from '../../utils/config';
 
+export const dynamic = 'force-dynamic';
+
 export default function SadadPayment() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get('order_id');
@@ -12,6 +14,7 @@ export default function SadadPayment() {
   console.log('SADAD Payment component rendered, orderId:', orderId);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [sadadData, setSadadData] = useState(null);
 
   useEffect(() => {
     console.log("sadad payment page loaded")

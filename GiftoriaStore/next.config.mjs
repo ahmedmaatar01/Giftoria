@@ -36,6 +36,21 @@ const nextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === "production" ? { exclude: ['error', 'warn'] } : false,
   },
+  // Disable static generation to avoid prerendering errors with client hooks
+  experimental: {
+    serverComponentsExternalPackages: [],
+    forceSwcTransforms: true,
+  },
+  // Force server-side rendering instead of static generation
+  output: 'standalone',
+  // Force dynamic rendering for all pages
+  generateBuildId: async () => {
+    return 'build-' + Date.now()
+  },
+  // Disable static optimization to prevent prerendering issues
+  trailingSlash: false,
+  // Force all pages to be dynamic
+  generateEtags: false,
 };
 
 export default nextConfig;

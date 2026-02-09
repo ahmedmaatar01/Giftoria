@@ -8,6 +8,9 @@ export default function NewsletterModal() {
   const formRef = useRef();
   const [success, setSuccess] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
+  
+  // Handle static generation where pathname might be null
+  const currentPath = pathname || '';
 
   const handleShowMessage = () => {
     setShowMessage(true);
@@ -74,7 +77,7 @@ export default function NewsletterModal() {
     // };
 
     // showModal();
-  }, [pathname]);
+  }, [currentPath]);
   return (
     <div
       ref={modalElement}
