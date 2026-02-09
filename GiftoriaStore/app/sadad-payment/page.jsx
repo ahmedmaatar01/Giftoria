@@ -138,6 +138,7 @@ export default function SadadPayment() {
           </div>
         </div>
       </div>
+    </div>
     </>
   );
 }
