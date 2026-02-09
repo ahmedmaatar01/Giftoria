@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
 import { API_BASE_URL_WITH_API } from '../../utils/config';
+import Script from 'next/script';
 
 export default function SadadPayment() {
   const searchParams = useSearchParams();
@@ -31,53 +32,39 @@ export default function SadadPayment() {
         setSadadData(response.data);
         setLoading(false);
         
-        // Load SADAD script after data is loaded
-        setTimeout(() => {
-          if (!document.getElementById("sadad-sdk")) {
-            console.log('Loading SADAD script');
-            const script = document.createElement("script");
-            script.id = "sadad-sdk";
-            script.src = "https://sadadqa.com/jslib/sadad.js";
-            script.async = false; // Load synchronously to avoid document.write issues
-            script.onload = () => {
-              console.log('SADAD script loaded, defining checksum function');
-              // Define the global checksum function after script loads
-              window.sadadGetChecksum = function () {
-                console.log('sadadGetChecksum called');
-                const form = document.getElementById("sadadFinalForm");
-                if (!form) {
-                  console.error('SADAD form not found');
-                  return;
-                }
-                const formData = new FormData(form);
-                console.log('Form data:', Object.fromEntries(formData));
-                fetch(`${API_BASE_URL_WITH_API}/payments/sadad/checksum`, {
-                  method: "POST",
-                  headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
-                  body: new URLSearchParams(formData)
-                })
-                  .then(r => {
-                    console.log('Checksum response status:', r.status);
-                    return r.text();
-                  })
-                  .then(html => {
-                    console.log('Received HTML response, length:', html.length);
-                    // Replace the body with the HTML and submit the form
-                    document.body.innerHTML = html;
-                    const finalForm = document.getElementById("sadadFinalForm");
-                    if (finalForm) {
-                      console.log('Submitting final form');
-                      finalForm.submit();
-                    } else {
-                      console.error('Final form not found in response');
-                    }
-                  })
-                  .catch(err => console.error('Checksum error:', err));
-              };
-            };
-            document.head.appendChild(script);
+        // Define the global checksum function after data is loaded
+        window.sadadGetChecksum = function () {
+          console.log('sadadGetChecksum called');
+          const form = document.getElementById("sadadFinalForm");
+          if (!form) {
+            console.error('SADAD form not found');
+            return;
           }
-        }, 1000);
+          const formData = new FormData(form);
+          console.log('Form data:', Object.fromEntries(formData));
+          fetch(`${API_BASE_URL_WITH_API}/payments/sadad/checksum`, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+            body: new URLSearchParams(formData)
+          })
+            .then(r => {
+              console.log('Checksum response status:', r.status);
+              return r.text();
+            })
+            .then(html => {
+              console.log('Received HTML response, length:', html.length);
+              // Replace the body with the HTML and submit the form
+              document.body.innerHTML = html;
+              const finalForm = document.getElementById("sadadFinalForm");
+              if (finalForm) {
+                console.log('Submitting final form');
+                finalForm.submit();
+              } else {
+                console.error('Final form not found in response');
+              }
+            })
+            .catch(err => console.error('Checksum error:', err));
+        };
       })
       .catch(err => {
         console.error('Error fetching SADAD data:', err);
@@ -118,7 +105,9 @@ export default function SadadPayment() {
   }
 
   return (
-    <div className="container py-5">
+    <>
+      <Script src="https://sadadqa.com/jslib/sadad.js" strategy="beforeInteractive" />
+      <div className="container py-5">
       <div className="row justify-content-center">
         <div className="col-md-8">
           <div className="card">
@@ -149,6 +138,6 @@ export default function SadadPayment() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
