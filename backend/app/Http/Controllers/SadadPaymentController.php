@@ -32,7 +32,7 @@ class SadadPaymentController extends Controller
             'ORDER_ID'     => $order->id,
             'TXN_AMOUNT'   => number_format($order->total, 2, '.', ''),
             'WEBSITE'      => 'giftoria.me', // DOMAIN ONLY
-            'CALLBACK_URL' => route('sadad.callback'),
+            'CALLBACK_URL' => secure_url(route('sadad.callback', [], false)),
             'MOBILE_NO'    => $order->customer_phone ?? '77778888',
             'EMAIL'        => $order->customer_email ?? 'test@test.com',
             'txnDate'      => now()->format('Y-m-d H:i:s'),
