@@ -14,6 +14,7 @@ export default function SadadPayment() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    console.log("sadad payment page loaded")
     console.log('SADAD useEffect running, orderId:', orderId);
     if (!orderId) {
       console.log('No orderId, setting error');
