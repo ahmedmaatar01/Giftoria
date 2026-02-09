@@ -98,7 +98,7 @@ export default function QuickAdd() {
                   <div className="content">
                     <Link href={`/product-detail/${item.id}`}>{getProductName()}</Link>
                     <div className="tf-product-info-price ">
-                      <div className="price arabic_div">${parseFloat(item.price || 0).toFixed(2)}</div>
+                      <div className="price arabic_div">{parseFloat(item.price || 0).toFixed(2)}</div>
                     </div>
                   </div>
                 </div>
