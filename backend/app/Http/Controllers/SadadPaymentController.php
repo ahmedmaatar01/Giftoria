@@ -62,14 +62,21 @@ class SadadPaymentController extends Controller
         );
 
 
-        // 4️⃣ Redirect to SADAD
-        return response()->json([
+        // 4️⃣ Return data for frontend
+        $responseData = [
             'merchant_id' => $data['merchant_id'],
             'order_id' => $data['ORDER_ID'],
             'amount' => $data['TXN_AMOUNT'],
+            'website' => $data['WEBSITE'],
+            'callback' => $data['CALLBACK_URL'],
+            'txnDate' => $data['txnDate'],
+            'version' => $data['VERSION'],
             'signature' => $data['signature'],
-            'callback' => $data['CALLBACK_URL']
-        ]);
+        ];
+        
+        Log::info('SADAD INIT response data', $responseData);
+        
+        return response()->json($responseData);
 
     }
     private function getSadadOrderId(Request $request)
@@ -85,6 +92,14 @@ class SadadPaymentController extends Controller
     {
         $data = $request->all();
 
+        if (!isset($data['merchant_id'], $data['ORDER_ID'], $data['TXN_AMOUNT'], $data['WEBSITE'], $data['CALLBACK_URL'])) {
+            return response()->json(['message' => 'Missing required SADAD fields'], 422);
+        }
+
+        if (empty($data['txnDate'])) {
+            $data['txnDate'] = now()->format('Y-m-d H:i:s');
+        }
+
         $signatureData = [
             'merchant_id' => $data['merchant_id'],
             'ORDER_ID' => $data['ORDER_ID'],
@@ -99,9 +114,29 @@ class SadadPaymentController extends Controller
             config('sadad.secret_key')
         );
 
-        return response()->json([
-            'CHECKSUMHASH' => $checksum
-        ]);
+        $actionUrl = config('sadad.payment_url');
+        if (!$actionUrl) {
+            return response()->json(['message' => 'SADAD payment_url not configured'], 500);
+        }
+
+        unset($data['signature'], $data['checksumhash'], $data['CHECKSUMHASH']);
+
+        $fields = $data;
+        $fields['CHECKSUMHASH'] = $checksum;
+
+        $inputs = '';
+        foreach ($fields as $key => $value) {
+            if ($value === null || $value === '') {
+                continue;
+            }
+            $safeKey = htmlspecialchars((string) $key, ENT_QUOTES, 'UTF-8');
+            $safeValue = htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
+            $inputs .= "<input type=\"hidden\" name=\"{$safeKey}\" value=\"{$safeValue}\">";
+        }
+
+        $html = '<form id="sadadFinalForm" method="post" action="' . htmlspecialchars($actionUrl, ENT_QUOTES, 'UTF-8') . '">' . $inputs . '</form>';
+
+        return response($html, 200)->header('Content-Type', 'text/html');
     }
 
 
