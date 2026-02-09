@@ -12,6 +12,7 @@ export default function SadadPayment() {
   console.log('SADAD Payment component rendered, orderId:', orderId);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [sadadData, setSadadData] = useState(null);
 
   useEffect(() => {
     console.log('SADAD useEffect running, orderId:', orderId);
