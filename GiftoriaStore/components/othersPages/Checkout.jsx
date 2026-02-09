@@ -16,9 +16,6 @@ export default function Checkout() {
   const [error, setError] = useState(null);
   const [successMsg, setSuccessMsg] = useState(null);
   const [occasions, setOccasions] = useState([]);
-  const [sadadOrderId, setSadadOrderId] = useState(null);
-  const [sadadData, setSadadData] = useState(null);
-  const sadadScriptLoadedRef = useRef(false);
 
 
   useEffect(() => {
@@ -251,25 +248,6 @@ export default function Checkout() {
       setSignaturePadReady(false);
     };
   }, [signatureType]);
-  useEffect(() => {
-    if (!document.getElementById("sadad-sdk")) {
-      document.head.insertAdjacentHTML('beforeend', '<script id="sadad-sdk" src="https://sadadqa.com/jslib/sadad.js"></script>');
-    }
-  }, []);
-  useEffect(() => {
-    window.sadadGetChecksum = function () {
-      const form = document.getElementById("sadadFinalForm");
-      if (!form) return;
-      const formData = new FormData(form);
-      fetch(`${API_BASE_URL_WITH_API}/payments/sadad/checksum`, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
-        body: new URLSearchParams(formData)
-      })
-        .then(r => r.text())
-        .then(r => window.afterChecksumSubmit(r));
-    };
-  }, []);
 
   const handleClearSignature = () => {
     const canvas = canvasRef.current;
@@ -454,18 +432,11 @@ export default function Checkout() {
         throw new Error('Order ID not returned');
       }
 
-      // ✅ IF ONLINE PAYMENT → redirect to SADAD
+      // ✅ IF ONLINE PAYMENT → redirect to SADAD payment page
       if (formData.paymentMethod === 'online') {
-
-        const sadad = await axios.post(
-          `${API_BASE_URL_WITH_API}/payments/sadad/init`,
-          { order_id: orderId },
-          { headers: getAuthHeaders() }
-        );
-
-        setSadadOrderId(orderId);
-        setSadadData(sadad.data);
-
+        setTimeout(() => {
+          router.push(`/sadad-payment?order_id=${orderId}`);
+        }, 500);
         return;
       }
 
@@ -1122,13 +1093,6 @@ export default function Checkout() {
           <input type="hidden" name="txnDate" value={sadadData.txnDate} />
           <input type="hidden" name="VERSION" value={sadadData.version} />
         </form>
-      )}
-      <div
-        id="sadad_cc_container"
-        style={{ visibility: sadadOrderId && sadadData ? 'visible' : 'hidden' }}
-        data-i-color="#531232"
-        data-cbfunc="sadadGetChecksum">
-      </div>
     </section>
 
   );
