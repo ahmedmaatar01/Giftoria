@@ -19,21 +19,10 @@ export default function SadadPayment() {
       return;
     }
 
-    // Load jQuery and SADAD script
-    if (!document.getElementById("jquery")) {
-      const jqueryScript = document.createElement("script");
-      jqueryScript.id = "jquery";
-      jqueryScript.src = "https://code.jquery.com/jquery-3.7.1.min.js";
-      document.head.appendChild(jqueryScript);
-    }
-
-    if (!document.getElementById("sadad-sdk")) {
-      document.head.insertAdjacentHTML('beforeend', '<script id="sadad-sdk" src="https://sadadqa.com/jslib/sadad.js"></script>');
-    }
-
     // Fetch SADAD data
     axios.post(`${API_BASE_URL_WITH_API}/payments/sadad/init`, { order_id: orderId })
       .then(response => {
+        console.log('SADAD init response:', response.data);
         setSadadData(response.data);
         setLoading(false);
       })
@@ -45,27 +34,44 @@ export default function SadadPayment() {
   }, [orderId]);
 
   useEffect(() => {
-    if (sadadData) {
-      // Define the global checksum function as per SADAD documentation
-      window.sadadGetChecksum = function () {
-        $.ajax({
-          type: "POST",
-          url: `${API_BASE_URL_WITH_API}/payments/sadad/checksum`,
-          data: $('#sadadFinalForm').serialize(),
-          success: function (response) {
-            window.afterChecksumSubmit(response);
+    console.log('SADAD Payment page loaded, orderId:', orderId);
+    
+    // Define the global checksum function as per SADAD documentation
+    window.sadadGetChecksum = function () {
+      console.log('sadadGetChecksum called');
+      const form = document.getElementById("sadadFinalForm");
+      if (!form) {
+        console.error('SADAD form not found');
+        return;
+      }
+      const formData = new FormData(form);
+      console.log('Form data:', Object.fromEntries(formData));
+      fetch(`${API_BASE_URL_WITH_API}/payments/sadad/checksum`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+        body: new URLSearchParams(formData)
+      })
+        .then(r => {
+          console.log('Checksum response status:', r.status);
+          return r.text();
+        })
+        .then(html => {
+          console.log('Received HTML response, length:', html.length);
+          // Replace the body with the HTML and submit the form
+          document.body.innerHTML = html;
+          const finalForm = document.getElementById("sadadFinalForm");
+          if (finalForm) {
+            console.log('Submitting final form');
+            finalForm.submit();
+          } else {
+            console.error('Final form not found in response');
           }
-        });
-      };
-
-      // Define afterChecksumSubmit to handle the HTML response
-      window.afterChecksumSubmit = function (html) {
-        // Replace the body with the HTML and submit the form
-        document.body.innerHTML = html;
-        document.getElementById("sadadFinalForm").submit();
-      };
-    }
-  }, [sadadData]);
+        })
+        .catch(err => console.error('Checksum error:', err));
+    };
+    
+    console.log('sadadGetChecksum function defined:', typeof window.sadadGetChecksum);
+  }, []);
 
   if (loading) {
     return (
@@ -101,9 +107,9 @@ export default function SadadPayment() {
               <h3 className="card-title">Complete Your Payment</h3>
             </div>
             <div className="card-body">
-              {sadadData && (
-                <>
-                  <form id="sadadFinalForm">
+              <form id="sadadFinalForm">
+                {sadadData && (
+                  <>
                     <input type="hidden" name="merchant_id" value={sadadData.merchant_id} />
                     <input type="hidden" name="ORDER_ID" value={sadadData.order_id} />
                     <input type="hidden" name="TXN_AMOUNT" value={sadadData.amount} />
@@ -111,14 +117,15 @@ export default function SadadPayment() {
                     <input type="hidden" name="CALLBACK_URL" value={sadadData.callback} />
                     <input type="hidden" name="txnDate" value={sadadData.txnDate} />
                     <input type="hidden" name="VERSION" value={sadadData.version} />
-                  </form>
+                  </>
+                )}
+              </form>
 
-                  <div id="sadad_cc_container"
-                       data-i-color="#531232"
-                       data-cbfunc="sadadGetChecksum">
-                  </div>
-                </>
-              )}
+              <div id="sadad_cc_container"
+                   data-i-color="#531232"
+                   data-cbfunc="sadadGetChecksum"
+                   style={{ minHeight: '400px', border: '1px solid #ddd', padding: '20px' }}>
+              </div>
             </div>
           </div>
         </div>

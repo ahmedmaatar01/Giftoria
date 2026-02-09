@@ -70,6 +70,10 @@ export default function RootLayout({ children }) {
           src="https://code.jquery.com/jquery-3.7.1.min.js"
           strategy="beforeInteractive"
         />
+        <Script
+          src="https://sadadqa.com/jslib/sadad.js"
+          strategy="beforeInteractive"
+        />
       </head>
       <body className="preload-wrapper" suppressHydrationWarning>
         <div className="preload preload-container" id="preloader">
