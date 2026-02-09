@@ -1083,16 +1083,6 @@ export default function Checkout() {
           </div>
         </div>
       )}
-      {sadadOrderId && sadadData && (
-        <form id="sadadFinalForm">
-          <input type="hidden" name="merchant_id" value={sadadData.merchant_id} />
-          <input type="hidden" name="ORDER_ID" value={sadadOrderId} />
-          <input type="hidden" name="TXN_AMOUNT" value={sadadData.amount} />
-          <input type="hidden" name="WEBSITE" value={sadadData.website} />
-          <input type="hidden" name="CALLBACK_URL" value={sadadData.callback} />
-          <input type="hidden" name="txnDate" value={sadadData.txnDate} />
-          <input type="hidden" name="VERSION" value={sadadData.version} />
-        </form>
     </section>
 
   );
