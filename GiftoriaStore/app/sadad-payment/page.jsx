@@ -38,6 +38,7 @@ export default function SadadPayment() {
             const script = document.createElement("script");
             script.id = "sadad-sdk";
             script.src = "https://sadadqa.com/jslib/sadad.js";
+            script.async = false; // Load synchronously to avoid document.write issues
             script.onload = () => {
               console.log('SADAD script loaded, defining checksum function');
               // Define the global checksum function after script loads
