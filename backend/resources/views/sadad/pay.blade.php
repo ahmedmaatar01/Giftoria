@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SADAD Payment</title>
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script defer src="https://sadadqa.com/jslib/sadad.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link href="https://sadadqa.com/jslib/cards.min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="https://sadadqa.com/jslib/cards.min.js?v=59"></script>
+    <script type="text/javascript" src="https://sadadqa.com/jslib/sadadmain.js?v=59"></script>
 </head>
 <body>
     <div style="max-width: 800px; margin: 0 auto; padding: 20px;">
@@ -34,6 +38,20 @@
     </div>
 
     <script>
+        // SADAD initialization (from sadad.js)
+        if($('#sadad_cc_container').length>0){
+            var tmpAttrErr = '';
+            if(!$('#sadad_cc_container').attr('data-cbfunc') || $.trim($('#sadad_cc_container').attr('data-cbfunc'))==''){
+                tmpAttrErr = 'Callback function attribute is not set.<br>';
+            }
+            
+            if(tmpAttrErr != ''){
+                $('#sadad_cc_container').html('<div id="sadadErrs" style="display:block;">' + tmpAttrErr + '</div>');
+            }
+        } else {
+            alert('Please set the container element.');
+        }
+
         window.sadadGetChecksum = function() {
             const form = document.getElementById('sadadFinalForm');
             const formData = new FormData(form);
