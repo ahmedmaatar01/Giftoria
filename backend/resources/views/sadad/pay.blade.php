@@ -61,6 +61,7 @@
                 type: "POST",
                 url: "/sadad/checksum",
                 data: $('#sadadFinalForm').serialize(),
+                timeout: 30000, // 30 second timeout
                 success: function(response) {
                     console.log('Checksum success, response length:', response.length);
                     
@@ -88,7 +89,11 @@
                         statusCode: xhr.status,
                         responseText: xhr.responseText
                     });
-                    alert('Payment error: ' + error + ' (Status: ' + xhr.status + ')');
+                    if (xhr.status === 502) {
+                        alert('Server temporarily unavailable. Please try again in a moment.');
+                    } else {
+                        alert('Payment error: ' + error + ' (Status: ' + xhr.status + ')');
+                    }
                 }
             });
         };
