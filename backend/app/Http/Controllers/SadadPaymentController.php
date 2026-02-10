@@ -160,13 +160,18 @@ class SadadPaymentController extends Controller
             'TXN_AMOUNT' => $data['TXN_AMOUNT'],
             'WEBSITE' => $data['WEBSITE'],
             'CALLBACK_URL' => $data['CALLBACK_URL'],
+            'MOBILE_NO' => $data['MOBILE_NO'] ?? '',
+            'EMAIL' => $data['EMAIL'] ?? '',
             'txnDate' => $data['txnDate'],
+            'VERSION' => $data['VERSION'],
         ];
 
         $checksum = SadadService::generateSignature(
             $signatureData,
             config('sadad.secret_key')
         );
+
+        Log::info('SADAD CHECKSUM signature data', ['signature_data' => $signatureData, 'checksum' => $checksum]);
 
         $actionUrl = config('sadad.payment_url');
         if (!$actionUrl) {
