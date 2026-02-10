@@ -35,3 +35,4 @@ Route::get('/sadad/redirect', [SadadPaymentController::class, 'redirect'])
 
 Route::get('/sadad/pay', [SadadPaymentController::class, 'pay']);
 Route::post('/sadad/checksum', [SadadPaymentController::class, 'checksum']);
+Route::post('/sadad/payment-success', [SadadPaymentController::class, 'paymentSuccess']);

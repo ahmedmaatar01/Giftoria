@@ -42,23 +42,40 @@
 
     <script>
         // Define afterChecksumSubmit function (required by SADAD SDK)
+        // For Direct Payment, this should NOT redirect - SADAD SDK handles the payment
         window.afterChecksumSubmit = function(response) {
-            console.log('afterChecksumSubmit called with response length:', response.length);
-            console.log('Response preview:', response.substring(0, 200));
+            console.log('afterChecksumSubmit called - Direct Payment mode');
+            console.log('Response:', response);
             
-            // Replace document body with the form HTML from backend
-            document.body.innerHTML = response;
+            // SADAD SDK expects to parse this response internally
+            // It will make an API call to SADAD with card data + this form data
+            // Then call our success/error callbacks
+        };
+
+        // Success callback - called by SADAD SDK when payment succeeds
+        window.sadadPaymentSuccess = function(response) {
+            console.log('Payment Success:', response);
             
-            // Submit the form to SADAD gateway
-            setTimeout(function() {
-                const form = document.getElementById('sadadFinalForm');
-                if (form) {
-                    console.log('Submitting form to:', form.action);
-                    form.submit();
-                } else {
-                    console.error('sadadFinalForm not found after replacing body');
+            // Send payment result to your backend
+            $.ajax({
+                type: 'POST',
+                url: '/api/sadad/payment-success',
+                data: response,
+                success: function(result) {
+                    // Redirect to success page
+                    window.location.href = 'https://giftoria.me/payment-success?order_id=' + response.ORDER_ID;
+                },
+                error: function(xhr) {
+                    alert('Failed to process payment result');
                 }
-            }, 100);
+            });
+        };
+
+        // Error callback - called by SADAD SDK when payment fails
+        window.sadadPaymentError = function(response) {
+            console.error('Payment Error:', response);
+            alert('Payment failed: ' + (response.message || 'Unknown error'));
+            window.location.href = 'https://giftoria.me/payment-failed?order_id=' + response.ORDER_ID;
         };
 
         // SADAD initialization (from sadad.js)
