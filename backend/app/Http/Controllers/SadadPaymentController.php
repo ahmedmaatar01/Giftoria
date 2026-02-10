@@ -141,9 +141,12 @@ class SadadPaymentController extends Controller
     }
     public function checksum(Request $request)
     {
+        Log::info('SADAD CHECKSUM called', ['data' => $request->all()]);
+        
         $data = $request->all();
 
         if (!isset($data['merchant_id'], $data['ORDER_ID'], $data['TXN_AMOUNT'], $data['WEBSITE'], $data['CALLBACK_URL'])) {
+            Log::error('SADAD CHECKSUM missing required fields');
             return response()->json(['message' => 'Missing required SADAD fields'], 422);
         }
 
@@ -206,6 +209,8 @@ class SadadPaymentController extends Controller
 
         $html = '<form id="sadadFinalForm" method="post" action="' . htmlspecialchars($actionUrl, ENT_QUOTES, 'UTF-8') . '">' . $inputs . '</form>';
 
+        Log::info('SADAD CHECKSUM response', ['html_length' => strlen($html), 'action_url' => $actionUrl]);
+        
         return response($html, 200)->header('Content-Type', 'text/html');
     }
 
