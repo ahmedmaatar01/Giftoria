@@ -17,6 +17,8 @@
             <input type="hidden" name="TXN_AMOUNT" value="{{ $data['TXN_AMOUNT'] }}">
             <input type="hidden" name="WEBSITE" value="{{ $data['WEBSITE'] }}">
             <input type="hidden" name="CALLBACK_URL" value="{{ $data['CALLBACK_URL'] }}">
+            <input type="hidden" name="MOBILE_NO" value="{{ $data['MOBILE_NO'] }}">
+            <input type="hidden" name="EMAIL" value="{{ $data['EMAIL'] }}">
             <input type="hidden" name="txnDate" value="{{ $data['txnDate'] }}">
             <input type="hidden" name="VERSION" value="{{ $data['VERSION'] }}">
             <input type="hidden" name="signature" value="{{ $data['signature'] }}">
