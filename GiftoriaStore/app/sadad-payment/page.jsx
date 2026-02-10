@@ -17,6 +17,19 @@ export default function SadadPayment() {
   const [sadadData, setSadadData] = useState(null);
 
   useEffect(() => {
+    console.log("test")
+    const script = document.createElement("script");
+    script.src = "https://sadadqa.com/jslib/sadad.js";
+    script.type = "text/javascript";
+    script.async = false;   // 🔴 CRITICAL
+    script.defer = false;  // 🔴 CRITICAL
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+  useEffect(() => {
     console.log('SADAD useEffect running, orderId:', orderId);
     if (!orderId) {
       console.log('No orderId, setting error');
@@ -100,7 +113,6 @@ export default function SadadPayment() {
 
   return (
     <>
-      <Script src="https://sadadqa.com/jslib/sadad.js" strategy="afterInteractive" />
       <div className="container py-5">
         <div className="row justify-content-center">
           <div className="col-md-8">
