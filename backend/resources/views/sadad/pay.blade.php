@@ -54,16 +54,25 @@
         }
 
         window.sadadGetChecksum = function() {
+            console.log('sadadGetChecksum called');
+            console.log('Form data:', $('#sadadFinalForm').serialize());
+            
             $.ajax({
                 type: "POST",
                 url: "/sadad/checksum",
                 data: $('#sadadFinalForm').serialize(),
                 success: function(response) {
+                    console.log('Checksum success, response length:', response.length);
                     afterChecksumSubmit(response);
                 },
                 error: function(xhr, status, error) {
-                    console.error('Checksum error:', error);
-                    alert('Payment error occurred');
+                    console.error('Checksum AJAX error:', {
+                        status: status,
+                        error: error,
+                        statusCode: xhr.status,
+                        responseText: xhr.responseText
+                    });
+                    alert('Payment error: ' + error + ' (Status: ' + xhr.status + ')');
                 }
             });
         };
