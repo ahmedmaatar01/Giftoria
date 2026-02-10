@@ -42,28 +42,59 @@
 
     <script>
         // Define afterChecksumSubmit function (required by SADAD SDK)
-        // For Direct Payment, this should NOT redirect - SADAD SDK handles the payment
         window.afterChecksumSubmit = function(response) {
             console.log('afterChecksumSubmit called - Direct Payment mode');
             console.log('Response:', response);
             
-            // SADAD SDK expects to parse this response internally
-            // It will make an API call to SADAD with card data + this form data
-            // Then call our success/error callbacks
+            // Parse the HTML response to extract form fields
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(response, 'text/html');
+            const form = doc.getElementById('sadadFinalForm');
+            
+            if (form) {
+                // Extract all form data
+                const formData = {};
+                const inputs = form.querySelectorAll('input');
+                inputs.forEach(input => {
+                    formData[input.name] = input.value;
+                });
+                
+                console.log('Extracted form data:', formData);
+                
+                // Make direct API call to SADAD
+                $.ajax({
+                    type: 'POST',
+                    url: 'https://sadadqa.com/jslib/callapi.php', // Direct Payment API endpoint
+                    data: formData,
+                    success: function(apiResponse) {
+                        console.log('SADAD API Success:', apiResponse);
+                        if (apiResponse.status === 'success' || apiResponse.transactionStatus === '3') {
+                            window.sadadPaymentSuccess(apiResponse);
+                        } else {
+                            window.sadadPaymentError(apiResponse);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('SADAD API Error:', error);
+                        window.sadadPaymentError({
+                            message: error,
+                            status: 'error'
+                        });
+                    }
+                });
+            }
         };
 
-        // Success callback - called by SADAD SDK when payment succeeds
+        // Success callback
         window.sadadPaymentSuccess = function(response) {
             console.log('Payment Success:', response);
             
-            // Send payment result to your backend
             $.ajax({
                 type: 'POST',
-                url: '/api/sadad/payment-success',
+                url: '/sadad/payment-success',
                 data: response,
                 success: function(result) {
-                    // Redirect to success page
-                    window.location.href = 'https://giftoria.me/payment-success?order_id=' + response.ORDER_ID;
+                    window.location.href = 'https://giftoria.me/payment-success?order_id=' + (response.ORDER_ID || response.order_id);
                 },
                 error: function(xhr) {
                     alert('Failed to process payment result');
@@ -71,14 +102,13 @@
             });
         };
 
-        // Error callback - called by SADAD SDK when payment fails
+        // Error callback
         window.sadadPaymentError = function(response) {
             console.error('Payment Error:', response);
             alert('Payment failed: ' + (response.message || 'Unknown error'));
-            window.location.href = 'https://giftoria.me/payment-failed?order_id=' + response.ORDER_ID;
         };
 
-        // SADAD initialization (from sadad.js)
+        // SADAD initialization
         if($('#sadad_cc_container').length>0){
             var tmpAttrErr = '';
             if(!$('#sadad_cc_container').attr('data-cbfunc') || $.trim($('#sadad_cc_container').attr('data-cbfunc'))==''){
