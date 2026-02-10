@@ -180,6 +180,10 @@ class SadadPaymentController extends Controller
             if ($value === null || $value === '') {
                 continue;
             }
+            // Skip arrays (like productdetail) - they're already in the form
+            if (is_array($value)) {
+                continue;
+            }
             $safeKey = htmlspecialchars((string) $key, ENT_QUOTES, 'UTF-8');
             $safeValue = htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
             $inputs .= "<input type=\"hidden\" name=\"{$safeKey}\" value=\"{$safeValue}\">";
