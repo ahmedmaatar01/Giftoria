@@ -219,6 +219,44 @@ class SadadPaymentController extends Controller
         return response($html, 200)->header('Content-Type', 'text/html');
     }
 
+    /**
+     * Handle Direct Payment success callback
+     */
+    public function paymentSuccess(Request $request)
+    {
+        Log::info('SADAD Direct Payment Success', $request->all());
+
+        $orderId = $request->ORDER_ID ?? $request->order_id;
+        if (!$orderId) {
+            return response()->json(['error' => 'Order ID missing'], 400);
+        }
+
+        $order = Command::find($orderId);
+        if (!$order) {
+            return response()->json(['error' => 'Order not found'], 404);
+        }
+
+        // Create payment record
+        Payment::create([
+            'command_id'         => $order->id,
+            'gateway'            => 'sadad',
+            'transaction_number' => $request->transactionNumber ?? $request->transaction_id,
+            'transaction_status' => $request->transactionStatus ?? 'success',
+            'amount'             => $order->total,
+            'is_test'            => config('sadad.mode') === 'test',
+            'payload'            => $request->all(),
+        ]);
+
+        // Update order status
+        $order->update([
+            'status' => 'paid',
+            'payment_reference' => $request->transactionNumber ?? $request->transaction_id,
+            'paid_at' => now()
+        ]);
+
+        return response()->json(['success' => true, 'order_id' => $orderId]);
+    }
+
 
     /**
      * STEP 2: Callback (User redirect)
