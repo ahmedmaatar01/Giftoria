@@ -63,7 +63,23 @@
                 data: $('#sadadFinalForm').serialize(),
                 success: function(response) {
                     console.log('Checksum success, response length:', response.length);
-                    afterChecksumSubmit(response);
+                    
+                    // Check if afterChecksumSubmit exists
+                    if (typeof afterChecksumSubmit === 'function') {
+                        console.log('Calling afterChecksumSubmit');
+                        afterChecksumSubmit(response);
+                    } else {
+                        // Fallback: manually handle the response
+                        console.log('afterChecksumSubmit not found, handling manually');
+                        document.body.innerHTML = response;
+                        const finalForm = document.getElementById('sadadFinalForm');
+                        if (finalForm) {
+                            console.log('Submitting form to:', finalForm.action);
+                            finalForm.submit();
+                        } else {
+                            console.error('sadadFinalForm not found in response');
+                        }
+                    }
                 },
                 error: function(xhr, status, error) {
                     console.error('Checksum AJAX error:', {
