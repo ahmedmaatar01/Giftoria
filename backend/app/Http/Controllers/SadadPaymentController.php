@@ -209,7 +209,7 @@ class SadadPaymentController extends Controller
 
         $html = '<form id="sadadFinalForm" method="post" action="' . htmlspecialchars($actionUrl, ENT_QUOTES, 'UTF-8') . '">' . $inputs . '</form>';
 
-        Log::info('SADAD CHECKSUM response', ['html_length' => strlen($html), 'action_url' => $actionUrl, 'inputs_preview' => substr($inputs, 0, 500)]);
+        Log::info('SADAD CHECKSUM response', ['html_length' => strlen($html), 'action_url' => $actionUrl, 'full_html' => $html]);
         
         return response($html, 200)->header('Content-Type', 'text/html');
     }
