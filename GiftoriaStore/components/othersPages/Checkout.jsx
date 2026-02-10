@@ -434,9 +434,7 @@ export default function Checkout() {
 
       // ✅ IF ONLINE PAYMENT → redirect to SADAD payment page
       if (formData.paymentMethod === 'online') {
-        setTimeout(() => {
-          router.push(`/sadad-payment?order_id=${orderId}`);
-        }, 500);
+        window.location.href = `${API_BASE_URL}/sadad/pay?order_id=${orderId}`;
         return;
       }
 

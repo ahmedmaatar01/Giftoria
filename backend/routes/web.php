@@ -32,3 +32,6 @@ Route::post('/sadad/callback', [SadadPaymentController::class, 'callback'])
 
 Route::get('/sadad/redirect', [SadadPaymentController::class, 'redirect'])
     ->name('sadad.redirect');
+
+Route::get('/sadad/pay', [SadadPaymentController::class, 'pay']);
+Route::post('/sadad/checksum', [SadadPaymentController::class, 'checksum']);
