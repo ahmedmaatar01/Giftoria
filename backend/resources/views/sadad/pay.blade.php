@@ -39,6 +39,26 @@
     <script type="text/javascript" src="https://sadadqa.com/jslib/sadadmain.js?v=59"></script>
 
     <script>
+        // Define afterChecksumSubmit function (required by SADAD SDK)
+        window.afterChecksumSubmit = function(response) {
+            console.log('afterChecksumSubmit called with response length:', response.length);
+            console.log('Response preview:', response.substring(0, 200));
+            
+            // Replace document body with the form HTML from backend
+            document.body.innerHTML = response;
+            
+            // Submit the form to SADAD gateway
+            setTimeout(function() {
+                const form = document.getElementById('sadadFinalForm');
+                if (form) {
+                    console.log('Submitting form to:', form.action);
+                    form.submit();
+                } else {
+                    console.error('sadadFinalForm not found after replacing body');
+                }
+            }, 100);
+        };
+
         // SADAD initialization (from sadad.js)
         if($('#sadad_cc_container').length>0){
             var tmpAttrErr = '';
@@ -64,22 +84,39 @@
                 timeout: 30000, // 30 second timeout
                 success: function(response) {
                     console.log('Checksum success, response length:', response.length);
+                    console.log('Response HTML:', response.substring(0, 500));
                     
                     // Check if afterChecksumSubmit exists
                     if (typeof afterChecksumSubmit === 'function') {
                         console.log('Calling afterChecksumSubmit');
-                        afterChecksumSubmit(response);
+                        try {
+                            afterChecksumSubmit(response);
+                            console.log('afterChecksumSubmit executed');
+                        } catch (e) {
+                            console.error('afterChecksumSubmit error:', e);
+                            // Fallback
+                            document.body.innerHTML = response;
+                            setTimeout(() => {
+                                const finalForm = document.getElementById('sadadFinalForm');
+                                if (finalForm) {
+                                    console.log('Submitting form to:', finalForm.action);
+                                    finalForm.submit();
+                                }
+                            }, 100);
+                        }
                     } else {
                         // Fallback: manually handle the response
                         console.log('afterChecksumSubmit not found, handling manually');
                         document.body.innerHTML = response;
-                        const finalForm = document.getElementById('sadadFinalForm');
-                        if (finalForm) {
-                            console.log('Submitting form to:', finalForm.action);
-                            finalForm.submit();
-                        } else {
-                            console.error('sadadFinalForm not found in response');
-                        }
+                        setTimeout(() => {
+                            const finalForm = document.getElementById('sadadFinalForm');
+                            if (finalForm) {
+                                console.log('Submitting form to:', finalForm.action);
+                                finalForm.submit();
+                            } else {
+                                console.error('sadadFinalForm not found in response');
+                            }
+                        }, 100);
                     }
                 },
                 error: function(xhr, status, error) {
