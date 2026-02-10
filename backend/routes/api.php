@@ -152,7 +152,6 @@ Route::get('/products/{product}/gift-card-selections', [ProductGiftCardSelection
 Route::put('/gift-card-selections/{selection}', [ProductGiftCardSelectionController::class, 'updateSelection']);
 Route::delete('/gift-card-selections/{selection}', [ProductGiftCardSelectionController::class, 'deleteSelection']);
 
-Route::post('/payments/sadad/init', [SadadPaymentController::class, 'init']);
 Route::post('/sadad/webhook', [SadadPaymentController::class, 'webhook']);
 use App\Models\Command;
 
@@ -198,4 +197,3 @@ use App\Http\Controllers\Api\PaymentController;
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/payments', [PaymentController::class, 'index']);
 });
-Route::post('/payments/sadad/checksum', [SadadPaymentController::class, 'checksum']);

@@ -79,6 +79,57 @@ class SadadPaymentController extends Controller
         return response()->json($responseData);
 
     }
+
+    /**
+     * Render SADAD payment page
+     */
+    public function pay(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required|integer'
+        ]);
+
+        $order = Command::findOrFail($request->order_id);
+
+        if ($order->status !== 'pending') {
+            abort(400, 'Order already processed');
+        }
+
+        // Build payload same as init
+        $data = [
+            'merchant_id'  => config('sadad.merchant_id'),
+            'ORDER_ID'     => $order->id,
+            'TXN_AMOUNT'   => number_format($order->total, 2, '.', ''),
+            'WEBSITE'      => 'giftoria.me',
+            'CALLBACK_URL' => secure_url(route('sadad.callback', [], false)),
+            'MOBILE_NO'    => $order->customer_phone ?? '77778888',
+            'EMAIL'        => $order->customer_email ?? 'test@test.com',
+            'txnDate'      => now()->format('Y-m-d H:i:s'),
+            'VERSION'      => '1.1',
+        ];
+
+        $data['productdetail[0][order_id]'] = $order->id;
+        $data['productdetail[0][amount]']   = number_format($order->total, 2, '.', '');
+        $data['productdetail[0][quantity]'] = 1;
+
+        $signatureData = [
+            'merchant_id' => $data['merchant_id'],
+            'ORDER_ID' => $data['ORDER_ID'],
+            'TXN_AMOUNT' => $data['TXN_AMOUNT'],
+            'WEBSITE' => $data['WEBSITE'],
+            'CALLBACK_URL' => $data['CALLBACK_URL'],
+            'txnDate' => $data['txnDate'],
+        ];
+
+        $data['signature'] = SadadService::generateSignature(
+            $signatureData,
+            config('sadad.secret_key')
+        );
+
+        Log::info('SADAD PAY page rendered for order', ['order_id' => $order->id]);
+
+        return view('sadad.pay', compact('data'));
+    }
     private function getSadadOrderId(Request $request)
     {
         return
