@@ -180,8 +180,23 @@ class SadadPaymentController extends Controller
             if ($value === null || $value === '') {
                 continue;
             }
-            // Skip arrays (like productdetail) - they're already in the form
+            // Handle arrays (like productdetail)
             if (is_array($value)) {
+                foreach ($value as $subKey => $subValue) {
+                    if (is_array($subValue)) {
+                        foreach ($subValue as $nestedKey => $nestedValue) {
+                            $fullKey = "{$key}[{$subKey}][{$nestedKey}]";
+                            $safeKey = htmlspecialchars($fullKey, ENT_QUOTES, 'UTF-8');
+                            $safeValue = htmlspecialchars((string) $nestedValue, ENT_QUOTES, 'UTF-8');
+                            $inputs .= "<input type=\"hidden\" name=\"{$safeKey}\" value=\"{$safeValue}\">";
+                        }
+                    } else {
+                        $fullKey = "{$key}[{$subKey}]";
+                        $safeKey = htmlspecialchars($fullKey, ENT_QUOTES, 'UTF-8');
+                        $safeValue = htmlspecialchars((string) $subValue, ENT_QUOTES, 'UTF-8');
+                        $inputs .= "<input type=\"hidden\" name=\"{$safeKey}\" value=\"{$safeValue}\">";
+                    }
+                }
                 continue;
             }
             $safeKey = htmlspecialchars((string) $key, ENT_QUOTES, 'UTF-8');

@@ -54,27 +54,17 @@
         }
 
         window.sadadGetChecksum = function() {
-            const form = document.getElementById('sadadFinalForm');
-            const formData = new FormData(form);
-
-            fetch('/sadad/checksum', {
-                method: 'POST',
-                body: new URLSearchParams(formData),
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
+            $.ajax({
+                type: "POST",
+                url: "/sadad/checksum",
+                data: $('#sadadFinalForm').serialize(),
+                success: function(response) {
+                    afterChecksumSubmit(response);
                 },
-            })
-            .then(response => response.text())
-            .then(html => {
-                document.body.innerHTML = html;
-                const finalForm = document.getElementById('sadadFinalForm');
-                if (finalForm) {
-                    finalForm.submit();
+                error: function(xhr, status, error) {
+                    console.error('Checksum error:', error);
+                    alert('Payment error occurred');
                 }
-            })
-            .catch(error => {
-                console.error('Checksum error:', error);
-                alert('Payment error occurred');
             });
         };
     </script>
