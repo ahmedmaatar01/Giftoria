@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SADAD Payment</title>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://sadadqa.com/jslib/sadad.js"></script>
 </head>
 <body>
