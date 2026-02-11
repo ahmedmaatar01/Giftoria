@@ -41,71 +41,20 @@
     <script type="text/javascript" src="https://sadadqa.com/jslib/sadadmain.js?v=59"></script>
 
     <script>
-        // Define afterChecksumSubmit function (required by SADAD SDK)
+        // For Hosted/Redirect Payment mode
         window.afterChecksumSubmit = function(response) {
-            console.log('afterChecksumSubmit called - Direct Payment mode');
-            console.log('Response:', response);
+            console.log('afterChecksumSubmit called - Hosted Payment mode');
             
-            // Parse the HTML response to extract form fields
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(response, 'text/html');
-            const form = doc.getElementById('sadadFinalForm');
+            // Replace body with form and auto-submit to SADAD
+            document.body.innerHTML = response;
             
-            if (form) {
-                // Extract all form data
-                const formData = {};
-                const inputs = form.querySelectorAll('input');
-                inputs.forEach(input => {
-                    formData[input.name] = input.value;
-                });
-                
-                console.log('Extracted form data:', formData);
-                
-                // Make direct API call to SADAD
-                $.ajax({
-                    type: 'POST',
-                    url: 'https://sadadqa.com/jslib/callapi.php', // Direct Payment API endpoint
-                    data: formData,
-                    success: function(apiResponse) {
-                        console.log('SADAD API Success:', apiResponse);
-                        if (apiResponse.status === 'success' || apiResponse.transactionStatus === '3') {
-                            window.sadadPaymentSuccess(apiResponse);
-                        } else {
-                            window.sadadPaymentError(apiResponse);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('SADAD API Error:', error);
-                        window.sadadPaymentError({
-                            message: error,
-                            status: 'error'
-                        });
-                    }
-                });
-            }
-        };
-
-        // Success callback
-        window.sadadPaymentSuccess = function(response) {
-            console.log('Payment Success:', response);
-            
-            $.ajax({
-                type: 'POST',
-                url: '/sadad/payment-success',
-                data: response,
-                success: function(result) {
-                    window.location.href = 'https://giftoria.me/payment-success?order_id=' + (response.ORDER_ID || response.order_id);
-                },
-                error: function(xhr) {
-                    alert('Failed to process payment result');
+            setTimeout(function() {
+                const form = document.getElementById('sadadFinalForm');
+                if (form) {
+                    console.log('Submitting to SADAD gateway:', form.action);
+                    form.submit();
                 }
-            });
-        };
-
-        // Error callback
-        window.sadadPaymentError = function(response) {
-            console.error('Payment Error:', response);
-            alert('Payment failed: ' + (response.message || 'Unknown error'));
+            }, 100);
         };
 
         // SADAD initialization
