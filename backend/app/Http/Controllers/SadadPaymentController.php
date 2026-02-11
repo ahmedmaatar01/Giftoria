@@ -183,8 +183,41 @@ class SadadPaymentController extends Controller
         $fields = $data;
         $fields['CHECKSUMHASH'] = $checksum; // SADAD SDK expects CHECKSUMHASH
 
-        // Return JSON with all fields including CHECKSUMHASH for the SDK
-        return response()->json($fields);
+        // Build form HTML - SADAD requires HTML response, not JSON
+        $inputs = '';
+        foreach ($fields as $key => $value) {
+            if ($value === null || $value === '') {
+                continue;
+            }
+            if (is_array($value)) {
+                foreach ($value as $subKey => $subValue) {
+                    if (is_array($subValue)) {
+                        foreach ($subValue as $nestedKey => $nestedValue) {
+                            $fullKey = "{$key}[{$subKey}][{$nestedKey}]";
+                            $safeKey = htmlspecialchars($fullKey, ENT_QUOTES, 'UTF-8');
+                            $safeValue = htmlspecialchars((string) $nestedValue, ENT_QUOTES, 'UTF-8');
+                            $inputs .= "<input type=\"hidden\" name=\"{$safeKey}\" value=\"{$safeValue}\">\n";
+                        }
+                    } else {
+                        $fullKey = "{$key}[{$subKey}]";
+                        $safeKey = htmlspecialchars($fullKey, ENT_QUOTES, 'UTF-8');
+                        $safeValue = htmlspecialchars((string) $subValue, ENT_QUOTES, 'UTF-8');
+                        $inputs .= "<input type=\"hidden\" name=\"{$safeKey}\" value=\"{$safeValue}\">\n";
+                    }
+                }
+                continue;
+            }
+            $safeKey = htmlspecialchars((string) $key, ENT_QUOTES, 'UTF-8');
+            $safeValue = htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
+            $inputs .= "<input type=\"hidden\" name=\"{$safeKey}\" value=\"{$safeValue}\">\n";
+        }
+
+        // Return form HTML as required by SADAD SDK
+        $html = '<form id="sadadFinalForm" method="post">' . $inputs . '</form>';
+
+        Log::info('SADAD CHECKSUM response HTML', ['checksum' => $checksum]);
+        
+        return response($html, 200)->header('Content-Type', 'text/html');
     }
 
     /**
