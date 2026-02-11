@@ -105,11 +105,28 @@
         };
 
         // Direct Payment: SADAD SDK calls this after getting checksum
-        // Return the data object with CHECKSUMHASH
+        // Update form fields with the checksum data
         function afterChecksumSubmit(data) {
             console.log('afterChecksumSubmit called with data:', data);
-            // Return the data object so SDK can use it
-            return data;
+            
+            // Add CHECKSUMHASH to the form
+            var form = document.getElementById('sadadFinalForm');
+            if (form) {
+                // Add or update CHECKSUMHASH field
+                var checksumInput = form.querySelector('input[name="CHECKSUMHASH"]');
+                if (!checksumInput) {
+                    checksumInput = document.createElement('input');
+                    checksumInput.type = 'hidden';
+                    checksumInput.name = 'CHECKSUMHASH';
+                    form.appendChild(checksumInput);
+                }
+                checksumInput.value = data.CHECKSUMHASH;
+                console.log('CHECKSUMHASH added to form:', data.CHECKSUMHASH);
+            } else {
+                console.error('Form #sadadFinalForm not found');
+            }
+            
+            // Don't return anything to avoid displaying "[object Object]"
         }
     </script>
 </body>
