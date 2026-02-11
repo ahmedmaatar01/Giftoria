@@ -79,14 +79,13 @@
                 type: "POST",
                 url: "/sadad/checksum",
                 data: $('#sadadFinalForm').serialize(),
-                dataType: 'json',
+                dataType: 'html',
                 timeout: 30000,
                 success: function(response) {
-                    console.log('Checksum success:', response);
+                    console.log('Checksum HTML received');
                     
-                    // Call afterChecksumSubmit with the JSON response
+                    // Call afterChecksumSubmit with HTML response as required by SADAD
                     if (typeof afterChecksumSubmit === 'function') {
-                        console.log('Calling afterChecksumSubmit for Direct Payment');
                         afterChecksumSubmit(response);
                     } else {
                         console.error('afterChecksumSubmit not defined');
@@ -104,29 +103,38 @@
             });
         };
 
-        // Direct Payment: SADAD SDK calls this after getting checksum
-        // Update form fields with the checksum data
-        function afterChecksumSubmit(data) {
-            console.log('afterChecksumSubmit called with data:', data);
+        // Direct Payment: SADAD SDK calls this after getting checksum HTML
+        // The SDK expects this function to handle the HTML form response
+        function afterChecksumSubmit(html) {
+            console.log('afterChecksumSubmit called - Direct Payment mode');
             
-            // Add CHECKSUMHASH to the form
-            var form = document.getElementById('sadadFinalForm');
-            if (form) {
-                // Add or update CHECKSUMHASH field
-                var checksumInput = form.querySelector('input[name="CHECKSUMHASH"]');
-                if (!checksumInput) {
-                    checksumInput = document.createElement('input');
-                    checksumInput.type = 'hidden';
-                    checksumInput.name = 'CHECKSUMHASH';
-                    form.appendChild(checksumInput);
+            // Parse the HTML to extract CHECKSUMHASH
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(html, 'text/html');
+            var checksumInput = doc.querySelector('input[name="CHECKSUMHASH"]');
+            
+            if (checksumInput) {
+                var checksum = checksumInput.value;
+                console.log('Extracted CHECKSUMHASH:', checksum);
+                
+                // Add CHECKSUMHASH to the original form
+                var form = document.getElementById('sadadFinalForm');
+                if (form) {
+                    var existingChecksum = form.querySelector('input[name="CHECKSUMHASH"]');
+                    if (!existingChecksum) {
+                        existingChecksum = document.createElement('input');
+                        existingChecksum.type = 'hidden';
+                        existingChecksum.name = 'CHECKSUMHASH';
+                        form.appendChild(existingChecksum);
+                    }
+                    existingChecksum.value = checksum;
+                    console.log('CHECKSUMHASH added to form');
+                } else {
+                    console.error('Form #sadadFinalForm not found');
                 }
-                checksumInput.value = data.CHECKSUMHASH;
-                console.log('CHECKSUMHASH added to form:', data.CHECKSUMHASH);
             } else {
-                console.error('Form #sadadFinalForm not found');
+                console.error('CHECKSUMHASH not found in response HTML');
             }
-            
-            // Don't return anything to avoid displaying "[object Object]"
         }
     </script>
 </body>
