@@ -181,7 +181,7 @@ class SadadPaymentController extends Controller
         unset($data['signature'], $data['checksumhash'], $data['CHECKSUMHASH']);
 
         $fields = $data;
-        $fields['signature'] = $checksum; // Use 'signature' instead of 'CHECKSUMHASH'
+        $fields['CHECKSUMHASH'] = $checksum; // SADAD SDK expects CHECKSUMHASH, not signature
 
         $inputs = '';
         foreach ($fields as $key => $value) {
