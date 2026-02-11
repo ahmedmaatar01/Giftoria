@@ -41,22 +41,6 @@
     <script type="text/javascript" src="https://sadadqa.com/jslib/sadadmain.js?v=59"></script>
 
     <script>
-        // For Hosted/Redirect Payment mode
-        window.afterChecksumSubmit = function(response) {
-            console.log('afterChecksumSubmit called - Hosted Payment mode');
-            
-            // Replace body with form and auto-submit to SADAD
-            document.body.innerHTML = response;
-            
-            setTimeout(function() {
-                const form = document.getElementById('sadadFinalForm');
-                if (form) {
-                    console.log('Submitting to SADAD gateway:', form.action);
-                    form.submit();
-                }
-            }, 100);
-        };
-
         // SADAD initialization
         if($('#sadad_cc_container').length>0){
             var tmpAttrErr = '';
