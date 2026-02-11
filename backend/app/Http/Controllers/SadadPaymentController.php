@@ -181,42 +181,10 @@ class SadadPaymentController extends Controller
         unset($data['signature'], $data['checksumhash'], $data['CHECKSUMHASH']);
 
         $fields = $data;
-        $fields['CHECKSUMHASH'] = $checksum; // SADAD SDK expects CHECKSUMHASH, not signature
+        $fields['CHECKSUMHASH'] = $checksum; // SADAD SDK expects CHECKSUMHASH
 
-        $inputs = '';
-        foreach ($fields as $key => $value) {
-            if ($value === null || $value === '') {
-                continue;
-            }
-            // Handle arrays (like productdetail)
-            if (is_array($value)) {
-                foreach ($value as $subKey => $subValue) {
-                    if (is_array($subValue)) {
-                        foreach ($subValue as $nestedKey => $nestedValue) {
-                            $fullKey = "{$key}[{$subKey}][{$nestedKey}]";
-                            $safeKey = htmlspecialchars($fullKey, ENT_QUOTES, 'UTF-8');
-                            $safeValue = htmlspecialchars((string) $nestedValue, ENT_QUOTES, 'UTF-8');
-                            $inputs .= "<input type=\"hidden\" name=\"{$safeKey}\" value=\"{$safeValue}\">";
-                        }
-                    } else {
-                        $fullKey = "{$key}[{$subKey}]";
-                        $safeKey = htmlspecialchars($fullKey, ENT_QUOTES, 'UTF-8');
-                        $safeValue = htmlspecialchars((string) $subValue, ENT_QUOTES, 'UTF-8');
-                        $inputs .= "<input type=\"hidden\" name=\"{$safeKey}\" value=\"{$safeValue}\">";
-                    }
-                }
-                continue;
-            }
-            $safeKey = htmlspecialchars((string) $key, ENT_QUOTES, 'UTF-8');
-            $safeValue = htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
-            $inputs .= "<input type=\"hidden\" name=\"{$safeKey}\" value=\"{$safeValue}\">";
-        }
-
-        $html = '<form id="sadadFinalForm" method="post" action="' . htmlspecialchars($actionUrl, ENT_QUOTES, 'UTF-8') . '">' . $inputs . '</form>';
-
-        Log::info('SADAD CHECKSUM response', ['html_length' => strlen($html), 'action_url' => $actionUrl, 'full_html' => $html]);
-        
-        return response($html, 200)->header('Content-Type', 'text/html');
+        // Return JSON with all fields including CHECKSUMHASH for the SDK
+        return response()->json($fields);
     }
 
     /**
