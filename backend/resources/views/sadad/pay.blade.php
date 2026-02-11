@@ -82,39 +82,13 @@
                 timeout: 30000, // 30 second timeout
                 success: function(response) {
                     console.log('Checksum success, response length:', response.length);
-                    console.log('Response HTML:', response.substring(0, 500));
                     
-                    // Check if afterChecksumSubmit exists
+                    // For Direct Payment, call afterChecksumSubmit with response
                     if (typeof afterChecksumSubmit === 'function') {
-                        console.log('Calling afterChecksumSubmit');
-                        try {
-                            afterChecksumSubmit(response);
-                            console.log('afterChecksumSubmit executed');
-                        } catch (e) {
-                            console.error('afterChecksumSubmit error:', e);
-                            // Fallback
-                            document.body.innerHTML = response;
-                            setTimeout(() => {
-                                const finalForm = document.getElementById('sadadFinalForm');
-                                if (finalForm) {
-                                    console.log('Submitting form to:', finalForm.action);
-                                    finalForm.submit();
-                                }
-                            }, 100);
-                        }
+                        console.log('Calling afterChecksumSubmit for Direct Payment');
+                        afterChecksumSubmit(response);
                     } else {
-                        // Fallback: manually handle the response
-                        console.log('afterChecksumSubmit not found, handling manually');
-                        document.body.innerHTML = response;
-                        setTimeout(() => {
-                            const finalForm = document.getElementById('sadadFinalForm');
-                            if (finalForm) {
-                                console.log('Submitting form to:', finalForm.action);
-                                finalForm.submit();
-                            } else {
-                                console.error('sadadFinalForm not found in response');
-                            }
-                        }, 100);
+                        console.error('afterChecksumSubmit not defined');
                     }
                 },
                 error: function(xhr, status, error) {
@@ -132,6 +106,14 @@
                 }
             });
         };
+
+        // Direct Payment: SADAD SDK will call this after getting checksum
+        // The SDK uses the returned data to process the payment
+        function afterChecksumSubmit(response) {
+            console.log('afterChecksumSubmit called - Direct Payment mode');
+            // Return the response HTML so SADAD SDK can extract the signature
+            return response;
+        }
     </script>
 </body>
 </html>
