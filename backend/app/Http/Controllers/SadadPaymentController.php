@@ -267,19 +267,42 @@ class SadadPaymentController extends Controller
 
         $orderId = $this->getSadadOrderId($request);
 
-
         if (!$orderId) {
             return redirect('https://giftoria.me/payment-failed');
-
         }
 
-        // ❌ Do NOT check payment status here
-        // ❌ Do NOT verify signature here
+        $order = Command::find($orderId);
+        if (!$order) {
+            return redirect('https://giftoria.me/payment-failed');
+        }
 
-        return redirect(
-            'https://giftoria.me/payment-processing?order_id=' . $orderId
-        );
+        // Create payment record
+        try {
+            Payment::create([
+                'command_id'         => $order->id,
+                'gateway'            => 'sadad',
+                'transaction_number' => $request->transactionNumber ?? $request->transaction_id ?? 'N/A',
+                'transaction_status' => $request->transactionStatus ?? $request->status ?? 'pending',
+                'amount'             => $order->total,
+                'is_test'            => config('sadad.mode') === 'test',
+                'payload'            => $request->all(),
+            ]);
+            Log::info('SADAD CALLBACK payment saved', ['order_id' => $orderId]);
+        } catch (\Exception $e) {
+            Log::error('SADAD CALLBACK payment save failed', ['error' => $e->getMessage()]);
+        }
 
+        // Update order if payment successful
+        if (isset($request->transactionStatus) && (int)$request->transactionStatus === 3) {
+            $order->update([
+                'status' => 'paid',
+                'payment_reference' => $request->transactionNumber ?? $request->transaction_id,
+                'paid_at' => now()
+            ]);
+            Log::info('SADAD CALLBACK order marked as paid', ['order_id' => $orderId]);
+        }
+
+        return redirect('https://giftoria.me/payment-processing?order_id=' . $orderId);
     }
 
 
