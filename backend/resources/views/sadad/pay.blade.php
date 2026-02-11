@@ -79,11 +79,12 @@
                 type: "POST",
                 url: "/sadad/checksum",
                 data: $('#sadadFinalForm').serialize(),
-                timeout: 30000, // 30 second timeout
+                dataType: 'json',
+                timeout: 30000,
                 success: function(response) {
-                    console.log('Checksum success, response length:', response.length);
+                    console.log('Checksum success:', response);
                     
-                    // For Direct Payment, call afterChecksumSubmit with response
+                    // Call afterChecksumSubmit with the JSON response
                     if (typeof afterChecksumSubmit === 'function') {
                         console.log('Calling afterChecksumSubmit for Direct Payment');
                         afterChecksumSubmit(response);
@@ -98,21 +99,17 @@
                         statusCode: xhr.status,
                         responseText: xhr.responseText
                     });
-                    if (xhr.status === 502) {
-                        alert('Server temporarily unavailable. Please try again in a moment.');
-                    } else {
-                        alert('Payment error: ' + error + ' (Status: ' + xhr.status + ')');
-                    }
+                    alert('Payment error: ' + error);
                 }
             });
         };
 
-        // Direct Payment: SADAD SDK will call this after getting checksum
-        // The SDK uses the returned data to process the payment
-        function afterChecksumSubmit(response) {
-            console.log('afterChecksumSubmit called - Direct Payment mode');
-            // Return the response HTML so SADAD SDK can extract the signature
-            return response;
+        // Direct Payment: SADAD SDK calls this after getting checksum
+        // Return the data object with CHECKSUMHASH
+        function afterChecksumSubmit(data) {
+            console.log('afterChecksumSubmit called with data:', data);
+            // Return the data object so SDK can use it
+            return data;
         }
     </script>
 </body>
