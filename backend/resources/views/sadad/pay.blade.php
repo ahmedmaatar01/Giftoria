@@ -40,11 +40,8 @@
         </div>
     </div>
 
-    <!-- SADAD SDK Scripts - CRITICAL: sadad.js MUST be loaded for Direct Payment -->
+    <!-- SADAD SDK: Only load sadad.js - it will load cards.min.js and sadadmain.js automatically -->
     <script type="text/javascript" src="https://sadadqa.com/jslib/sadad.js"></script>
-    <link href="https://sadadqa.com/jslib/cards.min.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="https://sadadqa.com/jslib/cards.min.js?v=59"></script>
-    <script type="text/javascript" src="https://sadadqa.com/jslib/sadadmain.js?v=59"></script>
 
     <script>
         // SADAD initialization
