@@ -30,7 +30,7 @@
         </form>
 
         <div id="sadad_cc_container"
-             data-i-color="#531232"
+             data-i-color="#967740"
              data-cbfunc="sadadGetChecksum"
              style="min-height: 400px; border: 1px solid #ddd; padding: 20px;">
         </div>
