@@ -97,33 +97,31 @@
         // The SDK expects this function to handle the HTML form response
         function afterChecksumSubmit(html) {
             console.log('afterChecksumSubmit called - Direct Payment mode');
+            console.log('Checksum HTML:', html);
             
-            // Parse the HTML to extract CHECKSUMHASH
+            // Replace the original form with the checksum form
+            // The SADAD SDK will read the CHECKSUMHASH from the DOM and process payment
             var parser = new DOMParser();
             var doc = parser.parseFromString(html, 'text/html');
-            var checksumInput = doc.querySelector('input[name="CHECKSUMHASH"]');
+            var newForm = doc.getElementById('sadadFinalForm');
             
-            if (checksumInput) {
-                var checksum = checksumInput.value;
-                console.log('Extracted CHECKSUMHASH:', checksum);
-                
-                // Add CHECKSUMHASH to the original form
-                var form = document.getElementById('sadadFinalForm');
-                if (form) {
-                    var existingChecksum = form.querySelector('input[name="CHECKSUMHASH"]');
-                    if (!existingChecksum) {
-                        existingChecksum = document.createElement('input');
-                        existingChecksum.type = 'hidden';
-                        existingChecksum.name = 'CHECKSUMHASH';
-                        form.appendChild(existingChecksum);
+            if (newForm) {
+                var oldForm = document.getElementById('sadadFinalForm');
+                if (oldForm && oldForm.parentNode) {
+                    // Replace the old form with the new form that includes CHECKSUMHASH
+                    oldForm.parentNode.replaceChild(newForm.cloneNode(true), oldForm);
+                    console.log('Form replaced with checksum version');
+                    
+                    // Log the CHECKSUMHASH for debugging
+                    var checksumInput = document.querySelector('input[name="CHECKSUMHASH"]');
+                    if (checksumInput) {
+                        console.log('CHECKSUMHASH in form:', checksumInput.value);
                     }
-                    existingChecksum.value = checksum;
-                    console.log('CHECKSUMHASH added to form');
                 } else {
-                    console.error('Form #sadadFinalForm not found');
+                    console.error('Original form or parent not found');
                 }
             } else {
-                console.error('CHECKSUMHASH not found in response HTML');
+                console.error('New form not found in checksum response');
             }
         }
     </script>
