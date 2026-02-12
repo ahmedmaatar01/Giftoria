@@ -91,34 +91,41 @@
         };
 
         // Direct Payment: SADAD SDK calls this after getting checksum HTML
-        // The SDK expects this function to handle the HTML form response
+        // Extract CHECKSUMHASH and add it to the form WITHOUT replacing the form element
         function afterChecksumSubmit(html) {
             console.log('afterChecksumSubmit called - Direct Payment mode');
-            console.log('Checksum HTML:', html);
             
-            // Replace the original form with the checksum form
-            // The SADAD SDK will read the CHECKSUMHASH from the DOM and process payment
+            // Parse HTML to extract CHECKSUMHASH value
             var parser = new DOMParser();
             var doc = parser.parseFromString(html, 'text/html');
-            var newForm = doc.getElementById('sadadFinalForm');
+            var checksumInput = doc.querySelector('input[name="CHECKSUMHASH"]');
             
-            if (newForm) {
-                var oldForm = document.getElementById('sadadFinalForm');
-                if (oldForm && oldForm.parentNode) {
-                    // Replace the old form with the new form that includes CHECKSUMHASH
-                    oldForm.parentNode.replaceChild(newForm.cloneNode(true), oldForm);
-                    console.log('Form replaced with checksum version');
-                    
-                    // Log the CHECKSUMHASH for debugging
-                    var checksumInput = document.querySelector('input[name="CHECKSUMHASH"]');
-                    if (checksumInput) {
-                        console.log('CHECKSUMHASH in form:', checksumInput.value);
+            if (checksumInput) {
+                var checksumValue = checksumInput.value;
+                console.log('Extracted CHECKSUMHASH:', checksumValue);
+                
+                // Add CHECKSUMHASH to the original form (don't replace the form element!)
+                var form = document.getElementById('sadadFinalForm');
+                if (form) {
+                    // Remove existing CHECKSUMHASH if any
+                    var existing = form.querySelector('input[name="CHECKSUMHASH"]');
+                    if (existing) {
+                        existing.remove();
                     }
+                    
+                    // Add new CHECKSUMHASH as hidden input
+                    var input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'CHECKSUMHASH';
+                    input.value = checksumValue;
+                    form.appendChild(input);
+                    
+                    console.log('CHECKSUMHASH added to form, SDK should now process payment');
                 } else {
-                    console.error('Original form or parent not found');
+                    console.error('Form #sadadFinalForm not found');
                 }
             } else {
-                console.error('New form not found in checksum response');
+                console.error('CHECKSUMHASH not found in response HTML');
             }
         }
     </script>
