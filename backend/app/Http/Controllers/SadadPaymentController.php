@@ -266,7 +266,13 @@ class SadadPaymentController extends Controller
      */
     public function callback(Request $request)
     {
-        Log::info('SADAD CALLBACK', $request->all());
+        Log::info('SADAD CALLBACK - FULL RESPONSE', [
+            'all' => $request->all(),
+            'query' => $request->query(),
+            'method' => $request->method(),
+            'headers' => $request->headers->all(),
+            'raw' => $request->getContent(),
+        ]);
 
         $orderId = $this->getSadadOrderId($request);
 
@@ -281,11 +287,17 @@ class SadadPaymentController extends Controller
 
         // Create payment record
         try {
+            $txnStatus = $request->transactionStatus ?? $request->status ?? 2; // 2 = failed/pending
+            if (!is_numeric($txnStatus)) {
+                $txnStatus = 2;
+            } else {
+                $txnStatus = (int)$txnStatus;
+            }
             Payment::create([
                 'command_id'         => $order->id,
                 'gateway'            => 'sadad',
                 'transaction_number' => $request->transactionNumber ?? $request->transaction_id ?? 'N/A',
-                'transaction_status' => $request->transactionStatus ?? $request->status ?? 'pending',
+                'transaction_status' => $txnStatus,
                 'amount'             => $order->total,
                 'is_test'            => config('sadad.mode') === 'test',
                 'payload'            => $request->all(),
