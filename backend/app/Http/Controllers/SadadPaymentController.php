@@ -145,6 +145,9 @@ class SadadPaymentController extends Controller
         
         $data = $request->all();
 
+        // Remove signature from request data if present
+        unset($data['signature'], $data['CHECKSUMHASH'], $data['checksumhash']);
+
         if (!isset($data['merchant_id'], $data['ORDER_ID'], $data['TXN_AMOUNT'], $data['WEBSITE'], $data['CALLBACK_URL'])) {
             Log::error('SADAD CHECKSUM missing required fields');
             return response()->json(['message' => 'Missing required SADAD fields'], 422);
@@ -154,6 +157,7 @@ class SadadPaymentController extends Controller
             $data['txnDate'] = now()->format('Y-m-d H:i:s');
         }
 
+        // Build signature with only the required fields, in order
         $signatureData = [
             'merchant_id' => $data['merchant_id'],
             'ORDER_ID' => $data['ORDER_ID'],
@@ -166,22 +170,20 @@ class SadadPaymentController extends Controller
             'VERSION' => $data['VERSION'],
         ];
 
-        $checksum = SadadService::generateSignature(
+        $signature = SadadService::generateSignature(
             $signatureData,
             config('sadad.secret_key')
         );
 
-        Log::info('SADAD CHECKSUM signature data', ['signature_data' => $signatureData, 'checksum' => $checksum]);
+        Log::info('SADAD CHECKSUM signature data', ['signature_data' => $signatureData, 'signature' => $signature]);
 
         $actionUrl = config('sadad.payment_url');
         if (!$actionUrl) {
             return response()->json(['message' => 'SADAD payment_url not configured'], 500);
         }
 
-        unset($data['signature'], $data['checksumhash'], $data['CHECKSUMHASH']);
-
         $fields = $data;
-        $fields['CHECKSUMHASH'] = $checksum; // SADAD SDK expects CHECKSUMHASH
+        $fields['signature'] = $signature; // SADAD SDK expects 'signature' field
 
         // Build form HTML - SADAD requires HTML response, not JSON
         $inputs = '';
@@ -215,7 +217,7 @@ class SadadPaymentController extends Controller
         // Return form HTML as required by SADAD SDK
         $html = '<form id="sadadFinalForm" method="post">' . $inputs . '</form>';
 
-        Log::info('SADAD CHECKSUM response HTML', ['checksum' => $checksum]);
+        Log::info('SADAD CHECKSUM response HTML', ['signature' => $signature]);
         
         return response($html, 200)->header('Content-Type', 'text/html');
     }
