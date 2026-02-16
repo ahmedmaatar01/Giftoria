@@ -329,11 +329,22 @@ class SadadPaymentController extends Controller
     {
         Log::info('SADAD WEBHOOK', $request->all());
 
-        $receivedChecksum = $request->checksumhash ?? $request->checksumHash ?? null;
-        $expectedChecksum = SadadService::generateSignature($request->all(), config('sadad.secret_key'));
+        $data = $request->all();
+        $receivedChecksum = $data['checksumhash'] ?? $data['checksumHash'] ?? null;
+        // Remove checksumhash from the data before generating the hash
+        unset($data['checksumhash'], $data['checksumHash']);
 
-        $isValid = SadadService::verifyChecksum($request->all(), config('sadad.secret_key'));
-        if (!$isValid) {
+        // Sort the data by keys alphabetically
+        ksort($data);
+
+        // Build the string: secret key + values of sorted data
+        $string = config('sadad.secret_key');
+        foreach ($data as $value) {
+            $string .= $value;
+        }
+        $expectedChecksum = hash('sha256', $string);
+
+        if ($expectedChecksum !== $receivedChecksum) {
             Log::warning('Invalid SADAD checksum', [
                 'received_checksum' => $receivedChecksum,
                 'expected_checksum' => $expectedChecksum,
