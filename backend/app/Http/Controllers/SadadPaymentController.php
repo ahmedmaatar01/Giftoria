@@ -335,20 +335,36 @@ class SadadPaymentController extends Controller
         unset($data['checksumhash'], $data['checksumHash']);
 
         // Sort the data by keys alphabetically
-        ksort($data);
+        $sortedKeys = array_keys($data);
+        sort($sortedKeys);
+        $sortedData = [];
+        foreach ($sortedKeys as $key) {
+            $sortedData[$key] = $data[$key];
+        }
 
         // Build the string: secret key + values of sorted data
         $string = config('sadad.secret_key');
-        foreach ($data as $value) {
+        foreach ($sortedData as $value) {
             $string .= $value;
         }
         $expectedChecksum = hash('sha256', $string);
+
+        // Debug logs for troubleshooting
+        Log::info('SADAD WEBHOOK CHECKSUM DEBUG', [
+            'received_payload' => $request->all(),
+            'sorted_keys' => $sortedKeys,
+            'pre_hash_string' => $string,
+            'expected_checksum' => $expectedChecksum,
+            'received_checksum' => $receivedChecksum
+        ]);
 
         if ($expectedChecksum !== $receivedChecksum) {
             Log::warning('Invalid SADAD checksum', [
                 'received_checksum' => $receivedChecksum,
                 'expected_checksum' => $expectedChecksum,
-                'request' => $request->all()
+                'request' => $request->all(),
+                'sorted_keys' => $sortedKeys,
+                'pre_hash_string' => $string
             ]);
             return response()->json([
                 'status' => 'invalid_checksum',
