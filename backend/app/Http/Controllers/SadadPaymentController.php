@@ -141,6 +141,9 @@ class SadadPaymentController extends Controller
     }
     public function checksum(Request $request)
     {
+        $sadadKey = config('sadad.secret_key');
+        $isTestKey = $sadadKey === env('SADAD_SECRET_KEY_TEST');
+        Log::info('SADAD KEY USAGE', ['key_type' => $isTestKey ? 'test' : 'live', 'key_value' => $sadadKey]);
         Log::info('SADAD CHECKSUM called', ['data' => $request->all()]);
         
         $data = $request->all();
@@ -327,6 +330,9 @@ class SadadPaymentController extends Controller
      */
     public function webhook(Request $request)
     {
+        $sadadKey = config('sadad.secret_key');
+        $isTestKey = $sadadKey === env('SADAD_SECRET_KEY_TEST');
+        Log::info('SADAD KEY USAGE WEBHOOK', ['key_type' => $isTestKey ? 'test' : 'live', 'key_value' => $sadadKey]);
         Log::info('SADAD WEBHOOK', $request->all());
 
         $data = $request->all();
