@@ -58,7 +58,7 @@ class SadadPaymentController extends Controller
 
         $data['signature'] = SadadService::generateSignature(
             $signatureData,
-            'Jx4hRpKEaOa09X0T'
+            config('sadad.secret_key')
         );
 
 
@@ -123,7 +123,7 @@ class SadadPaymentController extends Controller
 
         $data['signature'] = SadadService::generateSignature(
             $signatureData,
-            'Jx4hRpKEaOa09X0T'
+            config('sadad.secret_key')
         );
 
         Log::info('SADAD PAY page rendered for order', ['order_id' => $order->id]);
@@ -141,8 +141,9 @@ class SadadPaymentController extends Controller
     }
     public function checksum(Request $request)
     {
-        $sadadKey = 'Jx4hRpKEaOa09X0T';
-        Log::info('SADAD KEY USAGE', ['key_type' => 'live', 'key_value' => $sadadKey]);
+        $sadadKey = config('sadad.secret_key');
+        $isTestKey = $sadadKey === env('SADAD_SECRET_KEY_TEST');
+        Log::info('SADAD KEY USAGE', ['key_type' => $isTestKey ? 'test' : 'live', 'key_value' => $sadadKey]);
         Log::info('SADAD CHECKSUM called', ['data' => $request->all()]);
         
         $data = $request->all();
@@ -174,7 +175,7 @@ class SadadPaymentController extends Controller
 
         $signature = SadadService::generateSignature(
             $signatureData,
-            'Jx4hRpKEaOa09X0T'
+            config('sadad.secret_key')
         );
 
         Log::info('SADAD CHECKSUM signature data', ['signature_data' => $signatureData, 'signature' => $signature]);
@@ -329,8 +330,9 @@ class SadadPaymentController extends Controller
      */
     public function webhook(Request $request)
     {
-        $sadadKey = 'Jx4hRpKEaOa09X0T';
-        Log::info('SADAD KEY USAGE WEBHOOK', ['key_type' => 'live', 'key_value' => $sadadKey]);
+        $sadadKey = config('sadad.secret_key');
+        $isTestKey = $sadadKey === env('SADAD_SECRET_KEY_TEST');
+        Log::info('SADAD KEY USAGE WEBHOOK', ['key_type' => $isTestKey ? 'test' : 'live', 'key_value' => $sadadKey]);
         Log::info('SADAD WEBHOOK', $request->all());
 
         $data = $request->all();
@@ -347,7 +349,7 @@ class SadadPaymentController extends Controller
         }
 
         // Build the string: secret key + values of sorted data
-        $string = $sadadKey;
+        $string = config('sadad.secret_key');
         foreach ($sortedData as $value) {
             $string .= $value;
         }
