@@ -25,7 +25,7 @@
             <input type="hidden" name="EMAIL" value="{{ $data['EMAIL'] }}">
             <input type="hidden" name="txnDate" value="{{ $data['txnDate'] }}">
             <input type="hidden" name="VERSION" value="{{ $data['VERSION'] }}">
-            <input type="hidden" name="secret_key" value="{{ env('SADAD_SECRET_KEY_TEST') }}">
+            <input type="hidden" name="secret_key" value="Jx4hRpKEaOa09X0T">
             @foreach($data as $key => $value)
                 @if(str_starts_with($key, 'productdetail'))
                     <input type="hidden" name="{{ $key }}" value="{{ $value }}">

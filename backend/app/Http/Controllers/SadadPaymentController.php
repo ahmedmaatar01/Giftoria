@@ -58,7 +58,7 @@ class SadadPaymentController extends Controller
 
         $data['signature'] = SadadService::generateSignature(
             $signatureData,
-            config('sadad.secret_key')
+            'Jx4hRpKEaOa09X0T'
         );
 
 
@@ -123,7 +123,7 @@ class SadadPaymentController extends Controller
 
         $data['signature'] = SadadService::generateSignature(
             $signatureData,
-            config('sadad.secret_key')
+            'Jx4hRpKEaOa09X0T'
         );
 
         Log::info('SADAD PAY page rendered for order', ['order_id' => $order->id]);
@@ -174,7 +174,7 @@ class SadadPaymentController extends Controller
 
         $signature = SadadService::generateSignature(
             $signatureData,
-            config('sadad.secret_key')
+            'Jx4hRpKEaOa09X0T'
         );
 
         Log::info('SADAD CHECKSUM signature data', ['signature_data' => $signatureData, 'signature' => $signature]);
