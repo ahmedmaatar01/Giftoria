@@ -141,10 +141,8 @@ class SadadPaymentController extends Controller
     }
     public function checksum(Request $request)
     {
-        // Select key based on mode
-        $sadadMode = config('sadad.mode');
-        $sadadKey = $sadadMode === 'live' ? env('SADAD_SECRET_KEY_LIVE') : env('SADAD_SECRET_KEY_TEST');
-        Log::info('SADAD KEY USAGE', ['key_type' => $sadadMode, 'key_value' => $sadadKey]);
+        $sadadKey = 'Jx4hRpKEaOa09X0T';
+        Log::info('SADAD KEY USAGE', ['key_type' => 'live', 'key_value' => $sadadKey]);
         Log::info('SADAD CHECKSUM called', ['data' => $request->all()]);
         
         $data = $request->all();
@@ -331,10 +329,8 @@ class SadadPaymentController extends Controller
      */
     public function webhook(Request $request)
     {
-        // Select key based on mode
-        $sadadMode = config('sadad.mode');
-        $sadadKey = $sadadMode === 'live' ? env('SADAD_SECRET_KEY_LIVE') : env('SADAD_SECRET_KEY_TEST');
-        Log::info('SADAD KEY USAGE WEBHOOK', ['key_type' => $sadadMode, 'key_value' => $sadadKey]);
+        $sadadKey = 'Jx4hRpKEaOa09X0T';
+        Log::info('SADAD KEY USAGE WEBHOOK', ['key_type' => 'live', 'key_value' => $sadadKey]);
         Log::info('SADAD WEBHOOK', $request->all());
 
         $data = $request->all();
