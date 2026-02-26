@@ -141,9 +141,10 @@ class SadadPaymentController extends Controller
     }
     public function checksum(Request $request)
     {
-        $sadadKey = config('sadad.secret_key');
-        $isTestKey = $sadadKey === env('SADAD_SECRET_KEY_TEST');
-        Log::info('SADAD KEY USAGE', ['key_type' => $isTestKey ? 'test' : 'live', 'key_value' => $sadadKey]);
+        // Select key based on mode
+        $sadadMode = config('sadad.mode');
+        $sadadKey = $sadadMode === 'live' ? env('SADAD_SECRET_KEY_LIVE') : env('SADAD_SECRET_KEY_TEST');
+        Log::info('SADAD KEY USAGE', ['key_type' => $sadadMode, 'key_value' => $sadadKey]);
         Log::info('SADAD CHECKSUM called', ['data' => $request->all()]);
         
         $data = $request->all();
@@ -330,9 +331,10 @@ class SadadPaymentController extends Controller
      */
     public function webhook(Request $request)
     {
-        $sadadKey = config('sadad.secret_key');
-        $isTestKey = $sadadKey === env('SADAD_SECRET_KEY_TEST');
-        Log::info('SADAD KEY USAGE WEBHOOK', ['key_type' => $isTestKey ? 'test' : 'live', 'key_value' => $sadadKey]);
+        // Select key based on mode
+        $sadadMode = config('sadad.mode');
+        $sadadKey = $sadadMode === 'live' ? env('SADAD_SECRET_KEY_LIVE') : env('SADAD_SECRET_KEY_TEST');
+        Log::info('SADAD KEY USAGE WEBHOOK', ['key_type' => $sadadMode, 'key_value' => $sadadKey]);
         Log::info('SADAD WEBHOOK', $request->all());
 
         $data = $request->all();
@@ -349,7 +351,7 @@ class SadadPaymentController extends Controller
         }
 
         // Build the string: secret key + values of sorted data
-        $string = config('sadad.secret_key');
+        $string = $sadadKey;
         foreach ($sortedData as $value) {
             $string .= $value;
         }
