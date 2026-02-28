@@ -61,6 +61,7 @@ class SadadPaymentController extends Controller
             config('sadad.secret_key')
         );
 
+        Log::info('in INIT sadad.secret_key', config('sadad.secret_key'));
 
         // 4️⃣ Return data for frontend
         $responseData = [
