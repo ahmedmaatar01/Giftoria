@@ -26,6 +26,8 @@ class SadadService
             $string .= (string) $value;
         }
 
+        \Illuminate\Support\Facades\Log::info('SADAD GENERATE SIGNATURE - Pre-hash string', ['string' => $string]);
+
         // ✅ SHA256 hash
         return hash('sha256', $string);
     }
