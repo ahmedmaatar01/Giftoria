@@ -53,7 +53,10 @@ class SadadPaymentController extends Controller
             'TXN_AMOUNT' => $data['TXN_AMOUNT'],
             'WEBSITE' => $data['WEBSITE'],
             'CALLBACK_URL' => $data['CALLBACK_URL'],
+            'MOBILE_NO' => $data['MOBILE_NO'],
+            'EMAIL' => $data['EMAIL'],
             'txnDate' => $data['txnDate'],
+            'VERSION' => $data['VERSION'],
         ];
 
         $data['signature'] = SadadService::generateSignature(
@@ -119,7 +122,10 @@ class SadadPaymentController extends Controller
             'TXN_AMOUNT' => $data['TXN_AMOUNT'],
             'WEBSITE' => $data['WEBSITE'],
             'CALLBACK_URL' => $data['CALLBACK_URL'],
+            'MOBILE_NO' => $data['MOBILE_NO'],
+            'EMAIL' => $data['EMAIL'],
             'txnDate' => $data['txnDate'],
+            'VERSION' => $data['VERSION'],
         ];
 
         $data['signature'] = SadadService::generateSignature(

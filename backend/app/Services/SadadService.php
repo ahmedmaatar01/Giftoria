@@ -23,7 +23,7 @@ class SadadService
         // ✅ Build signature string
         $string = $secret;
         foreach ($filtered as $value) {
-            $string .= $value;
+            $string .= (string) $value;
         }
 
         // ✅ SHA256 hash
