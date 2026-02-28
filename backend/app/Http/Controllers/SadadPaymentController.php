@@ -64,8 +64,6 @@ class SadadPaymentController extends Controller
             config('sadad.secret_key')
         );
 
-        Log::info('in INIT sadad.secret_key', config('sadad.secret_key'));
-
         // 4️⃣ Return data for frontend
         $responseData = [
             'merchant_id' => $data['merchant_id'],
@@ -92,7 +90,7 @@ class SadadPaymentController extends Controller
         $request->validate([
             'order_id' => 'required|integer'
         ]);
-
+        Log::info('secret key is: ', ['key' => config('sadad.secret_key')]);
         $order = Command::findOrFail($request->order_id);
 
         if ($order->status !== 'pending') {
