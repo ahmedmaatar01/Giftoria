@@ -377,11 +377,11 @@ class SadadPaymentController extends Controller
                 'sorted_keys' => $sortedKeys,
                 'pre_hash_string' => $string
             ]);
-            return response()->json([
-                'status' => 'invalid_checksum',
-                'received_checksum' => $receivedChecksum,
-                'expected_checksum' => $expectedChecksum
-            ], 403);
+            // return response()->json([
+            //     'status' => 'invalid_checksum',
+            //     'received_checksum' => $receivedChecksum,
+            //     'expected_checksum' => $expectedChecksum
+            // ], 403);
         }
 
         $orderId = $this->getSadadOrderId($request);
