@@ -66,7 +66,7 @@ export default function Checkout() {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
-    country: '',
+    country: 'Qatar',
     city: '',
     address: '',
     phone: '',
@@ -523,22 +523,21 @@ export default function Checkout() {
                     value={formData.country}
                     onChange={handleInputChange}
                   >
-                    <option value="">{t('checkout.select_country')}</option>
                     <option value="Qatar">Qatar</option>
-                    <option value="Algeria">Algeria</option>
-                    <option value="Morocco">Morocco</option>
-                    <option value="Tunisia">Tunisia</option>
-                    <option value="Egypt">Egypt</option>
-                    <option value="France">France</option>
-                    <option value="United States">United States</option>
-                    <option value="United Kingdom">United Kingdom</option>
-                    <option value="Germany">Germany</option>
-                    <option value="Italy">Italy</option>
-                    <option value="Spain">Spain</option>
-                    <option value="Turkey">Turkey</option>
-                    <option value="Saudi Arabia">Saudi Arabia</option>
-                    <option value="UAE">UAE</option>
-                    <option value="Other">Other</option>
+                    <option value="Algeria" disabled>Algeria</option>
+                    <option value="Morocco" disabled>Morocco</option>
+                    <option value="Tunisia" disabled>Tunisia</option>
+                    <option value="Egypt" disabled>Egypt</option>
+                    <option value="France" disabled>France</option>
+                    <option value="United States" disabled>United States</option>
+                    <option value="United Kingdom" disabled>United Kingdom</option>
+                    <option value="Germany" disabled>Germany</option>
+                    <option value="Italy" disabled>Italy</option>
+                    <option value="Spain" disabled>Spain</option>
+                    <option value="Turkey" disabled>Turkey</option>
+                    <option value="Saudi Arabia" disabled>Saudi Arabia</option>
+                    <option value="UAE" disabled>UAE</option>
+                    <option value="Other" disabled>Other</option>
                   </select>
                 </div>
               </fieldset>
