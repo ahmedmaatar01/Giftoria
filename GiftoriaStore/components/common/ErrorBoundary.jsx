@@ -12,20 +12,27 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    // Only log in development or client-side
+    // Auto-reload on ChunkLoadError (stale cache / first-load chunk not found)
+    if (
+      typeof window !== 'undefined' &&
+      error &&
+      (error.name === 'ChunkLoadError' || (error.message && error.message.includes('Loading chunk')))
+    ) {
+      // Prevent infinite reload loop using sessionStorage
+      const reloadKey = 'chunk_error_reloaded';
+      if (!sessionStorage.getItem(reloadKey)) {
+        sessionStorage.setItem(reloadKey, '1');
+        window.location.reload();
+        return;
+      }
+    }
+
     if (typeof window !== 'undefined') {
       console.error('🚨 ERROR BOUNDARY CAUGHT ERROR:');
       console.error('Error:', error);
       console.error('Component Stack:', errorInfo?.componentStack || 'No component stack');
-      console.error('Error Info:', errorInfo);
-      
-      // Check if it's the specific error we're looking for
-      if (error.message && error.message.includes('Objects are not valid as a React child')) {
-        console.error('🎯 THIS IS THE OBJECT RENDERING ERROR!');
-        console.error('Component that failed:', errorInfo?.componentStack || 'Unknown component');
-      }
     }
-    
+
     this.setState({
       error: error,
       errorInfo: errorInfo
@@ -33,6 +40,10 @@ class ErrorBoundary extends React.Component {
   }
 
   render() {
+    if (!this.state.hasError && typeof window !== 'undefined') {
+      sessionStorage.removeItem('chunk_error_reloaded');
+    }
+
     if (this.state.hasError) {
       
       return (
