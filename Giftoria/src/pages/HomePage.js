@@ -23,6 +23,7 @@ import ManageCustomField from './dashboard/ManageCustomField';
 import ManageCommands from './dashboard/ManageCommands';
 import ManageOccasions from './dashboard/ManageOccasions';
 import ManageGiftCards from './dashboard/ManageGiftCards';
+import ManageTags from './dashboard/ManageTags';
 import ManageUsers from './dashboard/ManageUsers';
 import ManageAdmins from './dashboard/ManageAdmins';
 import ManagePayments from './dashboard/ManagePayments';
@@ -216,6 +217,19 @@ export default () => {
             <Redirect to={Routes.AdminLogin.path} />
           ) : user.role === 'admin' ? (
             <RouteWithSidebar {...props} component={ManageGiftCards} />
+          ) : (
+            <Redirect to={Routes.Presentation.path} />
+          )
+        }
+      />
+      <Route
+        exact
+        path={Routes.ManageTags.path}
+        render={props =>
+          !user ? (
+            <Redirect to={Routes.AdminLogin.path} />
+          ) : user.role === 'admin' ? (
+            <RouteWithSidebar {...props} component={ManageTags} />
           ) : (
             <Redirect to={Routes.Presentation.path} />
           )
