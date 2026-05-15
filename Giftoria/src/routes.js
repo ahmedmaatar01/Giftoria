@@ -13,6 +13,7 @@ export const Routes = {
     ManageCommands: { path: "/dashboard/manage-commands" },
     ManageOccasions: { path: "/dashboard/manage-occasions" },
     ManageGiftCards: { path: "/dashboard/manage-gift-cards" },
+    ManageTags: { path: "/dashboard/manage-tags" },
     ManageUsers: { path: "/dashboard/manage-users" },
     ManageAdmins: { path: "/dashboard/manage-admins" },
         NotFound: { path: "/notfound" },

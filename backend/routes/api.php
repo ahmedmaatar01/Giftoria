@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\ProductCustomValueController;
 use App\Http\Controllers\Api\OccasionController;
 use App\Http\Controllers\GiftCardController;
 use App\Http\Controllers\ProductGiftCardSelectionController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\SadadPaymentController;
 /*
 |--------------------------------------------------------------------------
@@ -123,6 +124,7 @@ Route::apiResource('commands', CommandController::class)
     ->middleware('auth:sanctum');
 Route::apiResource('occasions', OccasionController::class);
 Route::apiResource('gift-cards', GiftCardController::class);
+Route::apiResource('tags', TagController::class);
 
 // Route for uploading images to a product
 Route::post('products/{product}/images', [ProductImageController::class, 'storeMultiple']);
