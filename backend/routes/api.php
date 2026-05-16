@@ -85,6 +85,8 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 Route::prefix('user')->group(function () {
     Route::post('register', [UserAuthController::class, 'register']);
     Route::post('login', [UserAuthController::class, 'login']);
+    Route::post('forgot-password', [UserAuthController::class, 'forgotPassword']);
+    Route::post('reset-password', [UserAuthController::class, 'resetPassword']);
     Route::middleware('auth:sanctum')->get('me', [UserAuthController::class, 'me']);
     Route::middleware('auth:sanctum')->put('update', [UserAuthController::class, 'update']);
     Route::middleware('auth:sanctum')->post('logout', [UserAuthController::class, 'logout']);
