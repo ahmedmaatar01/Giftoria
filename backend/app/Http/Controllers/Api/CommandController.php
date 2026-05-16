@@ -542,7 +542,8 @@ public function getCommandsByUser($userId)
             'notes.user',
             'notes.admin',
             'statusHistory.changedBy',
-            'giftCardTemplate'
+            'giftCardTemplate',
+            'tagTemplate'
         ])->findOrFail($commandId);
 
         return response()->json($command);

@@ -24,6 +24,7 @@ const ManageCommands = () => {
     const [filterStatus, setFilterStatus] = useState("");
     const [showModal, setShowModal] = useState(false);
     const [selectedCommand, setSelectedCommand] = useState(null);
+    const [detailsLoading, setDetailsLoading] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showNotesModal, setShowNotesModal] = useState(false);
     const [showHistoryModal, setShowHistoryModal] = useState(false);
@@ -242,6 +243,19 @@ const ManageCommands = () => {
   const openDetailsModal = async (command) => {
     setSelectedCommand(command);
     setShowModal(true);
+    setDetailsLoading(true);
+
+    try {
+      const res = await axios.get(`${API_URL}/commands/${command.id}/details`, {
+        headers: getAuthHeaders()
+      });
+      setSelectedCommand(res.data || command);
+    } catch (err) {
+      console.error('Error fetching command details:', err);
+    } finally {
+      setDetailsLoading(false);
+    }
+
     if (unseenCommandIds.has(command.id)) {
       try {
         await axios.post(`${ADMIN_API}/notifications/commands/${command.id}/seen`, {}, { headers: getAuthHeaders() });
@@ -493,6 +507,13 @@ const filteredCommands = sortedCommands.filter(cmd => {
 
         {/* BODY */}
         <div className="modal-body p-4 bg-light">
+          {detailsLoading && (
+            <div className="mb-3 d-flex align-items-center gap-2 text-primary">
+              <Spinner animation="border" size="sm" />
+              <span>Loading command details...</span>
+            </div>
+          )}
+
           {/* General Info */}
           <h6 className="fw-semibold mb-3 text-primary">General Info</h6>
           <table className="table table-striped table-hover table-bordered align-middle bg-white rounded">
@@ -525,8 +546,6 @@ const filteredCommands = sortedCommands.filter(cmd => {
           {selectedCommand.has_gift_card && (
             <>
               <h6 className="fw-semibold mb-3 mt-5 text-primary">🎁 Gift Card Details</h6>
-              {/* Debug gift card template data */}
-              {selectedCommand.gift_card_template && console.log('Gift Card Template:', selectedCommand.gift_card_template)}
               <table className="table table-striped table-hover table-bordered align-middle bg-white rounded">
                 <tbody>
                   <tr>
@@ -639,6 +658,57 @@ const filteredCommands = sortedCommands.filter(cmd => {
                         )}
                       </td>
                     </tr>
+                  )}
+                </tbody>
+              </table>
+            </>
+          )}
+
+          {/* Tag Info */}
+          {selectedCommand.has_tag && (
+            <>
+              <h6 className="fw-semibold mb-3 mt-5 text-primary">🏷️ Tag Details</h6>
+              <table className="table table-striped table-hover table-bordered align-middle bg-white rounded">
+                <tbody>
+                  <tr>
+                    <th className="w-25">Tag Type</th>
+                    <td><span className="badge bg-info">Template Tag</span></td>
+                  </tr>
+                  {selectedCommand.tag_template && (
+                    <>
+                      <tr>
+                        <th>Template Name</th>
+                        <td>{selectedCommand.tag_template.name}</td>
+                      </tr>
+                      <tr>
+                        <th>Template Image</th>
+                        <td>
+                          {selectedCommand.tag_template && (selectedCommand.tag_template.image_url || selectedCommand.tag_template.image) ? (
+                            <img
+                              src={
+                                selectedCommand.tag_template.image_url ||
+                                (selectedCommand.tag_template.image
+                                  ? `${BACKEND_URL}/storage/${selectedCommand.tag_template.image}`
+                                  : '')
+                              }
+                              alt={selectedCommand.tag_template.name}
+                              className="img-thumbnail"
+                              style={{ maxWidth: '150px', maxHeight: '100px' }}
+                              onError={(e) => {
+                                e.target.style.display = 'none';
+                                e.target.nextSibling.style.display = 'inline';
+                              }}
+                            />
+                          ) : null}
+                          <span
+                            className="text-muted"
+                            style={{ display: selectedCommand.tag_template && (selectedCommand.tag_template.image_url || selectedCommand.tag_template.image) ? 'none' : 'inline' }}
+                          >
+                            No image available
+                          </span>
+                        </td>
+                      </tr>
+                    </>
                   )}
                 </tbody>
               </table>
