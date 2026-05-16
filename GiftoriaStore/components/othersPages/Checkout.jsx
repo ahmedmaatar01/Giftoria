@@ -839,7 +839,7 @@ export default function Checkout() {
                                       className="btn btn-sm btn-outline-secondary mt-2"
                                       onClick={handleClearSignature}
                                     >
-                                      {i18n.language === 'ar' ? 'مسح التوقيع' : 'Clear Signature'}
+                                      {t('checkout.clear_signature', 'Clear Signature')}
                                     </button>
                                   </div>
                                 )}
@@ -1123,7 +1123,7 @@ export default function Checkout() {
                     handleGiftCardChange("occasionId", Number(e.target.value))
                   }
                 >
-                  <option value="">All Occasions</option>
+                  <option value="">{t('checkout.all_occasions', 'All Occasions')}</option>
                   {occasions.map((occ) => (
                     <option key={occ.id} value={occ.id}>
                       {i18n.language === "ar" && occ.name_ar ? occ.name_ar : occ.name}
@@ -1142,7 +1142,7 @@ export default function Checkout() {
 
                   return filteredTemplates.length === 0 ? (
                     <div className="text-center p-4">
-                      <p className="text-muted">No gift card templates available</p>
+                      <p className="text-muted">{t('checkout.no_templates', 'No gift card templates available')}</p>
                     </div>
                   ) : (
                     <div className="row">
@@ -1227,10 +1227,10 @@ export default function Checkout() {
                   value={tagSelection.occasionId || ""}
                   onChange={(e) => handleTagChange("occasionId", Number(e.target.value))}
                 >
-                  <option value="">All Occasions</option>
+                  <option value="">{t('checkout.all_occasions', 'All Occasions')}</option>
                   {occasions.map((occ) => (
                     <option key={occ.id} value={occ.id}>
-                      {i18n.language === "ar" && occ.name_ar ? occ.name_ar : occ.name}
+                      {i18n.language === "ar" && occ.arabic_name ? occ.arabic_name : occ.name}
                     </option>
                   ))}
                 </select>
@@ -1243,7 +1243,7 @@ export default function Checkout() {
 
                   return filteredTags.length === 0 ? (
                     <div className="text-center p-4">
-                      <p className="text-muted">No tag templates available</p>
+                      <p className="text-muted">{t('checkout.no_tag_templates', 'No tag templates available')}</p>
                     </div>
                   ) : (
                     <div className="row">

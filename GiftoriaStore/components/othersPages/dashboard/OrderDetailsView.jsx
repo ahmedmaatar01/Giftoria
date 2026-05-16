@@ -37,7 +37,7 @@ export default function OrderDetailsView({ orderId, requireAuth = true }) {
         const res = await fetch(`${API_BASE_URL_WITH_API}/commands/${orderId}/details`, {
           headers,
         });
-        if (!res.ok) throw new Error("Failed to fetch order details");
+        if (!res.ok) throw new Error(t("order_details.fetch_failed", "Failed to fetch order details"));
         const data = await res.json();
         setOrder(data);
 
@@ -126,13 +126,13 @@ export default function OrderDetailsView({ orderId, requireAuth = true }) {
   };
 
   if (loading) {
-    return <div className="py-5 text-center">Loading order details...</div>;
+    return <div className="py-5 text-center">{t("order_details.loading_order_details")}</div>;
   }
   if (error) {
     return <div className="alert alert-danger">{error}</div>;
   }
   if (!order) {
-    return <div className="alert alert-warning">Order not found.</div>;
+    return <div className="alert alert-warning">{t("order_details.order_not_found")}</div>;
   }
 
   const formatDate = (dateString) => {
@@ -194,8 +194,14 @@ export default function OrderDetailsView({ orderId, requireAuth = true }) {
   };
 
   const formatStatusName = (status) => {
-    if (!status) return "Unknown";
+    if (!status) return t("order_details.status_unknown", "Unknown");
     return status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  };
+
+  const getStatusLabel = (status) => {
+    const key = `order_details.status_${(status || '').toLowerCase()}`;
+    const translated = t(key);
+    return translated === key ? formatStatusName(status) : translated;
   };
 
   const tabTitles = [
@@ -217,26 +223,26 @@ export default function OrderDetailsView({ orderId, requireAuth = true }) {
             className={getStatusBadgeClass(order.status)}
             style={order.status?.toLowerCase() === 'pending' ? { backgroundColor: '#967740' } : {}}
           >
-            {order.status || "Pending"}
+            {order.status ? getStatusLabel(order.status) : t("order_details.status_pending")}
           </div>
-          <h6 className="mt-8 fw-5">Order #{order.id}</h6>
+          <h6 className="mt-8 fw-5">{t("order_details.order_hash")} {order.id}</h6>
         </div>
       </div>
       <div className="tf-grid-layout md-col-2 gap-15">
         <div className="item">
-          <div className="text-2 text_black-2">Customer</div>
+          <div className="text-2 text_black-2">{t("order_details.customer")}</div>
           <div className="text-2 mt_4 fw-6">{order.customer_first_name} {order.customer_last_name}</div>
         </div>
         <div className="item">
-          <div className="text-2 text_black-2">Email</div>
+          <div className="text-2 text_black-2">{t("order_details.email")}</div>
           <div className="text-2 mt_4 fw-6">{order.customer_email}</div>
         </div>
         <div className="item">
-          <div className="text-2 text_black-2">Placed At</div>
+          <div className="text-2 text_black-2">{t("order_details.placed_at")}</div>
           <div className="text-2 mt_4 fw-6">{formatDate(order.placed_at || order.created_at)}</div>
         </div>
         <div className="item">
-          <div className="text-2 text_black-2">Shipping Address</div>
+          <div className="text-2 text_black-2">{t("order_details.shipping_address")}</div>
           <div className="text-2 mt_4 fw-6">{order.shipping_address}</div>
         </div>
       </div>
@@ -449,6 +455,51 @@ export default function OrderDetailsView({ orderId, requireAuth = true }) {
                   </div>
                 )}
 
+                {order.has_tag && order.tag_template && (
+                  <div className="order-head mb-3">
+                    <div className="content">
+                      <div className="text-2 fw-6" style={{ color: '#495057', marginBottom: '10px' }}>
+                        {t("order_details.tag_details", "Tag Details")}
+                      </div>
+
+                      <div className="mt_4">
+                        <span className="fw-6">{t("order_details.tag_name", "Tag")}: </span>
+                        <span>
+                          {i18n.language === 'ar' && order.tag_template.name_ar
+                            ? order.tag_template.name_ar
+                            : order.tag_template.name}
+                        </span>
+                      </div>
+
+                      <div className="mt_4">
+                        <span className="fw-6">{t("order_details.tag_image", "Tag Image")}: </span>
+                        <br />
+                        {(order.tag_template.image_url || order.tag_template.image) ? (
+                          <img
+                            src={
+                              order.tag_template.image_url ||
+                              `${API_STORAGE_URL}/${order.tag_template.image}`
+                            }
+                            alt={order.tag_template.name}
+                            style={{
+                              maxWidth: '200px',
+                              maxHeight: '150px',
+                              borderRadius: '8px',
+                              border: '1px solid #DEE2E6',
+                              marginTop: '8px',
+                              display: 'block'
+                            }}
+                          />
+                        ) : (
+                          <div style={{ color: '#6c757d', fontStyle: 'italic', marginTop: '8px' }}>
+                            {t("order_details.no_tag_image", "No tag image available")}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 <ul>
                   <li className="d-flex justify-content-between text-2">
                     <span>{t("order_details.total_price")}</span>
@@ -576,10 +627,10 @@ export default function OrderDetailsView({ orderId, requireAuth = true }) {
                       <div className="border rounded p-3">
                         <div className="d-flex justify-content-between align-items-start mb-2">
                           <div>
-                            <strong>{formatStatusName(history.new_status)}</strong>
+                            <strong>{getStatusLabel(history.new_status)}</strong>
                             {history.old_status && (
                               <small className="text-muted ms-2">
-                                ({t("order_details.from")} {formatStatusName(history.old_status)})
+                                ({t("order_details.from")} {getStatusLabel(history.old_status)})
                               </small>
                             )}
                           </div>
