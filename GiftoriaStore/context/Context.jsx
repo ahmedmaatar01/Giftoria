@@ -177,6 +177,50 @@ export default function Context({ children }) {
       setAuthLoading(false);
     }
   };
+
+  const forgotPassword = async (email) => {
+    setAuthLoading(true);
+    setAuthError(null);
+    try {
+      const res = await apiCall('/user/forgot-password', {
+        method: 'POST',
+        body: JSON.stringify({ email }),
+      });
+
+      return {
+        success: true,
+        message: res.message || 'If an account with this email exists, a reset link has been sent.',
+      };
+    } catch (err) {
+      const errorMessage = err.message || 'Failed to send reset link';
+      setAuthError(errorMessage);
+      return { success: false, error: errorMessage };
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+  const resetPassword = async (token, email, password, password_confirmation) => {
+    setAuthLoading(true);
+    setAuthError(null);
+    try {
+      const res = await apiCall('/user/reset-password', {
+        method: 'POST',
+        body: JSON.stringify({ token, email, password, password_confirmation }),
+      });
+
+      return {
+        success: true,
+        message: res.message || 'Password reset successful. You can now log in with your new password.',
+      };
+    } catch (err) {
+      const errorMessage = err.message || 'Failed to reset password';
+      setAuthError(errorMessage);
+      return { success: false, error: errorMessage };
+    } finally {
+      setAuthLoading(false);
+    }
+  };
   const [loading, setLoading] = useState(false);
 
   // Load products from API
@@ -371,6 +415,8 @@ export default function Context({ children }) {
     login,
     register,
     logout,
+    forgotPassword,
+    resetPassword,
   }), [
     cartProducts,
     totalPrice,
