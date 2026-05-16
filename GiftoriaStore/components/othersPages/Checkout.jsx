@@ -47,6 +47,17 @@ export default function Checkout() {
   const [loadingTemplates, setLoadingTemplates] = useState(false);
   const [showTemplateModal, setShowTemplateModal] = useState(false);
 
+  // Tag state
+  const [tagTemplates, setTagTemplates] = useState([]);
+  const [tagSelection, setTagSelection] = useState({
+    enabled: false,
+    templateId: null,
+    occasionId: "",
+    productIds: []
+  });
+  const [loadingTags, setLoadingTags] = useState(false);
+  const [showTagTemplateModal, setShowTagTemplateModal] = useState(false);
+
   // Helper to format a Date to input[type="datetime-local"] value (YYYY-MM-DDTHH:mm)
   const toLocalDateTimeInputValue = (date) => {
     const pad = (n) => String(n).padStart(2, "0");
@@ -131,6 +142,31 @@ export default function Checkout() {
         productIds: []
       });
     }
+  }, [cartProducts]);
+
+  // Load active tags templates
+  useEffect(() => {
+    const loadTagTemplates = async () => {
+      setLoadingTags(true);
+      try {
+        const response = await axios.get(`${API_BASE_URL_WITH_API}/tags`);
+
+        if (response.data.success) {
+          const activeTags = response.data.data.filter(template => template.is_active);
+          setTagTemplates(activeTags);
+          setTagSelection(prev => ({
+            ...prev,
+            productIds: cartProducts.map(p => p.id)
+          }));
+        }
+      } catch (err) {
+        console.error('Error loading tag templates:', err);
+      } finally {
+        setLoadingTags(false);
+      }
+    };
+
+    loadTagTemplates();
   }, [cartProducts]);
 
   // Initialize custom canvas drawing when in draw mode (client-side only)
@@ -313,6 +349,13 @@ export default function Checkout() {
     }));
   };
 
+  const handleTagChange = (field, value) => {
+    setTagSelection(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
   const hasGiftCardProducts = cartProducts.some(product => product.has_gift_card);
 
   const handleSubmitOrder = async (e) => {
@@ -414,9 +457,17 @@ export default function Checkout() {
         };
       }
 
+      // 9️⃣ Add tag if enabled
+      if (tagSelection.enabled && tagSelection.templateId) {
+        orderPayload.tag = {
+          template_id: tagSelection.templateId,
+          product_ids: tagSelection.productIds
+        };
+      }
+
       console.log('Full Order Payload:', orderPayload);
 
-      // 9️⃣ Send order
+      // 🔟 Send order
       const response = await axios.post(
         `${API_BASE_URL_WITH_API}/commands`,
         orderPayload,
@@ -820,6 +871,70 @@ export default function Checkout() {
               </div>
               {/* )} Temporarily removed closing bracket for testing */}
 
+              {/* Tag Selection */}
+              <div className="gift-card-section mb-4 mt-4">
+                <h6 className="fw-5 mb-3">{t('checkout.tag_options', 'Tag Options')}</h6>
+
+                <div className="box-checkbox fieldset-radio mb-3 d-flex align-items-center">
+                  <input
+                    type="checkbox"
+                    id="enable-tag"
+                    className="tf-check"
+                    checked={tagSelection.enabled}
+                    onChange={(e) => handleTagChange('enabled', e.target.checked)}
+                  />
+                  <label htmlFor="enable-tag" className="text_black-2 fw-6 p-0" style={{ margin: "0 5px" }}>
+                    {t('checkout.add_tag', 'Add Tag to Order')}
+                  </label>
+                </div>
+
+                {tagSelection.enabled && (
+                  <div className="gift-card-options">
+                    {loadingTags ? (
+                      <p>{t('checkout.loading_tags', 'Loading tag templates...')}</p>
+                    ) : (
+                      <div className="mb-2">
+                        <button
+                          type="button"
+                          className="btn w-100 radius-3"
+                          onClick={() => setShowTagTemplateModal(true)}
+                          style={{
+                            minHeight: '50px',
+                            backgroundColor: tagSelection.templateId ? '#967740' : 'transparent',
+                            borderColor: '#967740',
+                            borderWidth: '2px',
+                            color: tagSelection.templateId ? 'white' : '#967740',
+                            transition: 'all 0.2s ease'
+                          }}
+                        >
+                          <div className="d-flex align-items-center justify-content-center">
+                            <i className="fas fa-tags me-2"></i>
+                            <div className="text-start">
+                              <div className="fw-bold">{t('checkout.prepared_tags', 'Prepared Tags')}</div>
+                              <small
+                                style={{
+                                  color: tagSelection.templateId ? 'rgba(255,255,255,0.8)' : '#6c757d'
+                                }}
+                                dangerouslySetInnerHTML={{
+                                  __html: tagSelection.templateId
+                                    ? `${t('checkout.selected_tag', 'Selected')}: ${(() => {
+                                      const selected = tagTemplates.find(x => x.id == tagSelection.templateId);
+                                      if (!selected) return t('checkout.tag_template', 'Tag');
+                                      if (i18n.language === 'ar' && selected.name_ar) return selected.name_ar;
+                                      return selected.name;
+                                    })()}`
+                                    : (t('checkout.prepared_tags_desc', 'Choose from prepared tags') + ` (${tagTemplates.length})`).replace(/(\d+)/g, '<span class="arabic_div">$1</span>')
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
             </form>
           </div>
           <div className="tf-page-cart-footer">
@@ -1072,6 +1187,106 @@ export default function Checkout() {
                   type="button"
                   className="btn btn-secondary"
                   onClick={() => setShowTemplateModal(false)}
+                >
+                  {t('checkout.cancel', 'Cancel')}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Tag Template Selection Modal */}
+      {showTagTemplateModal && (
+        <div
+          className="modal fade show d-block"
+          tabIndex="-1"
+          style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+          onClick={() => setShowTagTemplateModal(false)}
+        >
+          <div
+            className="modal-dialog modal-lg modal-dialog-centered"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">
+                  {t('checkout.select_tag_template', 'Select Tag Template')}
+                </h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setShowTagTemplateModal(false)}
+                  aria-label="Close"
+                ></button>
+              </div>
+
+              <div className="modal-body" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
+                <select
+                  className="form-select mb-3"
+                  value={tagSelection.occasionId || ""}
+                  onChange={(e) => handleTagChange("occasionId", Number(e.target.value))}
+                >
+                  <option value="">All Occasions</option>
+                  {occasions.map((occ) => (
+                    <option key={occ.id} value={occ.id}>
+                      {i18n.language === "ar" && occ.name_ar ? occ.name_ar : occ.name}
+                    </option>
+                  ))}
+                </select>
+
+                {(() => {
+                  const filteredTags =
+                    tagSelection.occasionId && tagSelection.occasionId !== ""
+                      ? tagTemplates.filter((x) => x.occasion_id === tagSelection.occasionId)
+                      : tagTemplates;
+
+                  return filteredTags.length === 0 ? (
+                    <div className="text-center p-4">
+                      <p className="text-muted">No tag templates available</p>
+                    </div>
+                  ) : (
+                    <div className="row">
+                      {filteredTags.map((template) => (
+                        <div key={template.id} className="col-md-4 col-sm-6 mb-3">
+                          <div
+                            className={`template-card border rounded p-3 cursor-pointer ${tagSelection.templateId === template.id
+                              ? "border-primary bg-light"
+                              : "border-light"
+                              }`}
+                            onClick={() => {
+                              handleTagChange("templateId", template.id);
+                              setShowTagTemplateModal(false);
+                            }}
+                          >
+                            <div className="template-image mb-2 text-center">
+                              <Image
+                                src={`${API_BASE_URL}/storage/${template.image}`}
+                                width={120}
+                                height={90}
+                                className="w-100"
+                                style={{ objectFit: "cover", borderRadius: "8px" }}
+                                alt={template.name || 'Tag template'}
+                              />
+                            </div>
+                            <div className="text-center">
+                              <h6 className="mb-1 fw-bold">
+                                {i18n.language === "ar" && template.name_ar ? template.name_ar : template.name}
+                              </h6>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  );
+                })()}
+              </div>
+
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setShowTagTemplateModal(false)}
                 >
                   {t('checkout.cancel', 'Cancel')}
                 </button>

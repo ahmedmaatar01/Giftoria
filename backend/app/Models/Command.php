@@ -30,7 +30,9 @@ class Command extends Model
         'gift_card_message',
         'gift_card_signature',
         'gift_card_signature_type',
-        'gift_card_is_custom'
+        'gift_card_is_custom',
+        'has_tag',
+        'tag_template_id'
     ];
 
     protected $casts = [
@@ -81,6 +83,14 @@ class Command extends Model
     public function giftCardTemplate()
     {
         return $this->belongsTo(\App\Models\GiftCard::class, 'gift_card_template_id');
+    }
+
+    /**
+     * Get the tag template for this command.
+     */
+    public function tagTemplate()
+    {
+        return $this->belongsTo(\App\Models\Tag::class, 'tag_template_id');
     }
 
     /**

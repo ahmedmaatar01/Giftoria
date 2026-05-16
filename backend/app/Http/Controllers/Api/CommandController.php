@@ -5,23 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Command;
-use App\Models\CommandProduct;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\CustomField;
-use App\Models\ProductCustomValue;
 use App\Models\OrderNote;
-use App\Models\OrderStatusHistory;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
-use Illuminate\Http\Response;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\CommandReceivedMail;
 use App\Mail\AdminCommandNotificationMail;
@@ -38,7 +30,8 @@ class CommandController extends Controller
             'notes.user',
             'notes.admin',
             'statusHistory.changedBy',
-            'giftCardTemplate'
+            'giftCardTemplate',
+            'tagTemplate'
         ])->get();
     }
 
@@ -127,6 +120,10 @@ class CommandController extends Controller
             'gift_card.custom_description' => 'nullable|string',
             'gift_card.custom_signing' => 'nullable|string',
             'gift_card.product_ids' => 'nullable|array',
+            // Tag validation
+            'tag' => 'nullable|array',
+            'tag.template_id' => 'nullable|exists:tags,id',
+            'tag.product_ids' => 'nullable|array',
         ]);
 
         // Calculate total with custom field pricing
@@ -210,6 +207,9 @@ class CommandController extends Controller
             'gift_card_signature' => $signatureData['signature'], // Use processed signature (path or text)
             'gift_card_signature_type' => $signatureData['type'], // 'image' or 'text'
             'gift_card_is_custom' => isset($validated['gift_card']['template_id']) ? false : true,
+            // Tag fields
+            'has_tag' => isset($validated['tag']) && $validated['tag'] !== null,
+            'tag_template_id' => $validated['tag']['template_id'] ?? null,
         ]);
 
         // Attach products with custom selections and computed prices
@@ -248,13 +248,13 @@ class CommandController extends Controller
             ]);
         }
 
-        return response()->json($command->load(['user', 'products', 'commandProducts.product', 'giftCardTemplate']), 201);
+        return response()->json($command->load(['user', 'products', 'commandProducts.product', 'giftCardTemplate', 'tagTemplate']), 201);
     }
 
     public function show($id)
     {
         // Return command with user, products (with pivot data), and gift card template
-        return Command::with(['user', 'products', 'commandProducts.product', 'giftCardTemplate'])->findOrFail($id);
+        return Command::with(['user', 'products', 'commandProducts.product', 'giftCardTemplate', 'tagTemplate'])->findOrFail($id);
     }
 
     public function update(Request $request, $id)
@@ -278,6 +278,10 @@ class CommandController extends Controller
             'products.*.custom_fields' => 'nullable|array',
             'products.*.custom_fields.*.field_id' => 'required_with:products.*.custom_fields|integer',
             'products.*.custom_fields.*.value' => 'required_with:products.*.custom_fields|string',
+            // Tag validation
+            'tag' => 'nullable|array',
+            'tag.template_id' => 'nullable|exists:tags,id',
+            'tag.product_ids' => 'nullable|array',
         ]);
 
         // Update name if first or last name changed
@@ -298,6 +302,8 @@ class CommandController extends Controller
             'source' => $validated['source'] ?? $command->source,
             'description' => $validated['description'] ?? $command->description,
             'desired_delivery_at' => $validated['desired_delivery_at'] ?? $command->desired_delivery_at,
+            'has_tag' => array_key_exists('tag', $validated) ? ($validated['tag'] !== null) : $command->has_tag,
+            'tag_template_id' => array_key_exists('tag', $validated) ? ($validated['tag']['template_id'] ?? null) : $command->tag_template_id,
         ]);
 
         // If products are provided, sync them
@@ -325,7 +331,7 @@ class CommandController extends Controller
             $command->update(['total' => $total]);
         }
 
-        return response()->json($command->load(['user', 'products', 'commandProducts.product', 'giftCardTemplate']));
+        return response()->json($command->load(['user', 'products', 'commandProducts.product', 'giftCardTemplate', 'tagTemplate']));
     }
 
     public function destroy($id)
