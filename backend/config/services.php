@@ -31,4 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'fcm' => [
+        // Base64 of the Firebase service account JSON. Push is skipped while unset.
+        'credentials' => env('FCM_CREDENTIALS'),
+    ],
+
 ];

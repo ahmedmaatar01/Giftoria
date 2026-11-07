@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (Schema::hasColumn('commands', 'gift_card_signature_type')) {
+            return;
+        }
+
         Schema::table('commands', function (Blueprint $table) {
             // Add column to track signature type (text or image)
-            $table->enum(column: 'gift_card_signature_type', ['text', 'image'])->nullable();
+            $table->enum('gift_card_signature_type', ['text', 'image'])->nullable();
         });
     }
 
