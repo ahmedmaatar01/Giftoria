@@ -12,6 +12,18 @@ use Illuminate\Validation\ValidationException;
 
 class UserAuthController extends Controller
 {
+    /**
+     * Mobile app sessions last 30 days, website sessions 5 hours.
+     */
+    private function issueToken(User $user, Request $request): string
+    {
+        $minutes = $request->input('client') === 'mobile'
+            ? config('sanctum.expiration')
+            : config('sanctum.browser_expiration');
+
+        return $user->createToken('user_token', ['*'], now()->addMinutes($minutes))->plainTextToken;
+    }
+
     public function register(Request $request)
     {
         $request->validate([
@@ -35,7 +47,7 @@ class UserAuthController extends Controller
             'address' => $request->address,
         ]);
 
-        $token = $user->createToken('user_token')->plainTextToken;
+        $token = $this->issueToken($user, $request);
 
         return response()->json([
             'access_token' => $token,
@@ -59,7 +71,7 @@ class UserAuthController extends Controller
             ]);
         }
 
-        $token = $user->createToken('user_token')->plainTextToken;
+        $token = $this->issueToken($user, $request);
 
         return response()->json([
             'access_token' => $token,
@@ -75,7 +87,12 @@ class UserAuthController extends Controller
 
     public function logout(Request $request)
     {
-        $request->user()->tokens()->delete();
+        $user = $request->user();
+        $user->tokens()->delete();
+        // This route also accepts admin tokens, and admins have no devices
+        if ($user instanceof User) {
+            $user->deviceTokens()->delete();
+        }
         return response()->json(['message' => 'Logged out']);
     }
 
@@ -145,19 +162,14 @@ class UserAuthController extends Controller
             'email' => 'required|email',
         ]);
 
-        $status = Password::broker('users')->sendResetLink(
+        Password::broker('users')->sendResetLink(
             $request->only('email')
         );
 
-        if ($status === Password::RESET_LINK_SENT) {
-            return response()->json([
-                'message' => 'If an account with this email exists, a reset link has been sent.'
-            ]);
-        }
-
+        // Same response whatever the outcome, so this cannot reveal which emails have accounts
         return response()->json([
-            'message' => __($status)
-        ], 422);
+            'message' => 'If an account with this email exists, a reset link has been sent.'
+        ]);
     }
 
     public function resetPassword(Request $request)
@@ -178,6 +190,7 @@ class UserAuthController extends Controller
 
                 // Revoke old tokens so previous sessions cannot continue.
                 $user->tokens()->delete();
+                $user->deviceTokens()->delete();
             }
         );
 

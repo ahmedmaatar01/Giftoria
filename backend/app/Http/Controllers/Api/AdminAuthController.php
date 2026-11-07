@@ -24,7 +24,7 @@ class AdminAuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $token = $admin->createToken('admin_token')->plainTextToken;
+        $token = $admin->createToken('admin_token', ['*'], now()->addMinutes(config('sanctum.browser_expiration')))->plainTextToken;
 
         return response()->json([
             'access_token' => $token,
@@ -53,7 +53,7 @@ class AdminAuthController extends Controller
             return response()->json(['error' => 'Password incorrect'], 401);
         }
 
-        $token = $admin->createToken('admin_token')->plainTextToken;
+        $token = $admin->createToken('admin_token', ['*'], now()->addMinutes(config('sanctum.browser_expiration')))->plainTextToken;
 
         return response()->json([
             'access_token' => $token,

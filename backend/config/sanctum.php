@@ -46,7 +46,10 @@ return [
     |
     */
 
-    'expiration' => 300, // Tokens expire after 60 minutes
+    'expiration' => 60 * 24 * 30, // Hard limit of 30 days, which mobile app tokens use
+
+    // Website and admin tokens get this shorter limit through their own expires_at
+    'browser_expiration' => 300,
 
     /*
     |--------------------------------------------------------------------------

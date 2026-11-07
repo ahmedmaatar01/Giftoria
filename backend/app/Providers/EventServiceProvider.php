@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Command;
+use App\Models\OrderNote;
+use App\Observers\CommandObserver;
+use App\Observers\OrderNoteObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -18,6 +22,16 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+    ];
+
+    /**
+     * The model observers for your application.
+     *
+     * @var array<class-string, array<int, class-string>>
+     */
+    protected $observers = [
+        Command::class => [CommandObserver::class],
+        OrderNote::class => [OrderNoteObserver::class],
     ];
 
     /**

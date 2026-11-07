@@ -122,6 +122,11 @@ SANCTUM_STATEFUL_DOMAINS=yourdomain.com,admin.yourdomain.com
 SESSION_DOMAIN=.yourdomain.com
 
 FILESYSTEM_DISK=public
+
+# Mobile push notifications. Base64 of the Firebase service account JSON, on one line:
+#   base64 -w0 service-account.json
+# Never commit this value. While it is unset, the notification inbox works but no pushes are sent.
+FCM_CREDENTIALS=
 ```
 
 ### 3.4 Create Dockerfile for Laravel

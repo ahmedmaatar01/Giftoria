@@ -9,6 +9,8 @@ use App\Http\Controllers\Api\CommandController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserAuthController;
+use App\Http\Controllers\Api\DeviceTokenController;
+use App\Http\Controllers\Api\UserNotificationController;
 use App\Http\Controllers\Api\AdminAuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ContactController;
@@ -85,11 +87,21 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
 Route::prefix('user')->group(function () {
     Route::post('register', [UserAuthController::class, 'register']);
     Route::post('login', [UserAuthController::class, 'login']);
-    Route::post('forgot-password', [UserAuthController::class, 'forgotPassword']);
+    Route::post('forgot-password', [UserAuthController::class, 'forgotPassword'])->middleware('throttle:6,1');
     Route::post('reset-password', [UserAuthController::class, 'resetPassword']);
     Route::middleware('auth:sanctum')->get('me', [UserAuthController::class, 'me']);
     Route::middleware('auth:sanctum')->put('update', [UserAuthController::class, 'update']);
     Route::middleware('auth:sanctum')->post('logout', [UserAuthController::class, 'logout']);
+
+    // Mobile push devices and notification inbox. auth:api rejects admin tokens.
+    Route::middleware('auth:api')->group(function () {
+        Route::post('device-tokens', [DeviceTokenController::class, 'store']);
+        Route::delete('device-tokens', [DeviceTokenController::class, 'destroy']);
+        Route::get('notifications', [UserNotificationController::class, 'index']);
+        Route::get('notifications/unread-count', [UserNotificationController::class, 'unreadCount']);
+        Route::post('notifications/read-all', [UserNotificationController::class, 'markAllRead']);
+        Route::post('notifications/{id}/read', [UserNotificationController::class, 'markRead']);
+    });
 });
 
 Route::prefix('admin')->group(function () {
